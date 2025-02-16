@@ -12,7 +12,8 @@ class Player(pygame.sprite.Sprite):
 
         self.direction = vector(0, 0)
         self.speed = 150
-        self.gravity = 500
+        self.gravity = 1000
+        self.fall = 0
         self.jump = False
         self.jump_height = 300
 
@@ -27,35 +28,38 @@ class Player(pygame.sprite.Sprite):
 
     def _input(self):
         keys = pygame.key.get_pressed()
-        input_vector = vector(0, 0)
 
         if keys[pygame.K_RIGHT]:
-            input_vector.x += 1
-
-        if keys[pygame.K_LEFT]:
-            input_vector.x -= 1
-
-        if input_vector:
-            self.direction.x = input_vector.normalize().x
+            self.direction.x = 1
+        elif keys[pygame.K_LEFT]:
+            self.direction.x = -1
         else:
             self.direction.x = 0
 
         if keys[pygame.K_SPACE] or keys[pygame.K_UP]:
+            self.direction.y = -1
             self.jump = True
+
+        self._normalize_direction()
+
+    def _normalize_direction(self):
+        if self.direction:
+            self.direction = self.direction.normalize()
 
     def _move(self, delta_time):
         self.rect.x += self.direction.x * self.speed * delta_time
         self._collision("horizontal")
 
-        self.direction.y += self.gravity / 2 * delta_time
-        self.rect.y += self.direction.y * delta_time
-        self.direction.y += self.gravity / 2 * delta_time
+        self.rect.y += self.fall * delta_time
+        self.fall += self.gravity / 2 * delta_time
         self._collision("vertical")
 
         if self.jump:
             if self.on_surface:
-                self.direction.y = -self.jump_height
+                self.fall = -self.jump_height
 
+            self.direction.y = 0
+            self._normalize_direction()
             self.jump = False
 
     def _check_contact(self):
@@ -63,10 +67,7 @@ class Player(pygame.sprite.Sprite):
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, player_height))
         collide_rects = [sprite.rect for sprite in self.collision_sprites]
 
-        if floor_rect.collidelist(collide_rects) >= 0:
-            self.on_surface = True
-        else:
-            self.on_surface = False
+        self.on_surface = floor_rect.collidelist(collide_rects) >= 0
 
     def _collision(self, axis):
         for sprite in self.collision_sprites:
