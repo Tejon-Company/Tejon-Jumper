@@ -19,7 +19,13 @@ class Player(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.on_surface = False
 
-    def input(self):
+    def update(self, delta_time):
+        self.old_rect = self.rect.copy()
+        self._input()
+        self._move(delta_time)
+        self._check_contact()
+
+    def _input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector(0, 0)
 
@@ -32,19 +38,19 @@ class Player(pygame.sprite.Sprite):
         if input_vector:
             self.direction.x = input_vector.normalize().x
         else:
-            self.direction.x = input_vector.x
+            self.direction.x = 0
 
         if keys[pygame.K_SPACE]:
             self.jump = True
 
-    def move(self, delta_time):
+    def _move(self, delta_time):
         self.rect.x += self.direction.x * self.speed * delta_time
-        self.collision("horizontal")
+        self._collision("horizontal")
 
         self.direction.y += self.gravity / 2 * delta_time
         self.rect.y += self.direction.y * delta_time
         self.direction.y += self.gravity / 2 * delta_time
-        self.collision("vertical")
+        self._collision("vertical")
 
         if self.jump:
             if self.on_surface:
@@ -52,7 +58,7 @@ class Player(pygame.sprite.Sprite):
 
             self.jump = False
 
-    def check_contact(self):
+    def _check_contact(self):
         player_height = 2
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, player_height))
         collide_rects = [sprite.rect for sprite in self.collision_sprites]
@@ -62,43 +68,48 @@ class Player(pygame.sprite.Sprite):
         else:
             self.on_surface = False
 
-    def collision(self, axis):
+    def _collision(self, axis):
         for sprite in self.collision_sprites:
-            if sprite.rect.colliderect(self.rect):
-                if axis == "horizontal":
-                    # left
-                    if (
-                        self.rect.left <= sprite.rect.right
-                        and self.old_rect.left >= sprite.old_rect.right
-                    ):
-                        self.rect.left = sprite.rect.right
+            if not sprite.rect.colliderect(self.rect):
+                continue
 
-                    # right
-                    if (
-                        self.rect.right >= sprite.rect.left
-                        and self.old_rect.right <= sprite.old_rect.left
-                    ):
-                        self.rect.right = sprite.rect.left
-                else:  # vertical
-                    # top
-                    if (
-                        self.rect.top <= sprite.rect.bottom
-                        and self.old_rect.top >= sprite.old_rect.bottom
-                    ):
-                        self.rect.top = sprite.rect.bottom
+            if axis == "horizontal":
+                self._handle_horizontal_collision(sprite)
+            else:
+                self._handle_vertical_collision(sprite)
 
-                    # bottom
-                    if (
-                        self.rect.bottom >= sprite.rect.top
-                        and self.old_rect.bottom <= sprite.old_rect.top
-                    ):
-                        self.rect.bottom = sprite.rect.top
+    def _handle_horizontal_collision(self, sprite):
+        self._handle_right_collission(sprite)
+        self._handle_left_collision(sprite)
 
-                    # cancel gravity if there is a vertical collission
-                    self.direction.y = 0
+    def _handle_right_collission(self, sprite):
+        approaching_from_left = self.rect.right >= sprite.rect.left
+        player_was_on_left = self.old_rect.right <= sprite.old_rect.left
+        is_right_collision = approaching_from_left and player_was_on_left
 
-    def update(self, delta_time):
-        self.old_rect = self.rect.copy()
-        self.input()
-        self.move(delta_time)
-        self.check_contact()
+        if is_right_collision:
+            self.rect.right = sprite.rect.left
+
+    def _handle_left_collision(self, sprite):
+        approaching_from_right = self.rect.left <= sprite.rect.right
+        player_was_on_right = self.old_rect.left >= sprite.old_rect.right
+        is_left_collision = approaching_from_right and player_was_on_right
+
+        if is_left_collision:
+            self.rect.left = sprite.rect.right
+
+    def _handle_vertical_collision(self, sprite):
+        approaching_from_bottom = self.rect.top <= sprite.rect.bottom
+        was_below = self.old_rect.top >= sprite.old_rect.bottom
+        is_top_collision = approaching_from_bottom and was_below
+
+        approaching_from_top = self.rect.bottom >= sprite.rect.top
+        was_above = self.old_rect.bottom <= sprite.old_rect.top
+        is_bottom_collision = approaching_from_top and was_above
+
+        if is_top_collision:
+            self.rect.top = sprite.rect.bottom
+        if is_bottom_collision:
+            self.rect.bottom = sprite.rect.top
+
+        self.direction.y = 0
