@@ -1,23 +1,31 @@
 from settings import *
-from sprites import Sprite, Background
+from sprites import Sprite
+from background import Background
 from player import Player
 from os.path import join
+import os
 
 class Level:
     def __init__(self, tmx_map):
         self.display_surface = pygame.display.get_surface()
 
         self.all_sprites = pygame.sprite.Group()
+        self.backgrounds = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
 
         self.setup(tmx_map)
 
     def setup(self, tmx_map):
-        for i in range(4):
+        background_folder = join("assets", "maps", "background", "background1")
+
+        image_files = [f for f in os.listdir(background_folder) if f.endswith('.png')]  
+        image_files.sort(key=lambda x: int(x.split('.')[0]))
+
+        for image_name in image_files:
             Background(
-                join("assets", "maps", "background", f"{i}.png"),
+                join(background_folder, image_name),
                 (0, 0), 
-                self.all_sprites
+                self.backgrounds
             )
 
         for x, y, surf in tmx_map.get_layer_by_name("Terrain").tiles():
@@ -32,6 +40,7 @@ class Level:
                 Player((object.x, object.y), self.all_sprites, self.collision_sprites)
 
     def run(self, delta_time):
+        self.backgrounds.draw(self.display_surface)
+
         self.all_sprites.update(delta_time)
-        self.display_surface.fill("black")
         self.all_sprites.draw(self.display_surface)
