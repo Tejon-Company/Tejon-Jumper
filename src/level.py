@@ -1,6 +1,6 @@
 from settings import *
-from sprites import Sprite
-from entities.player.badger import Badger
+from entities.sprite import Sprite
+from entities.player import Player
 
 
 class Level:
@@ -8,7 +8,7 @@ class Level:
         self.display_surface = pygame.display.get_surface()
 
         self.all_sprites = pygame.sprite.Group()
-        self.collision_sprites = pygame.sprite.Group()
+        self.platform_group = pygame.sprite.Group()
 
         self._setup(tmx_map)
 
@@ -17,14 +17,14 @@ class Level:
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
-                (self.all_sprites, self.collision_sprites),
+                (self.all_sprites, self.platform_group),
             )
 
         for object in tmx_map.get_layer_by_name("Objects"):
             if object.name == "Player":
-                Badger((object.x, object.y), self.all_sprites, self.collision_sprites)
+                Player((object.x, object.y), object.image, self.all_sprites)
 
     def run(self, delta_time):
-        self.all_sprites.update(delta_time)
+        self.all_sprites.update(self.platform_group, delta_time)
         self.display_surface.fill("black")
         self.all_sprites.draw(self.display_surface)

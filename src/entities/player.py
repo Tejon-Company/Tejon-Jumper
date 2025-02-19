@@ -1,9 +1,11 @@
 from settings import *
+from entities.character import Character
 
 
-class Badger(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites):
-        super().__init__(groups)
+class Player(Character):
+    def __init__(self, pos, surf, groups):
+        super().__init__(pos, surf, groups)
+
         self.image = pygame.Surface((32, 32))
         self.image.fill("red")
 
@@ -17,16 +19,9 @@ class Badger(pygame.sprite.Sprite):
         self.jump = False
         self.jump_height = 300
 
-        self.collision_sprites = collision_sprites
         self.on_surface = False
 
-    def update(self, delta_time):
-        self.old_rect = self.rect.copy()
-        self._input()
-        self._move(delta_time)
-        self._check_contact()
-
-    def _input(self):
+    def input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
@@ -46,13 +41,13 @@ class Badger(pygame.sprite.Sprite):
         if self.direction:
             self.direction = self.direction.normalize()
 
-    def _move(self, delta_time):
+    def move(self, delta_time, platform_group):
         self.rect.x += self.direction.x * self.speed * delta_time
-        self._collision("horizontal")
+        self._collision("horizontal", platform_group)
 
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
-        self._collision("vertical")
+        self._collision("vertical", platform_group)
 
         if self.jump:
             if self.on_surface:
@@ -62,15 +57,8 @@ class Badger(pygame.sprite.Sprite):
             self._normalize_direction()
             self.jump = False
 
-    def _check_contact(self):
-        player_height = 2
-        floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, player_height))
-        collide_rects = [sprite.rect for sprite in self.collision_sprites]
-
-        self.on_surface = floor_rect.collidelist(collide_rects) >= 0
-
-    def _collision(self, axis):
-        for sprite in self.collision_sprites:
+    def _collision(self, axis, platform_group):
+        for sprite in platform_group:
             if not sprite.rect.colliderect(self.rect):
                 continue
 
@@ -114,3 +102,10 @@ class Badger(pygame.sprite.Sprite):
             self.rect.bottom = sprite.rect.top
 
         self.direction.y = 0
+
+    def detect_platform_contact(self, platform_group):
+        character_height = 2
+        floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, character_height))
+        collide_rects = [sprite.rect for sprite in platform_group]
+
+        self.on_surface = floor_rect.collidelist(collide_rects) >= 0
