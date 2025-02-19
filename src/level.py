@@ -1,7 +1,7 @@
 from settings import *
 from sprites import Sprite
 from player import Player
-from enemies import Zorro
+from enemies import Fox
 
 
 class Level:
@@ -29,9 +29,8 @@ class Level:
                 
         # Enemies
         for object in tmx_map.get_layer_by_name("Enemies"):
-            if object.name == "Zorro":
-                Zorro((object.x, object.y), (self.all_sprites, self.damage_sprites, self.zorro_sprites), self.collision_sprites)
-        
+            if object.name == "Fox":
+                Fox((object.x, object.y), (self.all_sprites, self.damage_sprites, self.zorro_sprites), self.collision_sprites)
 
     def run(self, delta_time):
         self.all_sprites.update(delta_time)
