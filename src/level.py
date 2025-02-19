@@ -1,7 +1,7 @@
 from settings import *
 from entities.sprite import Sprite
 from entities.players.player import Player
-from entities.enemies.hedgehog import Hedgehog
+from entities.enemies.moving_enemies.hedgehog import Hedgehog
 from pygame.sprite import Group
 from entities.entitie_factory import entitie_factory
 

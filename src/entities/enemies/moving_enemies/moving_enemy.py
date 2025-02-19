@@ -1,14 +1,18 @@
 from settings import *
-from entities.character import Character
+from entities.enemies.enemy import Enemy
 
 
-class Enemy(Character):
+class MovingEnemy(Enemy):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 
+    def update(self, platform_rects, delta_time):
+        self.old_rect = self.rect.copy()
+        self._move(platform_rects, delta_time)
+        self._detect_platform_contact(platform_rects)
+
     def _move(self, platform_rects, delta_time):
         self.rect.x += self.direction * self.speed * delta_time
-
         self._change_direction_if_falling(platform_rects)
 
     def _change_direction_if_falling(self, platform_rects):
@@ -16,6 +20,11 @@ class Enemy(Character):
             self.direction *= -1
 
     def _should_change_direction(self, platform_rects):
+        return self._about_to_fall(platform_rects) or self._will_hit_wall(
+            platform_rects
+        )
+
+    def _about_to_fall(self, platform_rects):
         floor_rect_right = pygame.FRect(self.rect.bottomright, (1, 1))
         floor_rect_left = pygame.FRect(self.rect.bottomleft, (-1, 1))
 
@@ -29,6 +38,26 @@ class Enemy(Character):
         )
 
         return about_to_fall_right or about_to_fall_left
+
+    def _will_hit_wall(self, platform_rects):
+        wall_height = self.rect.height * 0.6
+        wall_offset = (self.rect.height - wall_height) / 2
+
+        wall_rect_right = pygame.FRect(
+            (self.rect.right, self.rect.top + wall_offset), (2, wall_height)
+        )
+        wall_rect_left = pygame.FRect(
+            (self.rect.left - 2, self.rect.top + wall_offset), (2, wall_height)
+        )
+
+        hit_wall_right = (
+            self.direction > 0 and wall_rect_right.collidelist(platform_rects) >= 0
+        )
+        hit_wall_left = (
+            self.direction < 0 and wall_rect_left.collidelist(platform_rects) >= 0
+        )
+
+        return hit_wall_right or hit_wall_left
 
     def _detect_platform_contact(self, platform_rects):
         floor_rect = pygame.Rect(

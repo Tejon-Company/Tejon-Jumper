@@ -1,6 +1,6 @@
 from settings import *
 from entities.players.player import Player
-from entities.enemies.hedgehog import Hedgehog
+from entities.enemies.moving_enemies.hedgehog import Hedgehog
 
 
 def entitie_factory(entitie, groups):

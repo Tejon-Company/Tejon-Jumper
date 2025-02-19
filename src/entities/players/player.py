@@ -21,6 +21,12 @@ class Player(Character):
 
         self.on_surface = False
 
+    def update(self, platform_rects, delta_time):
+        self.old_rect = self.rect.copy()
+        self._input()
+        self._move(platform_rects, delta_time)
+        self._detect_platform_contact(platform_rects)
+
     def _input(self):
         keys = pygame.key.get_pressed()
 
