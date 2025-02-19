@@ -21,7 +21,7 @@ class Player(Character):
 
         self.on_surface = False
 
-    def input(self):
+    def _input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
@@ -41,7 +41,7 @@ class Player(Character):
         if self.direction:
             self.direction = self.direction.normalize()
 
-    def move(self, delta_time, platform_group):
+    def _move(self, platform_group, delta_time):
         self.rect.x += self.direction.x * self.speed * delta_time
         self._collision("horizontal", platform_group)
 
@@ -103,9 +103,11 @@ class Player(Character):
 
         self.direction.y = 0
 
-    def detect_platform_contact(self, platform_group):
+    def _detect_platform_contact(self, platform_group):
         character_height = 2
-        floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, character_height))
+        floor_rect = pygame.Rect(
+            self.rect.bottomleft, (self.rect.width, character_height)
+        )
         collide_rects = [sprite.rect for sprite in platform_group]
 
         self.on_surface = floor_rect.collidelist(collide_rects) >= 0

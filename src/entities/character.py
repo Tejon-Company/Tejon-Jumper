@@ -10,17 +10,17 @@ class Character(ABC, Sprite):
 
     def update(self, platform_group, delta_time):
         self.old_rect = self.rect.copy()
-        self.input()
-        self.move(delta_time, platform_group)
-        self.detect_platform_contact(platform_group)
+        self._input()
+        self._move(platform_group, delta_time)
+        self._detect_platform_contact(platform_group)
 
-    def input(self):
+    def _input(self):
         pass
 
     @abstractmethod
-    def move(self, delta_time):
+    def _move(self, platform_group, delta_time):
         pass
 
     @abstractmethod
-    def detect_platform_contact(self, platform_group):
+    def _detect_platform_contact(self, platform_group):
         pass

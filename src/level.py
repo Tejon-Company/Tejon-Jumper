@@ -1,14 +1,20 @@
 from settings import *
 from entities.sprite import Sprite
-from entities.player import Player
+from entities.players.player import Player
+from entities.enemies.hedgehog import Hedgehog
+from pygame.sprite import Group
+from entities.entitie_factory import entitie_factory
 
 
 class Level:
     def __init__(self, tmx_map):
         self.display_surface = pygame.display.get_surface()
 
-        self.all_sprites = pygame.sprite.Group()
-        self.platform_group = pygame.sprite.Group()
+        self.groups = {
+            "all_sprites": Group(),
+            "platforms": Group(),
+            "hedgehogs": Group(),
+        }
 
         self._setup(tmx_map)
 
@@ -17,14 +23,13 @@ class Level:
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
-                (self.all_sprites, self.platform_group),
+                (self.groups["all_sprites"], self.groups["platforms"]),
             )
 
         for object in tmx_map.get_layer_by_name("Objects"):
-            if object.name == "Player":
-                Player((object.x, object.y), object.image, self.all_sprites)
+            entitie_factory(object, self.groups)
 
     def run(self, delta_time):
-        self.all_sprites.update(self.platform_group, delta_time)
+        self.groups["all_sprites"].update(self.groups["platforms"], delta_time)
         self.display_surface.fill("black")
-        self.all_sprites.draw(self.display_surface)
+        self.groups['all_sprites'].draw(self.display_surface)
