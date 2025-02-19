@@ -1,7 +1,7 @@
 from settings import *
 
 
-class Player(pygame.sprite.Sprite):
+class Badger(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites):
         super().__init__(groups)
         self.image = pygame.Surface((32, 32))

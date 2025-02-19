@@ -1,6 +1,6 @@
 from settings import *
 from sprites import Sprite
-from player import Player
+from entities.player.badger import Badger
 
 
 class Level:
@@ -22,7 +22,7 @@ class Level:
 
         for object in tmx_map.get_layer_by_name("Objects"):
             if object.name == "Player":
-                Player((object.x, object.y), self.all_sprites, self.collision_sprites)
+                Badger((object.x, object.y), self.all_sprites, self.collision_sprites)
 
     def run(self, delta_time):
         self.all_sprites.update(delta_time)
