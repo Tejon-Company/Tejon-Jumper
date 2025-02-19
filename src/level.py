@@ -30,6 +30,8 @@ class Level:
             entitie_factory(object, self.groups)
 
     def run(self, delta_time):
-        self.groups["all_sprites"].update(self.groups["platforms"], delta_time)
+        platform_rects = [platform.rect for platform in self.groups["platforms"]]
+
+        self.groups["all_sprites"].update(platform_rects, delta_time)
         self.display_surface.fill("black")
-        self.groups['all_sprites'].draw(self.display_surface)
+        self.groups["all_sprites"].draw(self.display_surface)
