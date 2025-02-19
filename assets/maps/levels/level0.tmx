@@ -78,7 +78,7 @@
   <object id="2" name="Player" gid="568" x="429.333" y="639.333" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="6" name="Enemies">
-  <object id="3" name="Zorro" gid="566" x="545.337" y="576.6" width="32" height="32"/>
+  <object id="3" name="Fox" gid="566" x="545.337" y="576.6" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="Plants" width="30" height="30" visible="0">
   <data encoding="csv">
