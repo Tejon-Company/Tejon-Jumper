@@ -14,9 +14,9 @@ class Level:
         self.backgrounds = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
 
-        self.setup(tmx_map)
+        self._setup(tmx_map)
 
-    def setup(self, tmx_map):
+    def _setup(self, tmx_map):
         background_folder = join("assets", "maps", "background", "background1")
 
         image_files = [
