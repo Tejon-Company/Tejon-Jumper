@@ -18,8 +18,8 @@ class Level:
     def setup(self, tmx_map):
         background_folder = join("assets", "maps", "background", "background1")
 
-        image_files = [f for f in os.listdir(background_folder) if f.endswith('.png')]  
-        image_files.sort(key=lambda x: int(x.split('.')[0]))
+        image_files = [file for file in os.listdir(background_folder) if file.endswith('.png')]  
+        image_files.sort(key=lambda file_name: int(file_name.split('.')[0]))
 
         for image_name in image_files:
             Background(
