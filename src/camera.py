@@ -7,7 +7,7 @@ class Camera:
         self.height = height
 
     def apply(self, entity):
-        return entity.rect.move(self.camera.topleft)
+        return entity.rect.move(self.camera.topleft).move(0, 200)
 
     def update(self, target):
         camera_x = -target.rect.centerx + WINDOW_WIDTH // 2
@@ -16,6 +16,6 @@ class Camera:
         camera_x = min(0, camera_x)  
         camera_y = min(0, camera_y)  
         camera_x = max(-(self.width - WINDOW_WIDTH), camera_x) 
-        camera_y = max(-(self.height - WINDOW_HEIGHT), camera_y)  
+        camera_y = max(-(self.height - WINDOW_HEIGHT), camera_y) 
 
         self.camera = pygame.Rect(camera_x, camera_y, self.width, self.height)
