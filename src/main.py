@@ -11,9 +11,7 @@ class Game:
         pygame.display.set_caption("Tejón Jumper")
         self.clock = pygame.time.Clock()
 
-        self.tmx_maps = {
-            0: load_pygame(join("assets", "maps", "levels", "level0.tmx"))
-        }
+        self.tmx_maps = {0: load_pygame(join("assets", "maps", "levels", "level0.tmx"))}
 
         self.current_stage = Level(self.tmx_maps[0])
 
@@ -24,7 +22,6 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
 
             self.current_stage.run(delta_time)
 

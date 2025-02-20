@@ -5,6 +5,7 @@ from player import Player
 from os.path import join
 import os
 
+
 class Level:
     def __init__(self, tmx_map):
         self.display_surface = pygame.display.get_surface()
@@ -18,15 +19,13 @@ class Level:
     def setup(self, tmx_map):
         background_folder = join("assets", "maps", "background", "background1")
 
-        image_files = [file for file in os.listdir(background_folder) if file.endswith('.png')]  
-        image_files.sort(key=lambda file_name: int(file_name.split('.')[0]))
+        image_files = [
+            file for file in os.listdir(background_folder) if file.endswith(".png")
+        ]
+        image_files.sort(key=lambda file_name: int(file_name.split(".")[0]))
 
         for image_name in image_files:
-            Background(
-                join(background_folder, image_name),
-                (0, 0), 
-                self.backgrounds
-            )
+            Background(join(background_folder, image_name), (0, 0), self.backgrounds)
 
         for x, y, surf in tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
