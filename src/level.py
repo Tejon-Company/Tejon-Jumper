@@ -18,7 +18,7 @@ class Level:
             "all_sprites": Group(),
             "platforms": Group(),
             "hedgehogs": Group(),
-            "backgrounds": Group()
+            "backgrounds": Group(),
         }
 
         map_width = tmx_map.width * TILE_SIZE
@@ -27,7 +27,6 @@ class Level:
         self.camera = Camera(map_width, map_height)
 
         self._setup(tmx_map)
-
 
     def _setup(self, tmx_map):
         background_folder = join("assets", "maps", "background", "background1")
@@ -38,7 +37,9 @@ class Level:
         image_files.sort(key=lambda file_name: int(file_name.split(".")[0]))
 
         for image_name in image_files:
-            Background(join(background_folder, image_name), (0, 0), self.groups["backgrounds"])
+            Background(
+                join(background_folder, image_name), (0, 0), self.groups["backgrounds"]
+            )
 
         for x, y, surf in tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
@@ -49,19 +50,19 @@ class Level:
 
         for object in tmx_map.get_layer_by_name("Objects"):
             if object.name == "Player":
-                self.player = Player((object.x, object.y), self.all_sprites, self.collision_sprites)
+                self.player = Player(
+                    (object.x, object.y), self.all_sprites, self.collision_sprites
+                )
 
             entitie_factory(object, self.groups)
 
-            
     def run(self, delta_time):
         self.camera.update(self.player)
-      
+
         platform_rects = [platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["backgrounds"].draw(self.display_surface)
         self.groups["all_sprites"].draw(self.display_surface)
-        
-         for sprite in self.all_sprites:
-            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
 
+        for sprite in self.all_sprites:
+            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
