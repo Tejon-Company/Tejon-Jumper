@@ -10,12 +10,12 @@ class Camera:
         return entity.rect.move(self.camera.topleft)
 
     def update(self, target):
-        x = -target.rect.centerx + WINDOW_WIDTH // 2
-        y = -target.rect.centery + WINDOW_HEIGHT // 2
+        camera_x = -target.rect.centerx + WINDOW_WIDTH // 2
+        camera_y = -target.rect.centery + WINDOW_HEIGHT // 2
 
-        x = min(0, x) 
-        y = min(0, y)  
-        x = max(-(self.width - WINDOW_WIDTH), x)  
-        y = max(-(self.height - WINDOW_HEIGHT), y)  
+        camera_x = min(0, camera_x)  
+        camera_y = min(0, camera_y)  
+        camera_x = max(-(self.width - WINDOW_WIDTH), camera_x) 
+        camera_y = max(-(self.height - WINDOW_HEIGHT), camera_y)  
 
-        self.camera = pygame.Rect(x, y, self.width, self.height)
+        self.camera = pygame.Rect(camera_x, camera_y, self.width, self.height)
