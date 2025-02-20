@@ -11,9 +11,16 @@ class Game:
         pygame.display.set_caption("Tejón Jumper")
         self.clock = pygame.time.Clock()
 
-        self.tmx_maps = {0: load_pygame(join("assets", "maps", "levels", "level0.tmx"))}
+        self.tmx_maps = {
+            0: {
+                "map": load_pygame(join("assets", "maps", "levels", "level0.tmx")),
+                "background": "background1",
+            },
+        }
 
-        self.current_stage = Level(self.tmx_maps[0])
+        self.current_stage = Level(
+            self.tmx_maps[0]["map"], self.tmx_maps[0]["background"]
+        )
 
     def run(self):
         while True:

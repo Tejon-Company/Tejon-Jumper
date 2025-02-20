@@ -1,5 +1,5 @@
 from settings import *
-from entities.enemies.moving_enemies.moving_enemy import MovingEnemy
+from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
 
 

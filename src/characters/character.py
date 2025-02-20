@@ -1,5 +1,5 @@
 from settings import *
-from entities.sprite import Sprite
+from characters.sprite import Sprite
 from pygame.sprite import spritecollide
 from abc import ABC, abstractmethod
 
