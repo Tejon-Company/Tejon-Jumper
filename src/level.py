@@ -1,7 +1,10 @@
 from settings import *
-from sprites import Sprite
+from entities.sprite import Sprite
+from entities.players.player import Player
+from entities.enemies.moving_enemies.hedgehog import Hedgehog
+from pygame.sprite import Group
+from entities.entitie_factory import entitie_factory
 from background import Background
-from player import Player
 from os.path import join
 import os
 
@@ -10,9 +13,12 @@ class Level:
     def __init__(self, tmx_map):
         self.display_surface = pygame.display.get_surface()
 
-        self.all_sprites = pygame.sprite.Group()
-        self.backgrounds = pygame.sprite.Group()
-        self.collision_sprites = pygame.sprite.Group()
+        self.groups = {
+            "all_sprites": Group(),
+            "platforms": Group(),
+            "hedgehogs": Group(),
+            "backgrounds": Group()
+        }
 
         self._setup(tmx_map)
 
@@ -25,21 +31,20 @@ class Level:
         image_files.sort(key=lambda file_name: int(file_name.split(".")[0]))
 
         for image_name in image_files:
-            Background(join(background_folder, image_name), (0, 0), self.backgrounds)
+            Background(join(background_folder, image_name), (0, 0), self.groups["backgrounds"])
 
         for x, y, surf in tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
-                (self.all_sprites, self.collision_sprites),
+                (self.groups["all_sprites"], self.groups["platforms"]),
             )
 
         for object in tmx_map.get_layer_by_name("Objects"):
-            if object.name == "Player":
-                Player((object.x, object.y), self.all_sprites, self.collision_sprites)
+            entitie_factory(object, self.groups)
 
     def run(self, delta_time):
-        self.backgrounds.draw(self.display_surface)
-
-        self.all_sprites.update(delta_time)
-        self.all_sprites.draw(self.display_surface)
+        platform_rects = [platform.rect for platform in self.groups["platforms"]]
+        self.groups["all_sprites"].update(platform_rects, delta_time)
+        self.groups["backgrounds"].draw(self.display_surface)
+        self.groups["all_sprites"].draw(self.display_surface)
