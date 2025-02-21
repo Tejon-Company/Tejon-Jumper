@@ -26,7 +26,6 @@ class Player(Character):
         self._input()
         self._move(platform_rects, delta_time)
         self._detect_platform_contact(platform_rects)
-        print(self.fall)
 
     def _input(self):
         keys = pygame.key.get_pressed()
@@ -49,33 +48,30 @@ class Player(Character):
             self.direction = self.direction.normalize()
 
     def _move(self, platform_rects, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
-        self._collision("horizontal", platform_rects)
+        self._move_horizontally(platform_rects, delta_time)
+        self._move_vertically(platform_rects, delta_time)
 
+    def _move_horizontally(self, platform_rects, delta_time):
+        self.rect.x += self.direction.x * self.speed * delta_time
+        self._collision(platform_rects, self._handle_horizontal_collision)
+
+    def _move_vertically(self, platform_rects, delta_time):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
-        self._collision("vertical", platform_rects)
+        self._collision(platform_rects, self._handle_vertical_collision)
+
+        if self.on_surface:
+            self.fall = -self.jump_height if self.jump else 0
 
         if self.jump:
-            if self.on_surface:
-                self.fall = -self.jump_height
-
             self.direction.y = 0
             self._normalize_direction()
             self.jump = False
-        else:
-            if self.on_surface:
-                self.fall = 0
 
-    def _collision(self, axis, platform_rects):
+    def _collision(self, platform_rects, collision_handler):
         for platform_rect in platform_rects:
-            if not platform_rect.colliderect(self.rect):
-                continue
-
-            if axis == "horizontal":
-                self._handle_horizontal_collision(platform_rect)
-            else:
-                self._handle_vertical_collision(platform_rect)
+            if platform_rect.colliderect(self.rect):
+                collision_handler(platform_rect)
 
     def _handle_horizontal_collision(self, platform_rect):
         self._handle_right_collission(platform_rect)
