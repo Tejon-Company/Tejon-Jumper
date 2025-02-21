@@ -31,6 +31,7 @@ class Level:
             "hedgehogs": Group(),
             "mushrooms": Group(),
             "backgrounds": Group(),
+            "projectiles": Group(),
         }
 
         self.player = None

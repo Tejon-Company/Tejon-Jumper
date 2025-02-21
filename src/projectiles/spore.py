@@ -3,10 +3,10 @@ from projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
-    def __init__(self, pos, surf, direction, delta_time, speed, groups):
-        super().__init__(pos, surf, direction, delta_time, speed, groups)
-        self.image = surf
-        self.rect = self.image.get_rect(center=pos)
+    def __init__(self, pos, surf, direction, speed, groups):
+        super().__init__(pos, surf, direction, speed, groups)
+        self.image = pygame.Surface((8, 8))
+        self.image.fill(color="yellow")
 
     def _move(self, delta_time):
         self.rect.x += self.direction.x * self.speed * delta_time
