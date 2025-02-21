@@ -1,5 +1,5 @@
 from settings import *
-from entities.enemies.enemy import Enemy
+from characters.enemies.enemy import Enemy
 
 
 class MovingEnemy(Enemy):

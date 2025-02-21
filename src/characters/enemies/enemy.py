@@ -1,6 +1,5 @@
 from settings import *
-from entities.character import Character
-
+from characters.character import Character
 
 
 class Enemy(Character):
