@@ -74,7 +74,7 @@
  <objectgroup id="5" name="Objects">
   <object id="2" name="Player" gid="568" x="417.381" y="639.902" width="32" height="32"/>
   <object id="4" name="Hedgehog" gid="568" x="630.52" y="639.626" width="32" height="32"/>
-  <object id="5" name="Hedgehog" gid="568" x="542.875" y="576.454" width="32" height="32"/>
+  <object id="5" name="Mushroom" gid="568" x="542.875" y="576.454" width="32" height="32"/>
   <object id="6" name="Hedgehog" gid="568" x="255.668" y="639.74" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="Plants" width="300" height="30" visible="0">
