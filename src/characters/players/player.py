@@ -26,6 +26,7 @@ class Player(Character):
         self._input()
         self._move(platform_rects, delta_time)
         self._detect_platform_contact(platform_rects)
+        print(self.fall)
 
     def _input(self):
         keys = pygame.key.get_pressed()
@@ -62,6 +63,9 @@ class Player(Character):
             self.direction.y = 0
             self._normalize_direction()
             self.jump = False
+        else:
+            if self.on_surface:
+                self.fall = 0
 
     def _collision(self, axis, platform_rects):
         for platform_rect in platform_rects:
