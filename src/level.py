@@ -42,10 +42,11 @@ class Level:
     def _setup_background(self):
         image_files = self._get_image_files()
 
-        for image_name in image_files:
+        for i, image_name in enumerate(image_files):
             Background(
                 join(self.background_folder, image_name),
                 (0, 0),
+                BACKGROUND_SPEEDS[i % len(BACKGROUND_SPEEDS)],
                 self.groups["backgrounds"],
             )
 
@@ -88,6 +89,8 @@ class Level:
         self.groups["all_sprites"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
+        
+        self.camera.draw_background(self.groups["backgrounds"], self.display_surface)
 
         self.groups["backgrounds"].draw(self.display_surface)
 
