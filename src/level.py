@@ -30,6 +30,7 @@ class Level:
             "platforms": Group(),
             "hedgehogs": Group(),
             "mushrooms": Group(),
+            "squirrels": Group(),
             "foxes": Group(),
             "backgrounds": Group(),
             "projectiles": Group(),
