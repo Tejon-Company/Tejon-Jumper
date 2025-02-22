@@ -17,7 +17,7 @@ def enemy_factory(enemy, groups):
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["mushrooms"]),
+                (groups["all_sprites"], groups["mushrooms"], groups["platforms"]),
                 (groups["all_sprites"], groups["projectiles"])
             )
         case "Fox":
