@@ -4,10 +4,10 @@ from characters.sprite import Sprite
 
 
 class Projectile(Sprite, ABC):
-    def __init__(self, pos, surf, direction, speed, groups):
+    def __init__(self, pos, surf, direction, groups):
         super().__init__(pos, surf, groups)
         self.direction = direction
-        self.speed = speed
+        self.speed = None
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
