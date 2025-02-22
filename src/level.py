@@ -2,9 +2,9 @@ from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.hedgehog import Hedgehog
+from characters.enemies.moving_enemies.fox import Fox
 from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
-from projectiles.projectile import Projectile
 from background import Background
 from camera import Camera
 from os.path import join
@@ -30,6 +30,7 @@ class Level:
             "platforms": Group(),
             "hedgehogs": Group(),
             "mushrooms": Group(),
+            "foxes": Group(),
             "backgrounds": Group(),
             "projectiles": Group(),
         }
