@@ -1,9 +1,8 @@
 from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
-from characters.enemies.moving_enemies.hedgehog import Hedgehog
-from characters.enemies.moving_enemies.fox import Fox
-from pygame.sprite import Group
+from characters.players.player_state import PlayerState
+from pygame.sprite import Group, spritecollide
 from characters.enemies.enemy_factory import enemy_factory
 from background import Background
 from camera import Camera
@@ -85,6 +84,8 @@ class Level:
             (character.x, character.y),
             pygame.Surface((32, 32)),
             self.groups["all_sprites"],
+            lives=3 if DIFFICULTY == Difficulty.NORMAL else 1,
+            health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
         )
 
     def run(self, delta_time):
@@ -98,3 +99,15 @@ class Level:
 
         for sprite in self.groups["all_sprites"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        self._check_collision()
+
+    def _check_collision(self):
+        if spritecollide(self.player, self.groups["projectiles"], False):
+            player_state = self.player.receive_damage()
+            if player_state:
+                print("DAMAGE")
+        if spritecollide(self.player, self.groups["hedgehogs"], False):
+            player_state = self.player.receive_damage()
+            if player_state:
+                print("HEDGEHOG")

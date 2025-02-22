@@ -1,9 +1,10 @@
 from settings import *
 from characters.character import Character
+from characters.players.player_state import PlayerState
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups):
+    def __init__(self, pos, surf, groups, lives, health_points):
         super().__init__(pos, surf, groups)
 
         self.image = pygame.Surface((32, 32))
@@ -11,6 +12,10 @@ class Player(Character):
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
+
+        self.lives = lives
+        self.health_points = health_points
+        self.maximum_health_points = health_points
 
         self.direction = vector(0, 0)
         self.speed = 150
@@ -20,6 +25,38 @@ class Player(Character):
         self.jump_height = 300
 
         self.on_surface = False
+
+        self.last_damage_time_ms = None
+
+    def receive_damage(self):
+        receives_damage = self._handle_cooldown()
+        return receives_damage
+        self.health_points -= 1
+
+        if self.health_points > 0:
+            return PlayerState.ALIVE
+
+        self.lives -= 1
+        self.health_points = self.maximum_health_points
+
+        if self.lives < 0:
+            return PlayerState.GAME_OVER
+
+        return PlayerState.DEAD
+
+    def _handle_cooldown(self):
+        current_damage_time_ms = pygame.time.get_ticks()
+
+        if not self.last_damage_time_ms:
+            self.last_damage_time_ms = current_damage_time_ms
+
+            return True
+
+        if current_damage_time_ms < self.last_damage_time_ms + 2000:
+            return False
+
+        self.last_damage_time_ms = current_damage_time_ms
+        return True
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
