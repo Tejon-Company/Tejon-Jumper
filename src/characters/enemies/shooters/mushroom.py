@@ -18,7 +18,6 @@ class Mushroom(Shooter):
                 pos=(self.rect.centerx, self.rect.centery),
                 surf=pygame.Surface((8, 8)),
                 direction=pygame.math.Vector2(-1, 0),
-                speed=70,
                 groups=self.projectile_groups,
             )
             self.last_shot = current_time
