@@ -3,7 +3,7 @@ from projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
-    def __init__(self, pos, surf, direction,groups):
+    def __init__(self, pos, surf, direction, groups):
         super().__init__(pos, surf, direction, groups)
         self.image = pygame.Surface((8, 8))
         self.image.fill(color="yellow")

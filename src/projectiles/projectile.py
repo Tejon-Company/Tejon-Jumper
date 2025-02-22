@@ -4,7 +4,7 @@ from characters.sprite import Sprite
 
 
 class Projectile(Sprite, ABC):
-    def __init__(self, pos, surf, direction,groups):
+    def __init__(self, pos, surf, direction, groups):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.speed = None
