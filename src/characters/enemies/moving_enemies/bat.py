@@ -1,6 +1,5 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from random import choice
 
 
 class Bat(MovingEnemy):
@@ -20,7 +19,9 @@ class Bat(MovingEnemy):
 
         self.top_pos = pos_y
         self.bottom_pos = pos_y + TILE_SIZE * 4
-        print(self.bottom_pos)
+
+        self.left_limit = pos_x - TILE_SIZE * 4
+        self.right_limit = pos_x + TILE_SIZE * 4
 
     def update(self, platform_rects, delta_time):
         self._move(delta_time)
@@ -30,9 +31,13 @@ class Bat(MovingEnemy):
         self.rect.x += self.direction.x * self.x_speed * delta_time
         self.rect.y += self.direction.y * self.y_speed * delta_time
 
-    def _check_vertical_direction(self):
+    def _check_direction(self):
         above_top_position = self.rect.y < self.top_pos
         below_bottom_position = self.rect.y > self.bottom_pos
 
-        if above_top_position or below_bottom_position:
+        if above_top_position:
+            self.direction.x *= -1
+            self.direction.y *= -1
+
+        if below_bottom_position:
             self.direction.y *= -1
