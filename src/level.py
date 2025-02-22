@@ -14,7 +14,8 @@ import os
 class Level:
     def __init__(self, tmx_map, background):
         self.display_surface = pygame.display.get_surface()
-        self.background_folder = join("assets", "maps", "backgrounds", background)
+        self.background_folder = join(
+            "assets", "maps", "backgrounds", background)
 
         self._init_groups()
         self._init_camera(tmx_map)
@@ -28,8 +29,10 @@ class Level:
             "all_sprites": Group(),
             "platforms": Group(),
             "hedgehogs": Group(),
+            "mushrooms": Group(),
             "foxes": Group(),
             "backgrounds": Group(),
+            "projectiles": Group(),
         }
 
         self.player = None
@@ -84,7 +87,8 @@ class Level:
         )
 
     def run(self, delta_time):
-        platform_rects = [platform.rect for platform in self.groups["platforms"]]
+        platform_rects = [
+            platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
