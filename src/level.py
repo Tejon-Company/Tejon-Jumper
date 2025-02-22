@@ -103,11 +103,22 @@ class Level:
         self._check_collision()
 
     def _check_collision(self):
-        if spritecollide(self.player, self.groups["projectiles"], False):
-            player_state = self.player.receive_damage()
-            if player_state:
-                print("DAMAGE")
-        if spritecollide(self.player, self.groups["hedgehogs"], False):
-            player_state = self.player.receive_damage()
-            if player_state:
-                print("HEDGEHOG")
+        collisions = tuple(
+            spritecollide(self.player, self.groups[group], False)
+            for group in ["hedgehogs", "squirrels", "foxes", "projectiles"]
+        )
+
+        if not collisions:
+            return
+
+        player_state = self.player.receive_damage()
+
+        match player_state:
+            case PlayerState.ALIVE:
+                pass
+            case PlayerState.DAMAGED:
+                pass
+            case PlayerState.DEAD:
+                pass
+            case PlayerState.GAME_OVER:
+                pass

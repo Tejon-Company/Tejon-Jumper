@@ -29,27 +29,24 @@ class Player(Character):
         self.last_damage_time_ms = None
 
     def receive_damage(self):
-        receives_damage = self._handle_cooldown()
-        return receives_damage
+        if not self._should_receive_damage():
+            return PlayerState.ALIVE
+
         self.health_points -= 1
 
         if self.health_points > 0:
-            return PlayerState.ALIVE
+            return PlayerState.DAMAGED
 
         self.lives -= 1
         self.health_points = self.maximum_health_points
 
-        if self.lives < 0:
-            return PlayerState.GAME_OVER
+        return PlayerState.GAME_OVER if self.lives <= 0 else PlayerState.DEAD
 
-        return PlayerState.DEAD
-
-    def _handle_cooldown(self):
+    def _should_receive_damage(self):
         current_damage_time_ms = pygame.time.get_ticks()
 
         if not self.last_damage_time_ms:
             self.last_damage_time_ms = current_damage_time_ms
-
             return True
 
         if current_damage_time_ms < self.last_damage_time_ms + 2000:

@@ -36,7 +36,6 @@ def enemy_factory(enemy, groups):
                  groups["squirrels"]),
                 (groups["all_sprites"], groups["projectiles"])
             )
-
-        case default:
+        case _:
             raise ValueError(
                 f"The entitie {enemy.name} is not a valid entitie")
