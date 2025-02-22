@@ -1,8 +1,8 @@
 from settings import *
-from characters.players.player import Player
 from characters.enemies.moving_enemies.hedgehog import Hedgehog
 from characters.enemies.shooters.mushroom import Mushroom
 from characters.enemies.moving_enemies.fox import Fox
+from characters.enemies.moving_enemies.bat import Bat
 
 
 def enemy_factory(enemy, groups):
@@ -25,6 +25,12 @@ def enemy_factory(enemy, groups):
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["foxes"]),
+            )
+        case "Bat":
+            Bat(
+                (enemy.x, enemy.y),
+                enemy.image,
+                (groups["all_sprites"], groups["bats"])
             )
         case default:
             raise ValueError(

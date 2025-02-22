@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="300" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="7">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="300" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="8">
  <tileset firstgid="1" name="generic_2d_platform" tilewidth="32" tileheight="32" tilecount="768" columns="32">
   <image source="../tiles/generic_platformer_tiles.png" width="1024" height="768"/>
  </tileset>
@@ -76,6 +76,7 @@
   <object id="4" name="Hedgehog" gid="568" x="630.52" y="639.626" width="32" height="32"/>
   <object id="5" name="Mushroom" gid="568" x="542.875" y="576.454" width="32" height="32"/>
   <object id="6" name="Hedgehog" gid="568" x="255.668" y="639.74" width="32" height="32"/>
+  <object id="7" name="Bat" gid="568" x="758" y="401" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="Plants" width="300" height="30" visible="0">
   <data encoding="csv">

@@ -33,6 +33,7 @@ class Level:
             "foxes": Group(),
             "backgrounds": Group(),
             "projectiles": Group(),
+            "bats": Group()
         }
 
         self.player = None
