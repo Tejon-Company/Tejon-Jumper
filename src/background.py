@@ -11,8 +11,8 @@ class Background(pygame.sprite.Sprite):
         
     def update(self, delta_time):
         self.rect.x -= self.speed * delta_time
-        if self.rect.x <= 0:
-            self.rect.left = 0
+        if abs(self.rect.topleft) > WINDOW_WIDTH:
+            self.rect.topleft = 0
     
     def draw(self, surface):
         surface.blit(self.image, self.rect.topleft)
