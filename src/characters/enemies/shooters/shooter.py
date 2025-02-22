@@ -11,7 +11,6 @@ class Shooter(Enemy, ABC):
         self.projectile_groups = projectile_groups
 
     def update(self, platform_rects, delta_time):
-        super().update(platform_rects, delta_time)
         self._shoot()
 
     @abstractmethod
