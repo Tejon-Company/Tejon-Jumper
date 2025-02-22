@@ -12,8 +12,8 @@ class Shooter(Enemy, ABC):
 
     def update(self, platform_rects, delta_time):
         super().update(platform_rects, delta_time)
-        self._shoot(delta_time)
+        self._shoot()
 
     @abstractmethod
-    def _shoot(self, delta_time):
+    def _shoot(self):
         pass
