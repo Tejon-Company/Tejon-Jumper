@@ -25,13 +25,13 @@ class Bat(MovingEnemy):
 
     def update(self, platform_rects, delta_time):
         self._move(delta_time)
-        self._check_direction()
+        self._check_path()
 
     def _move(self, delta_time):
         self.rect.x += self.direction.x * self.x_speed * delta_time
         self.rect.y += self.direction.y * self.y_speed * delta_time
 
-    def _check_direction(self):
+    def _check_path(self):
         above_top_position = self.rect.y < self.top_pos
         below_bottom_position = self.rect.y > self.bottom_pos
 
@@ -40,4 +40,4 @@ class Bat(MovingEnemy):
             self.direction.y *= -1
 
         if below_bottom_position:
-            self.direction.y *= -1
+            self.direction.y = -1
