@@ -41,8 +41,6 @@ class Player(Character):
         self.lives -= 1
         self.health_points = self.maximum_health_points
 
-        print("health points after damaged" + str(self.health_points))
-
         return PlayerState.GAME_OVER if self.lives <= 0 else PlayerState.DEAD
 
     def _should_receive_damage(self):
@@ -59,8 +57,7 @@ class Player(Character):
         return True
 
     def heal(self):
-        has_max_health = int(self.health_points) < int(
-            self.maximum_health_points)
+        has_max_health = self.health_points == self.maximum_health_points
         if not has_max_health and self._should_receive_heal():
             self.health_points += 1
 
