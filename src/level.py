@@ -118,7 +118,7 @@ class Level:
             for group in ["hedgehogs", "squirrels", "foxes", "projectiles"]
         )
 
-        if not collisions:
+        if all(len(c) == 0 for c in collisions):
             return
 
         player_state = self.player.receive_damage()
