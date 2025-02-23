@@ -100,9 +100,9 @@ class Level:
         for sprite in self.groups["all_sprites"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        self._check_collision()
+        self._check_collision(delta_time)
 
-    def _check_collision(self):
+    def _check_collision(self, delta_time):
         collisions = tuple(
             spritecollide(self.player, self.groups[group], False)
             for group in ["hedgehogs", "squirrels", "foxes", "projectiles"]
@@ -112,6 +112,7 @@ class Level:
             return
 
         player_state = self.player.receive_damage()
+        print(player_state)
 
         match player_state:
             case PlayerState.ALIVE:
