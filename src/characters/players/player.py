@@ -27,6 +27,7 @@ class Player(Character):
         self.on_surface = False
 
         self.last_damage_time_ms = None
+        self.last_health_time_ms = None
 
     def receive_damage(self):
         if not self._should_receive_damage():
@@ -39,6 +40,8 @@ class Player(Character):
 
         self.lives -= 1
         self.health_points = self.maximum_health_points
+
+        print("health points after damaged" + str(self.health_points))
 
         return PlayerState.GAME_OVER if self.lives <= 0 else PlayerState.DEAD
 
@@ -53,6 +56,25 @@ class Player(Character):
             return False
 
         self.last_damage_time_ms = current_damage_time_ms
+        return True
+
+    def heal(self):
+        has_max_health = int(self.health_points) < int(
+            self.maximum_health_points)
+        if not has_max_health and self._should_receive_heal():
+            self.health_points += 1
+
+    def _should_receive_heal(self):
+        current_health_time_ms = pygame.time.get_ticks()
+
+        if not self.last_health_time_ms:
+            self.last_health_time_ms = current_health_time_ms
+            return True
+
+        if current_health_time_ms < self.last_health_time_ms + 2000:
+            return False
+
+        self.last_health_time_ms = current_health_time_ms
         return True
 
     def update(self, platform_rects, delta_time):

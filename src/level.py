@@ -7,6 +7,7 @@ from characters.enemies.enemy_factory import enemy_factory
 from background import Background
 from camera import Camera
 from os.path import join
+from berries.berrie_factory import berrie_factory
 import os
 
 
@@ -22,6 +23,7 @@ class Level:
         self._setup_background()
         self._setup_terrain(tmx_map)
         self._setup_characters(tmx_map)
+        self._setup_berries(tmx_map)
 
     def _init_groups(self):
         self.groups = {
@@ -33,6 +35,7 @@ class Level:
             "foxes": Group(),
             "backgrounds": Group(),
             "projectiles": Group(),
+            "berries": Group()
         }
 
         self.player = None
@@ -88,10 +91,15 @@ class Level:
             health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
         )
 
+    def _setup_berries(self, tmx_map):
+        for berrie in tmx_map.get_layer_by_name("Berries"):
+            berrie_factory(berrie, self.groups)
+
     def run(self, delta_time):
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
+        self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
 
@@ -100,6 +108,8 @@ class Level:
         for sprite in self.groups["all_sprites"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
 
+        for sprite in self.groups["berries"]:
+            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
         self._check_collision(delta_time)
 
     def _check_collision(self, delta_time):
@@ -112,7 +122,6 @@ class Level:
             return
 
         player_state = self.player.receive_damage()
-        print(player_state)
 
         match player_state:
             case PlayerState.ALIVE:
