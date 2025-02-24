@@ -4,8 +4,8 @@ from characters.players.player import Player
 from characters.players.player_state import PlayerState
 from pygame.sprite import Group, spritecollide
 from characters.enemies.enemy_factory import enemy_factory
-from background import Background
-from camera import Camera
+from scene.background import Background
+from scene.camera import Camera
 from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
@@ -36,7 +36,7 @@ class Level:
             "mushrooms": Group(),
             "squirrels": Group(),
             "foxes": Group(),
-            "backgrounds": Group(),
+            "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
             "bats": Group()
@@ -52,10 +52,11 @@ class Level:
     def _setup_background(self):
         image_files = self._get_image_files()
 
-        for image_name in image_files:
+        for i, image_name in enumerate(image_files):
             Background(
                 join(self.background_folder, image_name),
                 (0, 0),
+                PARALLAX_FACTOR[i % len(PARALLAX_FACTOR)],
                 self.groups["backgrounds"],
             )
 
@@ -110,8 +111,8 @@ class Level:
         self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
-
-        self.groups["backgrounds"].draw(self.display_surface)
+        self.camera.draw_background(
+            self.groups["backgrounds"], self.display_surface)
 
         for sprite in self.groups["all_sprites"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
