@@ -5,8 +5,8 @@ from characters.enemies.moving_enemies.hedgehog import Hedgehog
 from characters.enemies.moving_enemies.fox import Fox
 from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
-from background import Background
-from camera import Camera
+from scene.background import Background
+from scene.camera import Camera
 from os.path import join
 import os
 
@@ -91,8 +91,6 @@ class Level:
         self.camera.update(self.player)
         
         self.camera.draw_background(self.groups["backgrounds"], self.display_surface)
-
-        self.groups["backgrounds"].draw(self.display_surface)
 
         for sprite in self.groups["all_sprites"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))

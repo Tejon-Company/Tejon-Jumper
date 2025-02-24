@@ -17,7 +17,7 @@ class Camera:
         camera_x = min(0, camera_x)
         camera_x = max(-(self.width - WINDOW_WIDTH), camera_x)
         self.camera.x = camera_x
-
+        
     def draw_background(self, backgrounds, surface):
         for background in backgrounds:
             self.apply_parallax(background)

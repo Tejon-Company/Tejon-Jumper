@@ -11,10 +11,12 @@ class Background(pygame.sprite.Sprite):
         
     def update(self, delta_time):
         self.rect.x -= self.speed * delta_time
-        if abs(self.rect.topleft) > WINDOW_WIDTH:
-            self.rect.topleft = 0
-    
+        if self.rect.right <= 0:
+            self.rect.left = 0
+
     def draw(self, surface):
+        
+        # No se está haciendo bien el blit de los distintos fondos
         surface.blit(self.image, self.rect.topleft)
         if self.rect.right < WINDOW_WIDTH:
             surface.blit(self.image, (self.rect.right, self.rect.top))
