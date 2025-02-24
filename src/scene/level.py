@@ -20,7 +20,7 @@ class Level:
         self._init_groups()
         self._init_camera(tmx_map)
 
-        self._setup_background(tmx_map)
+        self._setup_background()
         self._setup_terrain(tmx_map)
         self._setup_characters(tmx_map)
 
@@ -32,7 +32,7 @@ class Level:
             "mushrooms": Group(),
             "squirrels": Group(),
             "foxes": Group(),
-            "backgrounds": Group(),
+            "backgrounds": [],
             "projectiles": Group(),
         }
 
@@ -43,17 +43,14 @@ class Level:
         map_height = tmx_map.height * TILE_SIZE
         self.camera = Camera(map_width, map_height)
 
-    def _setup_background(self, tmx_map):
+    def _setup_background(self):
         image_files = self._get_image_files()
-        map_width = tmx_map.width * TILE_SIZE
 
         for i, image_name in enumerate(image_files):
             Background(
                 join(self.background_folder, image_name),
                 (0, 0),
-                BACKGROUND_SPEEDS[i % len(BACKGROUND_SPEEDS)],
                 PARALLAX_FACTOR[i % len(PARALLAX_FACTOR)],
-                map_width,
                 self.groups["backgrounds"],
             )
 
@@ -97,8 +94,8 @@ class Level:
         self.groups["all_sprites"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
-        self.camera.update_background(self.groups["backgrounds"], delta_time)
-        self.camera.draw_background(self.groups["backgrounds"], self.display_surface)
+        self.camera.draw_background(
+            self.groups["backgrounds"], self.display_surface)
 
         for sprite in self.groups["all_sprites"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
