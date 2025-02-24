@@ -118,9 +118,9 @@ class Level:
 
         for sprite in self.groups["berries"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
-        self._check_collision(delta_time)
+        self._check_collision()
 
-    def _check_collision(self, delta_time):
+    def _check_collision(self):
         collisions = tuple(
             spritecollide(self.player, self.groups[group], False)
             for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
