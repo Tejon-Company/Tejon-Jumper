@@ -16,11 +16,12 @@ class Game:
             0: {
                 "map": load_pygame(join("assets", "maps", "levels", "level0.tmx")),
                 "background": "background1",
+                "music": "level_1.ogg"
             },
         }
 
         self.current_stage = Level(
-            self.tmx_maps[0]["map"], self.tmx_maps[0]["background"]
+            self.tmx_maps[0]["map"], self.tmx_maps[0]["background"], self.tmx_maps[0]["music"]
         )
 
     def run(self):
