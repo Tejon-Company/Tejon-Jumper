@@ -1,10 +1,9 @@
 from settings import *
-from characters.sprite import Sprite
 from characters.players.player import Player
-from pygame.sprite import spritecollide
+from berries.berry import Berry
 
 
-class HealthBerry(Sprite):
+class HealthBerry(Berry):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 
