@@ -30,7 +30,10 @@ class Player(Character):
         self.last_health_time_ms = None
 
     def receive_damage(self):
-        if not self._should_receive_damage():
+        should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
+            self.last_damage_time_ms)
+
+        if not should_receive_damage:
             return PlayerState.ALIVE
 
         self.health_points -= 1
@@ -43,36 +46,23 @@ class Player(Character):
 
         return PlayerState.GAME_OVER if self.lives <= 0 else PlayerState.DEAD
 
-    def _should_receive_damage(self):
-        current_damage_time_ms = pygame.time.get_ticks()
-
-        if not self.last_damage_time_ms:
-            self.last_damage_time_ms = current_damage_time_ms
-            return True
-
-        if current_damage_time_ms < self.last_damage_time_ms + 2000:
-            return False
-
-        self.last_damage_time_ms = current_damage_time_ms
-        return True
-
     def heal(self):
         has_max_health = self.health_points == self.maximum_health_points
-        if not has_max_health and self._should_receive_heal():
+        should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
+            self.last_health_time_ms)
+        if not has_max_health and should_receive_heal:
             self.health_points += 1
 
-    def _should_receive_heal(self):
-        current_health_time_ms = pygame.time.get_ticks()
+    def _check_cooldown(last_time_ms):
+        current_time_ms = pygame.time.get_ticks()
 
-        if not self.last_health_time_ms:
-            self.last_health_time_ms = current_health_time_ms
-            return True
+        if not last_time_ms:
+            return True, current_time_ms
 
-        if current_health_time_ms < self.last_health_time_ms + 2000:
-            return False
+        if current_time_ms < last_time_ms + 2000:
+            return False, last_time_ms
 
-        self.last_health_time_ms = current_health_time_ms
-        return True
+        return True, current_time_ms
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
