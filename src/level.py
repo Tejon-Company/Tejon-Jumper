@@ -8,19 +8,22 @@ from background import Background
 from camera import Camera
 from os.path import join
 from berries.berrie_factory import berrie_factory
+from pygame.mixer import music
 import os
 
 
 class Level:
-    def __init__(self, tmx_map, background):
+    def __init__(self, tmx_map, background, music):
         self.display_surface = pygame.display.get_surface()
         self.background_folder = join(
             "assets", "maps", "backgrounds", background)
+        self.music_file = join("assets", "sounds", "music", music)
 
         self._init_groups()
         self._init_camera(tmx_map)
 
         self._setup_background()
+        self._setup_music()
         self._setup_terrain(tmx_map)
         self._setup_characters(tmx_map)
         self._setup_berries(tmx_map)
@@ -35,7 +38,8 @@ class Level:
             "foxes": Group(),
             "backgrounds": Group(),
             "projectiles": Group(),
-            "berries": Group()
+            "berries": Group(),
+            "bats": Group()
         }
 
         self.player = None
@@ -55,7 +59,7 @@ class Level:
                 self.groups["backgrounds"],
             )
 
-    def _get_image_files(self):
+    def _get_image_files(self,):
         image_files = []
         for file in os.listdir(self.background_folder):
             if file.endswith(".png"):
@@ -64,6 +68,10 @@ class Level:
         image_files.sort(key=lambda file_name: int(file_name.split(".")[0]))
 
         return image_files
+
+    def _setup_music(self):
+        music.load(self.music_file)
+        music.play(-1)
 
     def _setup_terrain(self, tmx_map):
         for x, y, surf in tmx_map.get_layer_by_name("Terrain").tiles():
@@ -115,7 +123,7 @@ class Level:
     def _check_collision(self, delta_time):
         collisions = tuple(
             spritecollide(self.player, self.groups[group], False)
-            for group in ["hedgehogs", "squirrels", "foxes", "projectiles"]
+            for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
         )
 
         if all(len(c) == 0 for c in collisions):
@@ -127,6 +135,7 @@ class Level:
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
+                print(self.player.health_points)
                 pass
             case PlayerState.DEAD:
                 pass
