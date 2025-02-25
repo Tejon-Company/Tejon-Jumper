@@ -6,6 +6,7 @@ from pygame.sprite import Group, spritecollide
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
+from ui.ui import UI
 from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
@@ -24,6 +25,9 @@ class Level(Scene):
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
 
+        self.player = None
+        self.ui = None
+
         self._init_groups()
         self._init_camera()
 
@@ -32,6 +36,9 @@ class Level(Scene):
         self._setup_terrain()
         self._setup_characters()
         self._setup_berries()
+
+        if self.player:
+            self.ui = UI(self.display_surface, self.player)
 
     def _init_groups(self):
         self.groups = {
@@ -109,6 +116,27 @@ class Level(Scene):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
+    def run(self, delta_time):
+        platform_rects = [
+            platform.rect for platform in self.groups["platforms"]]
+        self.groups["all_sprites"].update(platform_rects, delta_time)
+        self.groups["berries"].update(self.player)
+
+        self.camera.update(self.player)
+        self.camera.draw_background(
+            self.groups["backgrounds"], self.display_surface)
+
+        for sprite in self.groups["all_sprites"]:
+            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["berries"]:
+            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        if self.ui:
+            self.ui.draw_hearts()
+
+        self._check_collision()
+
     def _check_collision(self):
         collisions = tuple(
             spritecollide(self.player, self.groups[group], False)
@@ -125,6 +153,8 @@ class Level(Scene):
                 pass
             case PlayerState.DAMAGED:
                 print(self.player.health_points)
+                if self.ui:
+                    self.ui.draw_hearts()
                 pass
             case PlayerState.DEAD:
                 pass
