@@ -20,7 +20,7 @@ class Level:
             "assets", "maps", "backgrounds", background)
         self.music_file = join("assets", "sounds", "music", music)
 
-        self.player = None  
+        self.player = None
         self.ui = None
 
         self._init_groups()
@@ -128,7 +128,7 @@ class Level:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         if self.ui:
-            self.ui.draw_hearts() 
+            self.ui.draw_hearts()
 
         self._check_collision()
 
@@ -148,7 +148,7 @@ class Level:
                 pass
             case PlayerState.DAMAGED:
                 print(self.player.health_points)
-                if self.ui:  
+                if self.ui:
                     self.ui.draw_hearts()
                 pass
             case PlayerState.DEAD:
