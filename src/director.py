@@ -11,7 +11,7 @@ class Director():
         self.exit_scene = False
         self.clock = pygame.time.Clock()
 
-    def loop(self, scene):
+    def _loop(self, scene):
         self.exit_scene = False
         pygame.event.clear()
 
@@ -27,7 +27,7 @@ class Director():
     def run(self):
         while (len(self.stack) > 0):
             scene = self.stack[-1]
-            self.loop(scene)
+            self._loop(scene)
 
     def exit_scene(self):
         self.exit_scene = True
