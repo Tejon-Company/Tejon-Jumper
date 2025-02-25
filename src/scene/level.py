@@ -6,6 +6,7 @@ from pygame.sprite import Group, spritecollide
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
+from ui.ui import UI
 from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
@@ -19,6 +20,9 @@ class Level:
             "assets", "maps", "backgrounds", background)
         self.music_file = join("assets", "sounds", "music", music)
 
+        self.player = None  
+        self.ui = None
+
         self._init_groups()
         self._init_camera(tmx_map)
 
@@ -27,6 +31,9 @@ class Level:
         self._setup_terrain(tmx_map)
         self._setup_characters(tmx_map)
         self._setup_berries(tmx_map)
+
+        if self.player:
+            self.ui = UI(self.display_surface, self.player)
 
     def _init_groups(self):
         self.groups = {
@@ -120,6 +127,9 @@ class Level:
         for sprite in self.groups["berries"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
         self._check_collision()
+
+        if self.ui:
+            self.ui.draw_hearts() 
 
     def _check_collision(self):
         collisions = tuple(
