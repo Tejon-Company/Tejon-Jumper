@@ -17,4 +17,12 @@ class UI:
                 self.display_surface, 
                 heart_color, 
                 (start_x + i * (heart_size + spacing), start_y, heart_size, heart_size) 
+            ) 
+
+        for i in range(self.player.lives):
+            pygame.draw.rect(
+                self.display_surface, 
+                heart_color, 
+                (start_x + i * (heart_size + spacing), start_y, heart_size, heart_size) 
             )
+    

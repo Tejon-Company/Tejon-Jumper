@@ -126,10 +126,11 @@ class Level:
 
         for sprite in self.groups["berries"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
-        self._check_collision()
 
         if self.ui:
             self.ui.draw_hearts() 
+
+        self._check_collision()
 
     def _check_collision(self):
         collisions = tuple(
@@ -147,6 +148,8 @@ class Level:
                 pass
             case PlayerState.DAMAGED:
                 print(self.player.health_points)
+                if self.ui:  
+                    self.ui.draw_hearts()
                 pass
             case PlayerState.DEAD:
                 pass
