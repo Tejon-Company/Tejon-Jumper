@@ -17,7 +17,7 @@ import os
 
 
 class Level(Scene):
-    def __init__(self, director: Director, remaining_lives = 3):
+    def __init__(self, director: Director, remaining_lives=3):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
@@ -83,8 +83,8 @@ class Level(Scene):
         return image_files
 
     def _setup_music(self):
-        #music.load(self.music_file)
-        #music.play(-1)
+        music.load(self.music_file)
+        music.play(-1)
         pass
 
     def _setup_terrain(self):
@@ -109,7 +109,6 @@ class Level(Scene):
             (character.x, character.y),
             pygame.Surface((32, 32)),
             self.groups["all_sprites"],
-            self.remaining_lives,
             health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
         )
         self.ui = UI(self.display_surface, self.player)
@@ -151,17 +150,13 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                if self.ui:
-                    self.ui.draw_hearts()
-                pass
+                self.ui.draw_hearts()
             case PlayerState.DEAD:
                 self._handle_dead()
-            case PlayerState.GAME_OVER:
-                pass
 
     def _handle_dead(self):
-        self.director.exit_program()
-        self.director.stack_scene(Level(self.director))
+        self.director.pop_scene()
+        self.director.stack_scene(Level(self.director, self.remaining_lives-1))
 
     def update(self, delta_time):
         platform_rects = [
