@@ -37,6 +37,9 @@ class Level(Scene):
         self._setup_characters()
         self._setup_berries()
 
+        if self.player:
+            self.ui = UI(self.display_surface, self.player)
+
     def _init_groups(self):
         self.groups = {
             "all_sprites": Group(),
