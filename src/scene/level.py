@@ -148,7 +148,6 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                print(self.player.health_points)
                 if self.ui:
                     self.ui.draw_hearts()
                 pass

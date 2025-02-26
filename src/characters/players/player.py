@@ -87,8 +87,16 @@ class Player(Character):
         self._normalize_direction()
 
     def _normalize_direction(self):
-        if self.direction:
-            self.direction = self.direction.normalize()
+        x, y = self.direction
+        diagonal_value = .707107
+
+        is_moving_horizontally = (x == 1 or x == -1)
+        is_moving_upward = (y == -1 or y == -diagonal_value)
+
+        if is_moving_horizontally and is_moving_upward:
+            self.direction.x *= diagonal_value
+            if y == -1:
+                self.direction.y = -diagonal_value
 
     def _move(self, platform_rects, delta_time):
         self._move_horizontally(platform_rects, delta_time)
@@ -105,9 +113,9 @@ class Player(Character):
 
         if self.on_surface:
             self.fall = -self.jump_height if self.jump else 0
+            self.direction.y = 0
 
         if self.jump:
-            self.direction.y = 0
             self._normalize_direction()
             self.jump = False
 
