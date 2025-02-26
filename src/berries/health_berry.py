@@ -15,7 +15,6 @@ class HealthBerry(Berry):
     def update(self, player: Player):
         if not self.rect.colliderect(player.rect):
             return
-        print(player.health_points)
+
         player.heal()
-        print(player.health_points)
         self.kill()

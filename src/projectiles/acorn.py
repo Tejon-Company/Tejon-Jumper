@@ -6,7 +6,7 @@ class Acorn(Projectile):
     def __init__(self, pos, surf, direction, groups):
         super().__init__(pos, surf, direction, groups)
         self.image = pygame.Surface((8, 8))
-        self.gravity = 300
+        self.gravity = 70
         self.speed = 100
         self.fall = 0
         self.image.fill(color="gray")
