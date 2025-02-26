@@ -7,7 +7,7 @@ class AcornPool(ProjectilesPool):
     def __init__(self, size, projectile_groups):
         super().__init__(size, projectile_groups)
 
-    def create_pool(self):
+    def _create_pool(self):
         for _ in range(self.size):
             acorn = Acorn(
                 pos=(0, 0),
@@ -21,7 +21,6 @@ class AcornPool(ProjectilesPool):
         for acorn in self.pool:
             if acorn.is_activated:
                 continue
-            else:
-                acorn.change_position(pos_x, pos_y)
-                acorn.is_activated = True
-                break
+            acorn.change_position(pos_x, pos_y)
+            acorn.is_activated = True
+            return

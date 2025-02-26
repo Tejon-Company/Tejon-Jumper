@@ -8,9 +8,10 @@ class ProjectilesPool(ABC):
         self.pool = list()
         self.size = size
         self.projectile_groups = projectile_groups
+        self._create_pool()
 
     @abstractmethod
-    def create_pool(self):
+    def _create_pool(self):
         pass
 
     @abstractmethod

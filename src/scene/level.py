@@ -34,9 +34,9 @@ class Level(Scene):
         self._init_camera()
 
         self.spore_pool = SporePool(
-            10, self.groups["projectiles"]).create_pool()
+            10, self.groups["projectiles"])
         self.acorn_pool = AcornPool(
-            20, self.groups["projectiles"]).create_pool()
+            20, self.groups["projectiles"])
 
         self._setup_background()
         self._setup_music()
@@ -89,7 +89,7 @@ class Level(Scene):
 
     def _setup_music(self):
         music.load(self.music_file)
-        music.play(-1)
+        # music.play(-1)
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -104,7 +104,8 @@ class Level(Scene):
             if character.name == "Player":
                 self._setup_player(character)
             else:
-                enemy_factory(character, self.groups, self.spore_pool, self.acorn_pool)
+                enemy_factory(character, self.groups,
+                              self.spore_pool, self.acorn_pool)
 
     def _setup_player(self, character):
         assert not self.player, "Only one player is allowed"
@@ -155,7 +156,6 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                print(self.player.health_points)
                 if self.ui:
                     self.ui.draw_hearts()
                 pass
@@ -169,6 +169,7 @@ class Level(Scene):
             platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["projectiles"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
 
@@ -183,6 +184,10 @@ class Level(Scene):
 
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["projectiles"]:
+            if sprite.is_activated:
+                display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))

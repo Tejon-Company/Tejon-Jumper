@@ -6,7 +6,7 @@ class SporePool(ProjectilesPool):
     def __init__(self, size, projectile_groups):
         super().__init__(size, projectile_groups)
 
-    def create_pool(self):
+    def _create_pool(self):
         for _ in range(self.size):
             spore = Spore(
                 pos=(0, 0),
