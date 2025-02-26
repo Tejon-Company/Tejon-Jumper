@@ -87,22 +87,16 @@ class Player(Character):
         self._normalize_direction()
 
     def _normalize_direction(self):
-
         x, y = self.direction
         diagonal_value = .707107
 
-        if x == 1 and y == -1:
-            self.direction.x = diagonal_value
-            self.direction.y = -diagonal_value
-        elif x == -1 and y == -1:
-            self.direction.x = -diagonal_value
-            self.direction.y = -diagonal_value
-        elif x == 1 and y == -diagonal_value:
-            self.direction.x = diagonal_value
-        elif x == -1 and y == -diagonal_value:
-            self.direction.x = -diagonal_value
+        is_moving_horizontally = (x == 1 or x == -1)
+        is_moving_upward = (y == -1 or y == -diagonal_value)
 
-        print(self.direction)
+        if is_moving_horizontally and is_moving_upward:
+            self.direction.x *= diagonal_value
+            if y == -1:
+                self.direction.y = -diagonal_value
 
     def _move(self, platform_rects, delta_time):
         self._move_horizontally(platform_rects, delta_time)
