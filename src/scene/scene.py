@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
+from director import Director
 
 
 class Scene(ABC):
-    def __init__(self, director):
+    def __init__(self, director: Director):
         self.director = director
 
     @abstractmethod

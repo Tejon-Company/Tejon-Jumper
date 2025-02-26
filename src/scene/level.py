@@ -12,11 +12,12 @@ from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
+from director import Director
 import os
 
 
 class Level(Scene):
-    def __init__(self, director):
+    def __init__(self, director: Director):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
@@ -81,8 +82,9 @@ class Level(Scene):
         return image_files
 
     def _setup_music(self):
-        music.load(self.music_file)
-        music.play(-1)
+        #music.load(self.music_file)
+        #music.play(-1)
+        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -148,14 +150,17 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                print(self.player.health_points)
                 if self.ui:
                     self.ui.draw_hearts()
                 pass
             case PlayerState.DEAD:
-                pass
+                self._handle_dead()
             case PlayerState.GAME_OVER:
                 pass
+
+    def _handle_dead(self):
+        self.director.exit_program()
+        self.director.stack_scene(Level(self.director))
 
     def update(self, delta_time):
         platform_rects = [
