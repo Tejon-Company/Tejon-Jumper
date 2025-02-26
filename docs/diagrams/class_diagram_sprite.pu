@@ -43,6 +43,22 @@ class Acorn{
     - fall : int
 }
 
+abstract class ProjectilesPool {
+    - pool : List
+    - size : int
+    - projectile_groups
+    - _create_pool()
+    + shoot(pos_x, pos_y)
+}
+
+class AcornPool {
+
+}
+
+class SporePool {
+
+}
+
 abstract class Character {
     + update(platform_rects, delta_time)
 }
@@ -89,21 +105,21 @@ abstract class MovingEnemy {
 class Hedgehog {
     - image : Surface
     - rect : FRect
-    - direction 
+    - direction
     - speed : int
 }
 
 class Fox {
     - image : Surface
     - rect : FRect
-    - direction 
+    - direction
     - speed : int
 }
 
 class Bat {
     - image : Surface
     - rect : FRect
-    - direction 
+    - direction
     - x_speed : int
     - y_speed : int
     - pos_x, pos_y
@@ -121,7 +137,8 @@ class Bear {
 abstract class Shooter {
     - shoot_cooldown : int
     - last_shot : int
-    - projectile_groups
+    - pos
+    - projectiles_pool
     - _shoot() {abstract}
 }
 
@@ -132,7 +149,7 @@ class Squirrel {
 
 class Mushroom {
     - image : Surface
-    - rect : FRect 
+    - rect : FRect
 }
 
 Sprite <|-- Berry
@@ -153,5 +170,9 @@ MovingEnemy <|-- Bat
 MovingEnemy <|-- Bear
 Shooter <|-- Squirrel
 Shooter <|-- Mushroom
+ProjectilesPool <|-- SporePool
+ProjectilesPool <|-- AcornPool
+SporePool o-- Spore
+AcornPool o-- Acorn
 
 @enduml
