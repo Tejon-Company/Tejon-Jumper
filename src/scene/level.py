@@ -17,7 +17,7 @@ import os
 
 
 class Level(Scene):
-    def __init__(self, director: Director):
+    def __init__(self, director: Director, remaining_lives = 3):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
@@ -26,6 +26,7 @@ class Level(Scene):
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
 
+        self.remaining_lives = remaining_lives
         self.player = None
         self.ui = None
 
@@ -71,7 +72,7 @@ class Level(Scene):
                 self.groups["backgrounds"],
             )
 
-    def _get_image_files(self,):
+    def _get_image_files(self):
         image_files = []
         for file in os.listdir(self.background_folder):
             if file.endswith(".png"):
@@ -108,7 +109,7 @@ class Level(Scene):
             (character.x, character.y),
             pygame.Surface((32, 32)),
             self.groups["all_sprites"],
-            lives=3 if DIFFICULTY == Difficulty.NORMAL else 1,
+            self.remaining_lives,
             health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
         )
         self.ui = UI(self.display_surface, self.player)
