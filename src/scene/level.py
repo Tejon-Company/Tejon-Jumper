@@ -37,9 +37,6 @@ class Level(Scene):
         self._setup_characters()
         self._setup_berries()
 
-        if self.player:
-            self.ui = UI(self.display_surface, self.player)
-
     def _init_groups(self):
         self.groups = {
             "all_sprites": Group(),
@@ -53,8 +50,6 @@ class Level(Scene):
             "berries": Group(),
             "bats": Group()
         }
-
-        self.player = None
 
     def _init_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -111,6 +106,7 @@ class Level(Scene):
             lives=3 if DIFFICULTY == Difficulty.NORMAL else 1,
             health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
         )
+        self.ui = UI(self.display_surface, self.player)
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
@@ -132,12 +128,9 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             self.display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        if self.ui:
-            self.ui.draw_hearts()
+        self._handle_player_collisions_with_enemies()
 
-        self._check_collision()
-
-    def _check_collision(self):
+    def _handle_player_collisions_with_enemies(self):
         collisions = tuple(
             spritecollide(self.player, self.groups[group], False)
             for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
@@ -183,4 +176,5 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-        self._check_collision()
+        self._handle_player_collisions_with_enemies()
+        self.ui.draw_hearts()
