@@ -25,6 +25,7 @@ class Player(Character):
         self.jump_height = 300
 
         self.on_surface = False
+        self.is_sprinting= False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -84,6 +85,10 @@ class Player(Character):
             self.direction.y = -1
             self.jump = True
 
+
+        self.is_sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+
+
         self._normalize_direction()
 
     def _normalize_direction(self):
@@ -95,7 +100,9 @@ class Player(Character):
         self._move_vertically(platform_rects, delta_time)
 
     def _move_horizontally(self, platform_rects, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
+        sprint_multiplier = 3 if self.is_sprinting else 1 
+        print(sprint_multiplier)
+        self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
         self._collision(platform_rects, self._handle_horizontal_collision)
 
     def _move_vertically(self, platform_rects, delta_time):
