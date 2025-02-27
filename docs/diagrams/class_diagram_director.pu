@@ -36,12 +36,14 @@ class Level {
     - _setup_player(character)
     - _setup_berries()
     - _check_collision()
-    + update(delta_time)
-    + events(events_list)
-    + draw(display_surface)
+}
+
+class GameOver {
+    + display_surface : Surface
 }
 
 Director <--> Scene
 Scene <|-- Level
+Scene <|-- GameOver
 
 @enduml
