@@ -21,6 +21,6 @@ class Shooter(Enemy, ABC):
             self.projectiles_pool.shoot(self.pos[0], self.pos[1])
             self.last_shot = current_time
 
-    def _is_on_the_screen(self):
+    def _is_on_screen(self):
         return (0 <= self.rect.x <= WINDOW_WIDTH and
                 0 <= self.rect.y <= WINDOW_HEIGHT)
