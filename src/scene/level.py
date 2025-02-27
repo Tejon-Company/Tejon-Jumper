@@ -15,6 +15,7 @@ from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
+from scene.game_over import GameOver
 import os
 
 
@@ -164,7 +165,11 @@ class Level(Scene):
 
     def _handle_dead(self):
         self.director.pop_scene()
-        self.director.stack_scene(Level(self.director, self.remaining_lives-1))
+        if self.remaining_lives <= 0:
+            self.director.stack_scene(GameOver(self.director))
+        else:
+            self.director.stack_scene(
+                Level(self.director, self.remaining_lives-1))
 
     def update(self, delta_time):
         platform_rects = [
