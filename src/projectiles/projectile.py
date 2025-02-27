@@ -23,7 +23,6 @@ class Projectile(Sprite, ABC):
     def _move(self, delta_time):
         pass
 
+    @abstractmethod
     def _check_out_of_bounds(self):
-        boundary = pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
-        if not self.rect.colliderect(boundary):
-            self.is_activated = False
+        pass
