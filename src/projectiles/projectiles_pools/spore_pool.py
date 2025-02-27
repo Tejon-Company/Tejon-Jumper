@@ -2,6 +2,7 @@ from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.spore import Spore
 
+
 class SporePool(ProjectilesPool):
     def __init__(self, size, projectile_groups):
         super().__init__(size, projectile_groups)
