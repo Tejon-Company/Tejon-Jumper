@@ -17,7 +17,7 @@ class Shooter(Enemy, ABC):
 
     def _shoot(self):
         current_time = pygame.time.get_ticks()
-        if current_time - self.last_shot >= self.shoot_cooldown and self._is_on_the_screen():
+        if current_time - self.last_shot >= self.shoot_cooldown and self._is_on_screen():
             self.projectiles_pool.shoot(self.pos[0], self.pos[1])
             self.last_shot = current_time
 
