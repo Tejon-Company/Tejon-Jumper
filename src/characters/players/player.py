@@ -100,8 +100,7 @@ class Player(Character):
         self._move_vertically(platform_rects, delta_time)
 
     def _move_horizontally(self, platform_rects, delta_time):
-        sprint_multiplier = 3 if self.is_sprinting else 1 
-        print(sprint_multiplier)
+        sprint_multiplier = 2 if self.is_sprinting else 1 
         self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
         self._collision(platform_rects, self._handle_horizontal_collision)
 
