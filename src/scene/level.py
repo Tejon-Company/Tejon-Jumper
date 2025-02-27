@@ -89,7 +89,7 @@ class Level(Scene):
 
     def _setup_music(self):
         music.load(self.music_file)
-        # music.play(-1)
+        music.play(-1)
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
