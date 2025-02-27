@@ -14,11 +14,12 @@ from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
+from director import Director
 import os
 
 
 class Level(Scene):
-    def __init__(self, director):
+    def __init__(self, director: Director, remaining_lives=3):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
@@ -27,6 +28,7 @@ class Level(Scene):
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
 
+        self.remaining_lives = remaining_lives
         self.player = None
         self.ui = None
 
@@ -77,7 +79,7 @@ class Level(Scene):
                 self.groups["backgrounds"],
             )
 
-    def _get_image_files(self,):
+    def _get_image_files(self):
         image_files = []
         for file in os.listdir(self.background_folder):
             if file.endswith(".png"):
@@ -90,6 +92,7 @@ class Level(Scene):
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
+        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -114,7 +117,6 @@ class Level(Scene):
             (character.x, character.y),
             pygame.Surface((32, 32)),
             self.groups["all_sprites"],
-            lives=3 if DIFFICULTY == Difficulty.NORMAL else 1,
             health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
         )
         self.ui = UI(self.display_surface, self.player)
@@ -156,13 +158,13 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                if self.ui:
-                    self.ui.draw_hearts()
-                pass
+                self.ui.draw_hearts()
             case PlayerState.DEAD:
-                pass
-            case PlayerState.GAME_OVER:
-                pass
+                self._handle_dead()
+
+    def _handle_dead(self):
+        self.director.pop_scene()
+        self.director.stack_scene(Level(self.director, self.remaining_lives-1))
 
     def update(self, delta_time):
         platform_rects = [

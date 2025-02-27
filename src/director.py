@@ -29,7 +29,7 @@ class Director():
             scene = self.stack[-1]
             self._loop(scene)
 
-    def exit_scene(self):
+    def pop_scene(self):
         self.exit_scene = True
         if (len(self.stack) > 0):
             self.stack.pop()
@@ -39,7 +39,7 @@ class Director():
         self.exit_scene = True
 
     def change_scene(self, scene):
-        self.exit_scene()
+        self.pop_scene()
         self.stack.append(scene)
 
     def stack_scene(self, scene):

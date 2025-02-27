@@ -4,7 +4,7 @@ from characters.players.player_state import PlayerState
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, lives, health_points):
+    def __init__(self, pos, surf, groups, health_points):
         super().__init__(pos, surf, groups)
 
         self.image = pygame.Surface((32, 32))
@@ -13,7 +13,6 @@ class Player(Character):
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
-        self.lives = lives
         self.health_points = health_points
         self.maximum_health_points = health_points
 
@@ -41,10 +40,7 @@ class Player(Character):
         if self.health_points > 0:
             return PlayerState.DAMAGED
 
-        self.lives -= 1
-        self.health_points = self.maximum_health_points
-
-        return PlayerState.GAME_OVER if self.lives <= 0 else PlayerState.DEAD
+        return PlayerState.DEAD
 
     def heal(self):
         has_max_health = self.health_points == self.maximum_health_points
