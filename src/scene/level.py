@@ -20,7 +20,7 @@ class Level(Scene):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
-            join("assets", "maps", "levels",  "level0.tmx"))
+            join("assets", "maps", "levels",  "level1.tmx"))
         self.background_folder = join(
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
