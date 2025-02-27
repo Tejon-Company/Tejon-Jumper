@@ -7,6 +7,8 @@ from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
 from ui.ui import UI
+from projectiles.projectiles_pools.acorn_pool import AcornPool
+from projectiles.projectiles_pools.spore_pool import SporePool
 from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
@@ -30,6 +32,11 @@ class Level(Scene):
 
         self._init_groups()
         self._init_camera()
+
+        self.spore_pool = SporePool(
+            10, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(
+            20, self.groups["projectiles"])
 
         self._setup_background()
         self._setup_music()
@@ -97,7 +104,8 @@ class Level(Scene):
             if character.name == "Player":
                 self._setup_player(character)
             else:
-                enemy_factory(character, self.groups)
+                enemy_factory(character, self.groups,
+                              self.spore_pool, self.acorn_pool)
 
     def _setup_player(self, character):
         assert not self.player, "Only one player is allowed"
@@ -161,6 +169,7 @@ class Level(Scene):
             platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["projectiles"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
 
@@ -175,6 +184,10 @@ class Level(Scene):
 
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["projectiles"]:
+            if sprite.is_activated:
+                display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
