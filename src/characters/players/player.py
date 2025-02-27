@@ -1,9 +1,10 @@
 from settings import *
 from characters.character import Character
+from characters.players.player_state import PlayerState
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups):
+    def __init__(self, pos, surf, groups, lives, health_points):
         super().__init__(pos, surf, groups)
 
         self.image = pygame.Surface((32, 32))
@@ -11,6 +12,10 @@ class Player(Character):
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
+
+        self.lives = lives
+        self.health_points = health_points
+        self.maximum_health_points = health_points
 
         self.direction = vector(0, 0)
         self.speed = 150
@@ -20,6 +25,44 @@ class Player(Character):
         self.jump_height = 300
 
         self.on_surface = False
+
+        self.last_damage_time_ms = None
+        self.last_health_time_ms = None
+
+    def receive_damage(self):
+        should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
+            self.last_damage_time_ms)
+
+        if not should_receive_damage:
+            return PlayerState.ALIVE
+
+        self.health_points -= 1
+
+        if self.health_points > 0:
+            return PlayerState.DAMAGED
+
+        self.lives -= 1
+        self.health_points = self.maximum_health_points
+
+        return PlayerState.GAME_OVER if self.lives <= 0 else PlayerState.DEAD
+
+    def heal(self):
+        has_max_health = self.health_points == self.maximum_health_points
+        should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
+            self.last_health_time_ms)
+        if not has_max_health and should_receive_heal:
+            self.health_points += 1
+
+    def _check_cooldown(last_time_ms):
+        current_time_ms = pygame.time.get_ticks()
+
+        if not last_time_ms:
+            return True, current_time_ms
+
+        if current_time_ms < last_time_ms + 2000:
+            return False, last_time_ms
+
+        return True, current_time_ms
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
@@ -44,8 +87,16 @@ class Player(Character):
         self._normalize_direction()
 
     def _normalize_direction(self):
-        if self.direction:
-            self.direction = self.direction.normalize()
+        x, y = self.direction
+        diagonal_value = .707107
+
+        is_moving_horizontally = (x == 1 or x == -1)
+        is_moving_upward = (y == -1 or y == -diagonal_value)
+
+        if is_moving_horizontally and is_moving_upward:
+            self.direction.x *= diagonal_value
+            if y == -1:
+                self.direction.y = -diagonal_value
 
     def _move(self, platform_rects, delta_time):
         self._move_horizontally(platform_rects, delta_time)
@@ -62,9 +113,9 @@ class Player(Character):
 
         if self.on_surface:
             self.fall = -self.jump_height if self.jump else 0
+            self.direction.y = 0
 
         if self.jump:
-            self.direction.y = 0
             self._normalize_direction()
             self.jump = False
 
