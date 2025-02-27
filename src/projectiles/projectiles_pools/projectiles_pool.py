@@ -1,6 +1,5 @@
 from settings import *
 from abc import ABC, abstractmethod
-from projectiles.projectile import Projectile
 
 
 class ProjectilesPool(ABC):

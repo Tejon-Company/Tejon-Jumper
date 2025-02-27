@@ -1,7 +1,7 @@
 from settings import *
 from characters.enemies.enemy import Enemy
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class Shooter(Enemy, ABC):
