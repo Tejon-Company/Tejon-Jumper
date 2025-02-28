@@ -195,3 +195,4 @@ class Level(Scene):
             display_surface.blit(sprite.image, self.camera.apply(sprite))
         self._handle_player_collisions_with_enemies()
         self.ui.draw_hearts()
+        self.ui.draw_lifes_counter(self.remaining_lives)
