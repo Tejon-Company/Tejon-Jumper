@@ -135,6 +135,7 @@ class Level(Scene):
 
     def _setup_player(self):
         for character in self.tmx_map.get_layer_by_name("Player"):
+            assert not self.player, "Only one player is allowed"
             self.player = Player(
                 (character.x, character.y),
                 pygame.Surface((32, 32)),

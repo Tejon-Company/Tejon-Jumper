@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="16" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="84">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="16" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="86">
  <tileset firstgid="1" source="../tiles/patrons/enviroment.tsx"/>
  <tileset firstgid="769" source="../tiles/patrons/log.tsx"/>
  <tileset firstgid="775" source="../tiles/patrons/berries.tsx"/>
@@ -107,7 +107,7 @@
 </data>
  </layer>
  <objectgroup id="8" name="Player">
-  <object id="65" name="Player" gid="792" x="127.5" y="415" width="32" height="32"/>
+  <object id="65" name="Player" gid="792" x="116.833" y="415.667" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="Terrain" width="121" height="16">
   <data encoding="csv">
