@@ -16,9 +16,6 @@ class GameOver(Scene):
                 from scene.level import Level
                 self.director.change_scene(Level(self.director))
 
-    def update(self, delta_time):
-        pass
-
     def draw(self, display_surface):
         display_surface.fill((0, 0, 0))
         font = pygame.font.Font(None, 74)
