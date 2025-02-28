@@ -6,7 +6,7 @@ from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.shooters.squirrel import Squirrel
 
 
-def enemy_factory(enemy, groups):
+def enemy_factory(enemy, groups, spore_pool, acorn_pool):
     match enemy.name:
         case "Hedgehog":
             Hedgehog(
@@ -20,7 +20,7 @@ def enemy_factory(enemy, groups):
                 enemy.image,
                 (groups["all_sprites"],
                  groups["mushrooms"], groups["platforms"]),
-                (groups["all_sprites"], groups["projectiles"])
+                spore_pool
             )
         case "Fox":
             Fox(
@@ -40,7 +40,7 @@ def enemy_factory(enemy, groups):
                 enemy.image,
                 (groups["all_sprites"],
                  groups["squirrels"]),
-                (groups["all_sprites"], groups["projectiles"])
+                acorn_pool
             )
         case _:
             raise ValueError(

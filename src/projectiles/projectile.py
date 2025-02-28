@@ -8,17 +8,21 @@ class Projectile(Sprite, ABC):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.speed = None
+        self.is_activated = False
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
         self._move(delta_time)
         self._check_out_of_bounds()
 
+    def change_position(self, new_pos_x, new_pos_y):
+        self.rect.x = new_pos_x
+        self.rect.y = new_pos_y
+
     @abstractmethod
     def _move(self, delta_time):
         pass
 
+    @abstractmethod
     def _check_out_of_bounds(self):
-        boundary = pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
-        if not self.rect.colliderect(boundary):
-            self.kill()
+        pass

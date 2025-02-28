@@ -7,16 +7,19 @@ from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
 from ui.ui import UI
+from projectiles.projectiles_pools.acorn_pool import AcornPool
+from projectiles.projectiles_pools.spore_pool import SporePool
 from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
+from director import Director
 import os
 
 
 class Level(Scene):
-    def __init__(self, director):
+    def __init__(self, director: Director, remaining_lives=3):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
@@ -25,21 +28,27 @@ class Level(Scene):
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
 
+        self.remaining_lives = remaining_lives
         self.player = None
         self.ui = None
 
         self._init_groups()
         self._init_camera()
 
+        self.spore_pool = SporePool(
+            10, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(
+            20, self.groups["projectiles"])
+
         self._setup_background()
 
-        self._setup_tiled_background()
+       # self._setup_tiled_background()
         self._setup_player()
         self._setup_enemies()
         self._setup_terrain()
         self._setup_flag()
         self._setup_berries()
-        self._setup_deco()
+       # self._setup_deco()
 
         self._setup_music()
         if self.player:
@@ -98,6 +107,7 @@ class Level(Scene):
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
+        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -115,16 +125,9 @@ class Level(Scene):
                 (self.groups["all_sprites"], self.groups["deco"]),
             )
 
-    def _setup_characters(self):
-        for character in self.tmx_map.get_layer_by_name("Objects"):
-            if character.name == "Player":
-                self._setup_player(character)
-            else:
-                enemy_factory(character, self.groups)
-
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups)
+            enemy_factory(enemy, self.groups, self.spore_pool, self.acorn_pool)
 
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
@@ -132,15 +135,13 @@ class Level(Scene):
 
     def _setup_player(self):
         for character in self.tmx_map.get_layer_by_name("Player"):
-            assert not self.player, "Only one player is allowed"
             self.player = Player(
                 (character.x, character.y),
                 pygame.Surface((32, 32)),
                 self.groups["all_sprites"],
-                lives=3 if DIFFICULTY == Difficulty.NORMAL else 1,
                 health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
             )
-            self.ui = UI(self.display_surface, self.player)
+        self.ui = UI(self.display_surface, self.player)
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
@@ -179,19 +180,20 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                if self.ui:
-                    self.ui.draw_hearts()
-                pass
+                self.ui.draw_hearts()
             case PlayerState.DEAD:
-                pass
-            case PlayerState.GAME_OVER:
-                pass
+                self._handle_dead()
+
+    def _handle_dead(self):
+        self.director.pop_scene()
+        self.director.stack_scene(Level(self.director, self.remaining_lives-1))
 
     def update(self, delta_time):
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["projectiles"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
 
@@ -206,6 +208,10 @@ class Level(Scene):
 
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["projectiles"]:
+            if sprite.is_activated:
+                display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
