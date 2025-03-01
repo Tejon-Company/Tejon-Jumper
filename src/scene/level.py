@@ -6,7 +6,7 @@ from pygame.sprite import Group, spritecollide
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
-from ui.ui import UI
+from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
 from os.path import join
@@ -31,7 +31,7 @@ class Level(Scene):
 
         self.remaining_lives = remaining_lives
         self.player = None
-        self.ui = None
+        self.hud = HUD(self.display_surface)
 
         self._init_groups()
         self._init_camera()
@@ -51,9 +51,7 @@ class Level(Scene):
         self._setup_berries()
        # self._setup_deco()
 
-        self._setup_music()
-        if self.player:
-            self.ui = UI(self.display_surface, self.player)
+        #self._setup_music()
 
     def _init_groups(self):
         self.groups = {
@@ -108,7 +106,6 @@ class Level(Scene):
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
-        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -143,7 +140,6 @@ class Level(Scene):
                 self.groups["all_sprites"],
                 health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
             )
-        self.ui = UI(self.display_surface, self.player)
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
@@ -182,7 +178,7 @@ class Level(Scene):
             case PlayerState.ALIVE:
                 pass
             case PlayerState.DAMAGED:
-                self.ui.draw_hearts()
+                pass
             case PlayerState.DEAD:
                 self._handle_dead()
 
@@ -221,5 +217,7 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
         self._handle_player_collisions_with_enemies()
-        self.ui.draw_hearts()
+
+        self.hud.draw_hud(self.player.health_points, self.remaining_lives)
