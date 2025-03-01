@@ -186,6 +186,10 @@ class Level(Scene):
             case PlayerState.DEAD:
                 self._handle_dead()
 
+    def _handle_fall(self):
+        if self.player.rect.bottom > WINDOW_HEIGHT:
+            self._handle_dead()
+
     def _handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
@@ -200,6 +204,8 @@ class Level(Scene):
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(platform_rects, delta_time)
+
+        self._handle_fall()
 
         self.camera.update(self.player)
 
