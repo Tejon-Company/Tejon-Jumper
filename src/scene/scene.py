@@ -6,7 +6,6 @@ class Scene(ABC):
     def __init__(self, director: Director):
         self.director = director
 
-    @abstractmethod
     def update(self, delta_time):
         pass
 
