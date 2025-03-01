@@ -23,6 +23,6 @@ class Shooter(Enemy, ABC):
             self.last_shot = current_time
 
     def _is_player_near(self):
-        player_pos, shell_pos = vector(
+        player_pos, projectile_pos = vector(
             self.player.rect.center), vector(self.rect.center)
-        return shell_pos.distance_to(player_pos) < 500
+        return projectile_pos.distance_to(player_pos) < 500
