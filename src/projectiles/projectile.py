@@ -11,9 +11,10 @@ class Projectile(Sprite, ABC):
         self.is_activated = False
 
     def update(self, platform_rects, delta_time):
-        self.old_rect = self.rect.copy()
-        self._move(delta_time)
-        self._check_out_of_bounds()
+        if self.is_activated:
+            self.old_rect = self.rect.copy()
+            self._move(delta_time)
+            self._check_out_of_bounds()
 
     def change_position(self, new_pos_x, new_pos_y):
         self.rect.x = new_pos_x

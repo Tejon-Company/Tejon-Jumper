@@ -128,7 +128,8 @@ class Level(Scene):
 
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool, self.acorn_pool)
+            enemy_factory(enemy, self.groups, self.spore_pool,
+                          self.acorn_pool, self.player)
 
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
@@ -221,5 +222,6 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
         self._handle_player_collisions_with_enemies()
         self.ui.draw_hearts()
