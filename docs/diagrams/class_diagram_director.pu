@@ -1,0 +1,49 @@
+@startuml Class Diagram Director-Scene-Level
+class Director {
+    + display_surface : Surface
+    + stack : list
+    + clock : Clock
+    - _loop(scene)
+    + run()
+    + exit_scene()
+    + exit_program()
+    + change_scene(scene)
+    + stack_scene(scene)
+}
+
+abstract class Scene {
+    + director
+    + update(delta_time)
+    + events(events_list)
+    + draw(display_surface)
+}
+
+class Level {
+    + display_surface : Surface
+    + tmx_map : TiledMap
+    + background_folder : String
+    + music_file : String
+    + groups : dict[String, Group]
+    + player : Player
+    + camera : Camera
+    - _init_groups()
+    - _init_camera()
+    - _setup_background()
+    - _get_image_files() : list[String]
+    - _setup_music()
+    - _setup_terrain()
+    - _setup_characters()
+    - _setup_player(character)
+    - _setup_berries()
+    - _check_collision()
+}
+
+class GameOver {
+    + display_surface : Surface
+}
+
+Director <--> Scene
+Scene <|-- Level
+Scene <|-- GameOver
+
+@enduml

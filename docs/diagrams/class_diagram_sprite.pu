@@ -1,0 +1,178 @@
+@startuml Class Diagram Sprite
+
+class Sprite {
+    - image : Surface
+    - rect : FRect
+    - old_rect : FRect
+}
+
+abstract class Berry {
+    + update(player: Player)
+}
+
+class EnergyBerry {
+
+}
+
+class HealthBerry {
+    - image : Surface
+    - rect : FRect
+}
+
+class Rabies {
+
+}
+
+abstract class Projectile {
+    - direction
+    - speed
+    + update(platform_rects, delta_time)
+    - _move(delta_time)  {abstract}
+    - _check_out_of_bounds()
+}
+
+class Spore {
+    - image : Surface
+    - speed : int
+}
+
+class Acorn{
+    - image : Surface
+    - gravity : int
+    - speed : int
+    - fall : int
+}
+
+abstract class ProjectilesPool {
+    - pool : List
+    - size : int
+    - projectile_groups
+    - _create_pool()
+    + shoot(pos_x, pos_y)
+}
+
+class AcornPool {
+
+}
+
+class SporePool {
+
+}
+
+abstract class Character {
+    + update(platform_rects, delta_time)
+}
+
+class Player {
+    - image : Surface
+    - rect : FRect
+    - old_rect : FRect
+    - lives : int
+    - health_points : int
+    - maximum_health_points : int
+    + receive_damage()
+    + heal()
+    - _check_cooldown(last_time_ms)
+    - _input()
+    - _normalize_direction()
+    - _move(platform_rects, delta_time)
+    - _move_horizontally(platform_rects, delta_time)
+    - _move_vertically(platform_rects, delta_time)
+    - _collision(platform_rects, collision_handler)
+    - _handle_horizontal_collision(platform_rect)
+    - _handle_right_collission(platform_rect)
+    - _handle_left_collission(platform_rect)
+    - _handle_vertical_collision(platform_rect)
+    - _handle_bottom_collision(platform_rect)
+    - _handle_top_collision(platform_rect)
+    - _detect_platform_contact(platform_rects)
+}
+
+abstract class Enemy {
+
+}
+
+abstract class MovingEnemy {
+    - _move(platform_rects, delta_time)
+    - _change_direction_if_falling(platform_rects)
+    - _should_change_direction(platform_rects)
+    - _about_to_fall(platform_rects)
+    - _check_floor_collision(rect)
+    - _will_hit_wall(platform_rects)
+    - _detect_platform_contact(platform_rects)
+}
+
+class Hedgehog {
+    - image : Surface
+    - rect : FRect
+    - direction
+    - speed : int
+}
+
+class Fox {
+    - image : Surface
+    - rect : FRect
+    - direction
+    - speed : int
+}
+
+class Bat {
+    - image : Surface
+    - rect : FRect
+    - direction
+    - x_speed : int
+    - y_speed : int
+    - pos_x, pos_y
+    - top_pos
+    - bottom_pos
+    - left_limit
+    - right_limit
+    - _check_path()
+}
+
+class Bear {
+
+}
+
+abstract class Shooter {
+    - shoot_cooldown : int
+    - last_shot : int
+    - pos
+    - projectiles_pool
+    - _shoot() {abstract}
+}
+
+class Squirrel {
+    - image : Surface
+    - rect : FRect
+}
+
+class Mushroom {
+    - image : Surface
+    - rect : FRect
+}
+
+Sprite <|-- Berry
+Berry <|-- EnergyBerry
+Berry <|-- HealthBerry
+Berry <|-- Rabies
+Sprite <|-- Projectile
+Projectile <|-- Spore
+Projectile <|-- Acorn
+Sprite <|-- Character
+Character <|-- Player
+Character <|-- Enemy
+Enemy <|-- MovingEnemy
+Enemy <|-- Shooter
+MovingEnemy <|-- Hedgehog
+MovingEnemy <|-- Fox
+MovingEnemy <|-- Bat
+MovingEnemy <|-- Bear
+Shooter <|-- Squirrel
+Shooter <|-- Mushroom
+ProjectilesPool <|-- SporePool
+ProjectilesPool <|-- AcornPool
+SporePool o-- Spore
+AcornPool o-- Acorn
+
+@enduml

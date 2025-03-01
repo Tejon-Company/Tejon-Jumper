@@ -6,32 +6,54 @@ from pygame.sprite import Group, spritecollide
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
+from ui.ui import UI
+from projectiles.projectiles_pools.acorn_pool import AcornPool
+from projectiles.projectiles_pools.spore_pool import SporePool
 from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
+from director import Director
+from scene.game_over import GameOver
 import os
 
 
 class Level(Scene):
-    def __init__(self, director):
+    def __init__(self, director: Director, remaining_lives=3):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
-            join("assets", "maps", "levels",  "level0.tmx"))
+            join("assets", "maps", "levels",  "level1.tmx"))
         self.background_folder = join(
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
 
+        self.remaining_lives = remaining_lives
+        self.player = None
+        self.ui = None
+
         self._init_groups()
         self._init_camera()
 
+        self.spore_pool = SporePool(
+            10, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(
+            20, self.groups["projectiles"])
+
         self._setup_background()
-        self._setup_music()
+
+       # self._setup_tiled_background()
+        self._setup_player()
+        self._setup_enemies()
         self._setup_terrain()
-        self._setup_characters()
+        self._setup_flag()
         self._setup_berries()
+       # self._setup_deco()
+
+        self._setup_music()
+        if self.player:
+            self.ui = UI(self.display_surface, self.player)
 
     def _init_groups(self):
         self.groups = {
@@ -44,10 +66,10 @@ class Level(Scene):
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
-            "bats": Group()
+            "bats": Group(),
+            "tiled_background": Group(),
+            "deco": Group()
         }
-
-        self.player = None
 
     def _init_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -65,6 +87,14 @@ class Level(Scene):
                 self.groups["backgrounds"],
             )
 
+    def _setup_tiled_background(self):
+        for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
+            Sprite(
+                (x * TILE_SIZE, y * TILE_SIZE),
+                surf,
+                (self.groups["all_sprites"], self.groups["tiled_background"]),
+            )
+
     def _get_image_files(self,):
         image_files = []
         for file in os.listdir(self.background_folder):
@@ -78,6 +108,7 @@ class Level(Scene):
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
+        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -87,29 +118,56 @@ class Level(Scene):
                 (self.groups["all_sprites"], self.groups["platforms"]),
             )
 
-    def _setup_characters(self):
-        for character in self.tmx_map.get_layer_by_name("Objects"):
-            if character.name == "Player":
-                self._setup_player(character)
-            else:
-                enemy_factory(character, self.groups)
+    def _setup_deco(self):
+        for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
+            Sprite(
+                (x * TILE_SIZE, y * TILE_SIZE),
+                surf,
+                (self.groups["all_sprites"], self.groups["deco"]),
+            )
 
-    def _setup_player(self, character):
-        assert not self.player, "Only one player is allowed"
+    def _setup_enemies(self):
+        for enemy in self.tmx_map.get_layer_by_name("Enemies"):
+            enemy_factory(enemy, self.groups, self.spore_pool, self.acorn_pool)
 
-        self.player = Player(
-            (character.x, character.y),
-            pygame.Surface((32, 32)),
-            self.groups["all_sprites"],
-            lives=3 if DIFFICULTY == Difficulty.NORMAL else 1,
-            health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
-        )
+    def _setup_flag(self):
+        for flag in self.tmx_map.get_layer_by_name("Flag"):
+            return
+
+    def _setup_player(self):
+        for character in self.tmx_map.get_layer_by_name("Player"):
+            assert not self.player, "Only one player is allowed"
+            self.player = Player(
+                (character.x, character.y),
+                pygame.Surface((32, 32)),
+                self.groups["all_sprites"],
+                health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
+            )
+        self.ui = UI(self.display_surface, self.player)
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
-    def _check_collision(self):
+    def run(self, delta_time):
+        platform_rects = [
+            platform.rect for platform in self.groups["platforms"]]
+        self.groups["all_sprites"].update(platform_rects, delta_time)
+        self.groups["berries"].update(self.player)
+
+        self.camera.update(self.player)
+        self.camera.draw_background(
+            self.groups["backgrounds"], self.display_surface)
+
+        for sprite in self.groups["all_sprites"]:
+            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["berries"]:
+            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        self._handle_player_collisions_with_enemies()
+
+    def _handle_player_collisions_with_enemies(self):
         collisions = tuple(
             spritecollide(self.player, self.groups[group], False)
             for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
@@ -125,25 +183,62 @@ class Level(Scene):
     def _handle_collision(self, enemy, group):
         direction = self._get_collision_direction(self.player, enemy)
         is_sprinting = self.player.is_sprinting
-
+        player_state = None
+        self._adjust_player_position(enemy)
+        if group == "projectiles":
+            player_state= self.player.receive_damage()
         if group == "hedgehogs":
             if is_sprinting:
                 if direction in ["izquierda", "derecha, arriba"]:
                     self._defeat_enemy(enemy)
                 elif direction == "abajo":
-                    self.player.receive_damage()
+                    player_state = self.player.receive_damage()
             else:
-                self.player.receive_damage()
+                player_state = self.player.receive_damage()
         else:
             if is_sprinting:
                 self._defeat_enemy(enemy)
             else:
                 if direction in ["izquierda", "derecha", "arriba"]:
-                    self.player.receive_damage()
-                    if direction == "abajo":
-                        self._defeat_enemy(enemy)
+                    player_state = self.player.receive_damage()
+                elif direction == "abajo":
+                    self._defeat_enemy(enemy)
+        match player_state:
+            case PlayerState.ALIVE:
+                pass
+            case PlayerState.DAMAGED:
+                self.ui.draw_hearts()
+            case PlayerState.DEAD:
+                self._handle_dead()
 
         self._display_collision_info(enemy, group, direction)
+
+    def _adjust_player_position(self, enemy):
+        # Verificar colisión horizontal
+        if self.player.rect.colliderect(enemy.rect):
+            if self.player.rect.centerx < enemy.rect.centerx:
+                # Colisión por la izquierda
+                self.player.rect.right = enemy.rect.left
+            else:
+                # Colisión por la derecha
+                self.player.rect.left = enemy.rect.right
+
+        # Verificar colisión vertical
+        if self.player.rect.colliderect(enemy.rect):
+            if self.player.rect.centery < enemy.rect.centery:
+                # Colisión por arriba
+                self.player.rect.bottom = enemy.rect.top
+            else:
+                # Colisión por abajo
+                self.player.rect.top = enemy.rect.bottom
+
+    def _handle_dead(self):
+        self.director.pop_scene()
+        if self.remaining_lives <= 0:
+            self.director.stack_scene(GameOver(self.director))
+        else:
+            self.director.stack_scene(
+                Level(self.director, self.remaining_lives-1))
 
     def _defeat_enemy(self, enemy):
         for group in self.groups.values():
@@ -165,13 +260,14 @@ class Level(Scene):
         font = pygame.font.Font(None, 36)
         text = font.render(
             f"Colisión con {group} por {direction}", True, (255, 255, 255))
-        self.display_surface.blit(text, (00, 10))
+        self.display_surface.blit(text, (800, 10))
 
     def update(self, delta_time):
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["projectiles"].update(platform_rects, delta_time)
 
         self.camera.update(self.player)
 
@@ -187,6 +283,11 @@ class Level(Scene):
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
+        for sprite in self.groups["projectiles"]:
+            if sprite.is_activated:
+                display_surface.blit(sprite.image, self.camera.apply(sprite))
+
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-        self._check_collision()
+        self._handle_player_collisions_with_enemies()
+        self.ui.draw_hearts()
