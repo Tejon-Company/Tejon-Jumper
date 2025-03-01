@@ -51,7 +51,7 @@ class Level(Scene):
         self._setup_berries()
         self._setup_deco()
 
-        #self._setup_music()
+        # self._setup_music()
 
     def _init_groups(self):
         self.groups = {
@@ -120,7 +120,7 @@ class Level(Scene):
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
-                (self.groups["all_sprites"], self.groups["deco"]),
+                (self.groups["deco"]),
             )
 
     def _setup_enemies(self):
@@ -136,7 +136,7 @@ class Level(Scene):
             assert not self.player, "Only one player is allowed"
             self.player = Player(
                 (character.x, character.y),
-                pygame.Surface((32, 32)),
+                character.image,
                 self.groups["all_sprites"],
                 health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
             )
@@ -174,13 +174,8 @@ class Level(Scene):
 
         player_state = self.player.receive_damage()
 
-        match player_state:
-            case PlayerState.ALIVE:
-                pass
-            case PlayerState.DAMAGED:
-                pass
-            case PlayerState.DEAD:
-                self._handle_dead()
+        if player_state == PlayerState.DEAD:
+            self._handle_dead
 
     def _handle_dead(self):
         self.director.pop_scene()
@@ -207,6 +202,9 @@ class Level(Scene):
     def draw(self, display_surface):
         self.camera.draw_background(
             self.groups["backgrounds"], display_surface)
+
+        for sprite in self.groups["deco"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
