@@ -41,7 +41,7 @@ class Level(Scene):
             20, self.groups["projectiles"])
 
         self._setup_background()
-        self._setup_music()
+        # self._setup_music()
         self._setup_terrain()
         self._setup_characters()
         self._setup_berries()
@@ -92,7 +92,6 @@ class Level(Scene):
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
-        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():

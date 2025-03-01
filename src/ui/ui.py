@@ -1,15 +1,12 @@
 from settings import *
+from os.path import join
 
 
 class UI:
     def __init__(self, display_surface, player):
         self.display_surface = display_surface
         self.player = player
-        # Option 1: Use a different system font size
-        self.font = pygame.font.Font(None, 48)  # Larger size
-
-        # Option 2: Load a custom font file
-        self.font = pygame.font.Font('path/to/your/font.ttf', 36)
+        self.font = pygame.font.Font(join('assets', 'fonts', 'Beta54.ttf'), 22)
 
     def draw_hearts(self):
         heart_size = 32
