@@ -23,7 +23,7 @@ class Level(Scene):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
         self.tmx_map = load_pygame(
-            join("assets", "maps", "levels",  "level0.tmx"))
+            join("assets", "maps", "levels",  "level1.tmx"))
         self.background_folder = join(
             "assets", "maps", "backgrounds", "background1")
         self.music_file = join("assets", "sounds", "music", "level_1.ogg")
@@ -41,11 +41,16 @@ class Level(Scene):
             20, self.groups["projectiles"])
 
         self._setup_background()
-        self._setup_music()
-        self._setup_terrain()
-        self._setup_characters()
-        self._setup_berries()
 
+       # self._setup_tiled_background()
+        self._setup_player()
+        self._setup_enemies()
+        self._setup_terrain()
+        self._setup_flag()
+        self._setup_berries()
+       # self._setup_deco()
+
+        self._setup_music()
         if self.player:
             self.ui = UI(self.display_surface, self.player)
 
@@ -60,7 +65,9 @@ class Level(Scene):
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
-            "bats": Group()
+            "bats": Group(),
+            "tiled_background": Group(),
+            "deco": Group()
         }
 
     def _init_camera(self):
@@ -79,7 +86,15 @@ class Level(Scene):
                 self.groups["backgrounds"],
             )
 
-    def _get_image_files(self):
+    def _setup_tiled_background(self):
+        for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
+            Sprite(
+                (x * TILE_SIZE, y * TILE_SIZE),
+                surf,
+                (self.groups["all_sprites"], self.groups["tiled_background"]),
+            )
+
+    def _get_image_files(self,):
         image_files = []
         for file in os.listdir(self.background_folder):
             if file.endswith(".png"):
@@ -102,23 +117,31 @@ class Level(Scene):
                 (self.groups["all_sprites"], self.groups["platforms"]),
             )
 
-    def _setup_characters(self):
-        for character in self.tmx_map.get_layer_by_name("Objects"):
-            if character.name == "Player":
-                self._setup_player(character)
-            else:
-                enemy_factory(character, self.groups,
-                              self.spore_pool, self.acorn_pool)
+    def _setup_deco(self):
+        for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
+            Sprite(
+                (x * TILE_SIZE, y * TILE_SIZE),
+                surf,
+                (self.groups["all_sprites"], self.groups["deco"]),
+            )
 
-    def _setup_player(self, character):
-        assert not self.player, "Only one player is allowed"
+    def _setup_enemies(self):
+        for enemy in self.tmx_map.get_layer_by_name("Enemies"):
+            enemy_factory(enemy, self.groups, self.spore_pool, self.acorn_pool)
 
-        self.player = Player(
-            (character.x, character.y),
-            pygame.Surface((32, 32)),
-            self.groups["all_sprites"],
-            health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
-        )
+    def _setup_flag(self):
+        for flag in self.tmx_map.get_layer_by_name("Flag"):
+            return
+
+    def _setup_player(self):
+        for character in self.tmx_map.get_layer_by_name("Player"):
+            assert not self.player, "Only one player is allowed"
+            self.player = Player(
+                (character.x, character.y),
+                pygame.Surface((32, 32)),
+                self.groups["all_sprites"],
+                health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3
+            )
         self.ui = UI(self.display_surface, self.player)
 
     def _setup_berries(self):
