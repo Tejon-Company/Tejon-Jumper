@@ -37,9 +37,9 @@ class Level(Scene):
         self._init_camera()
 
         self.spore_pool = SporePool(
-            10, self.groups["projectiles"])
+            10, (self.groups["projectiles"], self.groups["all_sprites"]))
         self.acorn_pool = AcornPool(
-            20, self.groups["projectiles"])
+            20, (self.groups["projectiles"], self.groups["all_sprites"]))
 
         self._setup_background()
 
@@ -107,7 +107,7 @@ class Level(Scene):
 
     def _setup_music(self):
         music.load(self.music_file)
-        music.play(-1)
+        #music.play(-1)
         pass
 
     def _setup_terrain(self):
