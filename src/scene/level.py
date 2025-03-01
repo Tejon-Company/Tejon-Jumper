@@ -43,13 +43,13 @@ class Level(Scene):
 
         self._setup_background()
 
-       # self._setup_tiled_background()
+        self._setup_tiled_background()
         self._setup_player()
         self._setup_enemies()
         self._setup_terrain()
         self._setup_flag()
         self._setup_berries()
-       # self._setup_deco()
+        self._setup_deco()
 
         #self._setup_music()
 
