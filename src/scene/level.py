@@ -32,7 +32,7 @@ class Level(Scene):
         self.remaining_lives = remaining_lives
         self.player = None
         self.hud = HUD(self.display_surface)
-
+        self.is_paused = False
         self._init_groups()
         self._init_camera()
 
@@ -191,18 +191,22 @@ class Level(Scene):
                 Level(self.director, self.remaining_lives-1))
 
     def update(self, delta_time):
-        platform_rects = [
-            platform.rect for platform in self.groups["platforms"]]
-        self.groups["all_sprites"].update(platform_rects, delta_time)
-        self.groups["berries"].update(self.player)
-        self.groups["projectiles"].update(platform_rects, delta_time)
+        if not self.is_paused:
+            platform_rects = [
+                platform.rect for platform in self.groups["platforms"]]
+            self.groups["all_sprites"].update(platform_rects, delta_time)
+            self.groups["berries"].update(self.player)
+            self.groups["projectiles"].update(platform_rects, delta_time)
 
-        self.camera.update(self.player)
+            self.camera.update(self.player)
 
     def events(self, events_list):
+        keys = pygame.key.get_just_released()
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
+            elif keys[pygame.K_p]:
+                self.is_paused = not self.is_paused
 
     def draw(self, display_surface):
         self.camera.draw_background(
