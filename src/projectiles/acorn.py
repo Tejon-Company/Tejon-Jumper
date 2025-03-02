@@ -3,8 +3,8 @@ from projectiles.projectile import Projectile
 
 
 class Acorn(Projectile):
-    def __init__(self, pos, surf, direction, groups, camera_x):
-        super().__init__(pos, surf, direction, groups, camera_x)
+    def __init__(self, pos, surf, direction, groups):
+        super().__init__(pos, surf, direction, groups)
         self.image = pygame.Surface((8, 8))
         self.gravity = 170
         self.speed = 100
