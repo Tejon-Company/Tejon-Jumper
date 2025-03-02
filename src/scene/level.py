@@ -9,13 +9,13 @@ from scene.camera import Camera
 from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
-from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
 from scene.game_over import GameOver
+from characters.players.player_state import PlayerState
 import os
 
 
@@ -41,6 +41,11 @@ class Level(Scene):
         self.acorn_pool = AcornPool(
             20, self.groups["projectiles"])
 
+        self.game_over_sound = pygame.mixer.Sound(join(
+            "assets", "sounds", "sound_effects", "game_over.ogg"))
+        self.life_lost_sound = pygame.mixer.Sound(join(
+            "assets", "sounds", "sound_effects", "life_lost.ogg"))
+
         self._setup_background()
 
        # self._setup_tiled_background()
@@ -51,7 +56,7 @@ class Level(Scene):
         self._setup_berries()
        # self._setup_deco()
 
-        #self._setup_music()
+        self._setup_music()
 
     def _init_groups(self):
         self.groups = {
@@ -185,10 +190,12 @@ class Level(Scene):
     def _handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
+            self.game_over_sound.play()
             self.director.stack_scene(GameOver(self.director))
         else:
             self.director.stack_scene(
                 Level(self.director, self.remaining_lives-1))
+            self.life_lost_sound.play()
 
     def update(self, delta_time):
         platform_rects = [

@@ -2,6 +2,7 @@ import pygame
 import sys
 from pygame.math import Vector2 as vector
 from enum import Enum, auto
+from os.path import join
 
 
 class Difficulty(Enum):
