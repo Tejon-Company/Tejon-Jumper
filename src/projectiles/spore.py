@@ -14,7 +14,7 @@ class Spore(Projectile):
         self.rect.x += self.direction.x * self.speed * delta_time
         self.rect.y += self.direction.y * self.speed * delta_time
 
-    def _check_out_of_bounds(self):
+    def _reset_projectile_if_off_screen(self):
         boundary = pygame.Rect(-self.camera_x, 0, WINDOW_WIDTH-self.camera_x, WINDOW_HEIGHT)
         if not self.rect.colliderect(boundary):
             self.is_activated = False

@@ -14,7 +14,7 @@ class Projectile(Sprite, ABC):
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
         self._move(delta_time)
-        self._check_out_of_bounds()
+        self._reset_projectile_if_off_screen()
 
     def change_position(self, new_pos_x, new_pos_y):
         self.rect.x = new_pos_x
@@ -25,5 +25,5 @@ class Projectile(Sprite, ABC):
         pass
 
     @abstractmethod
-    def _check_out_of_bounds(self):
+    def _reset_projectile_if_off_screen(self):
         pass
