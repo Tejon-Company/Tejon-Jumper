@@ -51,7 +51,7 @@ class Level(Scene):
         self._setup_berries()
        # self._setup_deco()
 
-        #self._setup_music()
+        # self._setup_music()
 
     def _init_groups(self):
         self.groups = {
