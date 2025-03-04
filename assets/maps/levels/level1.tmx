@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="89">
- <tileset firstgid="1" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/enviroment.tsx"/>
- <tileset firstgid="769" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/log.tsx"/>
- <tileset firstgid="775" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/berries.tsx"/>
- <tileset firstgid="779" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/fox.tsx"/>
- <tileset firstgid="782" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/mushroom.tsx"/>
- <tileset firstgid="785" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/hedgehog.tsx"/>
- <tileset firstgid="787" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/squirrel.tsx"/>
- <tileset firstgid="790" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/flag.tsx"/>
- <tileset firstgid="792" source="../../../../../nivel1/Tejon-Jumper/assets/maps/tiles/patrons/player.tsx"/>
+ <tileset firstgid="1" source="../tiled/patterns/enviroment.tsx"/>
+ <tileset firstgid="769" source="../tiled/patterns/log.tsx"/>
+ <tileset firstgid="775" source="../tiled/patterns/berries.tsx"/>
+ <tileset firstgid="779" source="../tiled/patterns/fox.tsx"/>
+ <tileset firstgid="782" source="../tiled/patterns/mushroom.tsx"/>
+ <tileset firstgid="785" source="../tiled/patterns/hedgehog.tsx"/>
+ <tileset firstgid="787" source="../tiled/patterns/squirrel.tsx"/>
+ <tileset firstgid="790" source="../tiled/patterns/flag.tsx"/>
+ <tileset firstgid="792" source="../tiled/patterns/player.tsx"/>
  <layer id="5" name="Background" width="121" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
