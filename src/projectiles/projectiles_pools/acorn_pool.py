@@ -4,8 +4,8 @@ from projectiles.acorn import Acorn
 
 
 class AcornPool(ProjectilesPool):
-    def __init__(self, size, projectile_groups, camera_x):
-        super().__init__(size, projectile_groups, camera_x)
+    def __init__(self, size, projectile_groups):
+        super().__init__(size, projectile_groups)
 
     def _create_pool(self):
         for _ in range(self.size):
@@ -13,8 +13,7 @@ class AcornPool(ProjectilesPool):
                 pos=(0, 0),
                 surf=pygame.Surface((8, 8)),
                 direction=pygame.math.Vector2(-1, 0),
-                groups=self.projectile_groups,
-                camera_x=self.camera_x
+                groups=self.projectile_groups
             )
             self.pool.append(acorn)
 

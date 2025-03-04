@@ -3,18 +3,19 @@ from projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
-    def __init__(self, pos, surf, direction, groups, camera_x):
-        super().__init__(pos, surf, direction, groups, camera_x)
+    def __init__(self, pos, surf, direction, groups):
+        super().__init__(pos, surf, direction, groups)
         self.image = pygame.Surface((8, 8))
         self.image.fill(color="yellow")
         self.speed = 70
-        self.camera_x = camera_x
+        self.initial_pos = 0
 
     def _move(self, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
-        self.rect.y += self.direction.y * self.speed * delta_time
+        if self.is_activated:
+            self.rect.x += self.direction.x * self.speed * delta_time
 
-    def _check_out_of_bounds(self):
-        boundary = pygame.Rect(-self.camera_x, 0, WINDOW_WIDTH-self.camera_x, WINDOW_HEIGHT)
-        if not self.rect.colliderect(boundary):
+    def _reset_projectile_if_off_screen(self):
+        traveled_distance = abs(self.rect.x - self.initial_pos)
+        if traveled_distance > 3 * TILE_SIZE:
+            print(f"rect x: {self.rect.x}    Initial position: {self.initial_pos}")
             self.is_activated = False

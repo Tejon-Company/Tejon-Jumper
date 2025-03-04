@@ -37,9 +37,9 @@ class Level(Scene):
         self._init_camera()
 
         self.spore_pool = SporePool(
-            10, (self.groups["projectiles"], self.groups["all_sprites"]), self.camera.camera.x)
+            10, (self.groups["projectiles"], self.groups["all_sprites"]))
         self.acorn_pool = AcornPool(
-            20, (self.groups["projectiles"], self.groups["all_sprites"]), self.camera.camera.x)
+            20, (self.groups["projectiles"], self.groups["all_sprites"]))
 
         self._setup_background()
 

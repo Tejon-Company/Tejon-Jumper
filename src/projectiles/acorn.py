@@ -3,8 +3,8 @@ from projectiles.projectile import Projectile
 
 
 class Acorn(Projectile):
-    def __init__(self, pos, surf, direction, groups, camera_x):
-        super().__init__(pos, surf, direction, groups, camera_x)
+    def __init__(self, pos, surf, direction, groups):
+        super().__init__(pos, surf, direction, groups)
         self.image = pygame.Surface((8, 8))
         self.gravity = 170
         self.speed = 100
@@ -16,8 +16,7 @@ class Acorn(Projectile):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
 
-    def _check_out_of_bounds(self):
-        boundary = pygame.Rect(-self.camera_x, 0, WINDOW_WIDTH-self.camera_x, WINDOW_HEIGHT)
-        if not self.rect.colliderect(boundary):
+    def _reset_projectile_if_off_screen(self):
+        if self.rect.y > WINDOW_HEIGHT:
             self.is_activated = False
             self.fall = 0
