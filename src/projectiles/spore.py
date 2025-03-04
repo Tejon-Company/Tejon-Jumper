@@ -11,11 +11,8 @@ class Spore(Projectile):
         self.initial_pos = 0
 
     def _move(self, delta_time):
-        if self.is_activated:
-            self.rect.x += self.direction.x * self.speed * delta_time
+        self.rect.x += self.direction.x * self.speed * delta_time
 
     def _reset_projectile_if_off_screen(self):
-        traveled_distance = abs(self.rect.x - self.initial_pos)
-        if traveled_distance > 3 * TILE_SIZE:
-            print(f"rect x: {self.rect.x}    Initial position: {self.initial_pos}")
+        if self.rect.y > WINDOW_WIDTH:
             self.is_activated = False
