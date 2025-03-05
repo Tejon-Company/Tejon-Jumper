@@ -9,13 +9,13 @@ from scene.camera import Camera
 from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
-from os.path import join
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
 from scene.game_over import GameOver
+from characters.players.player_state import PlayerState
 import os
 
 
@@ -184,10 +184,12 @@ class Level(Scene):
     def _handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
+            self.game_over_sound.play()
             self.director.stack_scene(GameOver(self.director))
         else:
             self.director.stack_scene(
-                Level(self.director, self.remaining_lives - 1))
+                Level(self.director, self.remaining_lives-1))
+            self.life_lost_sound.play()
 
     def update(self, delta_time):
         platform_rects = [
