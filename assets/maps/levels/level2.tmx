@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="8" nextobjectid="1">
+ <layer id="1" name="Terrain" width="30" height="20">
+  <data encoding="csv"/>
+ </layer>
+ <layer id="2" name="Deco" width="30" height="20">
+  <data encoding="csv"/>
+ </layer>
+ <layer id="3" name="Background" width="30" height="20">
+  <data encoding="csv"/>
+ </layer>
+ <objectgroup id="4" name="Player"/>
+ <objectgroup id="5" name="Enemies"/>
+ <objectgroup id="6" name="Flag"/>
+ <objectgroup id="7" name="Berries"/>
+</map>
