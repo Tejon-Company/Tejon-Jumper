@@ -28,6 +28,9 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
+        self.recover_health_sound = pygame.mixer.Sound(join(
+            "assets", "sounds", "sound_effects", "recover_health.ogg"))
+
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
             self.last_damage_time_ms)
@@ -48,6 +51,7 @@ class Player(Character):
             self.last_health_time_ms)
         if not has_max_health and should_receive_heal:
             self.health_points += 1
+            self.recover_health_sound.play()
 
     def _check_cooldown(last_time_ms):
         current_time_ms = pygame.time.get_ticks()
