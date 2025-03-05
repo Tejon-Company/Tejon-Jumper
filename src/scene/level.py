@@ -49,7 +49,14 @@ class Level(Scene):
         self._setup_flag()
         self._setup_berries()
         self._setup_deco()
-        # self._setup_music(music)
+        #self._setup_music(music)
+        self._setup_sound_effects()
+
+    def _setup_sound_effects(self):
+        self.game_over_sound = pygame.mixer.Sound(join(
+            "assets", "sounds", "sound_effects", "game_over.ogg"))
+        self.life_lost_sound = pygame.mixer.Sound(join(
+            "assets", "sounds", "sound_effects", "life_lost.ogg"))
 
     def _setup_pools(self):
         self.spore_pool = SporePool(10, self.groups["projectiles"])
@@ -131,7 +138,8 @@ class Level(Scene):
 
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool, self.acorn_pool)
+            enemy_factory(enemy, self.groups, self.spore_pool,
+                          self.acorn_pool, self.player)
 
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
@@ -177,9 +185,12 @@ class Level(Scene):
             return
 
         player_state = self.player.receive_damage()
-
         if player_state == PlayerState.DEAD:
-            self._handle_dead
+            self._handle_dead()
+
+    def _handle_fall(self):
+        if self.player.rect.bottom > WINDOW_HEIGHT:
+            self._handle_dead()
 
     def _handle_dead(self):
         self.director.pop_scene()
@@ -198,6 +209,8 @@ class Level(Scene):
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(platform_rects, delta_time)
+
+        self._handle_fall()
 
         self.camera.update(self.player)
 
