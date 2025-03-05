@@ -14,5 +14,5 @@ class Spore(Projectile):
         self.rect.x += self.direction.x * self.speed * delta_time
 
     def _reset_projectile_if_off_screen(self):
-        if self.rect.y > WINDOW_WIDTH:
+        if self.rect.x > WINDOW_WIDTH:
             self.is_activated = False
