@@ -37,9 +37,9 @@ class Level(Scene):
         self._init_camera()
 
         self.spore_pool = SporePool(
-            10, self.groups["projectiles"])
+            10, (self.groups["projectiles"], self.groups["all_sprites"]))
         self.acorn_pool = AcornPool(
-            20, self.groups["projectiles"])
+            20, (self.groups["projectiles"], self.groups["all_sprites"]))
 
         self.game_over_sound = pygame.mixer.Sound(join(
             "assets", "sounds", "sound_effects", "game_over.ogg"))
@@ -130,7 +130,8 @@ class Level(Scene):
 
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool, self.acorn_pool)
+            enemy_factory(enemy, self.groups, self.spore_pool,
+                          self.acorn_pool, self.player)
 
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
