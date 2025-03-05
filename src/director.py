@@ -1,4 +1,5 @@
 from settings import *
+from resource_manager import ResourceManager
 
 
 class Director():
@@ -30,15 +31,18 @@ class Director():
             self._loop(scene)
 
     def pop_scene(self):
+        ResourceManager.ClearResources()
         self.exit_scene = True
         if (len(self.stack) > 0):
             self.stack.pop()
 
     def exit_program(self):
+        ResourceManager.ClearResources()
         self.stack = []
         self.exit_scene = True
 
     def change_scene(self, scene):
+        ResourceManager.ClearResources()
         self.pop_scene()
         self.stack.append(scene)
 
