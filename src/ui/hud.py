@@ -14,9 +14,10 @@ class HUD:
         player_icon_path = join('assets', 'badger_icon.png')
         self.player_icon = scale(load(player_icon_path), (32, 32))
 
-    def draw_hud(self, remaining_health_points: int, remaining_lives: int):
+    def draw_hud(self, remaining_health_points: int, remaining_lives: int, coins: int):
         self._draw_hearts(remaining_health_points)
         self._draw_lifes_counter(remaining_lives)
+        self._draw_coins_counter(coins)
 
     def _draw_hearts(self, remaining_health_points):
         heart_size = 32
@@ -38,3 +39,21 @@ class HUD:
         lives_text = f"x{remaining_lives}"
         text_surface = self.font.render(lives_text, True, (255, 255, 255))
         self.display_surface.blit(text_surface, (50, 50))
+
+    def _draw_coins_counter(self, coins: int):
+        coin_icon_path = join('assets', 'badger_icon.png')
+        coin_icon = scale(load(coin_icon_path), (32, 32))
+
+        margin = 10 
+        coin_icon_x = self.display_surface.get_width() - coin_icon.get_width() - 40
+        coin_icon_y = margin
+
+        self.display_surface.blit(coin_icon, (coin_icon_x, coin_icon_y))
+
+        coins_text = f"x{coins}"
+        text_surface = self.font.render(coins_text, True, (255, 255, 255))
+
+        text_x = coin_icon_x + coin_icon.get_width() + 5
+        text_y = coin_icon_y
+
+        self.display_surface.blit(text_surface, (text_x, text_y))

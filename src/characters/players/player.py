@@ -13,6 +13,8 @@ class Player(Character):
         self.health_points = health_points
         self.maximum_health_points = health_points
 
+        self.coins = 0
+
         self.direction = vector(0, 0)
         self.speed = 150
         self.gravity = 1000

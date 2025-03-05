@@ -10,4 +10,5 @@ class CoinBerry(Berry):
     def update(self, player: Player):
         if not self.rect.colliderect(player.rect):
             return
+        player.coins += 1
         self.kill()
