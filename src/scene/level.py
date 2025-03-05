@@ -18,6 +18,7 @@ from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 import os
 
+from resource_manager import ResourceManager
 
 class Level(Scene):
     def __init__(self, director: Director, remaining_lives=3):
@@ -27,7 +28,7 @@ class Level(Scene):
             join("assets", "maps", "levels",  "level1.tmx"))
         self.background_folder = join(
             "assets", "maps", "backgrounds", "background1")
-        self.music_file = join("assets", "sounds", "music", "level_1.ogg")
+        self.music_file = "sounds/music/level_1.ogg" 
 
         self.remaining_lives = remaining_lives
         self.player = None
@@ -41,10 +42,10 @@ class Level(Scene):
         self.acorn_pool = AcornPool(
             20, self.groups["projectiles"])
 
-        self.game_over_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "game_over.ogg"))
-        self.life_lost_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "life_lost.ogg"))
+        self.game_over_sound = ResourceManager.LoadSound(
+            "sounds/sound_effects/game_over.ogg")
+        self.life_lost_sound = ResourceManager.LoadSound(
+            "sounds/sound_effects/life_lost.ogg")
 
         self._setup_background()
 
@@ -92,6 +93,7 @@ class Level(Scene):
 
     def _setup_tiled_background(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
+            surf = ResourceManager.LoadImage(surf)
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
@@ -109,7 +111,7 @@ class Level(Scene):
         return image_files
 
     def _setup_music(self):
-        music.load(self.music_file)
+        ResourceManager.LoadMusic(self.music_file) 
         music.play(-1)
 
     def _setup_terrain(self):
