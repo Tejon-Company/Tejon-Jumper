@@ -20,6 +20,7 @@ import os
 
 from resource_manager import ResourceManager
 
+
 class Level(Scene):
     def __init__(self, director: Director, remaining_lives=3):
         super().__init__(director)
@@ -28,7 +29,7 @@ class Level(Scene):
             join("assets", "maps", "levels",  "level1.tmx"))
         self.background_folder = join(
             "assets", "maps", "backgrounds", "background1")
-        self.music_file = "sounds/music/level_1.ogg" 
+        self.music_file = "sounds/music/level_1.ogg"
 
         self.remaining_lives = remaining_lives
         self.player = None
@@ -111,7 +112,7 @@ class Level(Scene):
         return image_files
 
     def _setup_music(self):
-        ResourceManager.LoadMusic(self.music_file) 
+        ResourceManager.LoadMusic(self.music_file)
         music.play(-1)
 
     def _setup_terrain(self):

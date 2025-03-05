@@ -1,6 +1,7 @@
 import pygame
 import os
 
+
 class ResourceManager:
     resources = {}
 
@@ -9,9 +10,9 @@ class ResourceManager:
         if name in cls.resources:
             return cls.resources[name]
         else:
-            fullname = os.path.join('assets', 'images', name)  
+            fullname = os.path.join('assets', 'images', name)
             try:
-                image = pygame.image.load(fullname).convert_alpha()  
+                image = pygame.image.load(fullname).convert_alpha()
                 if colorkey:
                     image.set_colorkey(colorkey)
                 cls.resources[name] = image
@@ -69,7 +70,8 @@ class ResourceManager:
         else:
             animation = []
             for i in range(num_frames):
-                image = pygame.image.load(os.path.join('assets', 'animations', f'{name}_{i}.png')).convert_alpha()
+                image = pygame.image.load(os.path.join(
+                    'assets', 'animations', f'{name}_{i}.png')).convert_alpha()
                 image = pygame.transform.scale(image, (width, height))
                 animation.append(image)
             cls.resources[name] = animation
