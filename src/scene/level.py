@@ -44,9 +44,9 @@ class Level(Scene):
             20, self.groups["projectiles"])
 
         self.game_over_sound = ResourceManager.LoadSound(
-            "sounds/sound_effects/game_over.ogg")
+            join("sounds", "sound_effects", "game_over.ogg"))
         self.life_lost_sound = ResourceManager.LoadSound(
-            "sounds/sound_effects/life_lost.ogg")
+            join("sounds", "sound_effects", "life_lost.ogg"))
 
         self._setup_background()
 
