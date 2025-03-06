@@ -8,6 +8,8 @@ class Player(Character):
     def __init__(self, pos, surf, groups, health_points):
         super().__init__(pos, surf, groups)
 
+        self._setup_animation()
+
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
