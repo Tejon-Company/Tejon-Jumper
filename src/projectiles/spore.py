@@ -18,10 +18,10 @@ class Spore(Projectile):
             self._deactivate_projectile()
 
     def _is_projectile_off_screen(self):
-        distance_traveled = self._calculate_max_travel_distance()
+        distance_traveled = self._calculate_travel_distance()
         return self._check_position_exceeds_distance(distance_traveled)
 
-    def _calculate_max_travel_distance(self):
+    def _calculate_travel_distance(self):
         if self.direction.x > 0:
             return self.initial_x_pos + self.max_distance
         return self.initial_x_pos - self.max_distance
