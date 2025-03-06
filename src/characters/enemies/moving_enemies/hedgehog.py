@@ -2,7 +2,7 @@ from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
 from characters.players.player_state import PlayerState
-
+from characters.enemies.enemy_collision_directions import CollisionDirection
 
 class Hedgehog(MovingEnemy):
     def __init__(self, pos, surf, groups):
@@ -14,27 +14,17 @@ class Hedgehog(MovingEnemy):
         self.speed = 50
 
     def handle_collision_with_player(self, level, player):
-        player_state=None
-        direction = self.get_collision_direction(player) 
+        player_state = None
+        direction = self.get_collision_direction(player)  # Esto devuelve un CollisionDirection Enum
         super().adjust_player_position(player)
 
-
-        if player.is_sprinting:
-            if direction in ["izquierda", "derecha, arriba"]:
-                    self.defeat()
-            elif direction == "abajo":
-                    player_state = player.receive_damage()
-                    if player_state == PlayerState.DEAD:
-                        level.handle_dead()
+        if player.is_sprinting and direction in [
+            CollisionDirection.LEFT, CollisionDirection.RIGHT, CollisionDirection.ABOVE
+        ]:
+            self.defeat()
         else:
             player_state = player.receive_damage()
             if player_state == PlayerState.DEAD:
                 level.handle_dead()
 
 
-    def defeat(self):
-        for group in self.groups: 
-            if isinstance(group, pygame.sprite.Group):
-                if self in group:
-                    group.remove(self)
-        self.kill()

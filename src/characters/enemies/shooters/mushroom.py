@@ -10,8 +10,4 @@ class Mushroom(Shooter):
 
         self.rect = self.image.get_frect(topleft=pos)
 
-    def handle_collision_with_player(self, level, player):
-        pass
 
-    def defeat(self):
-        pass

@@ -49,7 +49,7 @@ class Level(Scene):
         self._setup_flag()
         self._setup_berries()
         self._setup_deco()
-        #self._setup_music(music)
+        # self._setup_music(music)
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
@@ -119,7 +119,6 @@ class Level(Scene):
 
         music.load(music_file)
         music.play(-1)
-        pass
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -173,39 +172,51 @@ class Level(Scene):
         self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
-        self.camera.draw_background(
-            self.groups["backgrounds"], self.display_surface)
+        self._handle_player_collisions()
 
-        for sprite in self.groups["all_sprites"]:
-            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["berries"]:
-            self.display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        self._handle_player_collisions_with_enemies()
-
-    def _handle_player_collisions_with_enemies(self):
+    def _handle_player_collisions(self):
         player_state = None
 
-        projectiles = self.groups["projectiles"]
-        if pygame.sprite.spritecollide(self.player, projectiles, True):  
-            player_state = self.player.receive_damage()
-            if player_state == PlayerState.DEAD:
-                self.handle_dead()
+        player_state = self._handle_projectile_collisions()
 
+        if player_state != PlayerState.DEAD:
+            player_state = self._handle_enemy_collisions()
+
+        self._handle_player_state(player_state)
+
+    def _handle_projectile_collisions(self):
+
+        projectiles = self.groups["projectiles"]
+        if pygame.sprite.spritecollide(self.player, projectiles, True):
+            return self.player.receive_damage()
+        return None
+
+    def _handle_enemy_collisions(self):
         for group_name, group in self.groups.items():
-            if group_name not in ["projectiles", "berries"]: 
+            if group_name not in ["projectiles", "berries", "background"]:
                 for enemy in group:
                     if hasattr(enemy, 'handle_collision_with_player'):
                         if pygame.sprite.collide_rect(self.player, enemy):
-                            player_state = enemy.handle_collision_with_player(self, self.player)
+                            return enemy.handle_collision_with_player(self, self.player)
+        return None
 
+    def _handle_player_state(self, player_state):
+        """
+        Maneja el estado del jugador después de las colisiones.
+        """
+        match player_state:
+            case PlayerState.ALIVE:
+                pass
+            case PlayerState.DAMAGED:
+                self.ui.draw_hearts()
+            case PlayerState.DEAD:
+                self._handle_dead()
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self.handle_dead()
 
-    def handle_dead(self):
+    def _handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
             self.director.stack_scene(GameOver(self.director))
@@ -248,6 +259,6 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        self._handle_player_collisions_with_enemies()
+        self._handle_player_collisions()
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
