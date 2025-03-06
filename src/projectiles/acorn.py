@@ -20,3 +20,7 @@ class Acorn(Projectile):
         if self.rect.y > WINDOW_HEIGHT:
             self.is_activated = False
             self.fall = 0
+
+    def change_position(self, new_pos_x, new_pos_y):
+        self.rect.x = new_pos_x
+        self.rect.y = new_pos_y
