@@ -37,6 +37,7 @@ class Level(Scene):
         self.tmx_map = load_pygame(level_path)
 
         self.remaining_lives = remaining_lives
+        self.previous_coin_count = 0
 
         self._setup_groups()
         self._setup_pools()
@@ -213,6 +214,10 @@ class Level(Scene):
         self._handle_fall()
 
         self.camera.update(self.player)
+
+        if self.player.coins // 25 > self.previous_coin_count // 25:
+            self.remaining_lives += 1
+            self.previous_coin_count = self.player.coins
 
     def events(self, events_list):
         for event in events_list:
