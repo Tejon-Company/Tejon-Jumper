@@ -9,7 +9,7 @@ class HUD:
         self.display_surface = display_surface
 
         lives_font_path = join('Beta54.ttf')
-        self.font = ResourceManager.LoadFont(lives_font_path, 22)
+        self.font = ResourceManager.load_font(lives_font_path, 22)
 
         player_icon_path = join('assets', 'badger_icon.png')
         self.player_icon = scale(load(player_icon_path), (32, 32))

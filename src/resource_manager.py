@@ -1,16 +1,17 @@
 import pygame
 import os
+from os.path import join
 
 
 class ResourceManager:
     resources = {}
 
     @classmethod
-    def LoadImage(cls, name, colorkey=None):
+    def load_image(cls, name, colorkey=None):
         if name in cls.resources:
             return cls.resources[name]
         else:
-            fullname = os.path.join('assets', 'images', name)
+            fullname = join('assets', name)
             try:
                 image = pygame.image.load(fullname).convert_alpha()
                 if colorkey:
@@ -22,11 +23,11 @@ class ResourceManager:
                 return None
 
     @classmethod
-    def LoadSound(cls, name):
+    def load_sound(cls, name):
         if name in cls.resources:
             return cls.resources[name]
         else:
-            fullname = os.path.join('assets', name)
+            fullname = join('assets', 'sounds', 'sound_effects', name)
             try:
                 sound = pygame.mixer.Sound(fullname)
                 cls.resources[name] = sound
@@ -36,21 +37,18 @@ class ResourceManager:
                 return None
 
     @classmethod
-    def LoadMusic(cls, name):
-        if name in cls.resources:
-            return cls.resources[name]
-        else:
-            fullname = os.path.join('assets', name)
-            try:
-                music = pygame.mixer.music.load(fullname)
-                cls.resources[name] = music
-                return music
-            except pygame.error as e:
-                print(f"Error loading music {fullname}: {e}")
-                return None
+    def load_music(cls, name):
+        music_path = os.path.join('assets', 'sounds', 'music', name)
+        try:
+            pygame.mixer.music.load(music_path)
+            cls.resources[name] = music_path
+            return music_path
+        except pygame.error as e:
+            print(f"Error loading music {music_path}: {e}")
+            return None
 
     @classmethod
-    def LoadFont(cls, name, size):
+    def load_font(cls, name, size):
         if (name, size) in cls.resources:
             return cls.resources[(name, size)]
         else:
@@ -64,25 +62,11 @@ class ResourceManager:
                 return None
 
     @classmethod
-    def LoadAnimation(cls, name, num_frames, width, height):
+    def load_sprite(cls, name):
         if name in cls.resources:
             return cls.resources[name]
         else:
-            animation = []
-            for i in range(num_frames):
-                image = pygame.image.load(os.path.join(
-                    'assets', 'animations', f'{name}_{i}.png')).convert_alpha()
-                image = pygame.transform.scale(image, (width, height))
-                animation.append(image)
-            cls.resources[name] = animation
-            return animation
-
-    @classmethod
-    def LoadSprite(cls, name):
-        if name in cls.resources:
-            return cls.resources[name]
-        else:
-            fullname = os.path.join('assets', 'sprites', name)
+            fullname = os.path.join('assets', 'creatures_and_else', name)
             try:
                 image = pygame.image.load(fullname).convert_alpha()
                 cls.resources[name] = image

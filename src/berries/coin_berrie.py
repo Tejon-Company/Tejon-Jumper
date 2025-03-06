@@ -13,8 +13,7 @@ class CoinBerry(Berry):
 
         self.rect = self.image.get_frect(topleft=pos)
 
-        self.get_coin_sound = ResourceManager.LoadSound(
-            join("sounds", "sound_effects", "get_coin.ogg"))
+        self.get_coin_sound = ResourceManager.load_sound("get_coin.ogg")
 
     def update(self, player: Player):
         if not self.rect.colliderect(player.rect):
