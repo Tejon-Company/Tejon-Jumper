@@ -25,7 +25,9 @@ class Player(Character):
         # Sprite frames (32x32 pixels each)
         self.animations = {
             'idle': [(0, 0, 32, 32)],
-            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],  # 12 frames
+            # 12 frames
+            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
+            'jump': [(165, 0, 32, 32)]
         }
         self.current_animation = 'idle'
         self.facing_right = True
@@ -94,7 +96,11 @@ class Player(Character):
     def _update_animation(self, delta_time):
         # Update current animation based on movement
         previous_animation = self.current_animation
-        if abs(self.direction.x) > 0:
+
+        # Check for jump state first
+        if not self.on_surface:
+            self.current_animation = 'jump'
+        elif abs(self.direction.x) > 0:
             self.current_animation = 'run'
             self.facing_right = self.direction.x > 0
         else:
