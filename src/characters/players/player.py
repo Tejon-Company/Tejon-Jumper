@@ -1,11 +1,34 @@
 from settings import *
 from characters.character import Character
 from characters.players.player_state import PlayerState
+from os.path import join
 
 
 class Player(Character):
     def __init__(self, pos, surf, groups, health_points):
         super().__init__(pos, surf, groups)
+
+        sprite_sheet_path = join(
+            "assets", "creatures_and_else", "badger", "with_background", "badger.png")
+
+        self.sprite_sheet = pygame.image.load(
+            sprite_sheet_path).convert_alpha()
+        self.image = self.sprite_sheet.subsurface((0, 0, 32, 32))
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)
+
+        # Animation setup
+        self.animation_frame = 0
+        self.animation_speed = 0.2
+        self.animation_time = 0
+
+        # Sprite frames (32x32 pixels each)
+        self.animations = {
+            'idle': [(0, 0, 32, 32)],
+            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],  # 12 frames
+        }
+        self.current_animation = 'idle'
+        self.facing_right = True
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -66,6 +89,34 @@ class Player(Character):
         self._input()
         self._move(platform_rects, delta_time)
         self._detect_platform_contact(platform_rects)
+        self._update_animation(delta_time)
+
+    def _update_animation(self, delta_time):
+        # Update current animation based on movement
+        previous_animation = self.current_animation
+        if abs(self.direction.x) > 0:
+            self.current_animation = 'run'
+            self.facing_right = self.direction.x > 0
+        else:
+            self.current_animation = 'idle'
+
+        # Reset animation time when animation changes
+        if previous_animation != self.current_animation:
+            self.animation_time = 0
+
+        self.animation_time += delta_time
+        self.animation_frame = int(
+            (self.animation_time / self.animation_speed)) % len(self.animations[self.current_animation])
+
+        # Update sprite image
+        frame_rect = self.animations[self.current_animation][self.animation_frame]
+        self.image = self.sprite_sheet.subsurface(frame_rect)
+
+        if not self.facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
+
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)
 
     def _input(self):
         keys = pygame.key.get_pressed()
