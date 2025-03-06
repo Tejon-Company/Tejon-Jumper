@@ -69,3 +69,4 @@ class MovingEnemy(Enemy, ABC):
         )
 
         self.on_surface = floor_rect.collidelist(platform_rects) >= 0
+    

@@ -168,41 +168,19 @@ class Level(Scene):
         self._handle_player_collisions_with_enemies()
 
     def _handle_player_collisions_with_enemies(self):
-        collisions = tuple(
-            spritecollide(self.player, self.groups[group], False)
-            for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
-        )
-
-        if all(len(c) == 0 for c in collisions):
-            return
-
-        for group, collision_list in zip(["hedgehogs", "squirrels", "foxes", "projectiles", "bats"], collisions):
-            for enemy in collision_list:
-                self._handle_collision(enemy, group)
-
-    def _handle_collision(self, enemy, group):
-        direction = self._get_collision_direction(self.player, enemy)
-        is_sprinting = self.player.is_sprinting
         player_state = None
-        self._adjust_player_position(enemy)
-        if group == "projectiles":
-            player_state= self.player.receive_damage()
-        if group == "hedgehogs":
-            if is_sprinting:
-                if direction in ["izquierda", "derecha, arriba"]:
-                    self._defeat_enemy(enemy)
-                elif direction == "abajo":
-                    player_state = self.player.receive_damage()
-            else:
-                player_state = self.player.receive_damage()
-        else:
-            if is_sprinting:
-                self._defeat_enemy(enemy)
-            else:
-                if direction in ["izquierda", "derecha", "arriba"]:
-                    player_state = self.player.receive_damage()
-                elif direction == "abajo":
-                    self._defeat_enemy(enemy)
+
+        projectiles = self.groups["projectiles"]
+        if pygame.sprite.spritecollide(self.player, projectiles, True):  
+            player_state = self.player.receive_damage()
+
+        for group_name, group in self.groups.items():
+            if group_name not in ["projectiles", "berries"]: 
+                for enemy in group:
+                    if hasattr(enemy, 'handle_collision_with_player'):
+                        if pygame.sprite.collide_rect(self.player, enemy):
+                            player_state = enemy.handle_collision_with_player(self, self.player)
+
         match player_state:
             case PlayerState.ALIVE:
                 pass
@@ -211,27 +189,6 @@ class Level(Scene):
             case PlayerState.DEAD:
                 self._handle_dead()
 
-        self._display_collision_info(enemy, group, direction)
-
-    def _adjust_player_position(self, enemy):
-        # Verificar colisión horizontal
-        if self.player.rect.colliderect(enemy.rect):
-            if self.player.rect.centerx < enemy.rect.centerx:
-                # Colisión por la izquierda
-                self.player.rect.right = enemy.rect.left
-            else:
-                # Colisión por la derecha
-                self.player.rect.left = enemy.rect.right
-
-        # Verificar colisión vertical
-        if self.player.rect.colliderect(enemy.rect):
-            if self.player.rect.centery < enemy.rect.centery:
-                # Colisión por arriba
-                self.player.rect.bottom = enemy.rect.top
-            else:
-                # Colisión por abajo
-                self.player.rect.top = enemy.rect.bottom
-
     def _handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
@@ -239,28 +196,6 @@ class Level(Scene):
         else:
             self.director.stack_scene(
                 Level(self.director, self.remaining_lives-1))
-
-    def _defeat_enemy(self, enemy):
-        for group in self.groups.values():
-            if isinstance(group, pygame.sprite.Group):
-                if enemy in group:
-                    group.remove(enemy)
-
-        enemy.kill()
-
-    def _get_collision_direction(self, player, enemy):
-        dx = player.rect.centerx - enemy.rect.centerx
-        dy = player.rect.centery - enemy.rect.centery
-        if abs(dx) > abs(dy):
-            return "izquierda" if dx > 0 else "derecha"
-        else:
-            return "arriba" if dy > 0 else "abajo"
-
-    def _display_collision_info(self, enemy, group, direction):
-        font = pygame.font.Font(None, 36)
-        text = font.render(
-            f"Colisión con {group} por {direction}", True, (255, 255, 255))
-        self.display_surface.blit(text, (800, 10))
 
     def update(self, delta_time):
         platform_rects = [
