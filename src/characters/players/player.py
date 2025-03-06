@@ -52,6 +52,9 @@ class Player(Character):
             self.health_points += 1
             self.recover_health_sound.play()
 
+    def add_coins(self, amount):
+        self.coins += amount
+
     def _check_cooldown(last_time_ms):
         current_time_ms = pygame.time.get_ticks()
 
