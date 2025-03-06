@@ -33,14 +33,6 @@ class Level(Scene):
         super().__init__(director)
 
         self.display_surface = pygame.display.get_surface()
-        self.tmx_map = load_pygame(
-            join("assets", "maps", "levels",  "level1.tmx"))
-        self.background_folder = join(
-            "assets", "maps", "backgrounds", "background1")
-        self.music_file = ResourceManager.load_music("level_1.ogg")
-
-        self.remaining_lives = remaining_lives
-        self.player = None
         self.hud = HUD(self.display_surface)
 
         level_path = join("assets", "maps", "levels", level)
@@ -63,10 +55,8 @@ class Level(Scene):
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
-        self.game_over_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "game_over.ogg"))
-        self.life_lost_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "life_lost.ogg"))
+        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
 
     def _setup_pools(self):
         self.spore_pool = SporePool(10, self.groups["projectiles"])
@@ -95,7 +85,6 @@ class Level(Scene):
 
     def _setup_background(self, background):
         background_folder = join("assets", "maps", "backgrounds", background)
-
         image_files = self._get_image_files(background_folder)
 
         for i, image_name in enumerate(image_files):
@@ -118,22 +107,11 @@ class Level(Scene):
 
     def _setup_tiled_background(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
-            surf = ResourceManager.load_image(surf)
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
                 (self.groups["all_sprites"], self.groups["tiled_background"]),
             )
-
-    def _get_image_files(self,):
-        image_files = []
-        for file in os.listdir(self.background_folder):
-            if file.endswith(".png"):
-                image_files.append(file)
-
-        image_files.sort(key=lambda file_name: int(file_name.split(".")[0]))
-
-        return image_files
 
     def _setup_music(self):
         music.load(self.music_file)    
