@@ -94,10 +94,16 @@ class Player(Character):
         self._update_animation(delta_time)
 
     def _update_animation(self, delta_time):
-        # Update current animation based on movement
         previous_animation = self.current_animation
+        self._determine_current_animation()
 
-        # Check for jump state first
+        if previous_animation != self.current_animation:
+            self._reset_animation()
+
+        self._update_animation_frame(delta_time)
+        self._update_sprite()
+
+    def _determine_current_animation(self):
         if not self.on_surface:
             self.current_animation = 'jump'
         elif abs(self.direction.x) > 0:
@@ -106,15 +112,17 @@ class Player(Character):
         else:
             self.current_animation = 'idle'
 
-        # Reset animation time when animation changes
-        if previous_animation != self.current_animation:
-            self.animation_time = 0
+    def _reset_animation(self):
+        self.animation_time = 0
+        self.animation_frame = 0
 
+    def _update_animation_frame(self, delta_time):
         self.animation_time += delta_time
-        self.animation_frame = int(
-            (self.animation_time / self.animation_speed)) % len(self.animations[self.current_animation])
+        frames_in_animation = len(self.animations[self.current_animation])
+        elapsed_frames = self.animation_time / self.animation_speed
+        self.animation_frame = int(elapsed_frames) % frames_in_animation
 
-        # Update sprite image
+    def _update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
 
