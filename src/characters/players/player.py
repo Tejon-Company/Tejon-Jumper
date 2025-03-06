@@ -8,30 +8,6 @@ class Player(Character):
     def __init__(self, pos, surf, groups, health_points):
         super().__init__(pos, surf, groups)
 
-        sprite_sheet_path = join(
-            "assets", "creatures_and_else", "badger", "with_background", "badger.png")
-
-        self.sprite_sheet = pygame.image.load(
-            sprite_sheet_path).convert_alpha()
-        self.image = self.sprite_sheet.subsurface((0, 0, 32, 32))
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
-
-        # Animation setup
-        self.animation_frame = 0
-        self.animation_speed = 0.2
-        self.animation_time = 0
-
-        # Sprite frames (32x32 pixels each)
-        self.animations = {
-            'idle': [(0, 0, 32, 32)],
-            # 12 frames
-            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
-            'jump': [(165, 0, 32, 32)]
-        }
-        self.current_animation = 'idle'
-        self.facing_right = True
-
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
@@ -52,6 +28,29 @@ class Player(Character):
 
         self.recover_health_sound = pygame.mixer.Sound(join(
             "assets", "sounds", "sound_effects", "recover_health.ogg"))
+
+    def _setup_animation(self):
+        sprite_sheet_path = join(
+            "assets", "creatures_and_else", "badger", "with_background", "badger.png")
+
+        self.sprite_sheet = pygame.image.load(
+            sprite_sheet_path).convert_alpha()
+        self.image = self.sprite_sheet.subsurface((0, 0, 32, 32))
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)
+
+        self.animation_frame = 0
+        self.animation_speed = 0.2
+        self.animation_time = 0
+
+        self.animations = {
+            'idle': [(0, 0, 32, 32)],
+            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
+            'jump': [(165, 0, 32, 32)]
+        }
+
+        self.current_animation = 'idle'
+        self.facing_right = True
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
