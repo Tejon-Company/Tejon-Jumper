@@ -16,7 +16,7 @@ def berrie_factory(berrie, groups):
                 berrie.image,
                 (groups["berries"])
             )
-        case "energy_berrie":  
+        case "energy_berrie":
             EneryBerry(
                 (berrie.x, berrie.y),
                 berrie.image,

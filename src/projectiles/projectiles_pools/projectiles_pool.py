@@ -13,6 +13,5 @@ class ProjectilesPool(ABC):
     def _create_pool(self):
         pass
 
-    @abstractmethod
     def shoot(self, pos_x, pos_y):
         pass

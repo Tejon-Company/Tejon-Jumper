@@ -3,12 +3,9 @@ from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from characters.players.player_state import PlayerState
 
-
 class Squirrel(Shooter):
-    def __init__(self, pos, surf, groups, projectiles_pool=AcornPool):
-        super().__init__(pos, surf, groups, projectiles_pool)
-        self.image = pygame.Surface((32, 32))
-        self.image.fill(color="brown")
+    def __init__(self, pos, surf, groups, player, projectiles_pool=AcornPool):
+        super().__init__(pos, surf, groups, player, projectiles_pool)
 
         self.rect = self.image.get_frect(topleft=pos)
     
@@ -22,17 +19,11 @@ class Squirrel(Shooter):
         else:
             if direction in ["izquierda", "derecha", "arriba"]:
                 player_state = player.receive_damage()
+                if player_state == PlayerState.DEAD:
+                    level.handle_dead()
             elif direction == "abajo":
                 self.defeat()
 
-
-        match player_state:
-            case PlayerState.ALIVE:
-                pass
-            case PlayerState.DAMAGED:
-                level.ui.draw_hearts()
-            case PlayerState.DEAD:
-                level._handle_dead()
 
     def defeat(self):
         for group in self.groups:  

@@ -54,20 +54,11 @@ class Bat(MovingEnemy):
         else:
             if direction in ["izquierda", "derecha", "arriba"]:
                 player_state = player.receive_damage()
-
-
+                if player_state == PlayerState.DEAD:
+                    level.handle_dead()
 
             elif direction == "abajo":
                 self.defeat()
-
-
-        match player_state:
-            case PlayerState.ALIVE:
-                pass
-            case PlayerState.DAMAGED:
-                level.ui.draw_hearts()
-            case PlayerState.DEAD:
-                level._handle_dead()
 
     def defeat(self):
         for group in self.groups:  

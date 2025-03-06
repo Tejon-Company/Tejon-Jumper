@@ -5,10 +5,8 @@ from characters.players.player_state import PlayerState
 
 
 class Mushroom(Shooter):
-    def __init__(self, pos, surf, groups, projectiles_pool=SporePool):
-        super().__init__(pos, surf, groups, projectiles_pool)
-        self.image = pygame.Surface((32, 32))
-        self.image.fill(color="pink")
+    def __init__(self, pos, surf, groups, player, projectiles_pool=SporePool):
+        super().__init__(pos, surf, groups, player, projectiles_pool)
 
         self.rect = self.image.get_frect(topleft=pos)
 
