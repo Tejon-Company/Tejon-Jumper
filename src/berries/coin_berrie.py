@@ -19,4 +19,3 @@ class CoinBerry(Berry):
         if not self.rect.colliderect(player.rect):
             return
         self.kill()
-        self.get_coin_sound.play()

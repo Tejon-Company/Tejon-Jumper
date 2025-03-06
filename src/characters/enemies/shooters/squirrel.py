@@ -4,9 +4,7 @@ from projectiles.projectiles_pools.acorn_pool import AcornPool
 
 
 class Squirrel(Shooter):
-    def __init__(self, pos, surf, groups, projectiles_pool=AcornPool):
-        super().__init__(pos, surf, groups, projectiles_pool)
-        self.image = pygame.Surface((32, 32))
-        self.image.fill(color="brown")
+    def __init__(self, pos, surf, groups, player, projectiles_pool=AcornPool):
+        super().__init__(pos, surf, groups, player, projectiles_pool)
 
         self.rect = self.image.get_frect(topleft=pos)
