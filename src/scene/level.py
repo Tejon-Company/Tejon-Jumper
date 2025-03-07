@@ -59,7 +59,7 @@ class Level(Scene):
             "assets", "sounds", "sound_effects", "life_lost.ogg"))
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(10, self.groups["projectiles"])
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
         self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_groups(self):
