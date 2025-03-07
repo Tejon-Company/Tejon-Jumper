@@ -1,4 +1,3 @@
-from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
 from os.path import join

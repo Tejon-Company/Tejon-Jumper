@@ -13,6 +13,8 @@ class Shooter(Enemy, ABC):
         self.player = player
         self.projectiles_pool = projectiles_pool
         self.is_shooting = False
+        self.shooting_timer = 0
+        self.shooting_duration = 500
 
     def update(self, platform_rects, delta_time):
         self._shoot()
