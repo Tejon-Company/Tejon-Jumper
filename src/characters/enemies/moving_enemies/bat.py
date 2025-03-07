@@ -24,6 +24,8 @@ class Bat(MovingEnemy):
         self.right_limit = pos_x + TILE_SIZE * 4
 
     def update(self, platform_rects, delta_time):
+        self.facing_right = self.direction > 0
+        self._update_animation(delta_time)
         self._move(delta_time)
         self._check_path()
 

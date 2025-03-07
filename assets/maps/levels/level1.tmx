@@ -118,8 +118,6 @@
   <object id="81" name="Mushroom" gid="783" x="1785.33" y="626.667" width="32" height="32"/>
   <object id="82" name="Mushroom" gid="783" x="2588" y="596" width="32" height="32"/>
   <object id="83" name="Mushroom" gid="783" x="3249.33" y="621.333" width="32" height="32"/>
-  <object id="87" name="Fox" gid="779" x="142.667" y="586" width="32" height="32"/>
-  <object id="88" name="Hedgehog" gid="785" x="217.333" y="638.667" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Player">
   <object id="65" name="Player" gid="792" x="116.833" y="639.667" width="32" height="32"/>

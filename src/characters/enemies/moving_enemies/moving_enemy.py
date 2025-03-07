@@ -7,16 +7,13 @@ class MovingEnemy(Enemy, ABC):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 
-    def _setup_animation(self):
-        self.sprite_sheet = pygame.image.load(
-            self.sprite_sheet_path).convert_alpha()
-        self.image = self.sprite_sheet.subsurface((0, 0, 32, 32))
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
+    def update(self, platform_rects, delta_time):
+        self.old_rect = self.rect.copy()
+        self._move(platform_rects, delta_time)
+        self._detect_platform_contact(platform_rects)
 
-        self.animation_frame = 0
-        self.animation_speed = 0.2
-        self.animation_time = 0
+        self.facing_right = self.direction > 0
+        self._update_animation(delta_time)
 
     def _update_animation(self, delta_time):
         self._update_animation_frame(delta_time)
@@ -37,11 +34,6 @@ class MovingEnemy(Enemy, ABC):
 
         color_key = self.image.get_at((0, 0))
         self.image.set_colorkey(color_key)
-
-    def update(self, platform_rects, delta_time):
-        self.old_rect = self.rect.copy()
-        self._move(platform_rects, delta_time)
-        self._detect_platform_contact(platform_rects)
 
     def _move(self, platform_rects, delta_time):
         self.rect.x += self.direction * self.speed * delta_time
