@@ -22,7 +22,6 @@ class SporePool(ProjectilesPool):
             if spore.is_activated:
                 continue
 
-            spore.initial_pos = pos_x
             spore.change_position(pos_x, pos_y)
             spore.is_activated = True
             return
