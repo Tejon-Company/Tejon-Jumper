@@ -26,7 +26,7 @@ class Level(Scene):
         remaining_lives: int = 3,
         background: str = "background1",
         music: str = "level_1.ogg",
-        level: str = "level1.tmx"
+        level: str = "level2.tmx"
     ):
         super().__init__(director)
 
