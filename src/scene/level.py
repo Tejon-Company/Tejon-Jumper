@@ -175,48 +175,36 @@ class Level(Scene):
         self._handle_player_collisions()
 
     def _handle_player_collisions(self):
-        player_state = None
+        if self._handle_projectile_collisions():
+            return  # Si el jugador fue impactado por un proyectil, terminamos
 
-        player_state = self._handle_projectile_collisions()
+        if self._handle_enemy_collisions():
+            return  # Si colisionó con un enemigo, también terminamos
 
-        if player_state != PlayerState.DEAD:
-            player_state = self._handle_enemy_collisions()
-
-        self._handle_player_state(player_state)
 
     def _handle_projectile_collisions(self):
+        if pygame.sprite.spritecollide(self.player, self.groups["projectiles"], True):
+            if self.player.receive_damage() == PlayerState.DEAD:
+                self._handle_dead()
+                return True
+        return False
 
-        projectiles = self.groups["projectiles"]
-        if pygame.sprite.spritecollide(self.player, projectiles, True):
-            return self.player.receive_damage()
-        return None
 
     def _handle_enemy_collisions(self):
-        for group_name, group in self.groups.items():
-            if group_name not in ["projectiles", "berries", "background"]:
-                for enemy in group:
-                    if hasattr(enemy, 'handle_collision_with_player'):
-                        if pygame.sprite.collide_rect(self.player, enemy):
-                            return enemy.handle_collision_with_player(self, self.player)
-        return None
+        for group_name in ["hedgehogs", "squirrels", "foxes", "bats"]:
+            for enemy in self.groups.get(group_name, []):
+                if pygame.sprite.collide_rect(self.player, enemy):
+                    if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
+                        self._handle_dead()
+                        return True
+        return False
 
-    def _handle_player_state(self, player_state):
-        """
-        Maneja el estado del jugador después de las colisiones.
-        """
-        match player_state:
-            case PlayerState.ALIVE:
-                pass
-            case PlayerState.DAMAGED:
-                self.ui.draw_hearts()
-            case PlayerState.DEAD:
-                self._handle_dead()
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self.handle_dead()
 
-    def _handle_dead(self):
+    def handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
             self.director.stack_scene(GameOver(self.director))

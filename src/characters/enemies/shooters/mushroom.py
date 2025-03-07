@@ -9,5 +9,3 @@ class Mushroom(Shooter):
         super().__init__(pos, surf, groups, player, projectiles_pool)
 
         self.rect = self.image.get_frect(topleft=pos)
-
-

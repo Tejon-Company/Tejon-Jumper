@@ -2,7 +2,7 @@ from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
 from characters.players.player_state import PlayerState
-from characters.enemies.enemy_collision_directions import CollisionDirection
+from characters.players.collision_utils import is_below_collision
 
 class Fox(MovingEnemy):
     def __init__(self, pos, surf, groups):
@@ -14,15 +14,16 @@ class Fox(MovingEnemy):
         self.speed = 75
 
     def handle_collision_with_player(self, level, player):
-        player_state = None
-        direction = self.get_collision_direction(player)  # Esto devuelve un CollisionDirection Enum
-        super().adjust_player_position(player)
+        
+        if not pygame.sprite.collide_rect(self, player):
+            return  
 
-        if player.is_sprinting or direction == CollisionDirection.BELOW:
-            self.defeat()
-        elif direction in [CollisionDirection.LEFT, CollisionDirection.RIGHT, CollisionDirection.ABOVE]:
-            player_state = player.receive_damage()
-            if player_state == PlayerState.DEAD:
-                level.handle_dead()
-    
-    
+        self.adjust_player_position(player)
+
+        if is_below_collision(player.rect, player.old_rect, self.rect):
+            self.defeat()  
+            return 
+
+        player_state = player.receive_damage()
+        if player_state == PlayerState.DEAD:
+            level.handle_dead()  
