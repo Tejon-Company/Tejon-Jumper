@@ -31,18 +31,18 @@ class Director():
             self._loop(scene)
 
     def pop_scene(self):
-        ResourceManager.ClearResources()
+        ResourceManager.clear_resources()
         self.exit_scene = True
         if (len(self.stack) > 0):
             self.stack.pop()
 
     def exit_program(self):
-        ResourceManager.ClearResources()
+        ResourceManager.clear_resources()
         self.stack = []
         self.exit_scene = True
 
     def change_scene(self, scene):
-        ResourceManager.ClearResources()
+        ResourceManager.clear_resources()
         self.pop_scene()
         self.stack.append(scene)
 
