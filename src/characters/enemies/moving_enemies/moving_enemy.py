@@ -4,8 +4,8 @@ from abc import ABC
 
 
 class MovingEnemy(Enemy, ABC):
-    def __init__(self, pos, surf, groups):
-        super().__init__(pos, surf, groups)
+    def __init__(self, pos, surf, groups, sprite_sheet_name):
+        super().__init__(pos, surf, groups, sprite_sheet_name)
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()

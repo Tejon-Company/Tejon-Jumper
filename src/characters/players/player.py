@@ -7,8 +7,8 @@ from resource_manager import ResourceManager
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points):
-        super().__init__(pos, surf, groups)
+    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
+        super().__init__(pos, surf, groups, sprite_sheet_name)
 
         self._setup_animation()
 

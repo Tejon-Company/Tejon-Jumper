@@ -51,7 +51,7 @@ class Level(Scene):
         self._setup_flag()
         self._setup_berries()
         self._setup_deco()
-        #self._setup_music(music)
+        # self._setup_music(music)
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
@@ -114,7 +114,7 @@ class Level(Scene):
             )
 
     def _setup_music(self):
-        music.load(self.music_file)    
+        music.load(self.music_file)
         music.play(-1)
 
     def _setup_terrain(self):
@@ -155,7 +155,8 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["all_sprites"],
-            health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3,
+            5 if DIFFICULTY == Difficulty.NORMAL else 3,
+            "badger.png"
         )
 
     def _setup_berries(self):

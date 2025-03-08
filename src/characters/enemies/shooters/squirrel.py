@@ -2,16 +2,14 @@ from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from characters.enemies.enemies_utils import *
-from resource_manager import ResourceManager
 
 
 class Squirrel(Shooter):
-    def __init__(self, pos, surf, groups, player, projectiles_pool=AcornPool):
-        super().__init__(pos, surf, groups, player, projectiles_pool)
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, projectiles_pool=AcornPool):
+        super().__init__(pos, surf, groups, player, sprite_sheet_name, projectiles_pool)
 
         self.rect = self.image.get_frect(topleft=pos)
 
-        self.sprite_sheet = ResourceManager.load_sprite("squirrel.png")
         self.animations = create_animation_rects(32, 0, 32, 32, 2, 1)
 
         self._setup_animation()

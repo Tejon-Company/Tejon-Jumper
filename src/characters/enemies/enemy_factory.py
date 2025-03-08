@@ -13,6 +13,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["hedgehogs"]),
+                "hedgehog.png"
             )
         case "Mushroom":
             Mushroom(
@@ -21,6 +22,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 (groups["all_sprites"],
                  groups["mushrooms"], groups["platforms"]),
                 player,
+                "mushroom.png",
                 spore_pool
             )
         case "Fox":
@@ -28,12 +30,14 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["foxes"]),
+                "fox.png"
             )
         case "Bat":
             Bat(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["bats"])
+                (groups["all_sprites"], groups["bats"]),
+                "bat.png"
             )
         case "Squirrel":
             Squirrel(
@@ -42,6 +46,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 (groups["all_sprites"],
                  groups["squirrels"]),
                 player,
+                "squirrel.png",
                 acorn_pool
             )
         case _:

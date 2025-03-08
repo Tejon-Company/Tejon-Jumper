@@ -5,8 +5,8 @@ from abc import ABC
 
 
 class Shooter(Enemy, ABC):
-    def __init__(self, pos, surf, groups, player, projectiles_pool=ProjectilesPool):
-        super().__init__(pos, surf, groups)
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, projectiles_pool=ProjectilesPool):
+        super().__init__(pos, surf, groups, sprite_sheet_name)
         self.shoot_cooldown = 3000
         self.pos = pos
         self.last_shot = 0

@@ -59,7 +59,7 @@ class ResourceManager:
             print(f"Error loading font {fullname}: {e}")
 
     @classmethod
-    def load_sprite(cls, name):
+    def load_sprite_sheet(cls, name):
         if name in cls.resources:
             return cls.resources[name]
 
