@@ -2,7 +2,7 @@ from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.players.player_state import PlayerState
-from pygame.sprite import Group, spritecollide
+from pygame.sprite import Group, spritecollide, collide_rect
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
@@ -175,13 +175,15 @@ class Level(Scene):
         self._handle_player_collisions()
 
     def _handle_player_collisions(self):
-        if pygame.sprite.spritecollide(self.player, self.groups["projectiles"], True):
+        self.groups["enemies"] = pygame.sprite.Group(
+        *self.groups["hedgehogs"],
+        *self.groups["squirrels"],
+        *self.groups["foxes"],
+        *self.groups["bats"]
+        )
+        if spritecollide(self.player, self.groups["projectiles"], True):
             self._handle_projectile_collision()
-        elif any(
-            pygame.sprite.collide_rect(self.player, enemy)
-            for group_name in ["hedgehogs", "squirrels", "foxes", "bats"]
-            for enemy in self.groups.get(group_name, [])
-        ):
+        elif spritecollide(self.player, self.groups["enemies"], False):
             self._handle_enemy_collision()
 
     def _handle_projectile_collision(self):
@@ -193,7 +195,7 @@ class Level(Scene):
                    for enemy in self.groups.get(g, [])]
 
         for enemy in enemies:
-            if not pygame.sprite.collide_rect(self.player, enemy):
+            if not collide_rect(self.player, enemy):
                 continue
 
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
