@@ -65,7 +65,7 @@ class Level(Scene):
             "berries": Group(),
             "tiled_background": Group(),
             "deco": Group(),
-    }
+        }
 
     def _setup_pools(self):
         self.spore_pool = SporePool(20, self.groups["projectiles"])
