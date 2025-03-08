@@ -2,6 +2,8 @@ from settings import *
 from characters.character import Character
 from characters.players.player_state import PlayerState
 
+from resource_manager import ResourceManager
+
 
 class Player(Character):
     def __init__(self, pos, surf, groups, health_points):
@@ -25,8 +27,7 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.recover_health_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "recover_health.ogg"))
+        self.recover_health_sound = ResourceManager.load_sound("recover_health.ogg")
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
