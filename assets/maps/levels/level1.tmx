@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="89">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="99">
  <tileset firstgid="1" source="../tiled/patterns/enviroment.tsx"/>
  <tileset firstgid="769" source="../tiled/patterns/log.tsx"/>
  <tileset firstgid="775" source="../tiled/patterns/berries.tsx"/>
@@ -9,6 +9,7 @@
  <tileset firstgid="787" source="../tiled/patterns/squirrel.tsx"/>
  <tileset firstgid="790" source="../tiled/patterns/flag.tsx"/>
  <tileset firstgid="792" source="../tiled/patterns/player.tsx"/>
+ <tileset firstgid="806" source="../tiled/patterns/mushroom.tsx"/>
  <layer id="5" name="Background" width="121" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -107,7 +108,6 @@
   <object id="50" name="Hedgehog" gid="785" x="1439.33" y="640" width="32" height="32"/>
   <object id="52" name="Fox" gid="779" x="800" y="640.67" width="32" height="32"/>
   <object id="54" name="Squirrel" gid="788" x="2816.67" y="542.67" width="32" height="32"/>
-  <object id="67" name="Mushroom" gid="783" x="1248" y="617" width="32" height="32"/>
   <object id="74" name="Squirrel" gid="788" x="493.333" y="490.667" width="32" height="32"/>
   <object id="75" name="Squirrel" gid="788" x="814.667" y="408" width="32" height="32"/>
   <object id="76" name="Squirrel" gid="788" x="1150.67" y="484" width="32" height="32"/>
@@ -115,9 +115,10 @@
   <object id="78" name="Squirrel" gid="788" x="1761.33" y="510.667" width="32" height="32"/>
   <object id="79" name="Squirrel" gid="788" x="2046.67" y="586.667" width="32" height="32"/>
   <object id="80" name="Squirrel" gid="788" x="2390.67" y="613.333" width="32" height="32"/>
-  <object id="81" name="Mushroom" gid="783" x="1785.33" y="626.667" width="32" height="32"/>
-  <object id="82" name="Mushroom" gid="783" x="2588" y="596" width="32" height="32"/>
-  <object id="83" name="Mushroom" gid="783" x="3249.33" y="621.333" width="32" height="32"/>
+  <object id="89" name="Mushroom" gid="808" x="1247.25" y="616.75" width="32" height="32"/>
+  <object id="93" name="Mushroom" gid="808" x="1788.5" y="619" width="32" height="32"/>
+  <object id="96" name="Mushroom" gid="808" x="2588" y="580" width="32" height="32"/>
+  <object id="98" name="Mushroom" gid="808" x="3230.5" y="617.5" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Player">
   <object id="65" name="Player" gid="792" x="116.833" y="639.667" width="32" height="32"/>
