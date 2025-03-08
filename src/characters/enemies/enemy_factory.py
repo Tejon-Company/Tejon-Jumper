@@ -47,8 +47,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             Squirrel(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"],
-                 groups["squirrels"]),
+                (groups["all_sprites"], groups["squirrels"]),
                 player,
                 "squirrel.png",
                 _create_animation_rects(32, 2),
@@ -59,12 +58,14 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 f"The entitie {enemy.name} is not a valid entitie")
 
 
-def _create_animation_rects(start_x, frames):
+def _create_animation_rects(start_x, number_of_frames):
     sprite_size = TILE_SIZE
     y = 0
     pixel_gap = 1
     animation_rects = []
-    for i in range(frames):
+
+    for i in range(number_of_frames):
         x = (start_x + start_x//32) + (sprite_size * i) + (i * pixel_gap)
         animation_rects.append((x, y, sprite_size, sprite_size))
+
     return animation_rects
