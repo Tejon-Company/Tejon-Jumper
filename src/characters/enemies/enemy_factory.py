@@ -12,7 +12,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             Hedgehog(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["hedgehogs"]),
+                (groups["all_sprites"], groups["enemies"]),
                 "hedgehog.png",
                 _create_animation_rects(0, 2)
             )
@@ -20,8 +20,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"],
-                 groups["mushrooms"], groups["platforms"]),
+                (groups["all_sprites"], groups["enemies"], groups["platforms"]),
                 player,
                 "mushroom.png",
                 _create_animation_rects(0, 1),
@@ -31,7 +30,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             Fox(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["foxes"]),
+                (groups["all_sprites"], groups["enemies"]),
                 "fox.png",
                 _create_animation_rects(0, 3),
             )
@@ -39,7 +38,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             Bat(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["bats"]),
+                (groups["all_sprites"], groups["enemies"]),
                 "bat.png",
                 _create_animation_rects(0, 0),
             )
@@ -47,7 +46,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             Squirrel(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["squirrels"]),
+                (groups["all_sprites"], groups["enemies"]),
                 player,
                 "squirrel.png",
                 _create_animation_rects(1, 2),

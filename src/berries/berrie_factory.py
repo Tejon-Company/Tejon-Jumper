@@ -2,7 +2,6 @@ from berries.health_berry import HealthBerry
 from berries.coin_berrie import CoinBerry
 from berries.energy_berry import EneryBerry
 
-
 def berrie_factory(berrie, groups):
     match berrie.name:
         case "health_berrie":

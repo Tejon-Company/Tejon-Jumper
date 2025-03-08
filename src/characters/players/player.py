@@ -1,6 +1,7 @@
 from settings import *
 from characters.character import Character
 from characters.players.player_state import PlayerState
+from characters.players.collision_utils import *
 
 from resource_manager import ResourceManager
 
@@ -25,6 +26,7 @@ class Player(Character):
         self.jump_height = 300
 
         self.on_surface = False
+        self.is_sprinting = False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -138,6 +140,8 @@ class Player(Character):
             self.direction.y = -1
             self.jump = True
 
+        self.is_sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+
         self._normalize_direction()
 
     def _normalize_direction(self):
@@ -157,7 +161,8 @@ class Player(Character):
         self._move_vertically(platform_rects, delta_time)
 
     def _move_horizontally(self, platform_rects, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
+        sprint_multiplier = 2 if self.is_sprinting else 1
+        self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
         self._collision(platform_rects, self._handle_horizontal_collision)
 
     def _move_vertically(self, platform_rects, delta_time):
@@ -179,46 +184,20 @@ class Player(Character):
                 collision_handler(platform_rect)
 
     def _handle_horizontal_collision(self, platform_rect):
-        self._handle_right_collission(platform_rect)
-        self._handle_left_collision(platform_rect)
-
-    def _handle_right_collission(self, platform_rect):
-        approaching_from_left = self.rect.right >= platform_rect.left
-        player_was_on_left = self.old_rect.right <= platform_rect.left
-        is_right_collision = approaching_from_left and player_was_on_left
-
-        if is_right_collision:
+        if is_right_collision(self.rect, self.old_rect, platform_rect):
             self.rect.right = platform_rect.left
 
-    def _handle_left_collision(self, platform_rect):
-        approaching_from_right = self.rect.left <= platform_rect.right
-        player_was_on_right = self.old_rect.left >= platform_rect.right
-        is_left_collision = approaching_from_right and player_was_on_right
-
-        if is_left_collision:
+        if is_left_collision(self.rect, self.old_rect, platform_rect):
             self.rect.left = platform_rect.right
 
     def _handle_vertical_collision(self, platform_rect):
-        self._handle_bottom_collision(platform_rect)
-        self._handle_top_collision(platform_rect)
-
-        self.direction.y = 0
-
-    def _handle_bottom_collision(self, platform_rect):
-        approaching_from_top = self.rect.bottom >= platform_rect.top
-        was_above = self.old_rect.bottom <= platform_rect.top
-        is_bottom_collision = approaching_from_top and was_above
-
-        if is_bottom_collision:
+        if is_below_collision(self.rect, self.old_rect, platform_rect):
             self.rect.bottom = platform_rect.top
 
-    def _handle_top_collision(self, platform_rect):
-        approaching_from_bottom = self.rect.top <= platform_rect.bottom
-        was_below = self.old_rect.top >= platform_rect.bottom
-        is_top_collision = approaching_from_bottom and was_below
-
-        if is_top_collision:
+        if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
+
+        self.direction.y = 0
 
     def _detect_platform_contact(self, platform_rects):
         character_height = 2
