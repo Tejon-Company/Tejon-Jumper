@@ -3,8 +3,6 @@ from characters.character import Character
 from characters.players.player_state import PlayerState
 from characters.players.collision_utils import *
 
-from resource_manager import ResourceManager
-
 
 class Player(Character):
     def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
