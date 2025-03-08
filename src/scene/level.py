@@ -18,6 +18,8 @@ from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 import os
 
+from resource_manager import ResourceManager
+
 
 class Level(Scene):
     def __init__(
@@ -53,13 +55,11 @@ class Level(Scene):
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
-        self.game_over_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "game_over.ogg"))
-        self.life_lost_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "life_lost.ogg"))
+        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(10, self.groups["projectiles"])
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
         self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_groups(self):
@@ -82,7 +82,6 @@ class Level(Scene):
 
     def _setup_background(self, background):
         background_folder = join("assets", "maps", "backgrounds", background)
-
         image_files = self._get_image_files(background_folder)
 
         for i, image_name in enumerate(image_files):
@@ -111,10 +110,8 @@ class Level(Scene):
                 (self.groups["all_sprites"], self.groups["tiled_background"]),
             )
 
-    def _setup_music(self, music_file):
-        music_file = join("assets", "sounds", "music", music_file)
-
-        music.load(music_file)
+    def _setup_music(self):
+        music.load(self.music_file)    
         music.play(-1)
 
     def _setup_terrain(self):

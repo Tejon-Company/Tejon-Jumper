@@ -17,9 +17,9 @@ class Projectile(Sprite, ABC):
         self.old_rect = self.rect.copy()
         self._move(delta_time)
 
+    @abstractmethod
     def change_position(self, new_pos_x, new_pos_y):
-        self.rect.x = new_pos_x
-        self.rect.y = new_pos_y
+        pass
 
     def change_position(self, new_pos_x, new_pos_y):
         self.rect.x = new_pos_x
