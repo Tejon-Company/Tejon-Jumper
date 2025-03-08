@@ -30,7 +30,8 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.recover_health_sound = ResourceManager.load_sound("recover_health.ogg")
+        self.recover_health_sound = ResourceManager.load_sound(
+            "recover_health.ogg")
 
     def _setup_animation(self):
         sprite_sheet_path = join(
@@ -108,7 +109,8 @@ class Player(Character):
     def _determine_current_animation(self):
         if not self.on_surface:
             self.current_animation = 'jump'
-            self.facing_right = self.direction.x > 0
+            if self.direction.x != 0:
+                self.facing_right = self.direction.x > 0
         elif abs(self.direction.x) > 0:
             self.current_animation = 'run'
             self.facing_right = self.direction.x > 0
