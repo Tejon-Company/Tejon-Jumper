@@ -66,14 +66,13 @@ class Level(Scene):
         self.groups = {
             "all_sprites": Group(),
             "platforms": Group(),
-            "enemies": Group(),  
+            "enemies": Group(),
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
             "tiled_background": Group(),
             "deco": Group(),
-    }
-
+        }
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -111,7 +110,7 @@ class Level(Scene):
             )
 
     def _setup_music(self):
-        music.load(self.music_file)    
+        music.load(self.music_file)
         music.play(-1)
 
     def _setup_terrain(self):
@@ -188,7 +187,6 @@ class Level(Scene):
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
                 self.handle_dead()
                 return
-
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
