@@ -66,17 +66,14 @@ class Level(Scene):
         self.groups = {
             "all_sprites": Group(),
             "platforms": Group(),
-            "hedgehogs": Group(),
-            "mushrooms": Group(),
-            "squirrels": Group(),
-            "foxes": Group(),
+            "enemies": Group(),  
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
-            "bats": Group(),
             "tiled_background": Group(),
             "deco": Group(),
-        }
+    }
+
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -175,12 +172,6 @@ class Level(Scene):
         self._handle_player_collisions()
 
     def _handle_player_collisions(self):
-        self.groups["enemies"] = pygame.sprite.Group(
-        *self.groups["hedgehogs"],
-        *self.groups["squirrels"],
-        *self.groups["foxes"],
-        *self.groups["bats"]
-        )
         if spritecollide(self.player, self.groups["projectiles"], True):
             self._handle_projectile_collision()
         elif spritecollide(self.player, self.groups["enemies"], False):
@@ -191,8 +182,7 @@ class Level(Scene):
             self.handle_dead()
 
     def _handle_enemy_collision(self):
-        enemies = [enemy for g in ["hedgehogs", "squirrels", "foxes", "bats"]
-                   for enemy in self.groups.get(g, [])]
+        enemies = self.groups.get("enemies", [])
 
         for enemy in enemies:
             if not collide_rect(self.player, enemy):
@@ -201,6 +191,7 @@ class Level(Scene):
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
                 self.handle_dead()
                 return
+
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
