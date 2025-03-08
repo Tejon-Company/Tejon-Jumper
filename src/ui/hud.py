@@ -2,7 +2,8 @@ from settings import *
 from os.path import join
 from pygame.transform import scale
 from pygame.image import load
-from resource_manager import ResourceManager    
+from resource_manager import ResourceManager
+
 
 class HUD:
     def __init__(self, display_surface):

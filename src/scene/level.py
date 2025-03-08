@@ -17,7 +17,6 @@ from director import Director
 from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 import os
-
 from resource_manager import ResourceManager
 
 
