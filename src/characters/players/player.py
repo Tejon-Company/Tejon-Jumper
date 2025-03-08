@@ -1,7 +1,6 @@
 from settings import *
 from characters.character import Character
 from characters.players.player_state import PlayerState
-from os.path import join
 
 from resource_manager import ResourceManager
 
@@ -30,19 +29,7 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.recover_health_sound = ResourceManager.load_sound(
-            "recover_health.ogg")
-
     def _setup_animation(self):
-        sprite_sheet_path = join(
-            "assets", "creatures_and_else", "badger", "with_background", "badger.png")
-
-        self.sprite_sheet = pygame.image.load(
-            sprite_sheet_path).convert_alpha()
-        self.image = self.sprite_sheet.subsurface((0, 0, 32, 32))
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
-
         self.animation_frame = 0
         self.animation_speed = 0.2
         self.animation_time = 0
@@ -74,9 +61,9 @@ class Player(Character):
         has_max_health = self.health_points == self.maximum_health_points
         should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
             self.last_health_time_ms)
+
         if not has_max_health and should_receive_heal:
             self.health_points += 1
-            self.recover_health_sound.play()
 
     def _check_cooldown(last_time_ms):
         current_time_ms = pygame.time.get_ticks()
