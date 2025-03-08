@@ -2,14 +2,14 @@ from settings import *
 from os.path import join
 from pygame.transform import scale
 from pygame.image import load
-
+from resource_manager import ResourceManager    
 
 class HUD:
     def __init__(self, display_surface):
         self.display_surface = display_surface
 
-        lives_font_path = join('assets', 'fonts', 'Beta54.ttf')
-        self.font = pygame.font.Font(lives_font_path, 22)
+        lives_font_path = join('Beta54.ttf')
+        self.font = ResourceManager.load_font(lives_font_path, 22)
 
         player_icon_path = join('assets', 'badger_icon.png')
         self.player_icon = scale(load(player_icon_path), (32, 32))
