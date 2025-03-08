@@ -26,6 +26,7 @@ class Level(Scene):
         remaining_lives: int = 3,
         background: str = "background1",
         music: str = "level_1.ogg",
+        #level: str = "level1.tmx"
         level: str = "level2.tmx"
     ):
         super().__init__(director)
@@ -49,6 +50,7 @@ class Level(Scene):
         self._setup_flag()
         self._setup_berries()
         self._setup_deco()
+        self._setup_shadow()
         #self._setup_music(music)
         self._setup_sound_effects()
 
@@ -76,6 +78,7 @@ class Level(Scene):
             "bats": Group(),
             "tiled_background": Group(),
             "deco": Group(),
+            "shadow": Group(),
         }
 
     def _setup_camera(self):
@@ -134,6 +137,14 @@ class Level(Scene):
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
                 (self.groups["deco"]),
+            )
+            
+    def _setup_shadow(self):
+        for x, y, surf in self.tmx_map.get_layer_by_name("Shadow").tiles():
+            Sprite(
+                (x * TILE_SIZE, y * TILE_SIZE),
+                surf,
+                (self.groups["shadow"]),
             )
 
     def _setup_enemies(self):
@@ -228,6 +239,13 @@ class Level(Scene):
 
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+            
+        for sprite in self.groups["shadow"]:
+            shadow_layer = self.tmx_map.get_layer_by_name("Shadow")
+            opacity = int(shadow_layer.opacity * 255)
+            shadow_image = sprite.image.copy()
+            shadow_image.set_alpha(opacity)
+            display_surface.blit(shadow_image, self.camera.apply(sprite))
 
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
