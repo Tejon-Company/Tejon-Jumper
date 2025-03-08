@@ -28,7 +28,7 @@ class Level(Scene):
         remaining_lives: int = 3,
         background: str = "background1",
         music: str = "level_1.ogg",
-        #level: str = "level1.tmx"
+        # level: str = "level1.tmx"
         level: str = "level2.tmx"
     ):
         super().__init__(director)
@@ -53,7 +53,7 @@ class Level(Scene):
         self._setup_berries()
         self._setup_deco()
         self._setup_shadow()
-        #self._setup_music(music)
+        # self._setup_music(music)
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
@@ -117,7 +117,7 @@ class Level(Scene):
             )
 
     def _setup_music(self):
-        music.load(self.music_file)    
+        music.load(self.music_file)
         music.play(-1)
 
     def _setup_terrain(self):
@@ -135,7 +135,7 @@ class Level(Scene):
                 surf,
                 (self.groups["deco"]),
             )
-            
+
     def _setup_shadow(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Shadow").tiles():
             Sprite(
@@ -236,7 +236,7 @@ class Level(Scene):
 
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-            
+
         for sprite in self.groups["shadow"]:
             shadow_layer = self.tmx_map.get_layer_by_name("Shadow")
             opacity = int(shadow_layer.opacity * 255)
