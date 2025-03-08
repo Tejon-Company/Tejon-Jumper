@@ -20,16 +20,26 @@ class Enemy(Character):
         self.kill()
 
     def adjust_player_position(self, player):
-        if player.rect.colliderect(self.rect):  
-            if abs(player.rect.centerx - self.rect.centerx) > abs(player.rect.centery - self.rect.centery):
-                
-                if player.rect.centerx < self.rect.centerx:
-                    player.rect.right = self.rect.left
-                else:
-                    player.rect.left = self.rect.right
-            else:
-                
-                if player.rect.centery < self.rect.centery:
-                    player.rect.bottom = self.rect.top
-                else:
-                    player.rect.top = self.rect.bottom
+        if not player.rect.colliderect(self.rect):
+            return 
+        dif_x = abs(player.rect.centerx - self.rect.centerx)
+        dif_y = abs(player.rect.centery - self.rect.centery)
+
+        is_horizontal_collision = dif_x > dif_y
+
+        if is_horizontal_collision:
+            self._adjust_player_position_horizontally(player)
+        else:
+            self._adjust_player_position_vertically(player)
+
+    def _adjust_player_position_horizontally(self, player):
+        if player.rect.centerx < self.rect.centerx:
+            player.rect.right = self.rect.left 
+        else:
+            player.rect.left = self.rect.right  
+
+    def _adjust_player_position_vertically(self, player):
+        if player.rect.centery < self.rect.centery:
+            player.rect.bottom = self.rect.top  
+        else:
+            player.rect.top = self.rect.bottom 

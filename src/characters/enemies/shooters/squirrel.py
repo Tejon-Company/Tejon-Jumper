@@ -11,7 +11,6 @@ class Squirrel(Shooter):
         self.rect = self.image.get_frect(topleft=pos)
 
     def handle_collision_with_player(self, level, player):
-        
         if not pygame.sprite.collide_rect(self, player):
             return  
 

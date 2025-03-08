@@ -175,30 +175,30 @@ class Level(Scene):
         self._handle_player_collisions()
 
     def _handle_player_collisions(self):
-        if self._handle_projectile_collisions():
-            return  # Si el jugador fue impactado por un proyectil, terminamos
-
-        if self._handle_enemy_collisions():
-            return  # Si colisionó con un enemigo, también terminamos
-
-
-    def _handle_projectile_collisions(self):
         if pygame.sprite.spritecollide(self.player, self.groups["projectiles"], True):
-            if self.player.receive_damage() == PlayerState.DEAD:
-                self._handle_dead()
-                return True
-        return False
+            self._handle_projectile_collision()
+        elif any(
+            pygame.sprite.collide_rect(self.player, enemy)
+            for group_name in ["hedgehogs", "squirrels", "foxes", "bats"]
+            for enemy in self.groups.get(group_name, [])
+        ):
+            self._handle_enemy_collision()
 
+    def _handle_projectile_collision(self):
+        if self.player.receive_damage() == PlayerState.DEAD:
+            self.handle_dead()
 
-    def _handle_enemy_collisions(self):
-        for group_name in ["hedgehogs", "squirrels", "foxes", "bats"]:
-            for enemy in self.groups.get(group_name, []):
-                if pygame.sprite.collide_rect(self.player, enemy):
-                    if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
-                        self._handle_dead()
-                        return True
-        return False
+    def _handle_enemy_collision(self):
+        enemies = [enemy for g in ["hedgehogs", "squirrels", "foxes", "bats"]
+                   for enemy in self.groups.get(g, [])]
 
+        for enemy in enemies:
+            if not pygame.sprite.collide_rect(self.player, enemy):
+                continue
+
+            if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
+                self.handle_dead()
+                return
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
