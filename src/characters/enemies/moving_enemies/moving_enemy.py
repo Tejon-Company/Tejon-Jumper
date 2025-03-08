@@ -20,7 +20,7 @@ class MovingEnemy(Enemy, ABC):
         self._update_sprite()
 
     def _update_animation_frame(self, delta_time):
-        self.animation_time += delta_timegi
+        self.animation_time += delta_time
         frames_in_animation = len(self.animations)
         elapsed_frames = self.animation_time / self.animation_speed
         self.animation_frame = int(elapsed_frames) % frames_in_animation
