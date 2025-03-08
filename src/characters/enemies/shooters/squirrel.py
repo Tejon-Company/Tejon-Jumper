@@ -17,7 +17,7 @@ class Squirrel(Shooter):
 
         self.adjust_player_position(player)
 
-        if is_below_collision(player.rect, player.old_rect, self.rect):
+        if is_below_collision(player.rect, player.old_rect, self.rect) or player.is_sprinting:
             self.defeat()
             return
 
