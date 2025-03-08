@@ -2,7 +2,7 @@ from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
 from characters.players.player_state import PlayerState
-from characters.players.collision_utils import is_above_collision, is_left_collision, is_right_collision, is_below_collision
+from characters.players.collision_utils import is_below_collision
 
 
 class Hedgehog(MovingEnemy):
