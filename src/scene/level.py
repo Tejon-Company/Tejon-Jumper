@@ -2,7 +2,7 @@ from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.players.player_state import PlayerState
-from pygame.sprite import Group, spritecollide
+from pygame.sprite import Group, spritecollide, collide_rect
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
@@ -51,7 +51,7 @@ class Level(Scene):
         self._setup_flag()
         self._setup_berries()
         self._setup_deco()
-        #self._setup_music(music)
+        # self._setup_music(music)
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
@@ -66,17 +66,14 @@ class Level(Scene):
         self.groups = {
             "all_sprites": Group(),
             "platforms": Group(),
-            "hedgehogs": Group(),
-            "mushrooms": Group(),
-            "squirrels": Group(),
-            "foxes": Group(),
+            "enemies": Group(),  
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
-            "bats": Group(),
             "tiled_background": Group(),
             "deco": Group(),
-        }
+    }
+
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -169,35 +166,41 @@ class Level(Scene):
         self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
+        self._handle_player_collisions()
 
-        self._handle_player_collisions_with_enemies()
+    def _handle_player_collisions(self):
+        if spritecollide(self.player, self.groups["projectiles"], True):
+            self._handle_projectile_collision()
+        elif spritecollide(self.player, self.groups["enemies"], False):
+            self._handle_enemy_collision()
 
-    def _handle_player_collisions_with_enemies(self):
-        collisions = tuple(
-            spritecollide(self.player, self.groups[group], False)
-            for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
-        )
+    def _handle_projectile_collision(self):
+        if self.player.receive_damage() == PlayerState.DEAD:
+            self.handle_dead()
 
-        if all(len(c) == 0 for c in collisions):
-            return
+    def _handle_enemy_collision(self):
+        enemies = self.groups.get("enemies", [])
 
-        player_state = self.player.receive_damage()
-        if player_state == PlayerState.DEAD:
-            self._handle_dead()
+        for enemy in enemies:
+            if not collide_rect(self.player, enemy):
+                continue
+
+            if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
+                self.handle_dead()
+                return
+
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
-            self._handle_dead()
+            self.handle_dead()
 
-    def _handle_dead(self):
+    def handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
-            self.game_over_sound.play()
             self.director.stack_scene(GameOver(self.director))
         else:
             self.director.stack_scene(
                 Level(self.director, self.remaining_lives-1))
-            self.life_lost_sound.play()
 
     def update(self, delta_time):
         platform_rects = [
@@ -234,6 +237,6 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        self._handle_player_collisions_with_enemies()
+        self._handle_player_collisions()
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
