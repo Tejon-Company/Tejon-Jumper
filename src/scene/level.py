@@ -59,7 +59,7 @@ class Level(Scene):
         self.groups = {
             "all_sprites": Group(),
             "platforms": Group(),
-            "enemies": Group(),  
+            "enemies": Group(),
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
@@ -193,7 +193,6 @@ class Level(Scene):
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
                 self.handle_dead()
                 return
-
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:

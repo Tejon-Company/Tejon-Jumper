@@ -13,7 +13,7 @@ class Enemy(Character):
         self.animation_speed = 0.2
         self.animation_time = 0
 
-    def handle_collision_with_player(self, player):
+    def handle_collision_with_player(self, level, player):
         pass
 
     def defeat(self):
@@ -43,7 +43,15 @@ class Enemy(Character):
             player.rect.left = self.rect.right
 
     def _adjust_player_position_vertically(self, player):
-        if player.rect.centery < self.rect.centery:
+        is_player_above = player.rect.centery < self.rect.centery
+        if is_player_above:
             player.rect.bottom = self.rect.top
         else:
             player.rect.top = self.rect.bottom
+
+        horizontal_offset = 10
+        is_player_left = player.rect.centerx < self.rect.centerx
+        if is_player_left:
+            player.rect.x -= horizontal_offset
+        else:
+            player.rect.x += horizontal_offset
