@@ -2,6 +2,7 @@ from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from characters.enemies.enemies_utils import *
+from resource_manager import ResourceManager
 
 
 class Squirrel(Shooter):
@@ -10,9 +11,7 @@ class Squirrel(Shooter):
 
         self.rect = self.image.get_frect(topleft=pos)
 
-        self.sprite_sheet_path = join(
-            "assets", "creatures_and_else", "enemies", "with_background", "squirrel.png")
-
+        self.sprite_sheet = ResourceManager.load_sprite("squirrel.png")
         self.animations = create_animation_rects(32, 0, 32, 32, 2, 1)
 
         self._setup_animation()

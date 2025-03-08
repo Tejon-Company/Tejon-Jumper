@@ -64,8 +64,10 @@ class ResourceManager:
             return cls.resources[name]
 
         try:
-            fullname = join('assets', 'creatures_and_else', name)
+            fullname = join('assets', 'sprites', name)
             image = pygame.image.load(fullname).convert_alpha()
+            color_key = image.get_at((0, 0))
+            image.set_colorkey(color_key)
             cls.resources[name] = image
             return image
         except Exception as e:
