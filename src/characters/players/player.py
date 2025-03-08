@@ -29,7 +29,8 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.recover_health_sound = ResourceManager.load_sound("recover_health.ogg")
+        self.recover_health_sound = ResourceManager.load_sound(
+            "recover_health.ogg")
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(

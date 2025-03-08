@@ -1,8 +1,6 @@
 from settings import *
 from characters.character import Character
-from abc import ABC, abstractmethod
-from characters.players.player import Player
-from characters.players.collision_utils import is_above_collision, is_below_collision, is_left_collision, is_right_collision
+from abc import ABC
 
 
 class Enemy(Character):
@@ -10,7 +8,7 @@ class Enemy(Character):
         super().__init__(pos, surf, groups)
         self.groups = groups
 
-    def handle_collision_with_player(self, player):
+    def handle_collision_with_player(self, level, player):
         pass
 
     def defeat(self):
@@ -21,7 +19,8 @@ class Enemy(Character):
 
     def adjust_player_position(self, player):
         if not player.rect.colliderect(self.rect):
-            return 
+            return
+
         dif_x = abs(player.rect.centerx - self.rect.centerx)
         dif_y = abs(player.rect.centery - self.rect.centery)
 
@@ -34,12 +33,20 @@ class Enemy(Character):
 
     def _adjust_player_position_horizontally(self, player):
         if player.rect.centerx < self.rect.centerx:
-            player.rect.right = self.rect.left 
+            player.rect.right = self.rect.left
         else:
-            player.rect.left = self.rect.right  
+            player.rect.left = self.rect.right
 
     def _adjust_player_position_vertically(self, player):
-        if player.rect.centery < self.rect.centery:
-            player.rect.bottom = self.rect.top  
+        is_player_above = player.rect.centery < self.rect.centery
+        if is_player_above:
+            player.rect.bottom = self.rect.top
         else:
-            player.rect.top = self.rect.bottom 
+            player.rect.top = self.rect.bottom
+
+        horizontal_offset = 10
+        is_player_left = player.rect.centerx < self.rect.centerx
+        if is_player_left:
+            player.rect.x -= horizontal_offset
+        else:
+            player.rect.x += horizontal_offset
