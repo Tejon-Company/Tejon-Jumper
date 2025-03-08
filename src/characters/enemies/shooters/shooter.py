@@ -5,8 +5,8 @@ from abc import ABC
 
 
 class Shooter(Enemy, ABC):
-    def __init__(self, pos, surf, groups, player, sprite_sheet_name, projectiles_pool=ProjectilesPool):
-        super().__init__(pos, surf, groups, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, projectiles_pool=ProjectilesPool):
+        super().__init__(pos, surf, groups, sprite_sheet_name, animations)
         self.shoot_cooldown = 3000
         self.pos = pos
         self.last_shot = 0
@@ -18,6 +18,7 @@ class Shooter(Enemy, ABC):
 
     def update(self, platform_rects, delta_time):
         self._shoot()
+        self._update_animation(delta_time)
 
     def _shoot(self):
         current_time = pygame.time.get_ticks()
@@ -33,3 +34,22 @@ class Shooter(Enemy, ABC):
         player_pos, projectile_pos = vector(
             self.player.rect.center), vector(self.rect.center)
         return projectile_pos.distance_to(player_pos) < 500
+
+    def _update_animation(self, delta_time):
+        self._update_animation_frame(delta_time)
+        self._update_sprite()
+
+    def _update_animation_frame(self, delta_time):
+        if self.is_shooting:
+            self.shooting_timer += delta_time * 1000
+            if self.shooting_timer >= self.shooting_duration:
+                self.is_shooting = False
+                self.shooting_timer = 0
+        self.animation_frame = 1 if self.is_shooting else 0
+
+    def _update_sprite(self):
+        frame_rect = self.animations[self.animation_frame]
+        self.image = self.sprite_sheet.subsurface(frame_rect)
+
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)

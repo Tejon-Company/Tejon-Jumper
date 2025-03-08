@@ -3,8 +3,8 @@ from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 
 
 class Bat(MovingEnemy):
-    def __init__(self, pos, surf, groups, sprite_sheet_name):
-        super().__init__(pos, surf, groups, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, sprite_sheet_name, animations)
 
         self.image = pygame.Surface((32, 32))
         self.image.fill("black")
