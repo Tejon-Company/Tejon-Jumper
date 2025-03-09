@@ -16,6 +16,10 @@ class Player(Character):
         self.health_points = health_points
         self.maximum_health_points = health_points
 
+        self.energy = 100
+        self.max_energy = 100
+        self.energy_depletion_rate = 30
+
         self.direction = vector(0, 0)
         self.speed = 150
         self.gravity = 1000
@@ -70,6 +74,7 @@ class Player(Character):
         self._input()
         self._move(platform_rects, delta_time)
         self._detect_platform_contact(platform_rects)
+        self._update_energy(delta_time)
 
     def _input(self):
         keys = pygame.key.get_pressed()
@@ -151,3 +156,11 @@ class Player(Character):
         )
 
         self.on_surface = platform_rect.collidelist(platform_rects) >= 0
+
+    def _update_energy(self, delta_time):
+        if self.is_sprinting and self.energy > 0:
+            self.energy -= self.energy_depletion_rate * delta_time
+            self.energy = max(0, self.energy)
+
+    def recover_energy(self, amount):
+        self.energy = min(self.energy + amount, self.max_energy)
