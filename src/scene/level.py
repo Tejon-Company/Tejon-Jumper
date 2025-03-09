@@ -39,6 +39,8 @@ class Level(Scene):
 
         self.remaining_lives = remaining_lives
 
+        self.is_on_pause = False
+
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
@@ -161,6 +163,9 @@ class Level(Scene):
         self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
 
     def update(self, delta_time):
+        if self._is_game_paused():
+            return
+
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
 
@@ -172,6 +177,18 @@ class Level(Scene):
 
         self.camera.update(self.player)
         self._handle_player_collisions()
+
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
+
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+
+        return self.is_on_pause
+
+    def _handle_fall(self):
+        if self.player.rect.bottom > WINDOW_HEIGHT:
+            self.handle_dead()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
@@ -193,10 +210,6 @@ class Level(Scene):
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
                 self.handle_dead()
                 return
-
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self.handle_dead()
 
     def handle_dead(self):
         self.director.pop_scene()
