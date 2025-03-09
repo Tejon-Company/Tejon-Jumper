@@ -90,7 +90,10 @@ class Player(Character):
             self.direction.y = -1
             self.jump = True
 
-        self.is_sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+        if self.energy > 0:
+            self.is_sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+        else:
+            self.is_sprinting = False
 
         self._normalize_direction()
 
