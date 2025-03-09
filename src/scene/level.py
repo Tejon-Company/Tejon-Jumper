@@ -201,8 +201,10 @@ class Level(Scene):
     def handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
+            self.game_over_sound.play()
             self.director.stack_scene(GameOver(self.director))
         else:
+            self.life_lost_sound.play()
             self.director.stack_scene(
                 Level(self.director, self.remaining_lives-1))
 
