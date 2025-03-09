@@ -1,5 +1,6 @@
 from settings import *
 from characters.character import Character
+from resource_manager import ResourceManager
 
 
 class Enemy(Character):
@@ -7,6 +8,8 @@ class Enemy(Character):
         super().__init__(pos, surf, groups, sprite_sheet_name)
         self.groups = groups
         self.animations = animations
+        self.defeat_enemy_sound = ResourceManager.load_sound(
+            "defeat_enemy.ogg")
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -21,6 +24,7 @@ class Enemy(Character):
             if self in group:
                 group.remove(self)
 
+        self.defeat_enemy_sound.play()
         self.kill()
 
     def adjust_player_position(self, player):
