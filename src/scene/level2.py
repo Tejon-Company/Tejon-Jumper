@@ -16,7 +16,7 @@ class Level2(Level):
                 surf,
                 (self.groups["shadow"]),
             )
-
+        
     def draw(self, display_surface):
         self.camera.draw_background(
             self.groups["backgrounds"], display_surface)
@@ -27,13 +27,6 @@ class Level2(Level):
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        for sprite in self.groups["shadow"]:
-            shadow_layer = self.tmx_map.get_layer_by_name("Shadow")
-            opacity = int(shadow_layer.opacity * 255)
-            shadow_image = sprite.image.copy()
-            shadow_image.set_alpha(opacity)
-            display_surface.blit(shadow_image, self.camera.apply(sprite))
-
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
                 display_surface.blit(
@@ -41,7 +34,14 @@ class Level2(Level):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+            
+        for sprite in self.groups["shadow"]:
+            shadow_layer = self.tmx_map.get_layer_by_name("Shadow")
+            opacity = int(shadow_layer.opacity * 255)
+            shadow_image = sprite.image.copy()
+            shadow_image.set_alpha(opacity)
+            display_surface.blit(shadow_image, self.camera.apply(sprite))
 
-        self._handle_player_collisions_with_enemies()
+        self._handle_player_collisions()
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
