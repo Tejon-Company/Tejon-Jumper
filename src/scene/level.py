@@ -236,4 +236,5 @@ class Level(Scene):
 
         self._handle_player_collisions()
 
-        self.hud.draw_hud(self.player.health_points, self.remaining_lives)
+        self.hud.draw_hud(self.player.health_points,
+                          self.remaining_lives, self.player.energy)
