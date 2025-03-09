@@ -16,8 +16,8 @@ from pytmx.util_pygame import load_pygame
 from director import Director
 from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
-import os
 from resource_manager import ResourceManager
+from os import listdir
 from flag.flag import Flag
 
 
@@ -46,24 +46,18 @@ class Level(Scene):
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
+
         self._setup_background(background)
         self._setup_tiled_background()
-        self._setup_player()
-        self._setup_enemies()
         self._setup_terrain()
         self._setup_flag()
-        self._setup_berries()
         self._setup_deco()
+
+        self._setup_player()
+        self._setup_enemies()
+        self._setup_berries()
         # self._setup_music(music)
         self._setup_sound_effects()
-
-    def _setup_sound_effects(self):
-        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
-        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
-
-    def _setup_pools(self):
-        self.spore_pool = SporePool(20, self.groups["projectiles"])
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_groups(self):
         self.groups = {
@@ -78,6 +72,10 @@ class Level(Scene):
             "shadow": Group(),
             "flag": Group(),
         }
+
+    def _setup_pools(self):
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -98,7 +96,7 @@ class Level(Scene):
 
     def _get_image_files(self, background_folder):
         image_files = []
-        for file in os.listdir(background_folder):
+        for file in listdir(background_folder):
             if file.endswith(".png"):
                 image_files.append(file)
 
@@ -113,10 +111,6 @@ class Level(Scene):
                 surf,
                 (self.groups["all_sprites"], self.groups["tiled_background"]),
             )
-
-    def _setup_music(self):
-        music.load(self.music_file)
-        music.play(-1)
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -168,20 +162,39 @@ class Level(Scene):
             character.image,
             self.groups["all_sprites"],
             self.health_points,
+            "badger.png"
         )
+
+    def _setup_enemies(self):
+        for enemy in self.tmx_map.get_layer_by_name("Enemies"):
+            enemy_factory(enemy, self.groups, self.spore_pool,
+                          self.acorn_pool, self.player)
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
-    def run(self, delta_time):
+    def _setup_music(self):
+        music.load(self.music_file)
+        music.play(-1)
+
+    def _setup_sound_effects(self):
+        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
+
+    def update(self, delta_time):
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
+
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["projectiles"].update(platform_rects, delta_time)
+
+        self._handle_fall()
 
         self.camera.update(self.player)
         self._handle_player_collisions()
+        self._handle_flag_collision()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
@@ -211,19 +224,6 @@ class Level(Scene):
     def _handle_flag_collision(self):
         if self.player.rect.colliderect(self.flag.rect):
             self.change_level()
-
-    def update(self, delta_time):
-        platform_rects = [
-            platform.rect for platform in self.groups["platforms"]]
-
-        self.groups["all_sprites"].update(platform_rects, delta_time)
-        self.groups["berries"].update(self.player)
-        self.groups["projectiles"].update(platform_rects, delta_time)
-
-        self._handle_fall()
-        self._handle_flag_collision()
-
-        self.camera.update(self.player)
 
     def events(self, events_list):
         for event in events_list:
