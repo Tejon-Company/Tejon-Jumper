@@ -18,14 +18,16 @@ from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 import os
 from resource_manager import ResourceManager
+from flag.flag import Flag
 
 
 class Level(Scene):
     def __init__(
         self,
         director: Director,
-        level: str,
         remaining_lives: int,
+        health_points: int,
+        level: str,
         background: str,
         music: str,
 
@@ -39,6 +41,7 @@ class Level(Scene):
         self.tmx_map = load_pygame(level_path)
 
         self.remaining_lives = remaining_lives
+        self.health_points = health_points
 
         self._setup_groups()
         self._setup_pools()
@@ -73,6 +76,7 @@ class Level(Scene):
             "tiled_background": Group(),
             "deco": Group(),
             "shadow": Group(),
+            "flag": Group(),
         }
 
     def _setup_camera(self):
@@ -136,8 +140,19 @@ class Level(Scene):
                           self.acorn_pool, self.player)
 
     def _setup_flag(self):
-        for flag in self.tmx_map.get_layer_by_name("Flag"):
-            return
+        flag_layer = self.tmx_map.get_layer_by_name("Flag")
+        flag_count = len(list(flag_layer))
+
+        if flag_count != 1:
+            raise ValueError(
+                f"Expected exactly one flag in the map, found {flag_count}")
+
+        flag = next(iter(flag_layer))
+        self.flag = Flag(
+            (flag.x, flag.y),
+            flag.image,
+            self.groups["flag"],
+        )
 
     def _setup_player(self):
         player_layer = self.tmx_map.get_layer_by_name("Player")
@@ -152,7 +167,7 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["all_sprites"],
-            health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3,
+            self.health_points,
         )
 
     def _setup_berries(self):
@@ -193,13 +208,9 @@ class Level(Scene):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self.handle_dead()
 
-    def handle_dead(self):
-        self.director.pop_scene()
-        if self.remaining_lives <= 0:
-            self.director.stack_scene(GameOver(self.director))
-        else:
-            self.director.stack_scene(
-                Level(self.director, self.remaining_lives-1))
+    def _handle_flag_collision(self):
+        if self.player.rect.colliderect(self.flag.rect):
+            self.change_level()
 
     def update(self, delta_time):
         platform_rects = [
@@ -210,6 +221,7 @@ class Level(Scene):
         self.groups["projectiles"].update(platform_rects, delta_time)
 
         self._handle_fall()
+        self._handle_flag_collision()
 
         self.camera.update(self.player)
 
@@ -218,4 +230,5 @@ class Level(Scene):
             if event.type == pygame.QUIT:
                 self.director.exit_program()
 
-    
+    def draw(self, display_surface):
+        pass
