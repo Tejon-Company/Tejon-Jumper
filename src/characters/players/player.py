@@ -3,12 +3,12 @@ from characters.character import Character
 from characters.players.player_state import PlayerState
 from characters.players.collision_utils import *
 
-from resource_manager import ResourceManager
-
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points):
-        super().__init__(pos, surf, groups)
+    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
+        super().__init__(pos, surf, groups, sprite_sheet_name)
+
+        self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -29,8 +29,19 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.recover_health_sound = ResourceManager.load_sound(
-            "recover_health.ogg")
+    def _setup_animation(self):
+        self.animation_frame = 0
+        self.animation_speed = 0.2
+        self.animation_time = 0
+
+        self.animations = {
+            'idle': [(0, 0, 32, 32)],
+            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
+            'jump': [(165, 0, 32, 32)]
+        }
+
+        self.current_animation = 'idle'
+        self.facing_right = True
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
@@ -50,9 +61,9 @@ class Player(Character):
         has_max_health = self.health_points == self.maximum_health_points
         should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
             self.last_health_time_ms)
+
         if not has_max_health and should_receive_heal:
             self.health_points += 1
-            self.recover_health_sound.play()
 
     def _check_cooldown(last_time_ms):
         current_time_ms = pygame.time.get_ticks()
@@ -70,6 +81,48 @@ class Player(Character):
         self._input()
         self._move(platform_rects, delta_time)
         self._detect_platform_contact(platform_rects)
+        self._update_animation(delta_time)
+
+    def _update_animation(self, delta_time):
+        previous_animation = self.current_animation
+        self._determine_current_animation()
+
+        if previous_animation != self.current_animation:
+            self._reset_animation()
+
+        self._update_animation_frame(delta_time)
+        self._update_sprite()
+
+    def _determine_current_animation(self):
+        if not self.on_surface:
+            self.current_animation = 'jump'
+            if self.direction.x != 0:
+                self.facing_right = self.direction.x > 0
+        elif abs(self.direction.x) > 0:
+            self.current_animation = 'run'
+            self.facing_right = self.direction.x > 0
+        else:
+            self.current_animation = 'idle'
+
+    def _reset_animation(self):
+        self.animation_time = 0
+        self.animation_frame = 0
+
+    def _update_animation_frame(self, delta_time):
+        self.animation_time += delta_time
+        frames_in_animation = len(self.animations[self.current_animation])
+        elapsed_frames = self.animation_time / self.animation_speed
+        self.animation_frame = int(elapsed_frames) % frames_in_animation
+
+    def _update_sprite(self):
+        frame_rect = self.animations[self.current_animation][self.animation_frame]
+        self.image = self.sprite_sheet.subsurface(frame_rect)
+
+        if not self.facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
+
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)
 
     def _input(self):
         keys = pygame.key.get_pressed()

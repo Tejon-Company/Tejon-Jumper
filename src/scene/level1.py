@@ -6,7 +6,7 @@ from scene.level2 import Level2
 class Level1(Level):
     def __init__(self, director, remaining_lives=3, health_points=5):
         super().__init__(director, remaining_lives, health_points, level="level1.tmx",
-                         background="background1", music="level_1.ogg")
+                         background="background1", music_file="level_1.ogg")
 
     def handle_dead(self):
         self.director.pop_scene()

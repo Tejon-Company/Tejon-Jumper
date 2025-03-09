@@ -17,8 +17,8 @@ from director import Director
 from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 from resource_manager import ResourceManager
-from os import listdir
 from flag.flag import Flag
+from os import listdir
 
 
 class Level(Scene):
@@ -29,7 +29,7 @@ class Level(Scene):
         health_points: int,
         level: str,
         background: str,
-        music: str,
+        music_file: str,
 
     ):
         super().__init__(director)
@@ -42,6 +42,8 @@ class Level(Scene):
 
         self.remaining_lives = remaining_lives
         self.health_points = health_points
+        
+        self.music_file = music_file
 
         self._setup_groups()
         self._setup_pools()
@@ -52,7 +54,7 @@ class Level(Scene):
         self._setup_terrain()
         self._setup_flag()
         self._setup_deco()
-
+        
         self._setup_player()
         self._setup_enemies()
         self._setup_berries()
@@ -127,27 +129,7 @@ class Level(Scene):
                 surf,
                 (self.groups["deco"]),
             )
-
-    def _setup_enemies(self):
-        for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool,
-                          self.acorn_pool, self.player)
-
-    def _setup_flag(self):
-        flag_layer = self.tmx_map.get_layer_by_name("Flag")
-        flag_count = len(list(flag_layer))
-
-        if flag_count != 1:
-            raise ValueError(
-                f"Expected exactly one flag in the map, found {flag_count}")
-
-        flag = next(iter(flag_layer))
-        self.flag = Flag(
-            (flag.x, flag.y),
-            flag.image,
-            self.groups["flag"],
-        )
-
+            
     def _setup_player(self):
         player_layer = self.tmx_map.get_layer_by_name("Player")
         player_count = len(list(player_layer))
@@ -173,15 +155,30 @@ class Level(Scene):
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
+            
+    def _setup_flag(self):
+        flag_layer = self.tmx_map.get_layer_by_name("Flag")
+        flag_count = len(list(flag_layer))
 
+        if flag_count != 1:
+            raise ValueError(
+                f"Expected exactly one flag in the map, found {flag_count}")
+            
+        flag = next(iter(flag_layer))
+        self.flag = Flag(
+            (flag.x, flag.y),
+            flag.image,
+            self.groups["flag"],
+        )
+        
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
-
+        
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
         self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
-
+        
     def update(self, delta_time):
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
@@ -195,7 +192,7 @@ class Level(Scene):
         self.camera.update(self.player)
         self._handle_player_collisions()
         self._handle_flag_collision()
-
+    
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
             self._handle_projectile_collision()
@@ -220,6 +217,15 @@ class Level(Scene):
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self.handle_dead()
+
+    def handle_dead(self):
+        self.director.pop_scene()
+        if self.remaining_lives <= 0:
+            self.director.stack_scene(GameOver(self.director))
+        else:
+            self.director.stack_scene(
+                Level(self.director, self.remaining_lives-1))
+            
 
     def _handle_flag_collision(self):
         if self.player.rect.colliderect(self.flag.rect):

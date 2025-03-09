@@ -7,7 +7,7 @@ from characters.sprite import Sprite
 class Level2(Level):
     def __init__(self, director, remaining_lives, health_points):
         super().__init__(director, remaining_lives, health_points, level="level2.tmx",
-                         background="background1", music="level_1.ogg")
+                         background="background1", music_file="level_1.ogg")
         self._setup_shadow()
 
     def handle_dead(self):
