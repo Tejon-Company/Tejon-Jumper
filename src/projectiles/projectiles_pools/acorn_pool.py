@@ -13,7 +13,7 @@ class AcornPool(ProjectilesPool):
                 pos=(0, 0),
                 surf=pygame.Surface((8, 8)),
                 direction=pygame.math.Vector2(-1, 0),
-                groups=self.projectile_groups,
+                groups=self.projectile_groups
             )
             self.pool.append(acorn)
 
