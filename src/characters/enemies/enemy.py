@@ -24,6 +24,7 @@ class Enemy(Character):
             if self in group:
                 group.remove(self)
 
+        self.defeat_enemy_sound.play()
         self.kill()
 
     def adjust_player_position(self, player):

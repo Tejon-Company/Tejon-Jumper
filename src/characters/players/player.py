@@ -1,6 +1,7 @@
 from settings import *
 from characters.character import Character
 from characters.players.player_state import PlayerState
+from resource_manager import ResourceManager
 from characters.players.collision_utils import *
 
 
@@ -29,6 +30,8 @@ class Player(Character):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
+        self.damage_sound = ResourceManager.load_sound("damage.ogg")
+
     def _setup_animation(self):
         self.animation_frame = 0
         self.animation_speed = 0.2
@@ -50,6 +53,7 @@ class Player(Character):
         if not should_receive_damage:
             return PlayerState.ALIVE
 
+        self.damage_sound.play()
         self.health_points -= 1
 
         if self.health_points > 0:
