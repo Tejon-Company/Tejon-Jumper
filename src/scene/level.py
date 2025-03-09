@@ -25,11 +25,11 @@ class Level(Scene):
     def __init__(
         self,
         director: Director,
-        remaining_lives: int = 3,
-        background: str = "background1",
-        music: str = "level_1.ogg",
-        # level: str = "level1.tmx"
-        level: str = "level2.tmx"
+        level: str,
+        remaining_lives: int,
+        background: str,
+        music: str,
+
     ):
         super().__init__(director)
 
@@ -52,7 +52,6 @@ class Level(Scene):
         self._setup_flag()
         self._setup_berries()
         self._setup_deco()
-        self._setup_shadow()
         # self._setup_music(music)
         self._setup_sound_effects()
 
@@ -134,14 +133,6 @@ class Level(Scene):
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
                 (self.groups["deco"]),
-            )
-
-    def _setup_shadow(self):
-        for x, y, surf in self.tmx_map.get_layer_by_name("Shadow").tiles():
-            Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
-                surf,
-                (self.groups["shadow"]),
             )
 
     def _setup_enemies(self):
@@ -226,32 +217,3 @@ class Level(Scene):
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
-
-    def draw(self, display_surface):
-        self.camera.draw_background(
-            self.groups["backgrounds"], display_surface)
-
-        for sprite in self.groups["deco"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["all_sprites"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["shadow"]:
-            shadow_layer = self.tmx_map.get_layer_by_name("Shadow")
-            opacity = int(shadow_layer.opacity * 255)
-            shadow_image = sprite.image.copy()
-            shadow_image.set_alpha(opacity)
-            display_surface.blit(shadow_image, self.camera.apply(sprite))
-
-        for projectile in self.groups["projectiles"]:
-            if projectile.is_activated:
-                display_surface.blit(
-                    projectile.image, self.camera.apply(projectile))
-
-        for sprite in self.groups["berries"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        self._handle_player_collisions_with_enemies()
-
-        self.hud.draw_hud(self.player.health_points, self.remaining_lives)
