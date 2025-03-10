@@ -58,13 +58,15 @@ class ResourceManager:
             print(f"Error loading font {fullname}: {e}")
 
     @classmethod
-    def load_sprite(cls, name):
+    def load_sprite_sheet(cls, name):
         if name in cls.resources:
             return cls.resources[name]
 
         try:
-            fullname = join('assets', 'creatures_and_else', name)
+            fullname = join('assets', 'sprites', name)
             image = pygame.image.load(fullname).convert_alpha()
+            color_key = image.get_at((0, 0))
+            image.set_colorkey(color_key)
             cls.resources[name] = image
             return image
         except Exception as e:

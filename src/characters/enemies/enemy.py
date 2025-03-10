@@ -1,12 +1,20 @@
 from settings import *
 from characters.character import Character
-from abc import ABC
+from resource_manager import ResourceManager
 
 
 class Enemy(Character):
-    def __init__(self, pos, surf, groups):
-        super().__init__(pos, surf, groups)
+    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, sprite_sheet_name)
         self.groups = groups
+        self.animations = animations
+        self.defeat_enemy_sound = ResourceManager.load_sound(
+            "defeat_enemy.ogg")
+
+    def _setup_animation(self):
+        self.animation_frame = 0
+        self.animation_speed = 0.2
+        self.animation_time = 0
 
     def handle_collision_with_player(self, level, player):
         pass
@@ -15,12 +23,13 @@ class Enemy(Character):
         for group in self.groups:
             if self in group:
                 group.remove(self)
+
+        self.defeat_enemy_sound.play()
         self.kill()
 
     def adjust_player_position(self, player):
         if not player.rect.colliderect(self.rect):
             return
-
         dif_x = abs(player.rect.centerx - self.rect.centerx)
         dif_y = abs(player.rect.centery - self.rect.centery)
 
