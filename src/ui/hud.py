@@ -36,9 +36,8 @@ class HUD:
             )
 
     def _setup_health_icon(self):
-        health_icon_path = join(
-            'assets', 'creatures_and_else', 'berries', 'without_background', 'berries.png')
-        health_icon_image = load(health_icon_path)
+        health_icon_path = 'berries.png'
+        health_icon_image = ResourceManager.load_sprite_sheet(health_icon_path)
         health_icon_image = health_icon_image.convert_alpha()
 
         first_icon = health_icon_image.subsurface((0, 0, 32, 32))
@@ -70,10 +69,8 @@ class HUD:
         self.display_surface.blit(self.energy_icon, (icon_x, icon_y))
 
     def _setup_energy_icon(self):
-        energy_icon_path = join('berries', 'without_background', 'berries.png')
-        energy_icon_image = ResourceManager.load_sprite(energy_icon_path)
-
-        energy_icon_image = energy_icon_image.convert_alpha()
+        energy_icon_path = 'berries.png'
+        energy_icon_image = ResourceManager.load_sprite_sheet(energy_icon_path)
 
         first_icon = energy_icon_image.subsurface((65, 0, 32, 32))
         first_icon = scale(first_icon, (32, 32))
