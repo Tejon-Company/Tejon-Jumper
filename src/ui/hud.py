@@ -50,7 +50,7 @@ class HUD:
         bar_height = 15
         icon_width = 32
         icon_spacing = 10
-        start_x = 10
+        start_x = 5
         start_y = 60
 
         bar_x = start_x - 30 + icon_width + icon_spacing
