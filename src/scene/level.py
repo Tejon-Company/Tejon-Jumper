@@ -38,7 +38,6 @@ class Level(Scene):
         self.tmx_map = load_pygame(level_path)
 
         self.remaining_lives = remaining_lives
-        self.previous_coin_count = 0
 
         self._setup_groups()
         self._setup_pools()
@@ -174,6 +173,10 @@ class Level(Scene):
         self.camera.update(self.player)
         self._handle_player_collisions()
 
+        if self.player.coins // 25:
+            self.remaining_lives += 1
+            self.player.coins = 0
+
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
             self._handle_projectile_collision()
@@ -236,4 +239,5 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        self.hud.draw_hud(self.player.health_points, self.remaining_lives, self.player.coins)
+        self.hud.draw_hud(self.player.health_points,
+                          self.remaining_lives, self.player.coins)
