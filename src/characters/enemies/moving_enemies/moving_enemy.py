@@ -4,13 +4,36 @@ from abc import ABC
 
 
 class MovingEnemy(Enemy, ABC):
-    def __init__(self, pos, surf, groups):
-        super().__init__(pos, surf, groups)
+    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, sprite_sheet_name, animations)
 
     def update(self, platform_rects, delta_time):
         self.old_rect = self.rect.copy()
         self._move(platform_rects, delta_time)
         self._detect_platform_contact(platform_rects)
+
+        self.facing_right = self.direction > 0
+        self._update_animation(delta_time)
+
+    def _update_animation(self, delta_time):
+        self._update_animation_frame(delta_time)
+        self._update_sprite()
+
+    def _update_animation_frame(self, delta_time):
+        self.animation_time += delta_time
+        frames_in_animation = len(self.animations)
+        elapsed_frames = self.animation_time / self.animation_speed
+        self.animation_frame = int(elapsed_frames) % frames_in_animation
+
+    def _update_sprite(self):
+        frame_rect = self.animations[self.animation_frame]
+        self.image = self.sprite_sheet.subsurface(frame_rect)
+
+        if not self.facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
+
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)
 
     def _move(self, platform_rects, delta_time):
         self.rect.x += self.direction * self.speed * delta_time

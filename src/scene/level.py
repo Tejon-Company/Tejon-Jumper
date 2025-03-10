@@ -2,7 +2,7 @@ from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.players.player_state import PlayerState
-from pygame.sprite import Group, spritecollide
+from pygame.sprite import Group, spritecollide, collide_rect
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
@@ -16,7 +16,8 @@ from pytmx.util_pygame import load_pygame
 from director import Director
 from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
-import os
+from resource_manager import ResourceManager
+from os import listdir
 
 
 class Level(Scene):
@@ -42,42 +43,34 @@ class Level(Scene):
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
+
         self._setup_background(background)
         self._setup_tiled_background()
+        self._setup_terrain()
+        self._setup_deco()
+
         self._setup_player()
         self._setup_enemies()
-        self._setup_terrain()
-        self._setup_flag()
         self._setup_berries()
         self._setup_deco()
-        #self._setup_music(music)
+        # self._setup_music(music)
         self._setup_sound_effects()
-
-    def _setup_sound_effects(self):
-        self.game_over_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "game_over.ogg"))
-        self.life_lost_sound = pygame.mixer.Sound(join(
-            "assets", "sounds", "sound_effects", "life_lost.ogg"))
-
-    def _setup_pools(self):
-        self.spore_pool = SporePool(10, self.groups["projectiles"])
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_groups(self):
         self.groups = {
             "all_sprites": Group(),
             "platforms": Group(),
-            "hedgehogs": Group(),
-            "mushrooms": Group(),
-            "squirrels": Group(),
-            "foxes": Group(),
+            "enemies": Group(),
             "backgrounds": [],
             "projectiles": Group(),
             "berries": Group(),
-            "bats": Group(),
             "tiled_background": Group(),
             "deco": Group(),
         }
+
+    def _setup_pools(self):
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -86,7 +79,6 @@ class Level(Scene):
 
     def _setup_background(self, background):
         background_folder = join("assets", "maps", "backgrounds", background)
-
         image_files = self._get_image_files(background_folder)
 
         for i, image_name in enumerate(image_files):
@@ -99,7 +91,7 @@ class Level(Scene):
 
     def _get_image_files(self, background_folder):
         image_files = []
-        for file in os.listdir(background_folder):
+        for file in listdir(background_folder):
             if file.endswith(".png"):
                 image_files.append(file)
 
@@ -114,12 +106,6 @@ class Level(Scene):
                 surf,
                 (self.groups["all_sprites"], self.groups["tiled_background"]),
             )
-
-    def _setup_music(self, music_file):
-        music_file = join("assets", "sounds", "music", music_file)
-
-        music.load(music_file)
-        music.play(-1)
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
@@ -137,15 +123,6 @@ class Level(Scene):
                 (self.groups["deco"]),
             )
 
-    def _setup_enemies(self):
-        for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool,
-                          self.acorn_pool, self.player)
-
-    def _setup_flag(self):
-        for flag in self.tmx_map.get_layer_by_name("Flag"):
-            return
-
     def _setup_player(self):
         player_layer = self.tmx_map.get_layer_by_name("Player")
         player_count = len(list(player_layer))
@@ -159,49 +136,30 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["all_sprites"],
-            health_points=5 if DIFFICULTY == Difficulty.NORMAL else 3,
+            5 if DIFFICULTY == Difficulty.NORMAL else 3,
+            "badger.png"
         )
+
+    def _setup_enemies(self):
+        for enemy in self.tmx_map.get_layer_by_name("Enemies"):
+            enemy_factory(enemy, self.groups, self.spore_pool,
+                          self.acorn_pool, self.player)
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
-    def run(self, delta_time):
-        platform_rects = [
-            platform.rect for platform in self.groups["platforms"]]
-        self.groups["all_sprites"].update(platform_rects, delta_time)
-        self.groups["berries"].update(self.player)
-
-        self.camera.update(self.player)
-
-        self._handle_player_collisions_with_enemies()
-
-    def _handle_player_collisions_with_enemies(self):
-        collisions = tuple(
-            spritecollide(self.player, self.groups[group], False)
-            for group in ["hedgehogs", "squirrels", "foxes", "projectiles", "bats"]
-        )
-
-        if all(len(c) == 0 for c in collisions):
+    def _setup_flag(self):
+        for flag in self.tmx_map.get_layer_by_name("Flag"):
             return
 
-        player_state = self.player.receive_damage()
-        if player_state == PlayerState.DEAD:
-            self._handle_dead()
+    def _setup_music(self):
+        music.load(self.music_file)
+        music.play(-1)
 
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self._handle_dead()
-
-    def _handle_dead(self):
-        self.director.pop_scene()
-        if self.remaining_lives <= 0:
-            self.game_over_sound.play()
-            self.director.stack_scene(GameOver(self.director))
-        else:
-            self.director.stack_scene(
-                Level(self.director, self.remaining_lives-1))
-            self.life_lost_sound.play()
+    def _setup_sound_effects(self):
+        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
 
     def update(self, delta_time):
         platform_rects = [
@@ -214,6 +172,42 @@ class Level(Scene):
         self._handle_fall()
 
         self.camera.update(self.player)
+        self._handle_player_collisions()
+
+    def _handle_player_collisions(self):
+        if spritecollide(self.player, self.groups["projectiles"], True):
+            self._handle_projectile_collision()
+        elif spritecollide(self.player, self.groups["enemies"], False):
+            self._handle_enemy_collision()
+
+    def _handle_projectile_collision(self):
+        if self.player.receive_damage() == PlayerState.DEAD:
+            self.handle_dead()
+
+    def _handle_enemy_collision(self):
+        enemies = self.groups.get("enemies", [])
+
+        for enemy in enemies:
+            if not collide_rect(self.player, enemy):
+                continue
+
+            if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
+                self.handle_dead()
+                return
+
+    def _handle_fall(self):
+        if self.player.rect.bottom > WINDOW_HEIGHT:
+            self.handle_dead()
+
+    def handle_dead(self):
+        self.director.pop_scene()
+        if self.remaining_lives <= 0:
+            self.game_over_sound.play()
+            self.director.stack_scene(GameOver(self.director))
+        else:
+            self.life_lost_sound.play()
+            self.director.stack_scene(
+                Level(self.director, self.remaining_lives-1))
 
         if self.player.coins // 25 > self.previous_coin_count // 25:
             self.remaining_lives += 1
@@ -241,7 +235,5 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        self._handle_player_collisions_with_enemies()
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives, self.player.coins)
