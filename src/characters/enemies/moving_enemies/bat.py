@@ -50,7 +50,7 @@ class Bat(MovingEnemy):
         if not pygame.sprite.collide_rect(self, player):
             return
 
-        self._adjust_player_position(player)
+        self.adjust_player_position(player)
 
         if is_below_collision(player.rect, player.old_rect, self.rect):
             self.defeat()

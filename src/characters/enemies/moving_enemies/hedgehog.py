@@ -21,7 +21,7 @@ class Hedgehog(MovingEnemy):
         if not collide_rect(self, player):
             return
 
-        self._adjust_player_position(player)
+        self.adjust_player_position(player)
         is_below = is_below_collision(player.rect, player.old_rect, self.rect)
 
         if player.is_sprinting and not is_below:
