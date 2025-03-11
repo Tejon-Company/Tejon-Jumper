@@ -199,14 +199,15 @@ class Level(Scene):
             self.handle_dead()
 
     def handle_dead(self):
-        self.director.pop_scene()
+        self.director.pop_scene()  
+        
         if self.remaining_lives <= 0:
-            self.game_over_sound.play()
-            self.director.stack_scene(GameOver(self.director))
+            self.game_over_sound.play()  
+            self.director.stack_scene(GameOver(self.director)) 
         else:
-            self.life_lost_sound.play()
-            self.director.stack_scene(
-                Level(self.director, self.remaining_lives-1))
+            self.remaining_lives -= 1
+            self.life_lost_sound.play()  
+            self.director.stack_scene(Level(self.director, self.remaining_lives)) 
 
     def events(self, events_list):
         for event in events_list:

@@ -34,6 +34,6 @@ class Game:
         if self.level.player.health_points <= 0:
             self.remaining_lives -= 1
             if self.remaining_lives <= 0:
-                self._game_over()
+                self.level.handle_dead()
             else:
                 self._restart_level()
