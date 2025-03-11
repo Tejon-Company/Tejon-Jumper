@@ -1,44 +1,39 @@
-from characters.players.player import Player
-from characters.players.player_state import PlayerState
-from scene.level import Level
-from resource_manager import ResourceManager
-from scene.game_over import game_over
 from settings import *
-
+from scene.level import Level
+from characters.players.player import Player
 
 class Game:
-    def __init__(self, director, level: str = "level1.tmx", background: str = "background1", music: str = "level_1.ogg"):
+    def __init__(self, director):
         self.director = director
-        self.level_name = level
-        self.background = background
-        self.music = music
         self.remaining_lives = 3
-        self.current_level = None
-        self.player = None
+        self.coins = 0
+        self.current_level = 1
+        self._load_level()
 
-        self._setup_level()
+    def _load_level(self):
+        level_name = f"level{self.current_level}.tmx"
+        self.level = Level(self.director, self.remaining_lives, "background1", "level_1.ogg", level_name)
 
-    def _setup_level(self):
-        self.current_level = Level(
-            self.director, self.remaining_lives, self.background, self.music, self.level_name)
-        self.player = self.current_level.player
+    def _restart_level(self):
+        self._load_level()
+
+    def _game_over(self):
+        self.director.exit_program()
+
+    def events(self, event_list): 
+        self.level.events(event_list)
 
     def update(self, delta_time):
-        self.current_level.update(delta_time)
+        self.level.update(delta_time)
+        self._check_player_state()
 
-        if self.player.health_points <= 0:
-            self.handle_dead()
+    def draw(self, surface): 
+        self.level.draw(surface) 
 
-    def handle_dead(self):
-        if self.remaining_lives <= 0:
-            self.director.stack_scene(game_over(self.director))
-        else:
+    def _check_player_state(self):
+        if self.level.player.health_points <= 0:
             self.remaining_lives -= 1
-            self.director.stack_scene(
-                Level(self.director, self.remaining_lives))
-
-    def events(self, events_list):
-        self.current_level.events(events_list)
-
-    def draw(self, display_surface):
-        self.current_level.draw(display_surface)
+            if self.remaining_lives <= 0:
+                self._game_over()
+            else:
+                self._restart_level()
