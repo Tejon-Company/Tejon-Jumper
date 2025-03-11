@@ -81,6 +81,7 @@ class Player(Character):
         return True, current_time_ms
 
     def update(self, platform_rects, delta_time):
+        self.platform_rects = platform_rects
         self.old_rect = self.rect.copy()
         self._input()
         self._move(platform_rects, delta_time)
@@ -165,7 +166,7 @@ class Player(Character):
     def _move_horizontally(self, platform_rects, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
         self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
-        self._collision(platform_rects, self._handle_horizontal_collision)
+        self._collision(platform_rects, self.handle_horizontal_collision)
 
     def _move_vertically(self, platform_rects, delta_time):
         self.rect.y += self.fall * delta_time
@@ -185,7 +186,14 @@ class Player(Character):
             if platform_rect.colliderect(self.rect):
                 collision_handler(platform_rect)
 
-    def _handle_horizontal_collision(self, platform_rect):
+    def collision2(self):
+        for platform_rect in self.platform_rects:
+            if platform_rect.colliderect(self.rect):
+                self.handle_horizontal_collision(platform_rect)
+
+    def handle_horizontal_collision(self, platform_rect):
+        if platform_rect is None:
+            platform_rect = self.platform_rects
         if is_right_collision(self.rect, self.old_rect, platform_rect):
             self.rect.right = platform_rect.left
 

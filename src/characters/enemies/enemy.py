@@ -1,6 +1,7 @@
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
+from characters.players.player import Player
 
 
 class Enemy(Character):
@@ -27,7 +28,7 @@ class Enemy(Character):
         self.defeat_enemy_sound.play()
         self.kill()
 
-    def adjust_player_position(self, player):
+    def adjust_player_position(self, player: Player):
         if not player.rect.colliderect(self.rect):
             return
         dif_x = abs(player.rect.centerx - self.rect.centerx)
@@ -39,6 +40,7 @@ class Enemy(Character):
             self._adjust_player_position_horizontally(player)
         else:
             self._adjust_player_position_vertically(player)
+        player.collision2()
 
     def _adjust_player_position_horizontally(self, player):
         if player.rect.centerx < self.rect.centerx:
