@@ -1,6 +1,9 @@
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
+from characters.players.player import Player
+from characters.players.player_state import PlayerState
+from characters.players.collision_utils import is_below_collision
 
 
 class Enemy(Character):
@@ -27,35 +30,30 @@ class Enemy(Character):
         self.defeat_enemy_sound.play()
         self.kill()
 
-    def adjust_player_position(self, player):
+    def handle_collision_with_player(self, level, player):
+        if not pygame.sprite.collide_rect(self, player):
+            return
+
+        self._adjust_player_position(player)
+
+        if is_below_collision(player.rect, player.old_rect, self.rect) or player.is_sprinting:
+            self.defeat()
+            return
+
+        player_state = player.receive_damage()
+        if player_state == PlayerState.DEAD:
+            level.handle_dead()
+
+    def _adjust_player_position(self, player: Player):
         if not player.rect.colliderect(self.rect):
             return
+
         dif_x = abs(player.rect.centerx - self.rect.centerx)
         dif_y = abs(player.rect.centery - self.rect.centery)
 
         is_horizontal_collision = dif_x > dif_y
 
         if is_horizontal_collision:
-            self._adjust_player_position_horizontally(player)
+            player.handle_horizontal_collision(self.rect)
         else:
-            self._adjust_player_position_vertically(player)
-
-    def _adjust_player_position_horizontally(self, player):
-        if player.rect.centerx < self.rect.centerx:
-            player.rect.right = self.rect.left
-        else:
-            player.rect.left = self.rect.right
-
-    def _adjust_player_position_vertically(self, player):
-        is_player_above = player.rect.centery < self.rect.centery
-        if is_player_above:
-            player.rect.bottom = self.rect.top
-        else:
-            player.rect.top = self.rect.bottom
-
-        horizontal_offset = 10
-        is_player_left = player.rect.centerx < self.rect.centerx
-        if is_player_left:
-            player.rect.x -= horizontal_offset
-        else:
-            player.rect.x += horizontal_offset
+            player.handle_vertical_collision(self.rect)
