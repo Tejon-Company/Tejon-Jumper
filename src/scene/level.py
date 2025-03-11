@@ -39,7 +39,7 @@ class Level(Scene):
         self.tmx_map = load_pygame(level_path)
 
         self.remaining_lives = remaining_lives
-        
+
         self.is_on_pause = False
 
         self._setup_groups()
@@ -176,6 +176,9 @@ class Level(Scene):
         self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
         
     def update(self, delta_time):
+        if self._is_game_paused():
+            return
+
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
 
