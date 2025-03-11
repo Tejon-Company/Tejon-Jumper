@@ -1,6 +1,7 @@
 from settings import *
 from characters.character import Character
 from characters.players.player_state import PlayerState
+from resource_manager import ResourceManager
 from characters.players.collision_utils import *
 
 
@@ -20,7 +21,7 @@ class Player(Character):
         self.speed = 150
         self.gravity = 1000
         self.fall = 0
-        self.jump = False
+        self.is_jumping = False
         self.jump_height = 300
 
         self.on_surface = False
@@ -28,6 +29,8 @@ class Player(Character):
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
+
+        self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -50,6 +53,7 @@ class Player(Character):
         if not should_receive_damage:
             return PlayerState.ALIVE
 
+        self.damage_sound.play()
         self.health_points -= 1
 
         if self.health_points > 0:
@@ -136,7 +140,7 @@ class Player(Character):
 
         if keys[pygame.K_SPACE] or keys[pygame.K_UP]:
             self.direction.y = -1
-            self.jump = True
+            self.is_jumping = True
 
         self.is_sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
 
@@ -169,12 +173,12 @@ class Player(Character):
         self._collision(platform_rects, self._handle_vertical_collision)
 
         if self.on_surface:
-            self.fall = -self.jump_height if self.jump else 0
+            self.fall = -self.jump_height if self.is_jumping else 0
             self.direction.y = 0
 
-        if self.jump:
+        if self.is_jumping:
             self._normalize_direction()
-            self.jump = False
+            self.is_jumping = False
 
     def _collision(self, platform_rects, collision_handler):
         for platform_rect in platform_rects:
@@ -194,6 +198,7 @@ class Player(Character):
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
+            self.fall = 0
 
         self.direction.y = 0
 
