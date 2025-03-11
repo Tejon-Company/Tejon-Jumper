@@ -5,8 +5,8 @@ from characters.players.player import Player
 
 
 class Enemy(Character):
-    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, platform_rects, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name)
         self.groups = groups
         self.animations = animations
         self.defeat_enemy_sound = ResourceManager.load_sound(

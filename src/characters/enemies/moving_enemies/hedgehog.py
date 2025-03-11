@@ -7,8 +7,8 @@ from pygame.sprite import collide_rect
 
 
 class Hedgehog(MovingEnemy):
-    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, groups, platform_rects, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name, animations)
 
         self.rect = self.image.get_frect(topleft=pos)
 

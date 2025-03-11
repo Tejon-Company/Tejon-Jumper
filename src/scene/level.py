@@ -49,9 +49,13 @@ class Level(Scene):
         self._setup_tiled_background()
         self._setup_terrain()
         self._setup_deco()
-
+        self.platform_rects = [
+            platform.rect for platform in self.groups["platforms"]]
         self._setup_player()
         self._setup_enemies()
+        self.platform_rects = [
+            platform.rect for platform in self.groups["platforms"]]
+        self.player.platform_rects = self.platform_rects
         self._setup_berries()
         self._setup_deco()
         # self._setup_music(music)
@@ -137,13 +141,14 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["all_sprites"],
+            self.platform_rects,
             5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png"
         )
 
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool,
+            enemy_factory(enemy, self.groups, self.platform_rects, self.spore_pool,
                           self.acorn_pool, self.player)
 
     def _setup_berries(self):
@@ -166,12 +171,9 @@ class Level(Scene):
         if self._is_game_paused():
             return
 
-        platform_rects = [
-            platform.rect for platform in self.groups["platforms"]]
-
-        self.groups["all_sprites"].update(platform_rects, delta_time)
+        self.groups["all_sprites"].update(delta_time)
         self.groups["berries"].update(self.player)
-        self.groups["projectiles"].update(platform_rects, delta_time)
+        self.groups["projectiles"].update(delta_time)
 
         self._handle_fall()
 

@@ -6,8 +6,8 @@ from characters.players.collision_utils import *
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
-        super().__init__(pos, surf, groups, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, platform_rects, health_points, sprite_sheet_name):
+        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name)
 
         self._setup_animation()
 
@@ -16,6 +16,8 @@ class Player(Character):
 
         self.health_points = health_points
         self.maximum_health_points = health_points
+
+        self.platform_rects = self.platform_rects
 
         self.direction = vector(0, 0)
         self.speed = 150
@@ -80,12 +82,12 @@ class Player(Character):
 
         return True, current_time_ms
 
-    def update(self, platform_rects, delta_time):
-        self.platform_rects = platform_rects
+    def update(self, delta_time):
+        self.platform_rects = self.platform_rects
         self.old_rect = self.rect.copy()
         self._input()
-        self._move(platform_rects, delta_time)
-        self._detect_platform_contact(platform_rects)
+        self._move(delta_time)
+        self._detect_platform_contact()
         self._update_animation(delta_time)
 
     def _update_animation(self, delta_time):
@@ -159,19 +161,19 @@ class Player(Character):
             if y == -1:
                 self.direction.y = -diagonal_value
 
-    def _move(self, platform_rects, delta_time):
-        self._move_horizontally(platform_rects, delta_time)
-        self._move_vertically(platform_rects, delta_time)
+    def _move(self, delta_time):
+        self._move_horizontally(delta_time)
+        self._move_vertically(delta_time)
 
-    def _move_horizontally(self, platform_rects, delta_time):
+    def _move_horizontally(self, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
         self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
-        self._collision(platform_rects, self.handle_horizontal_collision)
+        self._collision(self._handle_horizontal_collision)
 
-    def _move_vertically(self, platform_rects, delta_time):
+    def _move_vertically(self, delta_time):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
-        self._collision(platform_rects, self._handle_vertical_collision)
+        self._collision(self._handle_vertical_collision)
 
         if self.on_surface:
             self.fall = -self.jump_height if self.is_jumping else 0
@@ -181,19 +183,17 @@ class Player(Character):
             self._normalize_direction()
             self.is_jumping = False
 
-    def _collision(self, platform_rects, collision_handler):
-        for platform_rect in platform_rects:
+    def _collision(self, collision_handler):
+        for platform_rect in self.platform_rects:
             if platform_rect.colliderect(self.rect):
                 collision_handler(platform_rect)
 
     def collision2(self):
         for platform_rect in self.platform_rects:
             if platform_rect.colliderect(self.rect):
-                self.handle_horizontal_collision(platform_rect)
+                self._handle_horizontal_collision(platform_rect)
 
-    def handle_horizontal_collision(self, platform_rect):
-        if platform_rect is None:
-            platform_rect = self.platform_rects
+    def _handle_horizontal_collision(self, platform_rect):
         if is_right_collision(self.rect, self.old_rect, platform_rect):
             self.rect.right = platform_rect.left
 
@@ -210,10 +210,10 @@ class Player(Character):
 
         self.direction.y = 0
 
-    def _detect_platform_contact(self, platform_rects):
+    def _detect_platform_contact(self):
         character_height = 2
         platform_rect = pygame.Rect(
             self.rect.bottomleft, (self.rect.width, character_height)
         )
 
-        self.on_surface = platform_rect.collidelist(platform_rects) >= 0
+        self.on_surface = platform_rect.collidelist(self.platform_rects) >= 0
