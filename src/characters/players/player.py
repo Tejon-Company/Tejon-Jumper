@@ -40,7 +40,8 @@ class Player(Character):
         self.animations = {
             'idle': [(0, 0, 32, 32)],
             'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
-            'jump': [(165, 0, 32, 32)]
+            'jump': [(165, 0, 32, 32)],
+            'roll': [(32, 0, 32, 32)],
         }
 
         self.current_animation = 'idle'
@@ -103,7 +104,10 @@ class Player(Character):
             if self.direction.x != 0:
                 self.facing_right = self.direction.x > 0
         elif abs(self.direction.x) > 0:
-            self.current_animation = 'run'
+            if self.is_sprinting and pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
+                self.current_animation = 'roll'
+            else:
+                self.current_animation = 'run'
             self.facing_right = self.direction.x > 0
         else:
             self.current_animation = 'idle'
