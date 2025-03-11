@@ -35,16 +35,6 @@ class HUD:
                 (start_x + i * (heart_size + spacing), start_y)
             )
 
-    def _setup_health_icon(self):
-        health_icon_path = 'berries.png'
-        health_icon_image = ResourceManager.load_sprite_sheet(health_icon_path)
-        health_icon_image = health_icon_image.convert_alpha()
-
-        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
-
-        self.health_icon = first_icon
-
     def _draw_energy_bar(self, energy: float):
         bar_width = 150
         bar_height = 15
@@ -68,6 +58,22 @@ class HUD:
         icon_y = start_y + (bar_height - 32) // 2
         self.display_surface.blit(self.energy_icon, (icon_x, icon_y))
 
+    def _draw_lifes_counter(self, remaining_lives: int):
+        self.display_surface.blit(self.player_icon, (10, 90))
+        lives_text = f"x{remaining_lives}"
+        text_surface = self.font.render(lives_text, True, (255, 255, 255))
+        self.display_surface.blit(text_surface, (50, 90))
+
+    def _setup_health_icon(self):
+        health_icon_path = 'berries.png'
+        health_icon_image = ResourceManager.load_sprite_sheet(health_icon_path)
+        health_icon_image = health_icon_image.convert_alpha()
+
+        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
+        first_icon = scale(first_icon, (32, 32))
+
+        self.health_icon = first_icon
+
     def _setup_energy_icon(self):
         energy_icon_path = 'berries.png'
         energy_icon_image = ResourceManager.load_sprite_sheet(energy_icon_path)
@@ -76,9 +82,3 @@ class HUD:
         first_icon = scale(first_icon, (32, 32))
 
         self.energy_icon = first_icon
-
-    def _draw_lifes_counter(self, remaining_lives: int):
-        self.display_surface.blit(self.player_icon, (10, 90))
-        lives_text = f"x{remaining_lives}"
-        text_surface = self.font.render(lives_text, True, (255, 255, 255))
-        self.display_surface.blit(text_surface, (50, 90))
