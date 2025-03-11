@@ -25,12 +25,10 @@ class Level(Scene):
     def __init__(
         self,
         director: Director,
-        remaining_lives: int,
-        health_points: int,
-        level: str,
-        background: str,
-        music_file: str,
-
+        remaining_lives: int = 3,
+        background: str = "background2",
+        music: str = "level_1.ogg",
+        level: str = "level2.tmx"
     ):
         super().__init__(director)
 
@@ -41,9 +39,8 @@ class Level(Scene):
         self.tmx_map = load_pygame(level_path)
 
         self.remaining_lives = remaining_lives
-        self.health_points = health_points
         
-        self.music_file = music_file
+        self.is_on_pause = False
 
         self._setup_groups()
         self._setup_pools()
@@ -52,8 +49,8 @@ class Level(Scene):
         self._setup_background(background)
         self._setup_tiled_background()
         self._setup_terrain()
-        self._setup_flag()
         self._setup_deco()
+        self._setup_flag()
         
         self._setup_player()
         self._setup_enemies()
@@ -71,7 +68,6 @@ class Level(Scene):
             "berries": Group(),
             "tiled_background": Group(),
             "deco": Group(),
-            "shadow": Group(),
             "flag": Group(),
         }
 
@@ -143,7 +139,7 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["all_sprites"],
-            self.health_points,
+            5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png"
         )
 
@@ -172,7 +168,7 @@ class Level(Scene):
         )
         
     def _setup_music(self):
-        music.load(self.music_file)
+        music.load(self.music)
         music.play(-1)
         
     def _setup_sound_effects(self):
@@ -192,6 +188,18 @@ class Level(Scene):
         self.camera.update(self.player)
         self._handle_player_collisions()
         self._handle_flag_collision()
+        
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
+
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+
+        return self.is_on_pause
+    
+    def _handle_fall(self):
+        if self.player.rect.bottom > WINDOW_HEIGHT:
+            self._handle_dead()
     
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
@@ -201,7 +209,7 @@ class Level(Scene):
 
     def _handle_projectile_collision(self):
         if self.player.receive_damage() == PlayerState.DEAD:
-            self.handle_dead()
+            self._handle_dead()
 
     def _handle_enemy_collision(self):
         enemies = self.groups.get("enemies", [])
@@ -211,14 +219,10 @@ class Level(Scene):
                 continue
 
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
-                self.handle_dead()
+                self._handle_dead()
                 return
 
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self.handle_dead()
-
-    def handle_dead(self):
+    def _handle_dead(self):
         self.director.pop_scene()
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
@@ -227,11 +231,14 @@ class Level(Scene):
             self.life_lost_sound.play()
             self.director.stack_scene(
                 Level(self.director, self.remaining_lives-1))
-            
 
     def _handle_flag_collision(self):
         if self.player.rect.colliderect(self.flag.rect):
-            self.change_level()
+            self._change_level()
+        
+    def _change_level(self):
+        self.director.pop_scene()
+        self.director.stack_scene()
 
     def events(self, events_list):
         for event in events_list:
@@ -239,4 +246,26 @@ class Level(Scene):
                 self.director.exit_program()
 
     def draw(self, display_surface):
-        pass
+        self.camera.draw_background(
+            self.groups["backgrounds"], display_surface)
+
+        for sprite in self.groups["deco"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["all_sprites"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for projectile in self.groups["projectiles"]:
+            if projectile.is_activated:
+                display_surface.blit(
+                    projectile.image, self.camera.apply(projectile))
+
+        for sprite in self.groups["berries"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["flag"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        self._handle_player_collisions()
+
+        self.hud.draw_hud(self.player.health_points, self.remaining_lives)
