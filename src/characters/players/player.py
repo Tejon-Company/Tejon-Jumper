@@ -6,8 +6,8 @@ from characters.players.collision_utils import *
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, platform_rects, health_points, sprite_sheet_name):
-        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
+        super().__init__(pos, surf, groups, None, sprite_sheet_name)
 
         self._setup_animation()
 
@@ -47,6 +47,9 @@ class Player(Character):
 
         self.current_animation = 'idle'
         self.facing_right = True
+
+    def set_platform_rects(self, platform_rects):
+        self.platform_rects = platform_rects
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
@@ -186,8 +189,14 @@ class Player(Character):
     def collision(self, collision_handler=None):
         collision_handler = collision_handler or self._handle_horizontal_collision
         for platform_rect in self.platform_rects:
-            if platform_rect.colliderect(self.rect):
+            if not platform_rect.colliderect(self.rect):
+                continue
+
+            if collision_handler:
                 collision_handler(platform_rect)
+            else:
+                self._handle_horizontal_collision(platform_rect)
+                self._handle_vertical_collision(platform_rect)
 
     def _handle_horizontal_collision(self, platform_rect):
         if is_right_collision(self.rect, self.old_rect, platform_rect):
