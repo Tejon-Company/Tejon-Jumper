@@ -92,6 +92,11 @@ class Player(Character):
         self._update_energy(delta_time)
         self._update_animation(delta_time)
 
+    def _update_energy(self, delta_time):
+        if self.is_sprinting and self.energy > 0:
+            self.energy -= self.energy_depletion_rate * delta_time
+            self.energy = max(0, self.energy)
+
     def _update_animation(self, delta_time):
         previous_animation = self.current_animation
         self._determine_current_animation()
@@ -217,10 +222,5 @@ class Player(Character):
 
         self.on_surface = platform_rect.collidelist(platform_rects) >= 0
 
-    def _update_energy(self, delta_time):
-        if self.is_sprinting and self.energy > 0:
-            self.energy -= self.energy_depletion_rate * delta_time
-            self.energy = max(0, self.energy)
-
     def recover_energy(self, amount):
-        self.energy = min(self.energy + amount, self.max_energy)
+        self.energy = min(self.energy + amount, 100)
