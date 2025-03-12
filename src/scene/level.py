@@ -15,7 +15,6 @@ from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
 from characters.players.player_state import PlayerState
-from resource_manager import ResourceManager
 from os import listdir
 
 
@@ -103,7 +102,7 @@ class Level(Scene):
             Sprite(
                 (x * TILE_SIZE, y * TILE_SIZE),
                 surf,
-                (self.groups["all_sprites"], self.groups["tiled_background"]),
+                (self.groups["all_sprites"]),
             )
 
     def _setup_terrain(self):
