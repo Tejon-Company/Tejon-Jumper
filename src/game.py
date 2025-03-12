@@ -47,7 +47,7 @@ class Game:
         self.remaining_lives -= 1
 
         if self.remaining_lives <= 0:
-            self.handle_dead()
+            self._handle_dead()
         else:
             self._restart_level()
 
