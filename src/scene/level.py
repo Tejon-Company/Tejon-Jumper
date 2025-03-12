@@ -18,7 +18,7 @@ from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 from resource_manager import ResourceManager
 from os import listdir
-
+from enviroment.enviroment_factory import enviroment_factory
 
 class Level(Scene):
     def __init__(
@@ -43,6 +43,8 @@ class Level(Scene):
         self._setup_pools()
         self._setup_camera()
 
+        self._setup_enviroment()
+
         self._setup_background(background)
         self._setup_tiled_background()
         self._setup_terrain()
@@ -65,6 +67,7 @@ class Level(Scene):
             "berries": Group(),
             "tiled_background": Group(),
             "deco": Group(),
+            "enviroment":Group(),
         }
 
     def _setup_pools(self):
@@ -148,13 +151,23 @@ class Level(Scene):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
-    def _setup_flag(self):
-        for flag in self.tmx_map.get_layer_by_name("Flag"):
-            return
+        
+    def _setup_enviroment(self):
+        for map_element in self.tmx_map.get_layer_by_name("Enviroment"):
+            enviroment_factory(map_element, self.groups)
 
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
+
+    def _handle_enviroment_collisions(self):
+        enviroment=self.groups.get("enviroment", [])
+        if spritecollide(self.player, self.groups["enviroment"], False):
+            for enviroment in enviroment:
+                if not collide_rect(self.player, enviroment):
+                    continue
+
+
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
@@ -172,6 +185,7 @@ class Level(Scene):
 
         self.camera.update(self.player)
         self._handle_player_collisions()
+        self._handle_enviroment_collisions()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
@@ -229,6 +243,8 @@ class Level(Scene):
                     projectile.image, self.camera.apply(projectile))
 
         for sprite in self.groups["berries"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+        for  sprite in self.groups["enviroment"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
