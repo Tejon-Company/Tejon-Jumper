@@ -39,7 +39,7 @@ class Player(Character):
 
         self.animations = {
             'idle': [(0, 0, 32, 32)],
-            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
+            'run': [(x + (x//32), 0, 32, 32) for x in range(32, 416, 32)],
             'jump': [(165, 0, 32, 32)]
         }
 
