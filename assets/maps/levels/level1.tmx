@@ -126,13 +126,13 @@
     <property name="Orientation" value="LEFT"/>
    </properties>
   </object>
-  <object id="131" name="Bat" gid="819" x="192.667" y="497.333" width="32" height="32"/>
+  <object id="131" name="Bat" gid="819" x="102" y="416.666" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="9" name="Flag">
   <object id="126" name="Flag" gid="797" x="3744" y="480" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Player">
-  <object id="65" name="Player" gid="799" x="116.833" y="639.667" width="32" height="32"/>
+  <object id="65" name="Player" gid="799" x="116.833" y="638.667" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="Terrain" width="121" height="23">
   <data encoding="csv">
