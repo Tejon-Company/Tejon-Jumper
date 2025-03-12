@@ -43,10 +43,8 @@ class Game:
     def _check_player_state(self):
         if self.player.health_points <= 0:
             self.remaining_lives -= 1
-            if self.remaining_lives <= 0:
-                self.level.handle_dead()
-            else:
-                self._restart_level()
+            action = self.handle_dead if self.remaining_lives <= 0 else self._restart_level
+            action()
 
     def handle_dead(self):
         if self.remaining_lives <= 0:
