@@ -241,7 +241,7 @@ class Level(Scene):
         
     def _change_level(self):
         self.director.pop_scene()
-        self.director.stack_scene()
+        self.director.stack_scene(Level(self.director, self.remaining_lives))
 
     def events(self, events_list):
         for event in events_list:
