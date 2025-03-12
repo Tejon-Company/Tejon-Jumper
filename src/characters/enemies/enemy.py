@@ -60,4 +60,3 @@ class Enemy(Character):
             player.rect.x -= horizontal_offset
         else:
             player.rect.x += horizontal_offset
-            

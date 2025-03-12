@@ -40,7 +40,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
                 "bat.png",
-                _create_animation_rects(0, 0),
+                _create_animation_rects(0, 3),
             )
         case "Squirrel":
             Squirrel(
