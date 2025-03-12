@@ -10,7 +10,6 @@ class Mushroom(Shooter):
                          sprite_sheet_name, animations, projectiles_pool)
         self.direction = direction
         self.shoot_cooldown = 5000
-
         self.rect = self.image.get_frect(topleft=pos)
 
     def _update_animation_frame(self, delta_time):

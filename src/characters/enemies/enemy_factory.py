@@ -20,6 +20,8 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
             direction = ShooterDirection.obtain_direction(orientation)
+            # Use direction.value to get the numeric value of the enum
+            direction_value = direction.value if hasattr(direction, 'value') else 0
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
@@ -27,7 +29,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 direction,
                 player,
                 "mushroom.png",
-                _create_animation_rects(0, 1),
+                _create_animation_rects(direction_value[1], 3),
                 spore_pool
             )
         case "Fox":
@@ -62,8 +64,8 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
 
 
 def _create_animation_rects(frame_start_x, number_of_frames):
-    frame_start_x *= 32
     sprite_size = TILE_SIZE
+    frame_start_x *= sprite_size
     y = 0
     pixel_gap = 1
     animation_rects = []

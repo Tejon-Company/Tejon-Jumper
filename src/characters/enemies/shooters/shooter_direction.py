@@ -3,10 +3,10 @@ from settings import *
 
 
 class ShooterDirection(Enum):
-    LEFT = vector(-1, 0)
-    RIGHT = vector(1, 0)
-    UP = vector(0, -1)
-    DOWN = vector(0, 1)
+    LEFT = (vector(-1, 0), 3)
+    RIGHT = (vector(1, 0), 6)
+    UP = (vector(0, -1), 0)
+    DOWN = (vector(0, 1), 0)
 
     @classmethod
     def obtain_direction(cls, orientation):
