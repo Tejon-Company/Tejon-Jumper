@@ -160,12 +160,6 @@ class Level(Scene):
         music.load(self.music_file)
         music.play(-1)
 
-    def _handle_environment_collisions(self):
-        environment = self.groups.get("environment", [])
-        if spritecollide(self.player, self.groups["environment"], False):
-            for environment in environment:
-                if not collide_rect(self.player, environment):
-                    continue
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
@@ -184,7 +178,6 @@ class Level(Scene):
 
         self.camera.update(self.player)
         self._handle_player_collisions()
-        self._handle_environment_collisions()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):

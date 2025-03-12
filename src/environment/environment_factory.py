@@ -1,4 +1,3 @@
-from environment.flag import Flag
 from environment.rock import Rock
 
 
