@@ -10,6 +10,7 @@ class Enemy(Character):
         self.animations = animations
         self.defeat_enemy_sound = ResourceManager.load_sound(
             "defeat_enemy.ogg")
+        self._setup_animation()
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -59,3 +60,4 @@ class Enemy(Character):
             player.rect.x -= horizontal_offset
         else:
             player.rect.x += horizontal_offset
+            
