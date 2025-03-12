@@ -51,7 +51,7 @@ class Game:
         else:
             self._restart_level()
 
-    def handle_dead(self):
+    def _handle_dead(self):
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
             self.director.stack_scene(GameOver(self.director))
