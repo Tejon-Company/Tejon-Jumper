@@ -18,7 +18,8 @@ from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 from resource_manager import ResourceManager
 from os import listdir
-from enviroment.enviroment_factory import enviroment_factory
+from environment.environment_factory import environment_factory
+
 
 class Level(Scene):
     def __init__(
@@ -43,7 +44,7 @@ class Level(Scene):
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_enviroment()
+        self._setup_environment()
 
         self._setup_background(background)
         self._setup_tiled_background()
@@ -67,7 +68,7 @@ class Level(Scene):
             "berries": Group(),
             "tiled_background": Group(),
             "deco": Group(),
-            "enviroment":Group(),
+            "environment": Group(),
         }
 
     def _setup_pools(self):
@@ -151,23 +152,20 @@ class Level(Scene):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
-        
-    def _setup_enviroment(self):
+    def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Enviroment"):
-            enviroment_factory(map_element, self.groups)
+            environment_factory(map_element, self.groups)
 
     def _setup_music(self):
         music.load(self.music_file)
         music.play(-1)
 
-    def _handle_enviroment_collisions(self):
-        enviroment=self.groups.get("enviroment", [])
-        if spritecollide(self.player, self.groups["enviroment"], False):
-            for enviroment in enviroment:
-                if not collide_rect(self.player, enviroment):
+    def _handle_environment_collisions(self):
+        environment = self.groups.get("environment", [])
+        if spritecollide(self.player, self.groups["environment"], False):
+            for environment in environment:
+                if not collide_rect(self.player, environment):
                     continue
-
-
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
@@ -177,6 +175,7 @@ class Level(Scene):
         platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
 
+        self.groups["environment"].update(self.player)
         self.groups["all_sprites"].update(platform_rects, delta_time)
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(platform_rects, delta_time)
@@ -185,7 +184,7 @@ class Level(Scene):
 
         self.camera.update(self.player)
         self._handle_player_collisions()
-        self._handle_enviroment_collisions()
+        self._handle_environment_collisions()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
@@ -244,7 +243,7 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-        for  sprite in self.groups["enviroment"]:
+        for sprite in self.groups["environment"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
