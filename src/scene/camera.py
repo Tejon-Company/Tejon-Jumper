@@ -13,7 +13,9 @@ class Camera:
         camera_x = -target.rect.centerx + WINDOW_WIDTH // 2
         camera_x = min(0, camera_x)
         camera_x = max(-(self.width - WINDOW_WIDTH), camera_x)
-        self.camera.x = camera_x
+
+        interpolation_factor = 0.055
+        self.camera.x += (camera_x - self.camera.x) * interpolation_factor
 
     def draw_background(self, backgrounds, surface):
         for background in backgrounds:
