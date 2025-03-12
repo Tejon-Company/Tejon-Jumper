@@ -9,21 +9,9 @@ class Pause(Scene):
         super().__init__(director)
         self.display_surface = pygame.display.get_surface()
 
-        self.pause_menu = pygame.Rect(
-            WINDOW_WIDTH // 2 - 125, WINDOW_HEIGHT // 2 - 300, 200, 50)
-
-        self.continue_btn = pygame.Rect(
-            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, 200, 50)
-        self.restart_btn = pygame.Rect(
-            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2, 200, 50)
-
-        self.music_volume_bar = pygame.Rect(
-            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 + 100, 200, 20)
-        self.effects_volume_bar = pygame.Rect(
-            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 + 150, 200, 20)
-
         self.music_volume = pygame.mixer.music.get_volume()
-        self.effects_volume = pygame.mixer.Sound.get_volume(pygame.mixer.Sound) 
+        self.effects_volume = ResourceManager.get_effects_volume()
+        
     def events(self, events_list):
         for event in events_list:
             if event.type == pygame.QUIT:
@@ -34,15 +22,13 @@ class Pause(Scene):
                 if self.restart_btn.collidepoint(event.pos):
                     from scene.level import Level
                     self.director.change_scene(Level(self.director))
-                elif self.music_volume_bar.collidepoint(event.pos):
-                    print("Music volume pressed")
+                if self.music_volume_bar.collidepoint(event.pos):
                     self.music_volume = (event.pos[0] - self.music_volume_bar.x) / self.music_volume_bar.width
                     ResourceManager.set_music_volume(self.music_volume)
-                elif self.effects_volume_bar.collidepoint(event.pos):
-                    print("Effects volume pressed")
+                if self.effects_volume_bar.collidepoint(event.pos):
                     self.effects_volume = (event.pos[0] - self.effects_volume_bar.x) / self.effects_volume_bar.width
                     ResourceManager.set_effects_volume(self.effects_volume)
-
+                    
     def draw(self, display_surface):
         overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 0))  
@@ -50,28 +36,38 @@ class Pause(Scene):
         
         font = pygame.font.Font(None, 40)
 
-        pygame.draw.rect(display_surface, (255, 0, 0), self.continue_btn)
-        pygame.draw.rect(display_surface, (255, 0, 0), self.restart_btn)
+        self.pause_menu = pygame.Rect(
+            WINDOW_WIDTH // 2 - 125, WINDOW_HEIGHT // 2 - 300, 200, 50)
+        self.continue_btn = pygame.Rect(
+            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, 200, 50)
+        self.restart_btn = pygame.Rect(
+            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2, 200, 50)
+        self.music_volume_bar = pygame.Rect(
+            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 + 100, 200, 20)
+        self.effects_volume_bar = pygame.Rect(
+            WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 + 150, 200, 20)
 
-        pause_menu_text = font.render("Pause Menu", True, (0, 0, 0))
+        self._draw_menu_text(display_surface, self.pause_menu, "Pause Menu", font)
+        
+        self._draw_button(display_surface, self.continue_btn, "Continue", font)
+        self._draw_button(display_surface, self.restart_btn, "Restart", font)
 
-        continue_text = font.render("Continue", True, (255, 255, 255))
-        restart_text = font.render("Restart", True, (255, 255, 255))
+        self._draw_volume_bar(display_surface, self.music_volume_bar, self.music_volume, "Music", font)
+        self._draw_volume_bar(display_surface, self.effects_volume_bar, self.effects_volume, "Sound Effects", font)
 
-        display_surface.blit(
-            pause_menu_text, (self.pause_menu.x + 30, self.pause_menu.y + 15))
 
-        display_surface.blit(
-            continue_text, (self.continue_btn.x + 40, self.continue_btn.y + 15))
-        display_surface.blit(
-            restart_text, (self.restart_btn.x + 50, self.restart_btn.y + 15))
+    def _draw_menu_text(self, display_surface, rect, text, font):
+        pause_menu_text = font.render(text, True, (0, 0, 0))
+        text_rect = pause_menu_text.get_rect(center=(rect.centerx, rect.centery))
+        display_surface.blit(pause_menu_text, text_rect.topleft)
+        
+    def _draw_button(self, display_surface, rect, text, font):
+        pygame.draw.rect(display_surface, (0, 0, 255), rect)
+        text_surf = font.render(text, True, (255, 255, 255))
+        display_surface.blit(text_surf, (rect.x + 40, rect.y + 15))
 
-        pygame.draw.rect(display_surface, (255, 255, 255),
-                         self.music_volume_bar)
-        pygame.draw.rect(display_surface, (255, 255, 255),
-                         self.effects_volume_bar)
-
-        pygame.draw.rect(display_surface, (0, 255, 0), (self.music_volume_bar.x, self.music_volume_bar.y,
-                         self.music_volume * self.music_volume_bar.width, self.music_volume_bar.height))
-        pygame.draw.rect(display_surface, (0, 255, 0), (self.effects_volume_bar.x, self.effects_volume_bar.y,
-                         self.effects_volume * self.effects_volume_bar.width, self.effects_volume_bar.height))
+    def _draw_volume_bar(self, display_surface, rect, volume, label, font):
+        pygame.draw.rect(display_surface, (255, 255, 255), rect)
+        pygame.draw.rect(display_surface, (0, 255, 0), (rect.x, rect.y, volume * rect.width, rect.height))
+        label_surf = font.render(label, True, (0, 0, 0))
+        display_surface.blit(label_surf, (rect.x - label_surf.get_width() - 10, rect.y))
