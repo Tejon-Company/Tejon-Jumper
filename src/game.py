@@ -45,8 +45,11 @@ class Game:
             return
 
         self.remaining_lives -= 1
-        action = self.level.handle_dead if self.remaining_lives <= 0 else self._restart_level
-        action()
+
+        if self.remaining_lives <= 0:
+            self.handle_dead()
+        else:
+            self._restart_level()
 
     def handle_dead(self):
         if self.remaining_lives <= 0:
