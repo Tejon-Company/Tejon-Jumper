@@ -18,6 +18,7 @@ from scene.game_over import GameOver
 from characters.players.player_state import PlayerState
 from resource_manager import ResourceManager
 from os import listdir
+from scene.pause import Pause
 
 
 class Level(Scene):
@@ -26,7 +27,6 @@ class Level(Scene):
         director: Director,
         remaining_lives: int = 3,
         background: str = "background1",
-        music: str = "level_1.ogg",
         level: str = "level1.tmx"
     ):
         super().__init__(director)
@@ -54,7 +54,7 @@ class Level(Scene):
         self._setup_enemies()
         self._setup_berries()
         self._setup_deco()
-        # self._setup_music(music)
+        self._setup_music()
         self._setup_sound_effects()
 
     def _setup_groups(self):
@@ -155,7 +155,7 @@ class Level(Scene):
             return
 
     def _setup_music(self):
-        music.load(self.music_file)
+        music.load(ResourceManager.load_music("level_1.ogg"))
         music.play(-1)
 
     def _setup_sound_effects(self):
@@ -183,6 +183,8 @@ class Level(Scene):
 
         if keys[pygame.K_p]:
             self.is_on_pause = not self.is_on_pause
+            self.director.stack_scene(Pause(self.director))
+            self.is_on_pause = False
 
         return self.is_on_pause
 

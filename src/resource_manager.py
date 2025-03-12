@@ -71,6 +71,16 @@ class ResourceManager:
             return image
         except Exception as e:
             print(f"Error loading sprite {fullname}: {e}")
+    
+    @classmethod
+    def set_music_volume(cls, volume):
+        pygame.mixer.music.set_volume(volume)
+        
+    @classmethod
+    def set_effects_volume(cls, volume):
+        for sound in cls.resources.values():
+            if isinstance(sound, pygame.mixer.Sound):
+                sound.set_volume(volume)
 
     @classmethod
     def clear_resources(cls):
