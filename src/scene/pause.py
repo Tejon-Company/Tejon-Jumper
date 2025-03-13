@@ -21,7 +21,8 @@ class Pause(Scene):
             X - 125, Y - 300, WIDTH, HEIGHT)
         self.continue_btn_rect = self._create_rect(
             X - 100, Y - 100, WIDTH, HEIGHT)
-        self.restart_btn_rect = self._create_rect(X - 100, Y, WIDTH, HEIGHT)
+        self.restart_btn_rect = self._create_rect(
+            X - 100, Y, WIDTH, HEIGHT)
         self.music_volume_bar_rect = self._create_rect(
             X - 100, Y + 100, WIDTH, HEIGHT)
         self.effects_volume_bar_rect = self._create_rect(
