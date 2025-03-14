@@ -20,7 +20,6 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
             direction = ShooterDirection.obtain_direction(orientation)
-            # Use direction.value to get the numeric value of the enum
             direction_value = direction.value if hasattr(direction, 'value') else 0
             Mushroom(
                 (enemy.x, enemy.y),

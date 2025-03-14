@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="102">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="104">
  <tileset firstgid="1" source="../tiled/patterns/enviroment.tsx"/>
  <tileset firstgid="769" source="../tiled/patterns/log.tsx"/>
  <tileset firstgid="775" source="../tiled/patterns/berries.tsx"/>
@@ -113,6 +113,16 @@
   <object id="89" name="Mushroom" gid="784" x="1247.25" y="616.75" width="32" height="32">
    <properties>
     <property name="Orientation" value="LEFT"/>
+   </properties>
+  </object>
+  <object id="102" name="Mushroom" gid="782" x="592" y="641" width="32" height="32">
+   <properties>
+    <property name="Orientation" value="RIGHT"/>
+   </properties>
+  </object>
+  <object id="103" name="Mushroom" gid="782" x="327" y="639" width="32" height="32">
+   <properties>
+    <property name="Orientation" value="UP"/>
    </properties>
   </object>
  </objectgroup>
