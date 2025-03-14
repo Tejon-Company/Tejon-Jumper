@@ -15,8 +15,9 @@ class Game:
 
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
+        level_background = f"background{self.current_level}"
         self.level = Level(self.director, self.remaining_lives,
-                           "background1", "level_1.ogg", level_name, self)
+                           level_background, "level_1.ogg", level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
 
@@ -39,6 +40,14 @@ class Game:
 
     def draw(self, surface):
         self.level.draw(surface)
+
+    def change_current_level(self):
+        if self.current_level == 3:
+            self.current_level = 1
+            return
+
+        self.current_level += 1
+        self._load_level
 
     def _check_player_state(self):
         if self.player.health_points > 0:
