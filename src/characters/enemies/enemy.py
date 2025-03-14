@@ -1,6 +1,9 @@
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
+from characters.players.player_state import PlayerState
+from characters.players.collision_utils import is_below_collision
+from pygame.sprite import collide_rect
 
 
 class Enemy(Character):
@@ -17,10 +20,24 @@ class Enemy(Character):
         self.animation_speed = 0.2
         self.animation_time = 0
 
-    def handle_collision_with_player(self, level, player):
-        pass
+    def _handle_collision_with_player(self, level, player):
+        if not collide_rect(self, player):
+            return
 
-    def defeat(self):
+        self._adjust_player_position(player)
+
+        is_player_falling_on_enemy = is_below_collision(
+            player.rect, player.old_rect, self.rect)
+
+        if is_player_falling_on_enemy or player.is_sprinting:
+            self._defeat()
+            return
+
+        player_state = player.receive_damage()
+        if player_state == PlayerState.DEAD:
+            level.handle_dead()
+
+    def _defeat(self):
         for group in self.groups:
             if self in group:
                 group.remove(self)
@@ -28,7 +45,7 @@ class Enemy(Character):
         self.defeat_enemy_sound.play()
         self.kill()
 
-    def adjust_player_position(self, player):
+    def _adjust_player_position(self, player):
         if not player.rect.colliderect(self.rect):
             return
         dif_x = abs(player.rect.centerx - self.rect.centerx)

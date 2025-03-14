@@ -8,11 +8,6 @@ class Bat(MovingEnemy):
     def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups, sprite_sheet_name, animations)
 
-        # self.image = pygame.Surface((32, 32))
-        # self.image.fill("black")
-
-
-
         self.rect = self.image.get_frect(topleft=pos)
 
         self.direction = vector(-1, 1)
@@ -49,14 +44,14 @@ class Bat(MovingEnemy):
         if below_bottom_position:
             self.direction.y = -1
 
-    def handle_collision_with_player(self, level, player):
+    def _handle_collision_with_player(self, level, player):
         if not pygame.sprite.collide_rect(self, player):
             return
 
-        self.adjust_player_position(player)
+        self._adjust_player_position(player)
 
         if is_below_collision(player.rect, player.old_rect, self.rect):
-            self.defeat()
+            self._defeat()
             return
 
         player_state = player.receive_damage()

@@ -17,16 +17,17 @@ class Hedgehog(MovingEnemy):
 
         self._setup_animation()
 
-    def handle_collision_with_player(self, level, player):
+    def _handle_collision_with_player(self, level, player):
         if not collide_rect(self, player):
             return
 
-        self.adjust_player_position(player)
-        is_below = is_below_collision(player.rect, player.old_rect, self.rect)
+        self._adjust_player_position(player)
 
-        if player.is_sprinting and not is_below:
-            self.defeat()
+        is_player_falling_on_enemy = is_below_collision(
+            player.rect, player.old_rect, self.rect)
+
+        if not is_player_falling_on_enemy and player.is_sprinting:
+            self._defeat()
             return
-
         if player.receive_damage() == PlayerState.DEAD:
             level.handle_dead()
