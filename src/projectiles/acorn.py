@@ -21,11 +21,6 @@ class Acorn(Projectile):
             self.is_activated = False
             self.fall = 0
 
-    def change_position_and_direction(self, new_pos_x, new_pos_y, new_direction=None):
+    def change_position(self, new_pos_x, new_pos_y):
         self.rect.x = new_pos_x
         self.rect.y = new_pos_y
-
-        if new_direction is None:
-            return
-        else:
-            self.direction = new_direction

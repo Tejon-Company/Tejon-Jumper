@@ -18,7 +18,7 @@ class Projectile(Sprite, ABC):
         self._move(delta_time)
 
     @abstractmethod
-    def change_position_and_direction(self, new_pos_x, new_pos_y, new_direction=None):
+    def change_position(self, new_pos_x, new_pos_y):
         pass
 
     @abstractmethod

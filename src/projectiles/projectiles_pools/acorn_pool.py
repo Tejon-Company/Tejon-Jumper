@@ -1,6 +1,7 @@
 from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.acorn import Acorn
+from typing import Optional
 
 
 class AcornPool(ProjectilesPool):
@@ -17,10 +18,10 @@ class AcornPool(ProjectilesPool):
             )
             self.pool.append(acorn)
 
-    def shoot(self, pos_x, pos_y, direction=None):
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
         for acorn in self.pool:
             if acorn.is_activated:
                 continue
-            acorn.change_position_and_direction(pos_x, pos_y, direction)
+            acorn.change_position(pos_x, pos_y)
             acorn.is_activated = True
             return

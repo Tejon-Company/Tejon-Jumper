@@ -1,6 +1,7 @@
 from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.spore import Spore
+from typing import Optional
 
 
 class SporePool(ProjectilesPool):
@@ -17,11 +18,13 @@ class SporePool(ProjectilesPool):
             )
             self.pool.append(spore)
 
-    def shoot(self, pos_x, pos_y, direction=None):
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
         for spore in self.pool:
             if spore.is_activated:
                 continue
 
-            spore.change_position_and_direction(pos_x, pos_y, direction)
+            spore.change_position(pos_x, pos_y)
+            if direction is not None:
+                spore.change_direction(direction)
             spore.is_activated = True
             return
