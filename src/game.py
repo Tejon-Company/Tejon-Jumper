@@ -36,7 +36,7 @@ class Game:
 
     def update(self, delta_time):
         self.level.update(delta_time)
-        self._check_player_state()
+        self.check_player_state()
 
     def draw(self, surface):
         self.level.draw(surface)
@@ -49,18 +49,18 @@ class Game:
         self.current_level += 1
         self._load_level
 
-    def _check_player_state(self):
+    def check_player_state(self):
         if self.player.health_points > 0:
             return
 
         self.remaining_lives -= 1
 
         if self.remaining_lives <= 0:
-            self._handle_dead()
+            self.handle_dead()
         else:
             self._restart_level()
 
-    def _handle_dead(self):
+    def handle_dead(self):
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
             self.director.stack_scene(GameOver(self.director))

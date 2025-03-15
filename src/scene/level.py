@@ -176,7 +176,7 @@ class Level(Scene):
 
     def _handle_projectile_collision(self):
         if self.player.receive_damage() == PlayerState.DEAD:
-            self.game._handle_dead()
+            self.game.handle_dead()
 
     def _handle_enemy_collision(self):
         enemies = self.groups.get("enemies", [])
@@ -186,12 +186,12 @@ class Level(Scene):
                 continue
 
             if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
-                self.game._handle_dead()
+                self.game.handle_dead()
                 return
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
-            self.game._handle_dead()
+            self.game.handle_dead()
 
     def events(self, events_list):
         for event in events_list:

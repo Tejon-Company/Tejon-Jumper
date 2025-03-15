@@ -28,5 +28,4 @@ class Hedgehog(MovingEnemy):
             self.defeat()
             return
 
-        if player.receive_damage() == PlayerState.DEAD:
-            level.handle_dead()
+        player.receive_damage()
