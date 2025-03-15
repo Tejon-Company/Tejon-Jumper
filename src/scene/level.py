@@ -39,6 +39,8 @@ class Level(Scene):
 
         self.remaining_lives = remaining_lives
 
+        self.is_on_pause = False
+
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
@@ -48,8 +50,14 @@ class Level(Scene):
         self._setup_terrain()
         self._setup_deco()
 
+        self._setup_platform_rects()
+
         self._setup_player()
         self._setup_enemies()
+
+        self._setup_platform_rects()
+
+        self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
         self._setup_deco()
         # self._setup_music(music)
@@ -140,8 +148,12 @@ class Level(Scene):
 
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.spore_pool,
+            enemy_factory(enemy, self.groups, self.platform_rects, self.spore_pool,
                           self.acorn_pool, self.player)
+
+    def _setup_platform_rects(self):
+        self.platform_rects = [
+            platform.rect for platform in self.groups["platforms"]]
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
@@ -156,17 +168,29 @@ class Level(Scene):
         music.play(-1)
 
     def update(self, delta_time):
-        platform_rects = [
-            platform.rect for platform in self.groups["platforms"]]
+        if self._is_game_paused():
+            return
 
-        self.groups["all_sprites"].update(platform_rects, delta_time)
+        self.groups["all_sprites"].update(delta_time)
         self.groups["berries"].update(self.player)
-        self.groups["projectiles"].update(platform_rects, delta_time)
+        self.groups["projectiles"].update(delta_time)
 
         self._handle_fall()
 
         self.camera.update(self.player)
         self._handle_player_collisions()
+
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
+
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+
+        return self.is_on_pause
+
+    def _handle_fall(self):
+        if self.player.rect.bottom > WINDOW_HEIGHT:
+            self.handle_dead()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.groups["projectiles"], True):
