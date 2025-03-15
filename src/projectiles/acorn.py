@@ -11,8 +11,14 @@ class Acorn(Projectile):
         self.fall = 0
         self.image.fill(color="black")
 
+    def set_facing_right(self, is_facing_right: bool):
+        self._is_facing_right = is_facing_right
+
     def _move(self, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
+        if self._is_facing_right:
+            self.rect.x -= self.direction.x * self.speed * delta_time
+        else:
+            self.rect.x += self.direction.x * self.speed * delta_time
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
 
