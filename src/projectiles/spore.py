@@ -3,8 +3,8 @@ from projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
-    def __init__(self, pos, surf, direction, groups):
-        super().__init__(pos, surf, direction, groups)
+    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
+        super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.image = pygame.Surface((8, 8))
         self.image.fill(color="yellow")
         self.speed = 70

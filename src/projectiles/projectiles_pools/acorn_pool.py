@@ -13,7 +13,9 @@ class AcornPool(ProjectilesPool):
                 pos=(0, 0),
                 surf=pygame.Surface((8, 8)),
                 direction=pygame.math.Vector2(-1, 0),
-                groups=self.projectile_groups
+                groups=self.projectile_groups,
+                sprite_sheet_name="acorn.png",
+                animations=self._create_animation_rects(0, 8)
             )
             self.pool.append(acorn)
 

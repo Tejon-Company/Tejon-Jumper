@@ -1,14 +1,18 @@
 from settings import *
 from abc import ABC, abstractmethod
 from characters.sprite import Sprite
+from resource_manager import ResourceManager
 
 
 class Projectile(Sprite, ABC):
-    def __init__(self, pos, surf, direction, groups):
+    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.speed = None
         self.is_activated = False
+        self.sprite_sheet = ResourceManager.load_sprite_sheet(
+            sprite_sheet_name)
+        self.animations = animations
 
     def update(self, delta_time):
         if not self.is_activated:
