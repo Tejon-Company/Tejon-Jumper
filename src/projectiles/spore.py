@@ -25,14 +25,24 @@ class Spore(Projectile):
         return self._check_position_exceeds_distance(distance_traveled)
 
     def _calculate_travel_distance(self):
-        if self.direction.x > 0:
-            return self.initial_x_pos + self.max_distance
-        return self.initial_x_pos - self.max_distance
+        if self.direction.x != 0:
+            if self.direction.x > 0:
+                return self.initial_x_pos + self.max_distance
+            return self.initial_x_pos - self.max_distance
+        else:
+            if self.direction.y > 0:
+                return self.initial_y_pos + self.max_distance
+            return self.initial_y_pos - self.max_distance
 
     def _check_position_exceeds_distance(self, distance_traveled):
-        if self.direction.x > 0:
-            return self.rect.x >= distance_traveled
-        return self.rect.x <= distance_traveled
+        if self.direction.x != 0:
+            if self.direction.x > 0:
+                return self.rect.x >= distance_traveled
+            return self.rect.x <= distance_traveled
+        else:
+            if self.direction.y > 0:
+                return self.rect.y >= distance_traveled
+            return self.rect.y <= distance_traveled
 
     def _deactivate_projectile(self):
         self.is_activated = False
@@ -43,6 +53,7 @@ class Spore(Projectile):
         self.rect.x = new_pos_x
         self.rect.y = new_pos_y
         self.initial_x_pos = new_pos_x
+        self.initial_y_pos = new_pos_y
 
         if new_direction is None:
             return
