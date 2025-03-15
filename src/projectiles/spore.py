@@ -25,24 +25,39 @@ class Spore(Projectile):
         return self._check_position_exceeds_distance(distance_traveled)
 
     def _calculate_travel_distance(self):
-        if self.direction.x != 0:
-            if self.direction.x > 0:
-                return self.initial_x_pos + self.max_distance
-            return self.initial_x_pos - self.max_distance
+        if self._is_moving_horizontally():
+            return self._calculate_horizontal_distance()
         else:
-            if self.direction.y > 0:
-                return self.initial_y_pos + self.max_distance
-            return self.initial_y_pos - self.max_distance
+            return self._calculate_vertical_distance()
+
+    def _calculate_horizontal_distance(self):
+        if self.direction.x > 0:
+            return self.initial_x_pos + self.max_distance
+        return self.initial_x_pos - self.max_distance
+
+    def _calculate_vertical_distance(self):
+        if self.direction.y > 0:
+            return self.initial_y_pos + self.max_distance
+        return self.initial_y_pos - self.max_distance
 
     def _check_position_exceeds_distance(self, distance_traveled):
-        if self.direction.x != 0:
-            if self.direction.x > 0:
-                return self.rect.x >= distance_traveled
-            return self.rect.x <= distance_traveled
+        if self._is_moving_horizontally():
+            return self._check_if_horizontal_position_exceeded(distance_traveled)
         else:
-            if self.direction.y > 0:
-                return self.rect.y >= distance_traveled
-            return self.rect.y <= distance_traveled
+            return self._check_if_vertical_position_exceeded(distance_traveled)
+
+    def _is_moving_horizontally(self):
+        return self.direction.x != 0
+
+    def _check_if_horizontal_position_exceeded(self, distance_traveled):
+        if self.direction.x > 0:
+            return self.rect.x >= distance_traveled
+        return self.rect.x <= distance_traveled
+
+    def _check_if_vertical_position_exceeded(self, distance_traveled):
+        if self.direction.y > 0:
+            return self.rect.y >= distance_traveled
+        return self.rect.y <= distance_traveled
 
     def _deactivate_projectile(self):
         self.is_activated = False
