@@ -45,18 +45,13 @@ class Game:
         self.level.update(delta_time)
         self._handle_player_collisions()
         self._handle_fall()
-        self.check_game_state()
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.level.groups["projectiles"], True):
-            self._handle_projectile_collision()
+            self.receive_damage()
 
         for enemy in self.level.groups.get("enemies", []):
             enemy.handle_collision_with_player(self, self.player)
-
-    def _handle_projectile_collision(self):
-        if self.receive_damage():
-            self._handle_dead()
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -77,10 +72,13 @@ class Game:
             self.last_damage_time_ms)
 
         if not should_receive_damage:
-            return self.player.health_points <= 0
+            return False
 
         self.damage_sound.play()
         self.player.health_points -= 1
+
+        if (self.player.health_points <= 0):
+            self._handle_dead()
 
         return self.player.health_points <= 0
 
@@ -105,14 +103,3 @@ class Game:
 
         self.current_level += 1
         self._load_level()
-
-    def check_game_state(self):
-        if self.player.health_points > 0:
-            return
-
-        self.remaining_lives -= 1
-
-        if self.remaining_lives <= 0:
-            self._handle_dead()
-        else:
-            self._restart_level()
