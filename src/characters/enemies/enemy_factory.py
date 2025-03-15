@@ -4,7 +4,7 @@ from characters.enemies.shooters.mushroom import Mushroom
 from characters.enemies.moving_enemies.fox import Fox
 from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.shooters.squirrel import Squirrel
-from characters.enemies.shooters.shooter_direction import ShooterDirection
+from characters.enemies.shooters.mushroom_direction import MushroomDirection
 
 
 def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
@@ -19,7 +19,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
             )
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
-            direction = ShooterDirection.obtain_direction(orientation)
+            direction = MushroomDirection.obtain_direction(orientation)
             direction_value = direction.value if hasattr(direction, 'value') else 0
             Mushroom(
                 (enemy.x, enemy.y),

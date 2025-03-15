@@ -2,7 +2,7 @@ from enum import Enum
 from settings import *
 
 
-class ShooterDirection(Enum):
+class MushroomDirection(Enum):
     LEFT = (vector(-1, 0), 3)
     RIGHT = (vector(1, 0), 6)
     UP = (vector(0, -1), 0)
@@ -12,13 +12,13 @@ class ShooterDirection(Enum):
     def obtain_direction(cls, orientation):
         match(orientation.upper()):
             case "LEFT":
-                return ShooterDirection.LEFT
+                return MushroomDirection.LEFT
             case "RIGHT":
-                return ShooterDirection.RIGHT
+                return MushroomDirection.RIGHT
             case "UP":
-                return ShooterDirection.UP
+                return MushroomDirection.UP
             case "DOWN":
-                return ShooterDirection.DOWN
+                return MushroomDirection.DOWN
             case _:
                 raise ValueError(
                     f"The orientation {orientation} does not exist\n")
