@@ -12,6 +12,12 @@ class Game:
         self.player = None
         self.coins = 0
         self.current_level = 1
+
+        self.last_damage_time_ms = None
+        self.last_health_time_ms = None
+
+        self.damage_sound = ResourceManager.load_sound("damage.ogg")
+
         self._load_level()
 
     def _load_level(self):
@@ -67,9 +73,28 @@ class Game:
             self._restart_level()
 
     def receive_damage(self):
+        should_receive_damage, self.last_damage_time_ms = self._check_cooldown(
+            self.last_damage_time_ms)
+
+        if not should_receive_damage:
+            return self.player.health_points <= 0
+
+        self.damage_sound.play()
         self.player.health_points -= 1
-        return self.player.health_points <= 0  
-    
+
+        return self.player.health_points <= 0
+
+    def _check_cooldown(self, last_time_ms):
+        current_time_ms = pygame.time.get_ticks()
+
+        if not last_time_ms:
+            return True, current_time_ms
+
+        if current_time_ms < last_time_ms + 2000:
+            return False, last_time_ms
+
+        return True, current_time_ms
+
     def draw(self, surface):
         self.level.draw(surface)
 
@@ -88,7 +113,6 @@ class Game:
         self.remaining_lives -= 1
 
         if self.remaining_lives <= 0:
-            self.handle_dead()
+            self._handle_dead()
         else:
             self._restart_level()
-
