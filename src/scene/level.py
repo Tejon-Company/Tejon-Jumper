@@ -175,10 +175,7 @@ class Level(Scene):
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time)
 
-        self._handle_fall()
-
         self.camera.update(self.player)
-        self._handle_player_collisions()
 
     def _is_game_paused(self):
         keys = pygame.key.get_just_released()
@@ -187,35 +184,6 @@ class Level(Scene):
             self.is_on_pause = not self.is_on_pause
 
         return self.is_on_pause
-
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self.handle_dead()
-
-    def _handle_player_collisions(self):
-        if spritecollide(self.player, self.groups["projectiles"], True):
-            self._handle_projectile_collision()
-        elif spritecollide(self.player, self.groups["enemies"], False):
-            self._handle_enemy_collision()
-
-    def _handle_projectile_collision(self):
-        if self.player.receive_damage() == PlayerState.DEAD:
-            self.game.handle_dead()
-
-    def _handle_enemy_collision(self):
-        enemies = self.groups.get("enemies", [])
-
-        for enemy in enemies:
-            if not collide_rect(self.player, enemy):
-                continue
-
-            if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
-                self.game.handle_dead()
-                return
-
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self.game.handle_dead()
 
     def events(self, events_list):
         for event in events_list:
