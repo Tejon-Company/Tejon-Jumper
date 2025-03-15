@@ -25,7 +25,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"], groups["platforms"]),
-                direction,
+                direction_value[0],
                 player,
                 "mushroom.png",
                 _create_animation_rects(direction_value[1], 3),

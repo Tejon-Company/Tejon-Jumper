@@ -17,10 +17,10 @@ class AcornPool(ProjectilesPool):
             )
             self.pool.append(acorn)
 
-    def shoot(self, pos_x, pos_y):
+    def shoot(self, pos_x, pos_y, direction=None):
         for acorn in self.pool:
             if acorn.is_activated:
                 continue
-            acorn.change_position(pos_x, pos_y)
+            acorn.change_position_and_direction(pos_x, pos_y, direction)
             acorn.is_activated = True
             return

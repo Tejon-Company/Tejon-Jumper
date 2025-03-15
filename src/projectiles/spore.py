@@ -11,7 +11,10 @@ class Spore(Projectile):
         self.max_distance = 200
 
     def _move(self, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
+        if self.direction[0] != 0:
+            self.rect.x += self.direction.x * self.speed * delta_time
+        else:
+            self.rect.y += self.direction.y * self.speed * delta_time
 
     def _reset_projectile_if_off_screen(self):
         if self._is_projectile_off_screen():
@@ -36,7 +39,12 @@ class Spore(Projectile):
         self.rect.x = -100
         self.rect.y = -100
 
-    def change_position(self, new_pos_x, new_pos_y):
+    def change_position_and_direction(self, new_pos_x, new_pos_y, new_direction=None):
         self.rect.x = new_pos_x
         self.rect.y = new_pos_y
         self.initial_x_pos = new_pos_x
+
+        if new_direction is None:
+            return
+
+        self.direction = new_direction

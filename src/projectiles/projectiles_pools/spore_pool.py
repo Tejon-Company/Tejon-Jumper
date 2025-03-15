@@ -17,11 +17,11 @@ class SporePool(ProjectilesPool):
             )
             self.pool.append(spore)
 
-    def shoot(self, pos_x, pos_y):
+    def shoot(self, pos_x, pos_y, direction=None):
         for spore in self.pool:
             if spore.is_activated:
                 continue
 
-            spore.change_position(pos_x, pos_y)
+            spore.change_position_and_direction(pos_x, pos_y, direction)
             spore.is_activated = True
             return
