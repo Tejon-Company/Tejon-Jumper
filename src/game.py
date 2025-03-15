@@ -45,8 +45,9 @@ class Game:
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.level.groups["projectiles"], True):
             self._handle_projectile_collision()
-        elif spritecollide(self.player, self.level.groups["enemies"], False):
-            self._handle_enemy_collision()
+
+        for enemy in self.level.groups.get("enemies", []):
+            enemy.handle_collision_with_player(self.level, self.player)
 
     def _handle_enemy_collision(self):
         enemies = self.level.groups.get("enemies", [])
