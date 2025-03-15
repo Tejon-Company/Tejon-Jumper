@@ -3,7 +3,6 @@ from characters.character import Character
 from resource_manager import ResourceManager
 from characters.players.player import Player
 from pygame.sprite import collide_rect
-from characters.players.player_state import PlayerState
 from characters.players.collision_utils import is_below_collision
 
 

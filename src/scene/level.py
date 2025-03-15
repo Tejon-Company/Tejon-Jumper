@@ -1,8 +1,7 @@
 from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
-from characters.players.player_state import PlayerState
-from pygame.sprite import Group, spritecollide, collide_rect
+from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
@@ -14,7 +13,6 @@ from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
-from characters.players.player_state import PlayerState
 from os import listdir
 
 
