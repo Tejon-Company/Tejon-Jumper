@@ -3,7 +3,6 @@ from characters.character import Character
 from resource_manager import ResourceManager
 from characters.players.player import Player
 from pygame.sprite import collide_rect
-from characters.players.player_state import PlayerState
 from characters.players.collision_utils import is_below_collision
 
 
@@ -20,7 +19,7 @@ class Enemy(Character):
         self.animation_speed = 0.2
         self.animation_time = 0
 
-    def handle_collision_with_player(self, level, player):
+    def handle_collision_with_player(self, game, player):
         if not collide_rect(self, player):
             return
 
@@ -33,9 +32,7 @@ class Enemy(Character):
             self.defeat()
             return
 
-        player_state = player.receive_damage()
-        if player_state == PlayerState.DEAD:
-            level.handle_dead()
+        game.receive_damage()
 
     def defeat(self):
         for group in self.groups:

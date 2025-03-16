@@ -21,10 +21,6 @@ class Projectile(Sprite, ABC):
     def change_position(self, new_pos_x, new_pos_y):
         pass
 
-    def change_position(self, new_pos_x, new_pos_y):
-        self.rect.x = new_pos_x
-        self.rect.y = new_pos_y
-
     @abstractmethod
     def _move(self, delta_time):
         pass

@@ -1,6 +1,5 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from characters.players.player_state import PlayerState
 from characters.players.collision_utils import is_below_collision
 
 
@@ -56,6 +55,4 @@ class Bat(MovingEnemy):
             self.defeat()
             return
 
-        player_state = player.receive_damage()
-        if player_state == PlayerState.DEAD:
-            level.handle_dead()
+        player.receive_damage()

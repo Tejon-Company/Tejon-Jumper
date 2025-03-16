@@ -57,8 +57,8 @@ class Pause(Scene):
         if self.continue_btn.collidepoint(event.pos):
             self.director.pop_scene()
         if self.restart_btn.collidepoint(event.pos):
-            from scene.level import Level
-            self.director.change_scene(Level(self.director))
+            from game import Game
+            self.director.change_scene(Game(self.director))
         if self.music_volume_bar.collidepoint(event.pos):
             self.music_volume = (
                 event.pos[0] - self.music_volume_bar.x) / self.music_volume_bar.width

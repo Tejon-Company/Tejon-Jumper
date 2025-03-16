@@ -1,5 +1,6 @@
 from settings import *
 from abc import ABC, abstractmethod
+from typing import Optional
 
 
 class ProjectilesPool(ABC):
@@ -13,5 +14,6 @@ class ProjectilesPool(ABC):
     def _create_pool(self):
         pass
 
-    def shoot(self, pos_x, pos_y):
+    @abstractmethod
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
         pass
