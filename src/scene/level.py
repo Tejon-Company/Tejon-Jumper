@@ -15,6 +15,7 @@ from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
 from os import listdir
+from flag.flag import Flag
 
 
 class Level(Scene):
@@ -58,6 +59,7 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
         self._setup_deco()
+        self._setup_flag()
 
         self._setup_music()
 
@@ -71,6 +73,7 @@ class Level(Scene):
             "berries": Group(),
             "tiled_backgrsound": Group(),
             "deco": Group(),
+            "flag": Group(),
         }
 
     def _setup_pools(self):
@@ -164,8 +167,19 @@ class Level(Scene):
             berrie_factory(berrie, self.groups)
 
     def _setup_flag(self):
-        for flag in self.tmx_map.get_layer_by_name("Flag"):
-            return
+        flag_layer = self.tmx_map.get_layer_by_name("Flag")
+        flag_count = len(list(flag_layer))
+
+        if flag_count != 1:
+            raise ValueError(
+                f"Expected exactly one flag in the map, found {flag_count}")
+            
+        flag = next(iter(flag_layer))
+        self.flag = Flag(
+            (flag.x, flag.y),
+            flag.image,
+            self.groups["flag"],
+        )
 
     def update(self, delta_time):
         self.groups["all_sprites"].update(delta_time)
@@ -195,6 +209,9 @@ class Level(Scene):
                     projectile.image, self.camera.apply(projectile))
 
         for sprite in self.groups["berries"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+            
+        for sprite in self.groups["flag"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
