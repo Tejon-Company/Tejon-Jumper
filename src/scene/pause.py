@@ -1,7 +1,7 @@
 import pygame
 from pygame.draw import rect as draw_rect
-from pygame.rect import Rect as Rect
-from pygame.font import Font as Font
+from pygame.rect import Rect
+from pygame.font import Font
 from scene.scene import Scene
 from resource_manager import ResourceManager
 from settings import *
@@ -16,28 +16,15 @@ class Pause(Scene):
         Y = WINDOW_HEIGHT // 2
         WIDTH = 200
         HEIGHT = 50
+        VOLUME_BAR_HEIGHT = 20
 
-        self.pause_menu_rect = self._create_rect(
-            X - 125, Y - 300, WIDTH, HEIGHT)
-        self.continue_btn_rect = self._create_rect(
-            X - 100, Y - 100, WIDTH, HEIGHT)
-        self.restart_btn_rect = self._create_rect(
-            X - 100, Y, WIDTH, HEIGHT)
-        self.music_volume_bar_rect = self._create_rect(
-            X - 100, Y + 100, WIDTH, HEIGHT)
-        self.effects_volume_bar_rect = self._create_rect(
-            X - 100, Y + 150, WIDTH, HEIGHT)
-
-        self.pause_menu = self._create_rect(
-            X - 125, Y - 300, 200, 50)
-        self.continue_btn = self._create_rect(
-            X - 100, Y - 100, 200, 50)
-        self.restart_btn = self._create_rect(
-            X - 100, Y, 200, 50)
-        self.music_volume_bar = self._create_rect(
-            X - 100, Y + 100, 200, 20)
-        self.effects_volume_bar = self._create_rect(
-            X - 100, Y + 150, 200, 20)
+        self.pause_menu_title = Rect(X - 125, Y - 300, WIDTH, HEIGHT)
+        self.continue_btn = Rect(X - 100, Y - 100, WIDTH, HEIGHT)
+        self.restart_btn = Rect(X - 100, Y, WIDTH, HEIGHT)
+        self.music_volume_bar = Rect(
+            X - 100, Y + 100, WIDTH, VOLUME_BAR_HEIGHT)
+        self.effects_volume_bar = Rect(
+            X - 100, Y + 150, WIDTH, VOLUME_BAR_HEIGHT)
 
         self.music_volume = pygame.mixer.music.get_volume()
         self.effects_volume = ResourceManager.get_effects_volume()
@@ -57,8 +44,8 @@ class Pause(Scene):
 
         font = Font(None, 40)
 
-        self._draw_menu_text(
-            display_surface, self.pause_menu, "Pause Menu", font)
+        self._draw_menu_title(
+            display_surface, self.pause_menu_title, "Pause Menu", font)
 
         self._draw_button(display_surface, self.continue_btn, "Continue", font)
         self._draw_button(display_surface, self.restart_btn, "Restart", font)
@@ -67,9 +54,6 @@ class Pause(Scene):
             display_surface, self.music_volume_bar, self.music_volume, "Music", font)
         self._draw_volume_bar(display_surface, self.effects_volume_bar,
                               self.effects_volume, "Sound Effects", font)
-
-    def _create_rect(self, x, y, width, height):
-        return Rect(x, y, width, height)
 
     def _mouse_button_down(self, event):
         if self.continue_btn.collidepoint(event.pos):
@@ -86,7 +70,7 @@ class Pause(Scene):
                 event.pos[0] - self.effects_volume_bar.x) / self.effects_volume_bar.width
             ResourceManager.set_effects_volume(self.effects_volume)
 
-    def _draw_menu_text(self, display_surface, rect, text, font):
+    def _draw_menu_title(self, display_surface, rect, text, font):
         pause_menu_text = font.render(text, True, (0, 0, 0))
         text_rect = pause_menu_text.get_rect(
             center=(rect.centerx, rect.centery))
