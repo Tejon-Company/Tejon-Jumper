@@ -6,7 +6,7 @@ from abc import ABC
 
 class Shooter(Enemy, ABC):
     def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, projectiles_pool=ProjectilesPool):
-        super().__init__(pos, surf, groups, sprite_sheet_name, animations)
+        super().__init__(pos, surf, groups, None, sprite_sheet_name, animations)
         self.shoot_cooldown = 3000
         self.pos = pos
         self.last_shot = 0
@@ -16,7 +16,7 @@ class Shooter(Enemy, ABC):
         self.shooting_timer = 0
         self.shooting_duration = 500
 
-    def update(self, platform_rects, delta_time):
+    def update(self, delta_time):
         self._shoot()
         self._update_animation(delta_time)
 

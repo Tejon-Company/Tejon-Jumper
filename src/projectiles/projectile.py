@@ -10,7 +10,7 @@ class Projectile(Sprite, ABC):
         self.speed = None
         self.is_activated = False
 
-    def update(self, platform_rects, delta_time):
+    def update(self, delta_time):
         if not self.is_activated:
             return
         self._reset_projectile_if_off_screen()
