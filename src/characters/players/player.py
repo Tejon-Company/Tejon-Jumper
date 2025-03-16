@@ -1,7 +1,5 @@
 from settings import *
 from characters.character import Character
-from characters.players.player_state import PlayerState
-from resource_manager import ResourceManager
 from characters.players.collision_utils import *
 
 
@@ -29,10 +27,7 @@ class Player(Character):
         self.on_surface = False
         self.is_sprinting = False
 
-        self.last_damage_time_ms = None
         self.last_health_time_ms = None
-
-        self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -50,21 +45,6 @@ class Player(Character):
 
     def set_platform_rects(self, platform_rects):
         self.platform_rects = platform_rects
-
-    def receive_damage(self):
-        should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
-            self.last_damage_time_ms)
-
-        if not should_receive_damage:
-            return PlayerState.ALIVE
-
-        self.damage_sound.play()
-        self.health_points -= 1
-
-        if self.health_points > 0:
-            return PlayerState.DAMAGED
-
-        return PlayerState.DEAD
 
     def heal(self):
         has_max_health = self.health_points == self.maximum_health_points
