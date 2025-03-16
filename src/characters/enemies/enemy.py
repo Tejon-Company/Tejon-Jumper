@@ -19,7 +19,7 @@ class Enemy(Character):
         self.animation_speed = 0.2
         self.animation_time = 0
 
-    def handle_collision_with_player(self, level, player):
+    def handle_collision_with_player(self, game, player):
         if not collide_rect(self, player):
             return
 
@@ -32,7 +32,7 @@ class Enemy(Character):
             self.defeat()
             return
 
-        player.receive_damage()
+        game.receive_damage()
 
     def defeat(self):
         for group in self.groups:

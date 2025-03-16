@@ -1,4 +1,5 @@
 from settings import *
+from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
@@ -51,7 +52,10 @@ class Game:
             self.receive_damage()
 
         for enemy in self.level.groups.get("enemies", []):
+            if isinstance(enemy, MovingEnemy):  
+                enemy.update(0) 
             enemy.handle_collision_with_player(self, self.player)
+
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
