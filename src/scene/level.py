@@ -58,9 +58,8 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
         self._setup_deco()
-        
+
         self._setup_music()
-        
 
     def _setup_groups(self):
         self.groups = {
@@ -82,7 +81,7 @@ class Level(Scene):
         map_width = self.tmx_map.width * TILE_SIZE
         map_height = self.tmx_map.height * TILE_SIZE
         self.camera = Camera(map_width, map_height)
-        
+
     def _setup_music(self):
         music_file = ResourceManager.load_music(self.music)
         music.load(music_file)

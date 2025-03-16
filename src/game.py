@@ -31,7 +31,7 @@ class Game:
                            level_background, level_music, level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
-        
+
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
         self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
@@ -57,10 +57,9 @@ class Game:
             self.receive_damage()
 
         for enemy in self.level.groups.get("enemies", []):
-            if isinstance(enemy, MovingEnemy):  
-                enemy.update(0) 
+            if isinstance(enemy, MovingEnemy):
+                enemy.update(0)
             enemy.handle_collision_with_player(self, self.player)
-
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -112,7 +111,7 @@ class Game:
 
         self.current_level += 1
         self._load_level()
-    
+
     def _is_game_paused(self):
         keys = pygame.key.get_just_released()
 
