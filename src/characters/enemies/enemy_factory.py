@@ -25,16 +25,14 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                     "The orientation property is not found")
 
             direction = MushroomDirection.obtain_direction(orientation)
-            direction_value = direction.value if hasattr(
-                direction, 'value') else 0
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"], groups["platforms"]),
-                direction_value[0],
+                direction.value[0],
                 player,
                 "mushroom.png",
-                _create_animation_rects(direction_value[1], 3),
+                _create_animation_rects(direction.value[1], 3),
                 spore_pool
             )
         case "Fox":
