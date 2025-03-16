@@ -39,14 +39,6 @@ class Shooter(Enemy, ABC):
         self._update_animation_frame(delta_time)
         self._update_sprite()
 
-    def _update_animation_frame(self, delta_time):
-        if self.is_shooting:
-            self.shooting_timer += delta_time * 1000
-            if self.shooting_timer >= self.shooting_duration:
-                self.is_shooting = False
-                self.shooting_timer = 0
-        self.animation_frame = 1 if self.is_shooting else 0
-
     def _update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)

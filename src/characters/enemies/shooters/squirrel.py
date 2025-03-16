@@ -27,3 +27,11 @@ class Squirrel(Shooter):
         player_state = player.receive_damage()
         if player_state == PlayerState.DEAD:
             level.handle_dead()
+
+    def _update_animation_frame(self, delta_time):
+        if self.is_shooting:
+            self.shooting_timer += delta_time * 1000
+            if self.shooting_timer >= self.shooting_duration:
+                self.is_shooting = False
+                self.shooting_timer = 0
+        self.animation_frame = 1 if self.is_shooting else 0
