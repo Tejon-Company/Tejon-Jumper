@@ -1,11 +1,14 @@
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
+from characters.players.player import Player
+from pygame.sprite import collide_rect
+from characters.players.collision_utils import is_below_collision
 
 
 class Enemy(Character):
-    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, platform_rects, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name)
         self.groups = groups
         self.animations = animations
         self.defeat_enemy_sound = ResourceManager.load_sound(
@@ -16,8 +19,20 @@ class Enemy(Character):
         self.animation_speed = 0.2
         self.animation_time = 0
 
-    def handle_collision_with_player(self, level, player):
-        pass
+    def handle_collision_with_player(self, game, player):
+        if not collide_rect(self, player):
+            return
+
+        self._adjust_player_position(player)
+
+        is_player_colliding_from_above = is_below_collision(
+            player.rect, player.old_rect, self.rect)
+
+        if is_player_colliding_from_above or player.is_sprinting:
+            self.defeat()
+            return
+
+        game.receive_damage()
 
     def defeat(self):
         for group in self.groups:
@@ -27,7 +42,7 @@ class Enemy(Character):
         self.defeat_enemy_sound.play()
         self.kill()
 
-    def adjust_player_position(self, player):
+    def _adjust_player_position(self, player: Player):
         if not player.rect.colliderect(self.rect):
             return
         dif_x = abs(player.rect.centerx - self.rect.centerx)
@@ -39,6 +54,7 @@ class Enemy(Character):
             self._adjust_player_position_horizontally(player)
         else:
             self._adjust_player_position_vertically(player)
+        player.collision()
 
     def _adjust_player_position_horizontally(self, player):
         if player.rect.centerx < self.rect.centerx:

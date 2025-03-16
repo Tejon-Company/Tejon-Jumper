@@ -6,13 +6,14 @@ from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.shooters.squirrel import Squirrel
 
 
-def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
+def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player):
     match enemy.name:
         case "Hedgehog":
             Hedgehog(
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
+                platform_rects,
                 "hedgehog.png",
                 _create_animation_rects(0, 2)
             )
@@ -31,6 +32,7 @@ def enemy_factory(enemy, groups, spore_pool, acorn_pool, player):
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
+                platform_rects,
                 "fox.png",
                 _create_animation_rects(0, 3),
             )
