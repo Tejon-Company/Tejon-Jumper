@@ -4,6 +4,7 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from pygame.sprite import spritecollide
+from scene.pause import Pause
 
 
 class Game:
@@ -13,6 +14,7 @@ class Game:
         self.player = None
         self.coins = 0
         self.current_level = 1
+        self.is_on_pause = False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -24,8 +26,9 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
+        level_music = f"level_{self.current_level}.ogg"
         self.level = Level(self.director, self.remaining_lives,
-                           level_background, "level_1.ogg", level_name, self)
+                           level_background, level_music, level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
 
@@ -43,6 +46,8 @@ class Game:
         self.level.events(event_list)
 
     def update(self, delta_time):
+        if self._is_game_paused():
+            return
         self.level.update(delta_time)
         self._handle_player_collisions()
         self._handle_fall()
@@ -52,10 +57,9 @@ class Game:
             self.receive_damage()
 
         for enemy in self.level.groups.get("enemies", []):
-            if isinstance(enemy, MovingEnemy):  
-                enemy.update(0) 
+            if isinstance(enemy, MovingEnemy):
+                enemy.update(0)
             enemy.handle_collision_with_player(self, self.player)
-
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -107,3 +111,13 @@ class Game:
 
         self.current_level += 1
         self._load_level()
+
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
+
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+            self.director.stack_scene(Pause(self.director))
+            self.is_on_pause = False
+
+        return self.is_on_pause

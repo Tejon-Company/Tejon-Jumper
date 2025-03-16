@@ -4,6 +4,8 @@ from os.path import join
 
 class ResourceManager:
     resources = {}
+    effects_volume = 1.0
+    loaded_sounds = []
 
     @classmethod
     def load_image(cls, name, colorkey=None):
@@ -28,7 +30,9 @@ class ResourceManager:
         try:
             fullname = join('assets', 'sounds', 'sound_effects', name)
             sound = pygame.mixer.Sound(fullname)
+            sound.set_volume(cls.effects_volume)
             cls.resources[name] = sound
+            cls.loaded_sounds.append(sound) 
             return sound
         except Exception as e:
             print(f"Error loading sound {fullname}: {e}")
@@ -71,7 +75,22 @@ class ResourceManager:
             return image
         except Exception as e:
             print(f"Error loading sprite {fullname}: {e}")
+    
+    @classmethod
+    def set_music_volume(cls, volume):
+        pygame.mixer.music.set_volume(volume)
+        
+    @classmethod
+    def set_effects_volume(cls, volume):
+        cls.effects_volume = volume
+        for sound in cls.loaded_sounds:
+            sound.set_volume(volume)
+        
+    @classmethod
+    def get_effects_volume(cls):
+        return cls.effects_volume
 
     @classmethod
     def clear_resources(cls):
         cls.resources.clear()
+
