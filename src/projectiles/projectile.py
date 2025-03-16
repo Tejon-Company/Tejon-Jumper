@@ -18,8 +18,14 @@ class Projectile(Sprite, ABC):
         if not self.is_activated:
             return
         self._reset_projectile_if_off_screen()
+        self._setup_animation()
         self.old_rect = self.rect.copy()
         self._move(delta_time)
+
+    def _setup_animation(self):
+        self.animation_frame = 0
+        self.animation_speed = 0.2
+        self.animation_time = 0
 
     @abstractmethod
     def change_position(self, new_pos_x, new_pos_y):

@@ -11,7 +11,7 @@ class SporePool(ProjectilesPool):
         for _ in range(self.size):
             spore = Spore(
                 pos=(0, 0),
-                surf=pygame.Surface((8, 8)),
+                surf=pygame.Surface((16, 16)),
                 direction=pygame.math.Vector2(-1, 0),
                 groups=self.projectile_groups,
                 sprite_sheet_name="spore.png",
