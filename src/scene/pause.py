@@ -1,7 +1,5 @@
-import pygame
 from pygame.draw import rect as draw_rect
 from pygame.rect import Rect
-from pygame.font import Font
 from scene.scene import Scene
 from resource_manager import ResourceManager
 from settings import *
@@ -71,20 +69,20 @@ class Pause(Scene):
             ResourceManager.set_effects_volume(self.effects_volume)
 
     def _draw_menu_title(self, display_surface, rect, text, font):
-        pause_menu_text = font.render(text, True, BLACK)
+        pause_menu_text = font.render(text, True, 'black')
         text_rect = pause_menu_text.get_rect(
             center=(rect.centerx, rect.centery))
         display_surface.blit(pause_menu_text, text_rect.topleft)
 
     def _draw_button(self, display_surface, rect, text, font):
-        draw_rect(display_surface, BLUE, rect)
-        text_surf = font.render(text, True, WHITE)
+        draw_rect(display_surface, 'blue', rect)
+        text_surf = font.render(text, True, 'white')
         display_surface.blit(text_surf, (rect.x + 40, rect.y + 15))
 
     def _draw_volume_bar(self, display_surface, rect, volume, label, font):
-        draw_rect(display_surface, WHITE, rect)
-        draw_rect(display_surface, GREEN,
+        draw_rect(display_surface, 'white', rect)
+        draw_rect(display_surface, 'green',
                   (rect.x, rect.y, volume * rect.width, rect.height))
-        label_surf = font.render(label, True, BLACK)
+        label_surf = font.render(label, True, 'black')
         display_surface.blit(
             label_surf, (rect.x - label_surf.get_width() - 10, rect.y))
