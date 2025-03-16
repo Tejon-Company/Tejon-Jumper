@@ -1,7 +1,13 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.spore_pool import SporePool
-from characters.enemies.shooters.mushroom_state import MushroomState
+from enum import Enum, auto
+
+
+class MushroomState(Enum):
+    IDLE = auto()
+    PREPARING = auto()
+    SHOOTING = auto()
 
 
 class Mushroom(Shooter):
