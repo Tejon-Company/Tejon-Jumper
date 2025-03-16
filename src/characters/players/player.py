@@ -1,7 +1,5 @@
 from settings import *
 from characters.character import Character
-from characters.players.player_state import PlayerState
-from resource_manager import ResourceManager
 from characters.players.collision_utils import *
 
 
