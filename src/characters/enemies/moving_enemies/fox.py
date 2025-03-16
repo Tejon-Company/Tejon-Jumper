@@ -1,7 +1,5 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
-from characters.players.collision_utils import is_below_collision
-from pygame.sprite import collide_rect
 
 
 class Fox(MovingEnemy):
