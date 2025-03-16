@@ -20,8 +20,13 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
             )
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
+            if orientation is None:
+                raise KeyError(
+                    "The orientation property is not found")
+
             direction = MushroomDirection.obtain_direction(orientation)
-            direction_value = direction.value if hasattr(direction, 'value') else 0
+            direction_value = direction.value if hasattr(
+                direction, 'value') else 0
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
