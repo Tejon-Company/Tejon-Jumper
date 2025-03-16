@@ -53,7 +53,7 @@ class Game:
         self._handle_fall()
 
         for berry in self.level.groups.get("berries", []):
-            if isinstance(berry, CoinBerry):  
+            if isinstance(berry, CoinBerry):
                 berry.update(self, self.player)
             else:
                 berry.update(self.player)
@@ -63,10 +63,9 @@ class Game:
             self.receive_damage()
 
         for enemy in self.level.groups.get("enemies", []):
-            if isinstance(enemy, MovingEnemy):  
-                enemy.update(0) 
+            if isinstance(enemy, MovingEnemy):
+                enemy.update(0)
             enemy.handle_collision_with_player(self, self.player)
-
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -79,6 +78,7 @@ class Game:
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
+            self.coins = 0
 
             self._restart_level()
 
@@ -111,9 +111,13 @@ class Game:
     def add_coin(self):
         self.coins += 1
 
+        if self.coins % 25 == 0:
+            self.remaining_lives += 1
+
     def draw(self, surface):
         self.level.draw(surface)
-        self.hud.draw_hud(self.player.health_points, self.remaining_lives, self.coins)
+        self.hud.draw_hud(self.player.health_points,
+                          self.remaining_lives, self.coins)
 
     def change_current_level(self):
         if self.current_level == 3:
