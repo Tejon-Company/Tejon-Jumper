@@ -5,7 +5,6 @@ from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
-from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
 from berries.berrie_factory import berrie_factory
@@ -29,8 +28,6 @@ class Level(Scene):
         super().__init__(director)
 
         self.game = game
-        self.display_surface = pygame.display.get_surface()
-        self.hud = HUD(self.display_surface)
 
         level_path = join("assets", "maps", "levels", level)
         self.tmx_map = load_pygame(level_path)
@@ -170,50 +167,17 @@ class Level(Scene):
             return
 
         self.groups["all_sprites"].update(delta_time)
-        self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time)
 
         self.camera.update(self.player)
-        self._handle_player_collisions()
 
-    def _handle_player_collisions(self):
-        if spritecollide(self.player, self.groups["projectiles"], True):
-            self._handle_projectile_collision()
-        elif spritecollide(self.player, self.groups["enemies"], False):
-            self._handle_enemy_collision()
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
 
-    def _handle_projectile_collision(self):
-        if self.player.receive_damage() == PlayerState.DEAD:
-            self.handle_dead()
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
 
-    def _handle_enemy_collision(self):
-        enemies = self.groups.get("enemies", [])
-
-        for enemy in enemies:
-            if not collide_rect(self.player, enemy):
-                continue
-
-            if enemy.handle_collision_with_player(self, self.player) == PlayerState.DEAD:
-                self.handle_dead()
-                return
-
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self.handle_dead()
-
-    def handle_dead(self):
-        self.director.pop_scene()
-        if self.remaining_lives <= 0:
-            self.game_over_sound.play()
-            self.director.stack_scene(GameOver(self.director))
-        else:
-            self.life_lost_sound.play()
-            self.director.stack_scene(
-                Level(self.director, self.remaining_lives-1))
-
-        if self.player.coins // 25 > self.previous_coin_count // 25:
-            self.remaining_lives += 1
-            self.previous_coin_count = self.player.coins
+        return self.is_on_pause
 
     def events(self, events_list):
         for event in events_list:
@@ -237,6 +201,3 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        self.hud.draw_hud(self.player.health_points,
-                          self.remaining_lives, self.player.coins)

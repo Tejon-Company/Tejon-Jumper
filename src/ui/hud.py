@@ -16,7 +16,6 @@ class HUD:
         self.player_icon = scale(load(player_icon_path), (32, 32))
 
         self._setup_health_icon()
-
         self._setup_coin_icon()
 
     def _setup_coin_icon(self):

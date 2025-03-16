@@ -1,8 +1,10 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
+from berries.coin_berrie import CoinBerry
 from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
+from ui.hud import HUD
 from pygame.sprite import spritecollide
 
 
@@ -18,6 +20,9 @@ class Game:
         self.last_health_time_ms = None
 
         self.damage_sound = ResourceManager.load_sound("damage.ogg")
+
+        self.display_surface = pygame.display.get_surface()
+        self.hud = HUD(self.display_surface)
 
         self._load_level()
 
@@ -46,6 +51,12 @@ class Game:
         self.level.update(delta_time)
         self._handle_player_collisions()
         self._handle_fall()
+
+        for berry in self.level.groups.get("berries", []):
+            if isinstance(berry, CoinBerry):  
+                berry.update(self, self.player)
+            else:
+                berry.update(self.player)
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.level.groups["projectiles"], True):
@@ -97,8 +108,12 @@ class Game:
 
         return True, current_time_ms
 
+    def add_coin(self):
+        self.coins += 1
+
     def draw(self, surface):
         self.level.draw(surface)
+        self.hud.draw_hud(self.player.health_points, self.remaining_lives, self.coins)
 
     def change_current_level(self):
         if self.current_level == 3:
