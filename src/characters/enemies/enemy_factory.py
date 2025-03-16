@@ -4,6 +4,7 @@ from characters.enemies.shooters.mushroom import Mushroom
 from characters.enemies.moving_enemies.fox import Fox
 from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.shooters.squirrel import Squirrel
+from characters.enemies.shooters.mushroom_direction import MushroomDirection
 
 
 def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player):
@@ -18,13 +19,20 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 _create_animation_rects(0, 2)
             )
         case "Mushroom":
+            orientation = enemy.properties.get("Orientation", None)
+            if orientation is None:
+                raise KeyError(
+                    "The orientation property is not found")
+
+            direction = MushroomDirection.obtain_direction(orientation)
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"], groups["platforms"]),
+                direction.value[0],
                 player,
                 "mushroom.png",
-                _create_animation_rects(0, 1),
+                _create_animation_rects(direction.value[1], 3),
                 spore_pool
             )
         case "Fox":
@@ -60,8 +68,8 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
 
 
 def _create_animation_rects(frame_start_x, number_of_frames):
-    frame_start_x *= 32
     sprite_size = TILE_SIZE
+    frame_start_x *= sprite_size
     y = 0
     pixel_gap = 1
     animation_rects = []

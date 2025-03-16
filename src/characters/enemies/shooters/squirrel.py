@@ -12,6 +12,13 @@ class Squirrel(Shooter):
 
         self._setup_animation()
 
+    def _update_animation_frame(self, delta_time):
+        if self.is_shooting:
+            self.shooting_timer += delta_time * 1000
+            if self.shooting_timer >= self.shooting_duration:
+                self.is_shooting = False
+                self.shooting_timer = 0
+        self.animation_frame = 1 if self.is_shooting else 0
         self._is_facing_right = False
 
     def update(self, delta_time):
