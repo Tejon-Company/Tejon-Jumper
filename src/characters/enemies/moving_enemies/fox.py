@@ -22,9 +22,7 @@ class Fox(MovingEnemy):
         self._adjust_player_position(player)
         is_below = is_below_collision(player.rect, player.old_rect, self.rect)
 
-        if player.is_sprinting and not is_below:
+        if not is_below:
             self.defeat()
-            return
-
-        game.receive_damage()
-    
+        else:
+            game.receive_damage()
