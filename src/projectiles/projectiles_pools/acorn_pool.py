@@ -18,10 +18,11 @@ class AcornPool(ProjectilesPool):
             )
             self.pool.append(acorn)
 
-    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
+    def shoot(self, pos_x, pos_y, is_facing_right, direction: Optional[tuple]=None):
         for acorn in self.pool:
             if acorn.is_activated:
                 continue
+            acorn.set_facing_right(is_facing_right)
             acorn.change_position(pos_x, pos_y)
             acorn.is_activated = True
             return
