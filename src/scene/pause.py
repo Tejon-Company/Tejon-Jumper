@@ -42,7 +42,7 @@ class Pause(Scene):
         overlay.fill((0, 0, 0, 0))
         display_surface.blit(overlay, (0, 0))
 
-        font = Font(None, 40)
+        font = ResourceManager.load_font('leadcoat.ttf', 36)
 
         self._draw_menu_title(
             display_surface, self.pause_menu_title, "Pause Menu", font)
@@ -71,20 +71,20 @@ class Pause(Scene):
             ResourceManager.set_effects_volume(self.effects_volume)
 
     def _draw_menu_title(self, display_surface, rect, text, font):
-        pause_menu_text = font.render(text, True, (0, 0, 0))
+        pause_menu_text = font.render(text, True, BLACK)
         text_rect = pause_menu_text.get_rect(
             center=(rect.centerx, rect.centery))
         display_surface.blit(pause_menu_text, text_rect.topleft)
 
     def _draw_button(self, display_surface, rect, text, font):
-        draw_rect(display_surface, (0, 0, 255), rect)
-        text_surf = font.render(text, True, (255, 255, 255))
+        draw_rect(display_surface, BLUE, rect)
+        text_surf = font.render(text, True, WHITE)
         display_surface.blit(text_surf, (rect.x + 40, rect.y + 15))
 
     def _draw_volume_bar(self, display_surface, rect, volume, label, font):
-        draw_rect(display_surface, (255, 255, 255), rect)
-        draw_rect(display_surface, (0, 255, 0),
+        draw_rect(display_surface, WHITE, rect)
+        draw_rect(display_surface, GREEN,
                   (rect.x, rect.y, volume * rect.width, rect.height))
-        label_surf = font.render(label, True, (0, 0, 0))
+        label_surf = font.render(label, True, BLACK)
         display_surface.blit(
             label_surf, (rect.x - label_surf.get_width() - 10, rect.y))
