@@ -4,16 +4,13 @@ from characters.players.collision_utils import *
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
+    def __init__(self, pos, surf, groups, sprite_sheet_name):
         super().__init__(pos, surf, groups, None, sprite_sheet_name)
 
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
-
-        self.health_points = health_points
-        self.maximum_health_points = health_points
 
         self.platform_rects = self.platform_rects
 
@@ -26,8 +23,6 @@ class Player(Character):
 
         self.on_surface = False
         self.is_sprinting = False
-
-        self.last_health_time_ms = None
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -45,25 +40,6 @@ class Player(Character):
 
     def set_platform_rects(self, platform_rects):
         self.platform_rects = platform_rects
-
-    def heal(self):
-        has_max_health = self.health_points == self.maximum_health_points
-        should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
-            self.last_health_time_ms)
-
-        if not has_max_health and should_receive_heal:
-            self.health_points += 1
-
-    def _check_cooldown(last_time_ms):
-        current_time_ms = pygame.time.get_ticks()
-
-        if not last_time_ms:
-            return True, current_time_ms
-
-        if current_time_ms < last_time_ms + 2000:
-            return False, last_time_ms
-
-        return True, current_time_ms
 
     def update(self, delta_time):
         self.platform_rects = self.platform_rects

@@ -19,7 +19,6 @@ class Level(Scene):
     def __init__(
         self,
         director: Director,
-        remaining_lives: int = 3,
         background: str = "background1",
         music: str = "level_1.ogg",
         level: str = "level1.tmx",
@@ -31,8 +30,6 @@ class Level(Scene):
 
         level_path = join("assets", "maps", "levels", level)
         self.tmx_map = load_pygame(level_path)
-
-        self.remaining_lives = remaining_lives
 
         self.is_on_pause = False
 
@@ -137,7 +134,6 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["all_sprites"],
-            5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png"
         )
 

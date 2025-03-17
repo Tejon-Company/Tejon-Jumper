@@ -12,6 +12,7 @@ class Game:
     def __init__(self, director):
         self.director = director
         self.remaining_lives = 3
+        self.health_points = 5
         self.player = None
         self.coins = 0
         self.current_level = 1
@@ -29,8 +30,7 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
-        self.level = Level(self.director, self.remaining_lives,
-                           level_background, "level_1.ogg", level_name, self)
+        self.level = Level(self.director, level_background, "level_1.ogg", level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
 
@@ -53,18 +53,14 @@ class Game:
         self._handle_fall()
 
         for berry in self.level.groups.get("berries", []):
-            if isinstance(berry, CoinBerry):
-                berry.update(self, self.player)
-            else:
-                berry.update(self.player)
+            berry.update(self, self.player)
 
     def _handle_player_collisions(self):
         if spritecollide(self.player, self.level.groups["projectiles"], True):
             self.receive_damage()
 
         for enemy in self.level.groups.get("enemies", []):
-            if isinstance(enemy, MovingEnemy):
-                enemy.update(0)
+            enemy.update(0)
             enemy.handle_collision_with_player(self, self.player)
 
     def _handle_fall(self):
@@ -78,6 +74,7 @@ class Game:
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
+            self.health_points = 5 
             self.coins = 0
 
             self._restart_level()
@@ -90,12 +87,12 @@ class Game:
             return False
 
         self.damage_sound.play()
-        self.player.health_points -= 1
+        self.health_points -= 1
 
-        if (self.player.health_points <= 0):
+        if (self.health_points <= 0):
             self._handle_dead()
 
-        return self.player.health_points <= 0
+        return self.health_points <= 0
 
     def _check_cooldown(self, last_time_ms):
         current_time_ms = pygame.time.get_ticks()
@@ -111,12 +108,21 @@ class Game:
     def add_coin(self):
         self.coins += 1
 
-        if self.coins % 25 == 0:
+        if self.coins == 25:
+            self.coins = 0
             self.remaining_lives += 1
+
+    def heal(self):
+        has_max_health = self.health_points == 5
+        should_receive_heal, self.last_health_time_ms = self._check_cooldown(
+            self.last_health_time_ms)
+
+        if not has_max_health and should_receive_heal:
+            self.health_points += 1
 
     def draw(self, surface):
         self.level.draw(surface)
-        self.hud.draw_hud(self.player.health_points,
+        self.hud.draw_hud(self.health_points,
                           self.remaining_lives, self.coins)
 
     def change_current_level(self):
