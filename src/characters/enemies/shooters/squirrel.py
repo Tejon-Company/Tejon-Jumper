@@ -4,9 +4,9 @@ from projectiles.projectiles_pools.acorn_pool import AcornPool
 
 
 class Squirrel(Shooter):
-    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, projectiles_pool=AcornPool):
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, game, projectiles_pool=AcornPool):
         super().__init__(pos, surf, groups, player,
-                         sprite_sheet_name, animations, projectiles_pool)
+                         sprite_sheet_name, animations, game, projectiles_pool)
 
         self.rect = self.image.get_frect(topleft=pos)
 
@@ -23,6 +23,7 @@ class Squirrel(Shooter):
 
     def update(self, delta_time):
         super().update(delta_time)
+
         self._update_direction()
 
     def _update_direction(self):

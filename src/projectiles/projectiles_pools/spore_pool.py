@@ -5,8 +5,8 @@ from typing import Optional
 
 
 class SporePool(ProjectilesPool):
-    def __init__(self, size, projectile_groups):
-        super().__init__(size, projectile_groups)
+    def __init__(self, size, projectile_groups, game):
+        super().__init__(size, projectile_groups, game)
 
     def _create_pool(self):
         for _ in range(self.size):
@@ -16,7 +16,8 @@ class SporePool(ProjectilesPool):
                 direction=pygame.math.Vector2(-1, 0),
                 groups=self.projectile_groups,
                 sprite_sheet_name="spore.png",
-                animations=self._create_animation_rects(0, 3)
+                animations=self._create_animation_rects(0, 3),
+                game=self.game
             )
             self.pool.append(spore)
 

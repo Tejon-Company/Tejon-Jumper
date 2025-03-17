@@ -3,8 +3,8 @@ from projectiles.projectile import Projectile
 
 
 class Acorn(Projectile):
-    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, direction, groups, game, sprite_sheet_name, animations):
+        super().__init__(pos, surf, direction, groups, game, sprite_sheet_name, animations)
         self.rect = self.image.get_frect(topleft=pos)
         self.gravity = 170
         self.speed = 100
@@ -23,8 +23,11 @@ class Acorn(Projectile):
 
     def _reset_projectile_if_off_screen(self):
         if self.rect.y > WINDOW_HEIGHT:
-            self.is_activated = False
-            self.fall = 0
+            self._deactivate_projectile()
+
+    def _deactivate_projectile(self):
+        self.is_activated = False
+        self.fall = 0
 
     def change_position(self, new_pos_x, new_pos_y):
         self.rect.x = new_pos_x

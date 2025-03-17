@@ -4,10 +4,11 @@ from typing import Optional
 
 
 class ProjectilesPool(ABC):
-    def __init__(self, size, projectile_groups):
+    def __init__(self, size, projectile_groups, game):
         self.pool = list()
         self.size = size
         self.projectile_groups = projectile_groups
+        self.game = game
         self._create_pool()
 
     @abstractmethod
@@ -15,7 +16,7 @@ class ProjectilesPool(ABC):
         pass
 
     @abstractmethod
-    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple] = None):
         pass
 
     def _create_animation_rects(self, frame_start_x, number_of_frames):
