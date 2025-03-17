@@ -16,5 +16,5 @@ class ProjectilesPool(ABC):
         pass
 
     @abstractmethod
-    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple] = None):
         pass
