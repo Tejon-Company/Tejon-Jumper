@@ -7,16 +7,18 @@ from characters.enemies.shooters.squirrel import Squirrel
 from characters.enemies.shooters.mushroom_direction import MushroomDirection
 
 
-def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player):
+def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player, game):
     match enemy.name:
         case "Hedgehog":
             Hedgehog(
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
+                player,
                 platform_rects,
                 "hedgehog.png",
-                _create_animation_rects(0, 2)
+                _create_animation_rects(0, 2),
+                game
             )
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
@@ -33,6 +35,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 player,
                 "mushroom.png",
                 _create_animation_rects(direction.value[1], 3),
+                game,
                 spore_pool
             )
         case "Fox":
@@ -40,17 +43,21 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
+                player,
                 platform_rects,
                 "fox.png",
                 _create_animation_rects(0, 3),
+                game
             )
         case "Bat":
             Bat(
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
+                player,
                 "bat.png",
                 _create_animation_rects(0, 0),
+                game
             )
         case "Squirrel":
             Squirrel(
@@ -60,6 +67,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 player,
                 "squirrel.png",
                 _create_animation_rects(1, 2),
+                game,
                 acorn_pool
             )
         case _:
