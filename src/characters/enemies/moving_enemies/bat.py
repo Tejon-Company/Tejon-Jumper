@@ -7,8 +7,8 @@ class Bat(MovingEnemy):
     def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups, None, sprite_sheet_name, animations)
 
-        self.image = pygame.Surface((32, 32))
-        self.image.fill("black")
+        # self.image = pygame.Surface((32, 32))
+        # self.image.fill("black")
 
         self.rect = self.image.get_frect(topleft=pos)
 
@@ -24,7 +24,7 @@ class Bat(MovingEnemy):
         self.left_limit = pos_x - TILE_SIZE * 4
         self.right_limit = pos_x + TILE_SIZE * 4
 
-    def update(self, delta_time):
+    def update(self, platform_rects, delta_time):
         self.facing_right = self.direction.x > 0
         self._update_animation(delta_time)
         self._move(delta_time)

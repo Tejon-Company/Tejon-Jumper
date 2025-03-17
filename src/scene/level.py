@@ -1,4 +1,3 @@
-from resource_manager import ResourceManager
 from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
@@ -14,8 +13,9 @@ from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
-from os import listdir
 from flag.flag import Flag
+from os import listdir
+from resource_manager import ResourceManager
 
 
 class Level(Scene):
@@ -48,18 +48,15 @@ class Level(Scene):
         self._setup_tiled_background()
         self._setup_terrain()
         self._setup_deco()
-
+        self._setup_flag()
+        
         self._setup_platform_rects()
 
         self._setup_player()
         self._setup_enemies()
 
-        self._setup_platform_rects()
-
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
-        self._setup_deco()
-        self._setup_flag()
 
         self._setup_music()
 
@@ -135,7 +132,7 @@ class Level(Scene):
                 surf,
                 (self.groups["deco"]),
             )
-
+            
     def _setup_player(self):
         player_layer = self.tmx_map.get_layer_by_name("Player")
         player_count = len(list(player_layer))
@@ -165,7 +162,7 @@ class Level(Scene):
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
-
+            
     def _setup_flag(self):
         flag_layer = self.tmx_map.get_layer_by_name("Flag")
         flag_count = len(list(flag_layer))
@@ -187,7 +184,7 @@ class Level(Scene):
         self.groups["projectiles"].update(delta_time)
 
         self.camera.update(self.player)
-
+        
     def events(self, events_list):
         for event in events_list:
             if event.type == pygame.QUIT:
@@ -213,5 +210,6 @@ class Level(Scene):
             
         for sprite in self.groups["flag"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)
