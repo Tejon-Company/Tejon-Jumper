@@ -1,5 +1,6 @@
 from settings import *
 from abc import ABC, abstractmethod
+from typing import Optional
 
 
 class ProjectilesPool(ABC):
@@ -14,7 +15,7 @@ class ProjectilesPool(ABC):
         pass
 
     @abstractmethod
-    def shoot(self, pos_x, pos_y):
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
         pass
 
     def _create_animation_rects(self, frame_start_x, number_of_frames):
