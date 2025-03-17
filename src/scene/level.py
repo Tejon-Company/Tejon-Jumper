@@ -74,8 +74,8 @@ class Level(Scene):
         }
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(20, self.groups["projectiles"])
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
+        self.spore_pool = SporePool(20, self.groups["projectiles"], self.game)
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"], self.game)
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -153,7 +153,7 @@ class Level(Scene):
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
             enemy_factory(enemy, self.groups, self.platform_rects, self.spore_pool,
-                          self.acorn_pool, self.player)
+                          self.acorn_pool, self.player, self.game)
 
     def _setup_platform_rects(self):
         self.platform_rects = [
@@ -170,7 +170,7 @@ class Level(Scene):
     def update(self, delta_time):
         self.groups["all_sprites"].update(delta_time)
         self.groups["berries"].update(self.player)
-        self.groups["projectiles"].update(delta_time)
+        self.groups["projectiles"].update(delta_time, self.player)
 
         self.camera.update(self.player)
 

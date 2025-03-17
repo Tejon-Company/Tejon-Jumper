@@ -49,17 +49,7 @@ class Game:
         if self._is_game_paused():
             return
         self.level.update(delta_time)
-        self._handle_player_collisions()
         self._handle_fall()
-
-    def _handle_player_collisions(self):
-        if spritecollide(self.player, self.level.groups["projectiles"], True):
-            self.receive_damage()
-
-        for enemy in self.level.groups.get("enemies", []):
-            if isinstance(enemy, MovingEnemy):
-                enemy.update(0)
-            enemy.handle_collision_with_player(self, self.player)
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -103,14 +93,6 @@ class Game:
 
     def draw(self, surface):
         self.level.draw(surface)
-
-    def change_current_level(self):
-        if self.current_level == 3:
-            self.current_level = 1
-            return
-
-        self.current_level += 1
-        self._load_level()
 
     def _is_game_paused(self):
         keys = pygame.key.get_just_released()
