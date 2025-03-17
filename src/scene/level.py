@@ -49,7 +49,7 @@ class Level(Scene):
         self._setup_terrain()
         self._setup_deco()
         self._setup_flag()
-        
+
         self._setup_platform_rects()
 
         self._setup_player()
@@ -132,7 +132,7 @@ class Level(Scene):
                 surf,
                 (self.groups["deco"]),
             )
-            
+
     def _setup_player(self):
         player_layer = self.tmx_map.get_layer_by_name("Player")
         player_count = len(list(player_layer))
@@ -162,7 +162,7 @@ class Level(Scene):
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
-            
+
     def _setup_flag(self):
         flag_layer = self.tmx_map.get_layer_by_name("Flag")
         flag_count = len(list(flag_layer))
@@ -170,7 +170,7 @@ class Level(Scene):
         if flag_count != 1:
             raise ValueError(
                 f"Expected exactly one flag in the map, found {flag_count}")
-            
+
         flag = next(iter(flag_layer))
         self.flag = Flag(
             (flag.x, flag.y),
@@ -184,7 +184,7 @@ class Level(Scene):
         self.groups["projectiles"].update(delta_time)
 
         self.camera.update(self.player)
-        
+
     def events(self, events_list):
         for event in events_list:
             if event.type == pygame.QUIT:
@@ -207,9 +207,8 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-            
+
         for sprite in self.groups["flag"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-
 
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)

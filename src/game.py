@@ -26,7 +26,7 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
-        #level_music = f"level_{self.current_level}.ogg"
+        # level_music = f"level_{self.current_level}.ogg"
         level_music = "level_1.ogg"
         self.level = Level(self.director, self.remaining_lives,
                            level_background, level_music, level_name, self)
@@ -123,7 +123,7 @@ class Game:
             self.is_on_pause = False
 
         return self.is_on_pause
-    
+
     def _handle_flag_collision(self):
         if self.level.flag.rect.colliderect(self.player.rect):
             self.change_current_level()
