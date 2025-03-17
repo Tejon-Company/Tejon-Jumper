@@ -18,6 +18,17 @@ class HUD:
         self._setup_health_icon()
         self._setup_coin_icon()
 
+    def _setup_health_icon(self):
+        health_icon_path = join(
+            'assets', 'creatures_and_else', 'berries', 'without_background', 'berries.png')
+        health_icon_image = load(health_icon_path)
+        health_icon_image = health_icon_image.convert_alpha()
+
+        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
+        first_icon = scale(first_icon, (32, 32))
+
+        self.health_icon = first_icon
+
     def _setup_coin_icon(self):
         coin_icon_path = join(
             'assets', 'creatures_and_else', 'berries', 'without_background', 'berries.png')
@@ -68,14 +79,3 @@ class HUD:
         text_y = coin_icon_y
 
         self.display_surface.blit(text_surface, (text_x, text_y))
-
-    def _setup_health_icon(self):
-        health_icon_path = join(
-            'assets', 'creatures_and_else', 'berries', 'without_background', 'berries.png')
-        health_icon_image = load(health_icon_path)
-        health_icon_image = health_icon_image.convert_alpha()
-
-        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
-
-        self.health_icon = first_icon

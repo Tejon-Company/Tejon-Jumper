@@ -1,6 +1,4 @@
 from settings import *
-from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from berries.coin_berrie import CoinBerry
 from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
@@ -30,7 +28,8 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
-        self.level = Level(self.director, level_background, "level_1.ogg", level_name, self)
+        self.level = Level(self.director, level_background,
+                           "level_1.ogg", level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
 
@@ -74,7 +73,7 @@ class Game:
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
-            self.health_points = 5 
+            self.health_points = 5
             self.coins = 0
 
             self._restart_level()
