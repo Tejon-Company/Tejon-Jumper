@@ -26,6 +26,7 @@ class Projectile(Sprite, ABC):
         self.old_rect = self.rect.copy()
         self._move(delta_time)
         self._update_animation(delta_time)
+        self._handle_collision_with_player(player)
 
     def _update_animation(self, delta_time):
         self._update_animation_frame(delta_time)
