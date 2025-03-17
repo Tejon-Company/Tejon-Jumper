@@ -1,7 +1,6 @@
 from settings import *
 from abc import ABC, abstractmethod
 from characters.sprite import Sprite
-from resource_manager import ResourceManager
 
 
 class Projectile(Sprite, ABC):
@@ -10,8 +9,6 @@ class Projectile(Sprite, ABC):
         self.direction = direction
         self.speed = None
         self.is_activated = False
-        self.sprite_sheet = ResourceManager.load_sprite_sheet(
-            sprite_sheet_name)
         self.animations = animations
         self._setup_animation()
 
