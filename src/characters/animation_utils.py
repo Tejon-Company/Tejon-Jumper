@@ -12,5 +12,4 @@ def create_animation_rects(frame_start_x, number_of_frames, sprite_size):
             (sprite_size * i) + (i * pixel_gap)
         animation_rects.append((x, y, sprite_size, sprite_size))
 
-
     return animation_rects

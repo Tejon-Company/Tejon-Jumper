@@ -22,7 +22,7 @@ class SporePool(ProjectilesPool):
             )
             self.pool.append(spore)
 
-    def shoot(self, pos_x, pos_y, direction: Optional[tuple]=None):
+    def shoot(self, pos_x, pos_y, direction: Optional[tuple] = None):
         for spore in self.pool:
             if spore.is_activated:
                 continue

@@ -74,4 +74,3 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
         case _:
             raise ValueError(
                 f"The entitie {enemy.name} is not a valid entitie")
-
