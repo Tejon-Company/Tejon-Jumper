@@ -43,6 +43,7 @@ class Projectile(Sprite, ABC):
             return
 
         self.game.receive_damage()
+        self._deactivate_projectile()
 
     @abstractmethod
     def _deactivate_projectile(self):
