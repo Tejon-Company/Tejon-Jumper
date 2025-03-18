@@ -24,7 +24,7 @@ class Hedgehog(MovingEnemy):
         is_below = is_below_collision(self.player.rect, self.player.old_rect, self.rect)
 
         if self.player.is_sprinting and not is_below:
-            self.defeat()
+            self._defeat()
             return
 
         self.game.receive_damage()

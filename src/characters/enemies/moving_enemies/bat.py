@@ -52,7 +52,7 @@ class Bat(MovingEnemy):
         self._adjust_player_position(self.player)
 
         if is_below_collision(self.player.rect, self.player.old_rect, self.rect):
-            self.defeat()
+            self._defeat()
             return
 
         self.game.receive_damage()

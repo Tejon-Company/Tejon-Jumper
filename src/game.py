@@ -3,6 +3,7 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from scene.pause import Pause
+from characters.players.collision_utils import check_cooldown
 
 
 class Game:
@@ -70,7 +71,7 @@ class Game:
         self._load_level()
 
     def receive_damage(self):
-        should_receive_damage, self.last_damage_time_ms = self._check_cooldown(
+        should_receive_damage, self.last_damage_time_ms = check_cooldown(
             self.last_damage_time_ms)
 
         if not should_receive_damage:
@@ -83,17 +84,6 @@ class Game:
             self._handle_dead()
 
         return self.player.health_points <= 0
-
-    def _check_cooldown(self, last_time_ms):
-        current_time_ms = pygame.time.get_ticks()
-
-        if not last_time_ms:
-            return True, current_time_ms
-
-        if current_time_ms < last_time_ms + 2000:
-            return False, last_time_ms
-
-        return True, current_time_ms
 
     def draw(self, surface):
         self.level.draw(surface)

@@ -115,11 +115,6 @@
     <property name="Orientation" value="LEFT"/>
    </properties>
   </object>
-  <object id="102" name="Mushroom" gid="782" x="592" y="641" width="32" height="32">
-   <properties>
-    <property name="Orientation" value="RIGHT"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="8" name="Player">
   <object id="65" name="Player" gid="799" x="116.833" y="639.667" width="32" height="32"/>
