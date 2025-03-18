@@ -4,13 +4,13 @@ from abc import ABC
 
 
 class MovingEnemy(Enemy, ABC):
-    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, groups, platform_rects, sprite_sheet_name, animations):
+        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name, animations)
 
-    def update(self, platform_rects, delta_time):
+    def update(self, delta_time):
         self.old_rect = self.rect.copy()
-        self._move(platform_rects, delta_time)
-        self._detect_platform_contact(platform_rects)
+        self._move(delta_time)
+        self._detect_platform_contact()
 
         self.facing_right = self.direction > 0
         self._update_animation(delta_time)
@@ -35,25 +35,23 @@ class MovingEnemy(Enemy, ABC):
         color_key = self.image.get_at((0, 0))
         self.image.set_colorkey(color_key)
 
-    def _move(self, platform_rects, delta_time):
+    def _move(self, delta_time):
         self.rect.x += self.direction * self.speed * delta_time
-        self._change_direction_if_falling(platform_rects)
+        self._change_direction_if_falling()
 
-    def _change_direction_if_falling(self, platform_rects):
-        if self._should_change_direction(platform_rects):
+    def _change_direction_if_falling(self):
+        if self._should_change_direction():
             self.direction *= -1
 
-    def _should_change_direction(self, platform_rects):
-        return self._about_to_fall(platform_rects) or self._will_hit_wall(
-            platform_rects
-        )
+    def _should_change_direction(self):
+        return self._about_to_fall() or self._will_hit_wall()
 
-    def _about_to_fall(self, platform_rects):
+    def _about_to_fall(self):
         floor_rect_right = pygame.FRect(self.rect.bottomright, (1, 1))
         floor_rect_left = pygame.FRect(self.rect.bottomleft, (-1, 1))
 
         def check_floor_collision(
-            rect): return rect.collidelist(platform_rects) < 0
+            rect): return rect.collidelist(self.platform_rects) < 0
 
         about_to_fall_right = self.direction > 0 and check_floor_collision(
             floor_rect_right
@@ -64,7 +62,7 @@ class MovingEnemy(Enemy, ABC):
 
         return about_to_fall_right or about_to_fall_left
 
-    def _will_hit_wall(self, platform_rects):
+    def _will_hit_wall(self):
         wall_height = self.rect.height * 0.6
         wall_offset = (self.rect.height - wall_height) / 2
 
@@ -77,18 +75,18 @@ class MovingEnemy(Enemy, ABC):
 
         hit_wall_right = (
             self.direction > 0 and wall_rect_right.collidelist(
-                platform_rects) >= 0
+                self.platform_rects) >= 0
         )
         hit_wall_left = (
             self.direction < 0 and wall_rect_left.collidelist(
-                platform_rects) >= 0
+                self.platform_rects) >= 0
         )
 
         return hit_wall_right or hit_wall_left
 
-    def _detect_platform_contact(self, platform_rects):
+    def _detect_platform_contact(self):
         floor_rect = pygame.Rect(
             self.rect.bottomleft, (self.rect.width, self.rect.height)
         )
 
-        self.on_surface = floor_rect.collidelist(platform_rects) >= 0
+        self.on_surface = floor_rect.collidelist(self.platform_rects) >= 0

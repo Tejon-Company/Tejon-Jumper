@@ -1,7 +1,6 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.spore_pool import SporePool
-from characters.players.player_state import PlayerState
 
 
 class Mushroom(Shooter):
