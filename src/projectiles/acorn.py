@@ -3,8 +3,8 @@ from projectiles.projectile import Projectile
 
 
 class Acorn(Projectile):
-    def __init__(self, pos, surf, direction, groups):
-        super().__init__(pos, surf, direction, groups)
+    def __init__(self, pos, surf, direction, groups, game):
+        super().__init__(pos, surf, direction, groups, game)
         self.image = pygame.Surface((8, 8))
         self.gravity = 170
         self.speed = 100
@@ -24,8 +24,11 @@ class Acorn(Projectile):
 
     def _reset_projectile_if_off_screen(self):
         if self.rect.y > WINDOW_HEIGHT:
-            self.is_activated = False
-            self.fall = 0
+            self._deactivate_projectile()
+
+    def _deactivate_projectile(self):
+        self.is_activated = False
+        self.fall = 0
 
     def change_position(self, new_pos_x, new_pos_y):
         self.rect.x = new_pos_x

@@ -1,3 +1,4 @@
+from resource_manager import ResourceManager
 from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
@@ -20,10 +21,10 @@ class Level(Scene):
     def __init__(
         self,
         director: Director,
-        remaining_lives: int = 3,
-        background: str = "background1",
-        music: str = "level_1.ogg",
-        level: str = "level1.tmx",
+        remaining_lives: int,
+        background: str,
+        music: str,
+        level: str,
         game=None,
     ):
         super().__init__(director)
@@ -36,8 +37,7 @@ class Level(Scene):
         self.tmx_map = load_pygame(level_path)
 
         self.remaining_lives = remaining_lives
-
-        self.is_on_pause = False
+        self.music = music
 
         self._setup_groups()
         self._setup_pools()
@@ -58,7 +58,8 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
         self._setup_deco()
-        # self._setup_music(music)
+
+        self._setup_music()
 
     def _setup_groups(self):
         self.groups = {
@@ -73,13 +74,18 @@ class Level(Scene):
         }
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(20, self.groups["projectiles"])
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
+        self.spore_pool = SporePool(20, self.groups["projectiles"], self.game)
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"], self.game)
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
         map_height = self.tmx_map.height * TILE_SIZE
         self.camera = Camera(map_width, map_height)
+
+    def _setup_music(self):
+        music_file = ResourceManager.load_music(self.music)
+        music.load(music_file)
+        music.play(-1)
 
     def _setup_background(self, background):
         background_folder = join("assets", "maps", "backgrounds", background)
@@ -147,7 +153,7 @@ class Level(Scene):
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
             enemy_factory(enemy, self.groups, self.platform_rects, self.spore_pool,
-                          self.acorn_pool, self.player)
+                          self.acorn_pool, self.player, self.game)
 
     def _setup_platform_rects(self):
         self.platform_rects = [
@@ -161,27 +167,12 @@ class Level(Scene):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
             return
 
-    def _setup_music(self):
-        music.load(self.music_file)
-        music.play(-1)
-
     def update(self, delta_time):
-        if self._is_game_paused():
-            return
-
         self.groups["all_sprites"].update(delta_time)
         self.groups["berries"].update(self.player)
-        self.groups["projectiles"].update(delta_time)
+        self.groups["projectiles"].update(delta_time, self.player)
 
         self.camera.update(self.player)
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-
-        return self.is_on_pause
 
     def events(self, events_list):
         for event in events_list:

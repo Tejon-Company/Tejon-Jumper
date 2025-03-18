@@ -1,9 +1,8 @@
 from settings import *
-from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
-from pygame.sprite import spritecollide
+from scene.pause import Pause
 
 
 class Game:
@@ -13,6 +12,7 @@ class Game:
         self.player = None
         self.coins = 0
         self.current_level = 1
+        self.is_on_pause = False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -24,8 +24,9 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
+        level_music = f"level_{self.current_level}.ogg"
         self.level = Level(self.director, self.remaining_lives,
-                           level_background, "level_1.ogg", level_name, self)
+                           level_background, level_music, level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
 
@@ -33,29 +34,24 @@ class Game:
         self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
         self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
 
-    def _restart_level(self):
-        self._load_level()
-
-    def _game_over(self):
-        self.director.exit_program()
-
     def events(self, event_list):
         self.level.events(event_list)
 
     def update(self, delta_time):
+        if self._is_game_paused():
+            return
         self.level.update(delta_time)
-        self._handle_player_collisions()
         self._handle_fall()
 
-    def _handle_player_collisions(self):
-        if spritecollide(self.player, self.level.groups["projectiles"], True):
-            self.receive_damage()
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
 
-        for enemy in self.level.groups.get("enemies", []):
-            if isinstance(enemy, MovingEnemy):  
-                enemy.update(0) 
-            enemy.handle_collision_with_player(self, self.player)
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+            self.director.stack_scene(Pause(self.director))
+            self.is_on_pause = False
 
+        return self.is_on_pause
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -68,8 +64,10 @@ class Game:
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
-
             self._restart_level()
+
+    def _restart_level(self):
+        self._load_level()
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = self._check_cooldown(
@@ -100,10 +98,5 @@ class Game:
     def draw(self, surface):
         self.level.draw(surface)
 
-    def change_current_level(self):
-        if self.current_level == 3:
-            self.current_level = 1
-            return
-
-        self.current_level += 1
-        self._load_level()
+    def _game_over(self):
+        self.director.exit_program()

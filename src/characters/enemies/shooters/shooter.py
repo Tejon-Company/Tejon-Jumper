@@ -5,8 +5,8 @@ from abc import ABC
 
 
 class Shooter(Enemy, ABC):
-    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, projectiles_pool=ProjectilesPool):
-        super().__init__(pos, surf, groups, None, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, game, projectiles_pool=ProjectilesPool):
+        super().__init__(pos, surf, groups, player, None, sprite_sheet_name, animations, game)
         self.shoot_cooldown = 3000
         self.pos = pos
         self.last_shot = 0
@@ -17,6 +17,8 @@ class Shooter(Enemy, ABC):
         self.shooting_duration = 500
 
     def update(self, delta_time):
+        super().update(delta_time)
+
         self._shoot()
         self._update_animation(delta_time)
 
@@ -38,14 +40,6 @@ class Shooter(Enemy, ABC):
     def _update_animation(self, delta_time):
         self._update_animation_frame(delta_time)
         self._update_sprite()
-
-    def _update_animation_frame(self, delta_time):
-        if self.is_shooting:
-            self.shooting_timer += delta_time * 1000
-            if self.shooting_timer >= self.shooting_duration:
-                self.is_shooting = False
-                self.shooting_timer = 0
-        self.animation_frame = 1 if self.is_shooting else 0
 
     def _update_sprite(self):
         frame_rect = self.animations[self.animation_frame]

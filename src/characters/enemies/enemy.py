@@ -7,32 +7,38 @@ from characters.players.collision_utils import is_below_collision
 
 
 class Enemy(Character):
-    def __init__(self, pos, surf, groups, platform_rects, sprite_sheet_name, animations):
+    def __init__(self, pos, surf, groups, player, platform_rects, sprite_sheet_name, animations, game):
         super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name)
         self.groups = groups
+        self.player = player
         self.animations = animations
         self.defeat_enemy_sound = ResourceManager.load_sound(
             "defeat_enemy.ogg")
+        self.game = game
 
     def _setup_animation(self):
         self.animation_frame = 0
         self.animation_speed = 0.2
         self.animation_time = 0
 
-    def handle_collision_with_player(self, game, player):
-        if not collide_rect(self, player):
+    def update(self, delta_time):
+        super().update(delta_time)
+        self._handle_collision_with_player()
+
+    def _handle_collision_with_player(self):
+        if not collide_rect(self, self.player):
             return
 
-        self._adjust_player_position(player)
+        self._adjust_player_position(self.player)
 
         is_player_colliding_from_above = is_below_collision(
-            player.rect, player.old_rect, self.rect)
+            self.player.rect, self.player.old_rect, self.rect)
 
-        if is_player_colliding_from_above or player.is_sprinting:
+        if is_player_colliding_from_above or self.player.is_sprinting:
             self.defeat()
             return
 
-        game.receive_damage()
+        self.game.receive_damage()
 
     def defeat(self):
         for group in self.groups:
