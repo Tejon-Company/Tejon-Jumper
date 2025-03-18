@@ -70,7 +70,7 @@ class Player(Character):
         self.old_rect = self.rect.copy()
         self._input()
         self._move(delta_time, environment_rects)
-        self._detect_platform_contact()
+        self._detect_platform_contact(environment_rects)
         self._update_animation(delta_time)
 
     def _update_animation(self, delta_time):
@@ -195,14 +195,16 @@ class Player(Character):
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
-            self.fall = 0
+        self.fall = 0
 
         self.direction.y = 0
 
-    def _detect_platform_contact(self):
+    def _detect_platform_contact(self, environment_rects):
         character_height = 2
         platform_rect = pygame.Rect(
             self.rect.bottomleft, (self.rect.width, character_height)
         )
 
-        self.on_surface = platform_rect.collidelist(self.platform_rects) >= 0
+        on_platform = platform_rect.collidelist(self.platform_rects) >= 0
+        on_environment = platform_rect.collidelist(environment_rects) >= 0
+        self.on_surface = on_platform or on_environment
