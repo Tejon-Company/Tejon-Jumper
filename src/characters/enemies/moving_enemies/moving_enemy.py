@@ -4,10 +4,13 @@ from abc import ABC
 
 
 class MovingEnemy(Enemy, ABC):
-    def __init__(self, pos, surf, groups, platform_rects, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, platform_rects, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, groups, player, platform_rects, sprite_sheet_name, animations, game):
+        super().__init__(pos, surf, groups, player, platform_rects,
+                         sprite_sheet_name, animations, game)
 
     def update(self, delta_time):
+        super().update(delta_time)
+
         self.old_rect = self.rect.copy()
         self._move(delta_time)
         self._detect_platform_contact()

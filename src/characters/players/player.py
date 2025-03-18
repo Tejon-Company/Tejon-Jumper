@@ -1,7 +1,5 @@
 from settings import *
 from characters.character import Character
-from characters.players.player_state import PlayerState
-from resource_manager import ResourceManager
 from characters.players.collision_utils import *
 
 
@@ -29,10 +27,7 @@ class Player(Character):
         self.on_surface = False
         self.is_sprinting = False
 
-        self.last_damage_time_ms = None
         self.last_health_time_ms = None
-
-        self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -41,7 +36,7 @@ class Player(Character):
 
         self.animations = {
             'idle': [(0, 0, 32, 32)],
-            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 448, 32)],
+            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 416, 32)],
             'jump': [(165, 0, 32, 32)]
         }
 
@@ -50,21 +45,6 @@ class Player(Character):
 
     def set_platform_rects(self, platform_rects):
         self.platform_rects = platform_rects
-
-    def receive_damage(self):
-        should_receive_damage, self.last_damage_time_ms = Player._check_cooldown(
-            self.last_damage_time_ms)
-
-        if not should_receive_damage:
-            return PlayerState.ALIVE
-
-        self.damage_sound.play()
-        self.health_points -= 1
-
-        if self.health_points > 0:
-            return PlayerState.DAMAGED
-
-        return PlayerState.DEAD
 
     def heal(self):
         has_max_health = self.health_points == self.maximum_health_points
@@ -197,6 +177,13 @@ class Player(Character):
             else:
                 self._handle_horizontal_collision(platform_rect)
                 self._handle_vertical_collision(platform_rect)
+
+    def environment_collision(self, platform_rect):
+        if not platform_rect.colliderect(self.rect):
+            return
+
+        self._handle_horizontal_collision(platform_rect)
+        self._handle_vertical_collision(platform_rect)
 
     def _handle_horizontal_collision(self, platform_rect):
         if is_right_collision(self.rect, self.old_rect, platform_rect):
