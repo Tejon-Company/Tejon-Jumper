@@ -54,10 +54,8 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (enemy.x, enemy.y),
                 enemy.image,
                 (groups["all_sprites"], groups["enemies"]),
-                player,
                 "bat.png",
-                _create_animation_rects(0, 0),
-                game
+                _create_animation_rects(0, 3),
             )
         case "Squirrel":
             Squirrel(

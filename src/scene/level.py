@@ -9,6 +9,7 @@ from scene.camera import Camera
 from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
+from environment.environment_factory import environment_factory
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
@@ -42,6 +43,7 @@ class Level(Scene):
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
+        self._setup_environment()
 
         self._setup_background(background)
         self._setup_tiled_background()
@@ -71,6 +73,7 @@ class Level(Scene):
             "berries": Group(),
             "tiled_backgrsound": Group(),
             "deco": Group(),
+            "environment": Group(),
         }
 
     def _setup_pools(self):
@@ -163,6 +166,10 @@ class Level(Scene):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
+    def _setup_environment(self):
+        for map_element in self.tmx_map.get_layer_by_name("Environment"):
+            environment_factory(map_element, self.groups)
+
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
             return
@@ -197,4 +204,6 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
+        for sprite in self.groups["environment"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
         self.hud.draw_hud(self.player.health_points, self.remaining_lives)

@@ -5,10 +5,7 @@ from characters.players.collision_utils import is_below_collision
 
 class Bat(MovingEnemy):
     def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, None, sprite_sheet_name, animations)
-
-        self.image = pygame.Surface((32, 32))
-        self.image.fill("black")
+        super().__init__(pos, surf, groups, None,None, sprite_sheet_name, animations,None)
 
         self.rect = self.image.get_frect(topleft=pos)
 
@@ -23,9 +20,10 @@ class Bat(MovingEnemy):
 
         self.left_limit = pos_x - TILE_SIZE * 4
         self.right_limit = pos_x + TILE_SIZE * 4
+        self._setup_animation()
 
     def update(self, delta_time):
-        self.facing_right = self.direction > 0
+        self.facing_right = self.direction.x > 0
         self._update_animation(delta_time)
         self._move(delta_time)
         self._check_path()
@@ -45,14 +43,14 @@ class Bat(MovingEnemy):
         if below_bottom_position:
             self.direction.y = -1
 
-    def _handle_collision_with_player(self):
-        if not pygame.sprite.collide_rect(self, self.player):
+    def _handle_collision_with_player(self, level, player):
+        if not pygame.sprite.collide_rect(self, player):
             return
 
-        self._adjust_player_position(self.player)
+        self._adjust_player_position(player)
 
-        if is_below_collision(self.player.rect, self.player.old_rect, self.rect):
-            self.defeat()
+        if is_below_collision(player.rect, player.old_rect, self.rect):
+            self._defeat()
             return
 
         self.game.receive_damage()
