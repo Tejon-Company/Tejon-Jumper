@@ -175,11 +175,11 @@ class Level(Scene):
             return
 
     def update(self, delta_time):
+        self.groups["environment"].update(self.player)
         self.groups["all_sprites"].update(delta_time)
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time, self.player)
 
-        self.groups["environment"].update(self.player)
 
         self.camera.update(self.player)
 
