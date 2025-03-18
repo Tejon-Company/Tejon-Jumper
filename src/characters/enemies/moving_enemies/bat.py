@@ -23,7 +23,7 @@ class Bat(MovingEnemy):
         self.right_limit = pos_x + TILE_SIZE * 4
         self._setup_animation()
 
-    def update(self, delta_time):
+    def update(self, delta_time, environment_rects):
         self.facing_right = self.direction.x > 0
         self._handle_collision_with_player()
         self._update_animation(delta_time)

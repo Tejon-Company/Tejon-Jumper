@@ -203,12 +203,5 @@ class Player(Character):
         self.direction.y = 0
 
     def _detect_platform_contact(self):
-        rect_height = 1
-
-        platform_rect = pygame.Rect(
-            self.rect.bottomleft, (self.rect.width, rect_height)
-        )
-
-        on_platform = platform_rect.collidelist(self.platform_rects) >= 0
-        on_environment = platform_rect.collidelist(self.environment_rects) >= 0
-        self.on_surface = on_platform or on_environment
+        self.on_surface = is_on_surface(
+            self.rect, self.platform_rects, self.environment_rects)
