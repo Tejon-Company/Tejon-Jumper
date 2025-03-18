@@ -24,6 +24,7 @@ class Bat(MovingEnemy):
 
     def update(self, delta_time):
         self.facing_right = self.direction.x > 0
+        self._handle_collision_with_player
         self._update_animation(delta_time)
         self._move(delta_time)
         self._check_path()
@@ -43,14 +44,4 @@ class Bat(MovingEnemy):
         if below_bottom_position:
             self.direction.y = -1
 
-    def _handle_collision_with_player(self, level, player):
-        if not pygame.sprite.collide_rect(self, player):
-            return
 
-        self._adjust_player_position(player)
-
-        if is_below_collision(player.rect, player.old_rect, self.rect):
-            self._defeat()
-            return
-
-        self.game.receive_damage()

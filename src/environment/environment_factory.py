@@ -1,13 +1,14 @@
 from environment.rock import Rock
 
 
-def environment_factory(enviroment_element, groups):
+def environment_factory(enviroment_element, groups, player):
     match enviroment_element.name:
         case "Rock":
             Rock(
                 (enviroment_element.x, enviroment_element.y),
                 enviroment_element.image,
-                (groups["environment"], groups["platforms"])
+                (groups["environment"], groups["platforms"]),
+                player
             )
         case _:
             raise ValueError(
