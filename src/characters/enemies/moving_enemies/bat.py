@@ -4,8 +4,9 @@ from characters.players.collision_utils import is_below_collision
 
 
 class Bat(MovingEnemy):
-    def __init__(self, pos, surf, groups, sprite_sheet_name, animations):
-        super().__init__(pos, surf, groups, None,None, sprite_sheet_name, animations,None)
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, game):
+        super().__init__(pos, surf, groups, player,
+                         None, sprite_sheet_name, animations, game)
 
         self.rect = self.image.get_frect(topleft=pos)
 
@@ -24,7 +25,7 @@ class Bat(MovingEnemy):
 
     def update(self, delta_time):
         self.facing_right = self.direction.x > 0
-        self._handle_collision_with_player
+        self._handle_collision_with_player()
         self._update_animation(delta_time)
         self._move(delta_time)
         self._check_path()
@@ -43,5 +44,3 @@ class Bat(MovingEnemy):
 
         if below_bottom_position:
             self.direction.y = -1
-
-
