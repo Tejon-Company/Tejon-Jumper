@@ -7,7 +7,7 @@ def environment_factory(enviroment_element, groups, player):
             Rock(
                 (enviroment_element.x, enviroment_element.y),
                 enviroment_element.image,
-                (groups["environment"], groups["platforms"]),
+                groups["environment"],
                 player
             )
         case _:

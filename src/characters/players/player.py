@@ -178,6 +178,13 @@ class Player(Character):
                 self._handle_horizontal_collision(platform_rect)
                 self._handle_vertical_collision(platform_rect)
 
+    def environment_collision(self, platform_rect):
+        if not platform_rect.colliderect(self.rect):
+            return
+
+        self._handle_horizontal_collision(platform_rect)
+        self._handle_vertical_collision(platform_rect)
+
     def _handle_horizontal_collision(self, platform_rect):
         if is_right_collision(self.rect, self.old_rect, platform_rect):
             self.rect.right = platform_rect.left

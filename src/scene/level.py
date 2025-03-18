@@ -180,7 +180,6 @@ class Level(Scene):
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time, self.player)
 
-
         self.camera.update(self.player)
 
     def events(self, events_list):
