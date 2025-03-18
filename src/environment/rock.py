@@ -3,7 +3,7 @@ from characters.players.player import Player
 
 
 class Rock(EnvironmentElement):
-    def __init__(self, pos, surf, groups,player):
+    def __init__(self, pos, surf, groups, player):
         super().__init__(pos, surf, groups, player)
 
     def update(self, player: Player):

@@ -168,7 +168,7 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups,Player)
+            environment_factory(map_element, self.groups, Player)
 
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
@@ -178,6 +178,8 @@ class Level(Scene):
         self.groups["all_sprites"].update(delta_time)
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time, self.player)
+
+        self.groups["environment"].update(self.player)
 
         self.camera.update(self.player)
 
