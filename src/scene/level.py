@@ -74,6 +74,7 @@ class Level(Scene):
             "tiled_backgrsound": Group(),
             "deco": Group(),
             "environment": Group(),
+            "a": Group()
         }
 
     def _setup_pools(self):
@@ -148,7 +149,7 @@ class Level(Scene):
         self.player = Player(
             (character.x, character.y),
             character.image,
-            self.groups["all_sprites"],
+            self.groups["a"],
             5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png"
         )
@@ -176,7 +177,10 @@ class Level(Scene):
 
     def update(self, delta_time):
         self.groups["environment"].update(self.player)
+        environment_rects = [
+            platform.rect for platform in self.groups["environment"]]
         self.groups["all_sprites"].update(delta_time)
+        self.player.update(delta_time, environment_rects)
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time, self.player)
 
@@ -195,6 +199,9 @@ class Level(Scene):
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         for sprite in self.groups["all_sprites"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["a"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         for projectile in self.groups["projectiles"]:
