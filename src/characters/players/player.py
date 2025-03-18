@@ -38,7 +38,7 @@ class Player(Character):
             'idle': [(0, 0, 32, 32)],
             'run': [(x + (x//32), 0, 32, 32) for x in range(64, 416, 32)],
             'jump': [(165, 0, 32, 32)],
-            'roll': [(32, 0, 32, 32)],
+            'roll': [(x, 0, 32, 32) for x in range(429, 640, 32)],
         }
 
         self.current_animation = 'idle'
