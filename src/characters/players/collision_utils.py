@@ -1,4 +1,3 @@
-
 def is_right_collision(player_rect, player_old_rect, rect):
     approaching_from_left = player_rect.right >= rect.left
     player_was_on_left = player_old_rect.right <= rect.left
