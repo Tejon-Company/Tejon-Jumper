@@ -1,16 +1,23 @@
 from settings import *
 from characters.character import Character
 from characters.players.collision_utils import *
+from resource_manager import ResourceManager
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
-        super().__init__(pos, surf, groups, None, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, health_points, normal_sprite_sheet_name, rage_sprite_sheet):
+        super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
+
+        self.normal_sprite_sheet = ResourceManager.load_sprite_sheet(
+            normal_sprite_sheet_name)
+        self.rage_sprite_sheet = ResourceManager.load_sprite_sheet(
+            rage_sprite_sheet
+        )
 
         self.health_points = health_points
         self.maximum_health_points = health_points
@@ -30,6 +37,7 @@ class Player(Character):
 
         self.on_surface = False
         self.is_sprinting = False
+        self.is_in_rage = False
 
         self.last_health_time_ms = None
 
