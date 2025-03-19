@@ -1,14 +1,13 @@
 from environment.environment_element import EnvironmentElement
-from characters.players.player import Player
 
 
 class Rock(EnvironmentElement):
     def __init__(self, pos, surf, groups, player):
         super().__init__(pos, surf, groups, player)
 
-    def update(self, player: Player):
+    def update(self):
         expanded_rect = self.rect.inflate(1, 1)
-        is_colliding = expanded_rect.colliderect(player.rect)
+        is_colliding = expanded_rect.colliderect(self.player.rect)
 
-        if player.is_sprinting and is_colliding:
+        if self.player.is_sprinting and is_colliding:
             self.kill()

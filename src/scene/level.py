@@ -43,7 +43,6 @@ class Level(Scene):
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
-        self._setup_environment()
 
         self._setup_background(background)
         self._setup_tiled_background()
@@ -54,6 +53,7 @@ class Level(Scene):
 
         self._setup_player()
         self._setup_enemies()
+        self._setup_environment()
 
         self._setup_platform_rects()
 
@@ -170,14 +170,14 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, Player)
+            environment_factory(map_element, self.groups, self.player)
 
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
             return
 
     def update(self, delta_time):
-        self.groups["environment"].update(self.player)
+        self.groups["environment"].update()
         environment_rects = [
             platform.rect for platform in self.groups["environment"]]
         self.groups["all_sprites"].update(delta_time)
