@@ -10,7 +10,7 @@ from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
-from berries.berrie_factory import berrie_factory
+from berries.berrie_factory import berry_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
@@ -166,7 +166,7 @@ class Level(Scene):
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
-            berrie_factory(berrie, self.groups)
+            berry_factory(berrie, self.groups)
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
