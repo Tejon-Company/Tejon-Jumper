@@ -41,7 +41,16 @@ class HUD:
 
         self.coin_icon = icon
 
-    def draw_hud(self, remaining_health_points: int, remaining_lives: int, coins: int):
+    def _setup_energy_icon(self):
+        energy_icon_path = 'berries.png'
+        energy_icon_image = ResourceManager.load_sprite_sheet(energy_icon_path)
+
+        first_icon = energy_icon_image.subsurface((65, 0, 32, 32))
+        first_icon = scale(first_icon, (32, 32))
+
+        self.energy_icon = first_icon
+        
+    def draw_hud(self, remaining_health_points: int, remaining_lives: int, coins: int, energy: int):
         self._draw_hearts(remaining_health_points)
         self._draw_energy_bar(energy)
         self._draw_lifes_counter(remaining_lives)

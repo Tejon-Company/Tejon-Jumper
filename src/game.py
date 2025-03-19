@@ -3,7 +3,6 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from pygame.sprite import spritecollide
 from scene.pause import Pause
 
 
@@ -32,7 +31,7 @@ class Game:
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
         level_music = f"level_{self.current_level}.ogg"
-        self.level = Level(self.director, self.remaining_lives,
+        self.level = Level(self.director,
                            level_background, level_music, level_name, self)
         self.player = self.level.player
         self._setup_sound_effects()
@@ -45,31 +44,11 @@ class Game:
         self.level.events(event_list)
 
     def update(self, delta_time):
-        if self._is_game_paused():
-            return
         self.level.update(delta_time)
         self._handle_fall()
 
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(Pause(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
-
-        for berry in self.level.groups.get("berries", []):
+        for berry in self.level.groups.get( "berries", []):
             berry.update(self, self.player)
-
-    def _handle_player_collisions(self):
-        if spritecollide(self.player, self.level.groups["projectiles"], True):
-            self.receive_damage()
-
-        for enemy in self.level.groups.get("enemies", []):
-            enemy.update(0)
-            enemy.handle_collision_with_player(self, self.player)
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
@@ -138,10 +117,11 @@ class Game:
 
         self.current_level += 1
         self._load_level()
+
     def draw(self, surface):
         self.level.draw(surface)
         self.hud.draw_hud(self.health_points,
-                          self.remaining_lives, self.coins)
+                          self.remaining_lives, self.coins, self.player.energy)
 
     def _game_over(self):
         self.director.exit_program()
