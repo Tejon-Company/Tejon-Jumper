@@ -1,6 +1,7 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from characters.players.collision_utils import check_cooldown
+from characters.players.collision_utils import check_cooldown, is_below_collision
 from characters.animation_utils import setup_animation
+from pygame.sprite import collide_rect
 
 
 class Bear(MovingEnemy):
@@ -18,6 +19,21 @@ class Bear(MovingEnemy):
         self.last_damage_time_ms = None
 
         setup_animation(self)
+
+    def _handle_collision_with_player(self):
+        if not collide_rect(self, self.player):
+            return
+
+        self._adjust_player_position()
+
+        is_player_colliding_from_above = is_below_collision(
+            self.player.rect, self.player.old_rect, self.rect)
+
+        if is_player_colliding_from_above:
+            self._defeat()
+            return
+
+        self.game.receive_damage()
 
     def _defeat(self):
         if self.remaining_lives <= 0:
