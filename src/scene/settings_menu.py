@@ -42,6 +42,29 @@ class SettingsMenu(Scene):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self._mouse_button_down(event)
 
+    def _mouse_button_down(self, event):
+        if self.music_volume_bar.collidepoint(event.pos):
+            self.music_volume = (
+                event.pos[0] - self.music_volume_bar.x) / self.music_volume_bar.width
+            ResourceManager.set_music_volume(self.music_volume)
+
+        elif self.effects_volume_bar.collidepoint(event.pos):
+            self.effects_volume = (
+                event.pos[0] - self.effects_volume_bar.x) / self.effects_volume_bar.width
+            ResourceManager.set_effects_volume(self.effects_volume)
+
+        elif self.difficulty_btn.collidepoint(event.pos):
+            self.current_difficulty = (
+                self.current_difficulty + 1) % len(self.difficulty_levels)
+
+        # elif self.resolution_btn.collidepoint(event.pos):
+        #    self.current_resolution = (self.current_resolution + 1) % len(self.resolutions)
+        #    pygame.display.set_mode(self.resolutions[self.current_resolution])
+
+        elif self.back_btn.collidepoint(event.pos):
+            from scene.menu import Menu
+            self.director.change_scene(Menu(self.director))
+
     def draw(self, display_surface):
         display_surface.fill((50, 50, 50))
         font = ResourceManager.load_font('Timetwist-Regular.ttf', 20)
@@ -66,29 +89,6 @@ class SettingsMenu(Scene):
                           f"{self.resolutions[self.current_resolution][0]}x{self.resolutions[self.current_resolution][1]}", font)
 
         self._draw_button(display_surface, self.back_btn, "Return", font)
-
-    def _mouse_button_down(self, event):
-        if self.music_volume_bar.collidepoint(event.pos):
-            self.music_volume = (
-                event.pos[0] - self.music_volume_bar.x) / self.music_volume_bar.width
-            ResourceManager.set_music_volume(self.music_volume)
-
-        elif self.effects_volume_bar.collidepoint(event.pos):
-            self.effects_volume = (
-                event.pos[0] - self.effects_volume_bar.x) / self.effects_volume_bar.width
-            ResourceManager.set_effects_volume(self.effects_volume)
-
-        elif self.difficulty_btn.collidepoint(event.pos):
-            self.current_difficulty = (
-                self.current_difficulty + 1) % len(self.difficulty_levels)
-
-        # elif self.resolution_btn.collidepoint(event.pos):
-        #    self.current_resolution = (self.current_resolution + 1) % len(self.resolutions)
-        #    pygame.display.set_mode(self.resolutions[self.current_resolution])
-
-        elif self.back_btn.collidepoint(event.pos):
-            from scene.menu import Menu
-            self.director.change_scene(Menu(self.director))
 
     def _draw_button(self, display_surface, rect, text, font):
         draw_rect(display_surface, 'black', rect)
