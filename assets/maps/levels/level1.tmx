@@ -6,7 +6,9 @@
  <tileset firstgid="779" source="../tiled/patterns/fox.tsx"/>
  <tileset firstgid="782" source="../tiled/patterns/mushroom.tsx"/>
  <tileset firstgid="792" source="../tiled/patterns/hedgehog.tsx"/>
- <tileset firstgid="794" source="../tiled/patterns/squirrel.tsx"/>
+ <tileset firstgid="794" name="squirrel" tilewidth="32" tileheight="32" spacing="1" tilecount="3" columns="3">
+  <image source="../../creatures_and_else/enemies/without_background/squirrel.png" width="98" height="32"/>
+ </tileset>
  <tileset firstgid="797" source="../tiled/patterns/flag.tsx"/>
  <tileset firstgid="799" source="../tiled/patterns/player.tsx"/>
  <tileset firstgid="819" source="../tiled/patterns/bat.tsx"/>
