@@ -40,7 +40,7 @@ class Pause(Scene):
         overlay.fill((0, 0, 0, 0))
         display_surface.blit(overlay, (0, 0))
 
-        font = ResourceManager.load_font('leadcoat.ttf', 36)
+        font = ResourceManager.load_font('Timetwist-Regular.ttf', 22)
 
         self._draw_menu_title(
             display_surface, self.pause_menu_title, "Pause Menu", font)

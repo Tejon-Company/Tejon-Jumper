@@ -14,7 +14,7 @@ class Menu(Scene):
 
         X = WINDOW_WIDTH // 2
         Y = WINDOW_HEIGHT // 2
-        WIDTH = 250
+        WIDTH = 230
         HEIGHT = 70
 
         self.logo = ResourceManager.load_image("logo.png")
@@ -43,7 +43,7 @@ class Menu(Scene):
         display_surface.fill((34, 139, 34))
         display_surface.blit(self.logo, self.logo_rect.topleft)
 
-        font = ResourceManager.load_font('leadcoat.ttf', 36)
+        font = ResourceManager.load_font('Timetwist-Regular.ttf', 22)
 
         self._draw_button(display_surface, self.play_btn, "Play", font)
         self._draw_button(display_surface, self.settings_btn,
