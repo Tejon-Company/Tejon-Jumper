@@ -18,6 +18,7 @@ class Player(Character):
         self.rage_sprite_sheet = ResourceManager.load_sprite_sheet(
             rage_sprite_sheet
         )
+        self.actual_sprite_sheet = self.normal_sprite_sheet
 
         self.health_points = health_points
         self.maximum_health_points = health_points
@@ -129,7 +130,7 @@ class Player(Character):
 
     def _update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]
-        self.image = self.sprite_sheet.subsurface(frame_rect)
+        self.image = self.actual_sprite_sheet.subsurface(frame_rect)
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)

@@ -152,7 +152,8 @@ class Level(Scene):
             character.image,
             self.groups["players"],
             5 if DIFFICULTY == Difficulty.NORMAL else 3,
-            "badger.png"
+            "badger.png",
+            "rage_badger.png"
         )
 
     def _setup_enemies(self):
