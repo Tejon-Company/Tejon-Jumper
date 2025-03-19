@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="104">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="132">
  <tileset firstgid="1" source="../tiled/patterns/enviroment.tsx"/>
  <tileset firstgid="769" source="../tiled/patterns/log.tsx"/>
  <tileset firstgid="775" source="../tiled/patterns/berries.tsx"/>
@@ -10,6 +10,7 @@
  <tileset firstgid="797" source="../tiled/patterns/flag.tsx"/>
  <tileset firstgid="799" source="../tiled/patterns/player.tsx"/>
  <tileset firstgid="819" source="../tiled/patterns/bat.tsx"/>
+ <tileset firstgid="822" source="../tiled/patterns/rock.tsx"/>
  <layer id="5" name="Background" width="121" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -37,7 +38,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="Berries">
+ <objectgroup id="2" name="Berries" locked="1">
   <object id="2" name="coin_berrie" gid="778" x="383.5" y="608.5" width="32" height="32"/>
   <object id="10" name="coin_berrie" gid="778" x="416" y="578" width="32" height="32"/>
   <object id="11" name="coin_berrie" gid="778" x="449" y="577" width="32" height="32"/>
@@ -57,7 +58,6 @@
   <object id="25" name="coin_berrie" gid="778" x="1696.5" y="576.5" width="32" height="32"/>
   <object id="26" name="coin_berrie" gid="778" x="1728" y="608" width="32" height="32"/>
   <object id="27" name="coin_berrie" gid="778" x="1696.5" y="640.5" width="32" height="32"/>
-  <object id="28" name="coin_berrie" gid="778" x="2591.5" y="639" width="32" height="32"/>
   <object id="29" name="coin_berrie" gid="778" x="2752.5" y="608" width="32" height="32"/>
   <object id="30" name="coin_berrie" gid="778" x="2847.5" y="543.5" width="32" height="32"/>
   <object id="31" name="coin_berrie" gid="778" x="2943.5" y="576" width="32" height="32"/>
@@ -76,8 +76,19 @@
   <object id="99" name="energy_berrie" gid="777" x="1922" y="642" width="32" height="32"/>
   <object id="100" name="energy_berrie" gid="777" x="2431" y="641" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="7" name="Flag">
-  <object id="62" name="Flag" gid="797" x="3744" y="480" width="32" height="32"/>
+ <objectgroup id="7" name="Environment">
+  <object id="107" name="Rock" gid="822" x="1799.67" y="574" width="32" height="32"/>
+  <object id="108" name="Rock" gid="822" x="1800.33" y="606.667" width="32" height="32"/>
+  <object id="109" name="Rock" gid="822" x="1802.67" y="640.333" width="32" height="32"/>
+  <object id="110" name="Rock" gid="822" x="1770" y="641" width="32" height="32"/>
+  <object id="111" name="Rock" gid="822" x="1769.67" y="607.333" width="32" height="32"/>
+  <object id="118" name="Rock" gid="822" x="2552.75" y="576" width="32" height="32"/>
+  <object id="119" name="Rock" gid="822" x="2555" y="608" width="32" height="32"/>
+  <object id="120" name="Rock" gid="822" x="2556" y="639" width="32" height="32"/>
+  <object id="121" name="Rock" gid="822" x="2588" y="640" width="32" height="32"/>
+  <object id="122" name="Rock" gid="822" x="2587.5" y="607.75" width="32" height="32"/>
+  <object id="123" name="Rock" gid="822" x="2619.25" y="639.5" width="32" height="32"/>
+  <object id="124" name="Rock" gid="822" x="300" y="600" width="32" height="32"/>
  </objectgroup>
  <layer id="4" name="Deco" width="121" height="23">
   <data encoding="csv">
@@ -115,19 +126,13 @@
     <property name="Orientation" value="LEFT"/>
    </properties>
   </object>
-  <object id="102" name="Mushroom" gid="782" x="592" y="641" width="32" height="32">
-   <properties>
-    <property name="Orientation" value="RIGHT"/>
-   </properties>
-  </object>
-  <object id="103" name="Mushroom" gid="782" x="327" y="639" width="32" height="32">
-   <properties>
-    <property name="Orientation" value="UP"/>
-   </properties>
-  </object>
+  <object id="131" name="Bat" gid="819" x="109.667" y="513.666" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="Flag">
+  <object id="126" name="Flag" gid="797" x="3744" y="480" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Player">
-  <object id="65" name="Player" gid="799" x="116.833" y="639.667" width="32" height="32"/>
+  <object id="65" name="Player" gid="799" x="116.833" y="638.667" width="32" height="32"/>
  </objectgroup>
  <layer id="3" name="Terrain" width="121" height="23">
   <data encoding="csv">
@@ -148,7 +153,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,248,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,251,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,395,434,434,434,435,436,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,773,773,88,466,466,466,467,468,
+0,0,0,0,0,0,0,104,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,773,773,88,466,466,466,467,468,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,0,0,0,0,0,0,0,300,301,0,0,0,0,0,0,772,772,772,772,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,88,466,466,467,468,500,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,773,0,0,0,0,0,0,300,217,217,301,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,773,88,498,466,466,467,468,
 434,434,434,434,434,434,434,435,436,434,435,436,398,0,0,395,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,435,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,398,0,0,0,0,433,398,0,0,0,0,395,435,434,434,434,434,434,434,434,434,434,434,435,436,498,498,466,467,468,468,
