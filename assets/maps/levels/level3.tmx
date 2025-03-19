@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="61" height="23" tilewidth="32" tileheight="32" infinite="1" nextlayerid="11" nextobjectid="35">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="61" height="23" tilewidth="32" tileheight="32" infinite="1" nextlayerid="11" nextobjectid="65">
  <tileset firstgid="1" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/enviroment.tsx"/>
  <tileset firstgid="769" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/log.tsx"/>
  <tileset firstgid="775" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/rock.tsx"/>
@@ -8,6 +8,8 @@
  <tileset firstgid="798" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/squirrel.tsx"/>
  <tileset firstgid="801" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/mushroom.tsx"/>
  <tileset firstgid="811" source="../tiled/patterns/log.tsx"/>
+ <tileset firstgid="817" source="../tiled/patterns/flag.tsx"/>
+ <tileset firstgid="819" source="../tiled/patterns/berries.tsx"/>
  <layer id="2" name="Background" width="61" height="23">
   <data encoding="csv">
    <chunk x="32" y="0" width="16" height="16">
@@ -184,8 +186,33 @@
   <object id="25" name="Rock" gid="775" x="2467" y="576" width="32" height="32"/>
   <object id="26" name="Rock" gid="775" x="2435.5" y="543.5" width="32" height="32"/>
   <object id="27" name="Rock" gid="775" x="2467.5" y="607.5" width="32" height="32"/>
+  <object id="35" name="Flag" gid="817" x="4705.75" y="575.75" width="32" height="32"/>
+  <object id="36" gid="821" x="6024" y="1448" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="10" name="Berries"/>
+ <objectgroup id="10" name="Berries">
+  <object id="38" name="energy_berry " gid="821" x="1563.33" y="574.667" width="32" height="32"/>
+  <object id="40" name="energy_berry " gid="821" x="1939.33" y="572.667" width="32" height="32"/>
+  <object id="41" name="energy_berry " gid="821" x="2331" y="574" width="32" height="32"/>
+  <object id="42" name="health_berry" gid="819" x="1435" y="286" width="32" height="32"/>
+  <object id="46" name="coin_berry" gid="822" x="332.667" y="581.333" width="32" height="32"/>
+  <object id="47" name="coin_berry" gid="822" x="435.333" y="577.333" width="32" height="32"/>
+  <object id="48" name="coin_berry" gid="822" x="527.333" y="578" width="32" height="32"/>
+  <object id="49" name="coin_berry" gid="822" x="626" y="578.667" width="32" height="32"/>
+  <object id="50" name="coin_berry" gid="822" x="903.333" y="585.333" width="32" height="32"/>
+  <object id="51" name="coin_berry" gid="822" x="931.333" y="563.333" width="32" height="32"/>
+  <object id="52" name="coin_berry" gid="822" x="962" y="568.667" width="32" height="32"/>
+  <object id="53" name="coin_berry" gid="822" x="988" y="586" width="32" height="32"/>
+  <object id="54" name="coin_berry" gid="822" x="1007.33" y="612.667" width="32" height="32"/>
+  <object id="55" name="coin_berry" gid="822" x="1028" y="641.333" width="32" height="32"/>
+  <object id="57" name="coin_berry" gid="822" x="1510" y="262" width="32" height="32"/>
+  <object id="58" name="coin_berry" gid="822" x="1536.67" y="231.333" width="32" height="32"/>
+  <object id="59" name="coin_berry" gid="822" x="1562" y="204.667" width="32" height="32"/>
+  <object id="60" name="coin_berry" gid="822" x="1590.67" y="215.333" width="32" height="32"/>
+  <object id="61" name="coin_berry" gid="822" x="1618" y="228" width="32" height="32"/>
+  <object id="62" name="coin_berry" gid="822" x="1633.33" y="256" width="32" height="32"/>
+  <object id="63" name="coin_berry" gid="822" x="1647.33" y="286" width="32" height="32"/>
+  <object id="64" name="coin_berry" gid="822" x="1663.33" y="311.333" width="32" height="32"/>
+ </objectgroup>
  <layer id="5" name="Deco" width="61" height="23">
   <data encoding="csv">
    <chunk x="0" y="16" width="16" height="16">
@@ -296,6 +323,24 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </chunk>
+   <chunk x="144" y="16" width="16" height="16">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,818,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
   </data>
  </layer>
  <objectgroup id="9" name="Enemies">
@@ -319,9 +364,6 @@
     <property name="Orientation" value="RIGHT"/>
    </properties>
   </object>
- </objectgroup>
- <objectgroup id="8" name="Flag">
-  <object id="29" name="Flag" gid="796" x="4671.67" y="575.333" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="6" name="Player">
   <object id="28" name="Player" gid="776" x="138.5" y="637.5" width="32" height="32"/>
