@@ -54,7 +54,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
             Bear(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["enemies"]),
+                (groups["moving_enemies"], groups["enemies"]),
                 player,
                 platform_rects,
                 "bear.png",
