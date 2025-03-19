@@ -1,7 +1,6 @@
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
-from characters.players.player import Player
 from pygame.sprite import collide_rect
 from characters.players.collision_utils import is_below_collision
 
@@ -29,7 +28,7 @@ class Enemy(Character):
         if not collide_rect(self, self.player):
             return
 
-        self._adjust_player_position(self.player)
+        self._adjust_player_position()
 
         is_player_colliding_from_above = is_below_collision(
             self.player.rect, self.player.old_rect, self.rect)
@@ -48,36 +47,38 @@ class Enemy(Character):
         self.defeat_enemy_sound.play()
         self.kill()
 
-    def _adjust_player_position(self, player: Player):
-        if not player.rect.colliderect(self.rect):
+    def _adjust_player_position(self):
+        if not self.player.rect.colliderect(self.rect):
             return
-        dif_x = abs(player.rect.centerx - self.rect.centerx)
-        dif_y = abs(player.rect.centery - self.rect.centery)
+
+        dif_x = abs(self.player.rect.centerx - self.rect.centerx)
+        dif_y = abs(self.player.rect.centery - self.rect.centery)
 
         is_horizontal_collision = dif_x > dif_y
 
         if is_horizontal_collision:
-            self._adjust_player_position_horizontally(player)
+            self._adjust_player_position_horizontally()
         else:
-            self._adjust_player_position_vertically(player)
-        player.collision()
+            self._adjust_player_position_vertically()
 
-    def _adjust_player_position_horizontally(self, player):
-        if player.rect.centerx < self.rect.centerx:
-            player.rect.right = self.rect.left
+        self.player.collision()
+
+    def _adjust_player_position_horizontally(self):
+        if self.player.rect.centerx < self.rect.centerx:
+            self.player.rect.right = self.rect.left
         else:
-            player.rect.left = self.rect.right
+            self.player.rect.left = self.rect.right
 
-    def _adjust_player_position_vertically(self, player):
-        is_player_above = player.rect.centery < self.rect.centery
+    def _adjust_player_position_vertically(self):
+        is_player_above = self.player.rect.centery < self.rect.centery
         if is_player_above:
-            player.rect.bottom = self.rect.top
+            self.player.rect.bottom = self.rect.top
         else:
-            player.rect.top = self.rect.bottom
+            self.player.rect.top = self.rect.bottom
 
         horizontal_offset = 10
-        is_player_left = player.rect.centerx < self.rect.centerx
+        is_player_left = self.player.rect.centerx < self.rect.centerx
         if is_player_left:
-            player.rect.x -= horizontal_offset
+            self.player.rect.x -= horizontal_offset
         else:
-            player.rect.x += horizontal_offset
+            self.player.rect.x += horizontal_offset
