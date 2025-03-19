@@ -2,6 +2,7 @@ from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
 from characters.players.collision_utils import is_below_collision
+from characters.animation_utils import setup_animation
 from pygame.sprite import collide_rect
 
 
@@ -14,7 +15,7 @@ class Hedgehog(MovingEnemy):
         self.direction = choice((-1, 1))
         self.speed = 50
 
-        self._setup_animation()
+        setup_animation(self)
 
     def _handle_collision_with_player(self):
         if not collide_rect(self, self.player):

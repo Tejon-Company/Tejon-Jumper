@@ -16,11 +16,6 @@ class Enemy(Character):
             "defeat_enemy.ogg")
         self.game = game
 
-    def _setup_animation(self):
-        self.animation_frame = 0
-        self.animation_speed = 0.2
-        self.animation_time = 0
-
     def update(self, delta_time):
         super().update(delta_time)
         self._handle_collision_with_player()

@@ -1,4 +1,5 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
+from characters.animation_utils import setup_animation
 from random import choice
 
 
@@ -11,4 +12,4 @@ class Fox(MovingEnemy):
         self.direction = choice((-1, 1))
         self.speed = 75
 
-        self._setup_animation()
+        setup_animation(self)

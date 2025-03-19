@@ -1,6 +1,7 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
+from characters.animation_utils import setup_animation
 
 
 class Squirrel(Shooter):
@@ -10,7 +11,7 @@ class Squirrel(Shooter):
 
         self.rect = self.image.get_frect(topleft=pos)
 
-        self._setup_animation()
+        setup_animation(self)
 
     def _update_animation_frame(self, delta_time):
         if self.is_shooting:

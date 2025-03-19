@@ -4,6 +4,7 @@ from characters.sprite import Sprite
 from characters.players.collision_utils import is_below_collision
 from pygame.sprite import collide_rect
 from resource_manager import ResourceManager
+from characters.animation_utils import update_animation, setup_animation
 
 
 class Projectile(Sprite, ABC):
@@ -16,7 +17,7 @@ class Projectile(Sprite, ABC):
         self.sprite_sheet = ResourceManager.load_sprite_sheet(
             sprite_sheet_name)
         self.animations = animations
-        self._setup_animation()
+        setup_animation(self)
 
     def update(self, delta_time, player):
         if not self.is_activated:
@@ -25,18 +26,8 @@ class Projectile(Sprite, ABC):
         self._reset_projectile_if_off_screen()
         self.old_rect = self.rect.copy()
         self._move(delta_time)
-        self._update_animation(delta_time)
+        update_animation(delta_time, self)
         self._handle_collision_with_player(player)
-
-    def _update_animation(self, delta_time):
-        self._update_animation_frame(delta_time)
-        self._update_sprite()
-
-    def _update_animation_frame(self, delta_time):
-        self.animation_time += delta_time
-        frames_in_animation = len(self.animations)
-        elapsed_frames = self.animation_time / self.animation_speed
-        self.animation_frame = int(elapsed_frames) % frames_in_animation
 
     def _update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
