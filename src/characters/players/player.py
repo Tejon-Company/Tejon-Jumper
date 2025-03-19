@@ -216,5 +216,5 @@ class Player(Character):
 
         self.on_surface = platform_rect.collidelist(self.platform_rects) >= 0
 
-    def recover_energy(self, amount):
-        self.energy = min(self.energy + amount, 100)
+    def recover_energy(self):
+        self.energy = self.max_energy
