@@ -210,6 +210,9 @@ class Level(Scene):
         for sprite in self.groups["moving_enemies"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
+        for sprite in self.groups["environment"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
                 display_surface.blit(
@@ -218,6 +221,5 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        for sprite in self.groups["environment"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-        self.hud.draw_hud(self.player.health_points, self.remaining_lives)
+        self.hud.draw_hud(self.player.health_points,
+                          self.remaining_lives, self.player.energy)
