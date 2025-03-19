@@ -11,14 +11,14 @@ class Bear(MovingEnemy):
                          platform_rects, sprite_sheet_name, animations, game)
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width *= 2
+        self.rect.width = TILE_SIZE * 2
 
         self.direction = vector(-1, 1)
         self.speed = 100
         self.gravity = 1000
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 300
+        self.jump_height = 250
 
         self.on_surface = True
 
@@ -98,19 +98,21 @@ class Bear(MovingEnemy):
             self.player.rect, self.player.old_rect, self.rect)
 
         if is_player_colliding_from_above:
-            self._defeat()
+            self._receive_damage()
             return
 
-        self.game.receive_damage()
+        should_damage, _ = check_cooldown(self.last_damage_time_ms)
+        if should_damage:
+            self.game.receive_damage()
 
-    def _defeat(self):
+    def _receive_damage(self):
         if self.remaining_lives <= 0:
-            return super()._defeat()
+            return self._defeat()
 
         self.is_jumping = True
-        should_receive_damage, self.last_damage_time_ms = check_cooldown(
-            self.last_damage_time_ms)
+        should_receive_damage, self.last_damage_time_ms = check_cooldown(self.last_damage_time_ms)
 
         if should_receive_damage:
+            print("Bear received damage")
             self.remaining_lives -= 1
             self.speed += self.speed * .2
