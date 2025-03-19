@@ -94,7 +94,8 @@ class Player(Character):
         else:
             self.current_animation = 'idle'
 
-        self.facing_right = self.direction.x > 0
+        if self.direction.x != 0:
+            self.facing_right = self.direction.x > 0
 
     def _reset_animation(self):
         self.animation_time = 0
@@ -195,15 +196,11 @@ class Player(Character):
     def _handle_vertical_collision(self, platform_rect):
         if self.rect.bottom >= platform_rect.top:
             self.rect.bottom = platform_rect.top
-            
-        if is_below_collision(self.rect, self.old_rect, platform_rect):
-            self.rect.bottom = platform_rect.top
-            print("aslñefjsef")
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
-        self.fall = 0
 
+        self.fall = 0
         self.direction.y = 0
 
     def _detect_platform_contact(self):
