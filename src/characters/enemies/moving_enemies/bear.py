@@ -19,6 +19,7 @@ class Bear(MovingEnemy):
         self.fall = 0
         self.is_jumping = False
         self.jump_height = 300
+
         self.on_surface = True
 
         self.facing_right = True
@@ -86,10 +87,6 @@ class Bear(MovingEnemy):
 
         self.fall = 0
         self.direction.y = 0
-
-    def _detect_platform_contact(self):
-        self.on_surface = is_on_surface(
-            self.rect, self.platform_rects, self.environment_rects)
 
     def _handle_collision_with_player(self):
         if not collide_rect(self, self.player):

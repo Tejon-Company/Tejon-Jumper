@@ -33,11 +33,11 @@ class MovingEnemy(Enemy, ABC):
 
     def _move(self, delta_time):
         self.rect.x += self.direction * self.speed * delta_time
-        if self._should_change_direction():
-            self.direction *= -1
+        should_change_direction = self._about_to_fall(
+        ) or self._will_hit_wall(self.direction)
 
-    def _should_change_direction(self):
-        return self._about_to_fall() or self._will_hit_wall(self.direction)
+        if should_change_direction:
+            self.direction *= -1
 
     def _about_to_fall(self):
         floor_rect_right = pygame.FRect(self.rect.bottomright, (1, 1))
