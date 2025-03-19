@@ -1,6 +1,7 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.players.collision_utils import is_below_collision
+from characters.animation_utils import update_animation
 
 
 class Bat(MovingEnemy):
@@ -26,7 +27,7 @@ class Bat(MovingEnemy):
 
     def update(self, delta_time):
         self.facing_right = self.direction > 0
-        self._update_animation(delta_time)
+        update_animation(delta_time, self)
         self._move(delta_time)
         self._check_path()
 
