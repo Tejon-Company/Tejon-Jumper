@@ -14,7 +14,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
             Hedgehog(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["enemies"]),
+                (groups["moving_enemies"], groups["enemies"]),
                 player,
                 platform_rects,
                 "hedgehog.png",
@@ -43,7 +43,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
             Fox(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["enemies"]),
+                (groups["moving_enemies"], groups["enemies"]),
                 player,
                 platform_rects,
                 "fox.png",
@@ -65,10 +65,10 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
             Bat(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["enemies"]),
+                (groups["moving_enemies"], groups["enemies"]),
                 player,
                 "bat.png",
-                _create_animation_rects(0, 0),
+                _create_animation_rects(0, 3),
                 game
             )
         case "Squirrel":

@@ -1,4 +1,4 @@
-from pygame.time import get_ticks
+from pygame.rect import Rect
 
 
 def is_right_collision(player_rect, player_old_rect, rect):
@@ -25,13 +25,12 @@ def is_above_collision(player_rect, player_old_rect, rect):
     return approaching_from_bottom and was_below
 
 
-def check_cooldown(last_time_ms, cooldown=2000):
-    current_time_ms = get_ticks()
+def is_on_surface(character_rect, platform_rects, environment_rects):
+    rect_height = 1
+    platform_rect = Rect(character_rect.bottomleft,
+                         (character_rect.width, rect_height))
 
-    if not last_time_ms:
-        return True, current_time_ms
+    on_platform = platform_rect.collidelist(platform_rects) >= 0
+    on_environment = platform_rect.collidelist(environment_rects) >= 0
 
-    if current_time_ms < last_time_ms + cooldown:
-        return False, last_time_ms
-
-    return True, current_time_ms
+    return on_platform or on_environment

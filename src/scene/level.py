@@ -9,6 +9,7 @@ from scene.camera import Camera
 from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
+from environment.environment_factory import environment_factory
 from berries.berrie_factory import berrie_factory
 from pygame.mixer import music
 from scene.scene import Scene
@@ -52,6 +53,7 @@ class Level(Scene):
 
         self._setup_player()
         self._setup_enemies()
+        self._setup_environment()
 
         self._setup_platform_rects()
 
@@ -71,6 +73,9 @@ class Level(Scene):
             "berries": Group(),
             "tiled_backgrsound": Group(),
             "deco": Group(),
+            "environment": Group(),
+            "players": Group(),
+            "moving_enemies": Group()
         }
 
     def _setup_pools(self):
@@ -145,7 +150,7 @@ class Level(Scene):
         self.player = Player(
             (character.x, character.y),
             character.image,
-            self.groups["all_sprites"],
+            self.groups["players"],
             5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png"
         )
@@ -163,12 +168,22 @@ class Level(Scene):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
             berrie_factory(berrie, self.groups)
 
+    def _setup_environment(self):
+        for map_element in self.tmx_map.get_layer_by_name("Environment"):
+            environment_factory(map_element, self.groups, self.player)
+
     def _setup_flag(self):
         for flag in self.tmx_map.get_layer_by_name("Flag"):
             return
 
     def update(self, delta_time):
+        self.groups["environment"].update()
+        environment_rects = [
+            platform.rect for platform in self.groups["environment"]]
         self.groups["all_sprites"].update(delta_time)
+        self.groups["players"].update(delta_time, environment_rects)
+        self.groups["moving_enemies"].update(delta_time, environment_rects)
+
         self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time, self.player)
 
@@ -189,6 +204,15 @@ class Level(Scene):
         for sprite in self.groups["all_sprites"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
+        for sprite in self.groups["players"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["moving_enemies"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        for sprite in self.groups["environment"]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))
+
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
                 display_surface.blit(
@@ -197,4 +221,5 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        self.hud.draw_hud(self.player.health_points, self.remaining_lives)
+        self.hud.draw_hud(self.player.health_points,
+                          self.remaining_lives, self.player.energy)
