@@ -33,9 +33,6 @@ class MovingEnemy(Enemy, ABC):
 
     def _move(self, delta_time):
         self.rect.x += self.direction * self.speed * delta_time
-        self._change_direction_if_falling()
-
-    def _change_direction_if_falling(self):
         if self._should_change_direction():
             self.direction *= -1
 

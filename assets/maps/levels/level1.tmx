@@ -119,7 +119,7 @@
  </layer>
  <objectgroup id="6" name="Enemies">
   <object id="50" name="Hedgehog" gid="792" x="1439.33" y="640" width="32" height="32"/>
-  <object id="52" name="Bear" gid="779" x="800" y="640.67" width="32" height="32"/>
+  <object id="52" name="Bear" gid="779" x="833.333" y="639.67" width="32" height="32"/>
   <object id="54" name="Squirrel" gid="795" x="2816.67" y="542.67" width="32" height="32"/>
   <object id="89" name="Mushroom" gid="784" x="1247.25" y="616.75" width="32" height="32">
    <properties>
