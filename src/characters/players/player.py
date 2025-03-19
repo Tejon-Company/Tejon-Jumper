@@ -1,19 +1,24 @@
 from settings import *
 from characters.character import Character
 from characters.players.collision_utils import *
+from resource_manager import ResourceManager
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points, sprite_sheet_name):
-        super().__init__(pos, surf, groups, None, sprite_sheet_name)
+    def __init__(self, pos, surf, groups, health_points, normal_sprite_sheet_name, rage_sprite_sheet):
+        super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
-        self.health_points = health_points
-        self.maximum_health_points = health_points
+        self.normal_sprite_sheet = ResourceManager.load_sprite_sheet(
+            normal_sprite_sheet_name)
+        self.rage_sprite_sheet = ResourceManager.load_sprite_sheet(
+            rage_sprite_sheet
+        )
+        self.current_sprite_sheet = self.normal_sprite_sheet
 
         self.energy = 100
         self.max_energy = 100
@@ -27,11 +32,11 @@ class Player(Character):
         self.fall = 0
         self.is_jumping = False
         self.jump_height = 300
+        self.last_time_in_rage = None
 
         self.on_surface = False
         self.is_sprinting = False
-
-        self.last_health_time_ms = None
+        self.is_in_rage = False
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -51,25 +56,6 @@ class Player(Character):
     def set_platform_rects(self, platform_rects):
         self.platform_rects = platform_rects
 
-    def heal(self):
-        has_max_health = self.health_points == self.maximum_health_points
-        should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
-            self.last_health_time_ms)
-
-        if not has_max_health and should_receive_heal:
-            self.health_points += 1
-
-    def _check_cooldown(last_time_ms):
-        current_time_ms = pygame.time.get_ticks()
-
-        if not last_time_ms:
-            return True, current_time_ms
-
-        if current_time_ms < last_time_ms + 2000:
-            return False, last_time_ms
-
-        return True, current_time_ms
-
     def update(self, delta_time, environment_rects):
         self.platform_rects = self.platform_rects
         self.old_rect = self.rect.copy()
@@ -81,9 +67,10 @@ class Player(Character):
         self._detect_platform_contact()
         self._update_energy(delta_time)
         self._update_animation(delta_time)
+        self._update_rage_state()
 
     def _update_energy(self, delta_time):
-        if self.is_sprinting and self.energy > 0:
+        if self.is_sprinting and self.energy > 0 and not self.is_in_rage:
             self.energy -= self.energy_depletion_rate * delta_time
             self.energy = max(0, self.energy)
 
@@ -121,7 +108,7 @@ class Player(Character):
 
     def _update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]
-        self.image = self.sprite_sheet.subsurface(frame_rect)
+        self.image = self.current_sprite_sheet.subsurface(frame_rect)
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
@@ -225,3 +212,16 @@ class Player(Character):
 
     def recover_energy(self):
         self.energy = self.max_energy
+
+    def activate_rage(self):
+        self.is_in_rage = True
+        self.current_sprite_sheet = self.rage_sprite_sheet
+        self.speed = 200
+
+    def _update_rage_state(self):
+        has_rage_finished, self.last_time_in_rage = check_cooldown(
+            self.last_time_in_rage, cooldown=7000)
+        if self.is_in_rage and has_rage_finished:
+            self.is_in_rage = False
+            self.current_sprite_sheet = self.normal_sprite_sheet
+            self.speed = 150
