@@ -10,7 +10,8 @@ class Game:
     def __init__(self, director):
         self.director = director
         self.remaining_lives = 3
-        self.health_points = 5
+        self.max_health_points = 5
+        self.health_points = self.max_health_points
         self.player = None
         self.coins = 0
         self.current_level = 1
@@ -73,7 +74,7 @@ class Game:
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
-            self.health_points = 5
+            self.health_points = self.max_health_points
             self.coins = 0
 
             self._restart_level()
@@ -112,7 +113,7 @@ class Game:
             self.remaining_lives += 1
 
     def heal(self):
-        has_max_health = self.health_points == 5
+        has_max_health = self.health_points == self.max_health_points
         should_receive_heal, self.last_health_time_ms = self._check_cooldown(
             self.last_health_time_ms)
 
