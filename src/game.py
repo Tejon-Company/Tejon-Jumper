@@ -4,6 +4,7 @@ from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
 from scene.pause import Pause
+from characters.players.collision_utils import check_cooldown
 
 
 class Game:
@@ -47,7 +48,7 @@ class Game:
         self.level.update(delta_time)
         self._handle_fall()
 
-        for berry in self.level.groups.get( "berries", []):
+        for berry in self.level.groups.get("berries", []):
             berry.update(self, self.player)
 
     def _handle_fall(self):
@@ -70,7 +71,7 @@ class Game:
         self._load_level()
 
     def receive_damage(self):
-        should_receive_damage, self.last_damage_time_ms = self._check_cooldown(
+        should_receive_damage, self.last_damage_time_ms = check_cooldown(
             self.last_damage_time_ms)
 
         if not should_receive_damage:

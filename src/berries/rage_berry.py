@@ -3,7 +3,7 @@ from characters.players.player import Player
 from berries.berry import Berry
 
 
-class EnergyBerry(Berry):
+class RageBerry(Berry):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 
@@ -11,5 +11,5 @@ class EnergyBerry(Berry):
         if not self.rect.colliderect(player.rect):
             return
 
-        player.recover_energy()
+        player.activate_rage()
         self.kill()

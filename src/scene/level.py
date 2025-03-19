@@ -10,7 +10,7 @@ from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
-from berries.berrie_factory import berrie_factory
+from berries.berrie_factory import berry_factory
 from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
@@ -149,7 +149,9 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["players"],
-            "badger.png"
+            5 if DIFFICULTY == Difficulty.NORMAL else 3,
+            "badger.png",
+            "rage_badger.png"
         )
 
     def _setup_enemies(self):
@@ -163,7 +165,7 @@ class Level(Scene):
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
-            berrie_factory(berrie, self.groups)
+            berry_factory(berrie, self.groups)
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
@@ -177,7 +179,7 @@ class Level(Scene):
         self.groups["environment"].update()
         environment_rects = [
             platform.rect for platform in self.groups["environment"]]
-        
+
         self.groups["all_sprites"].update(delta_time)
         self.groups["players"].update(delta_time, environment_rects)
         self.groups["moving_enemies"].update(delta_time, environment_rects)
