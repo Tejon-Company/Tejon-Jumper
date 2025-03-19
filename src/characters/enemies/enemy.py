@@ -34,7 +34,10 @@ class Enemy(Character):
             self._defeat()
             return
 
-        self.game.receive_damage()
+        is_player_colliding_from_left = self.player.rect.centerx > self.rect.centerx
+        is_player_colliding_from_right = self.player.rect.centerx < self.rect.centerx
+
+        self.game.receive_damage(is_player_colliding_from_left, is_player_colliding_from_right)
 
     def _defeat(self):
         for group in self.groups:
