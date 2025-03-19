@@ -35,6 +35,7 @@ class Player(Character):
         self.fall = 0
         self.is_jumping = False
         self.jump_height = 300
+        self.last_time_in_rage = None
 
         self.on_surface = False
         self.is_sprinting = False
@@ -90,6 +91,7 @@ class Player(Character):
         self._detect_platform_contact()
         self._update_energy(delta_time)
         self._update_animation(delta_time)
+        self._update_rage_state()
 
     def _update_energy(self, delta_time):
         if self.is_sprinting and self.energy > 0:
@@ -231,6 +233,14 @@ class Player(Character):
     def recover_energy(self):
         self.energy = self.max_energy
 
-    def rage_mood(self):
+    def activate_rage(self):
         self.is_in_rage = True
         self.actual_sprite_sheet = self.rage_sprite_sheet
+        self.speed = 200
+
+    def _update_rage_state(self):
+        has_rage_finished, self.last_time_in_rage = check_cooldown(self.last_time_in_rage, cooldown=15000)
+        if self.is_in_rage and has_rage_finished:
+            self.is_in_rage = False
+            self.actual_sprite_sheet = self.normal_sprite_sheet
+            self.speed = 150

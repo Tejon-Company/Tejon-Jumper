@@ -23,9 +23,10 @@ class Hedgehog(MovingEnemy):
             return
 
         self._adjust_player_position()
-        is_below = is_below_collision(self.player.rect, self.player.old_rect, self.rect)
+        is_below = is_below_collision(
+            self.player.rect, self.player.old_rect, self.rect)
 
-        if self.player.is_sprinting and not is_below:
+        if (self.player.is_sprinting and not is_below) or self.player.is_in_rage:
             self._defeat()
             return
 

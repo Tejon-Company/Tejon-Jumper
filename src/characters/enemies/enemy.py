@@ -30,7 +30,7 @@ class Enemy(Character):
         is_player_colliding_from_above = is_below_collision(
             self.player.rect, self.player.old_rect, self.rect)
 
-        if is_player_colliding_from_above or self.player.is_sprinting:
+        if is_player_colliding_from_above or self.player.is_sprinting or self.player.is_in_rage:
             self._defeat()
             return
 
