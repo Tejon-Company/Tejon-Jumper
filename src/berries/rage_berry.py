@@ -1,7 +1,8 @@
 from settings import *
 from characters.players.player import Player
+from berries.berry import Berry
 
-class RageBerry:
+class RageBerry(Berry):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 
@@ -9,5 +10,5 @@ class RageBerry:
         if not self.rect.colliderect(player.rect):
             return
 
-        player.recover_energy()
+        player.rage_mood()
         self.kill()

@@ -1,6 +1,7 @@
 from berries.health_berry import HealthBerry
 from berries.coin_berry import CoinBerry
 from berries.energy_berry import EnergyBerry
+from berries.rage_berry import RageBerry
 
 
 def berry_factory(berry, groups):
@@ -19,6 +20,12 @@ def berry_factory(berry, groups):
             )
         case "energy_berry":
             EnergyBerry(
+                (berry.x, berry.y),
+                berry.image,
+                (groups["berries"])
+            )
+        case "rage_berry":
+            RageBerry(
                 (berry.x, berry.y),
                 berry.image,
                 (groups["berries"])

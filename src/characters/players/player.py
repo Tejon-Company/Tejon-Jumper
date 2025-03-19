@@ -230,3 +230,7 @@ class Player(Character):
 
     def recover_energy(self):
         self.energy = self.max_energy
+
+    def rage_mood(self):
+        self.is_in_rage = True
+        self.actual_sprite_sheet = self.rage_sprite_sheet
