@@ -1,7 +1,6 @@
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
-from characters.players.player import Player
 from pygame.sprite import collide_rect
 from characters.players.collision_utils import is_below_collision
 
@@ -51,6 +50,7 @@ class Enemy(Character):
     def _adjust_player_position(self):
         if not self.player.rect.colliderect(self.rect):
             return
+
         dif_x = abs(self.player.rect.centerx - self.rect.centerx)
         dif_y = abs(self.player.rect.centery - self.rect.centery)
 
@@ -60,7 +60,8 @@ class Enemy(Character):
             self._adjust_player_position_horizontally()
         else:
             self._adjust_player_position_vertically()
-        self.player.collision(pygame.sprite.Group())
+
+        self.player.collision()
 
     def _adjust_player_position_horizontally(self):
         if self.player.rect.centerx < self.rect.centerx:
