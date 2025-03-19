@@ -11,5 +11,5 @@ class EneryBerry(Berry):
         if not self.rect.colliderect(player.rect):
             return
 
-        player.recover_energy(20)
+        player.recover_energy()
         self.kill()
