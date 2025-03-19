@@ -1,4 +1,5 @@
 from settings import *
+from resource_manager import ResourceManager
 
 
 class Sprite(pygame.sprite.Sprite):
