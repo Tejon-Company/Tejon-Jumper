@@ -37,7 +37,7 @@ class MovingEnemy(Enemy, ABC):
             self.direction *= -1
 
     def _should_change_direction(self):
-        return self._about_to_fall() or self._will_hit_wall()
+        return self._about_to_fall() or self._will_hit_wall(self.direction)
 
     def _about_to_fall(self):
         floor_rect_right = pygame.FRect(self.rect.bottomright, (1, 1))
@@ -55,7 +55,7 @@ class MovingEnemy(Enemy, ABC):
 
         return about_to_fall_right or about_to_fall_left
 
-    def _will_hit_wall(self):
+    def _will_hit_wall(self, horizontal_direction):
         wall_height = self.rect.height * 0.6
         wall_offset = (self.rect.height - wall_height) / 2
 
@@ -67,13 +67,13 @@ class MovingEnemy(Enemy, ABC):
         )
 
         hit_wall_right = (
-            self.direction > 0 and (
+            horizontal_direction > 0 and (
                 wall_rect_right.collidelist(self.platform_rects) >= 0 or
                 wall_rect_right.collidelist(self.environment_rects) >= 0
             )
         )
         hit_wall_left = (
-            self.direction < 0 and (
+            horizontal_direction < 0 and (
                 wall_rect_left.collidelist(self.platform_rects) >= 0 or
                 wall_rect_left.collidelist(self.environment_rects) >= 0
             )

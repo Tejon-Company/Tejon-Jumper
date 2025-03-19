@@ -44,7 +44,7 @@ class Bear(MovingEnemy):
         self.rect.x += self.direction.x * self.speed * delta_time
         self.collision(self._handle_horizontal_collision)
 
-        if self._will_hit_wall():
+        if self._will_hit_wall(self.direction.x):
             self.direction.x *= -1
 
         self.facing_right = self.direction.x > 0
@@ -59,44 +59,7 @@ class Bear(MovingEnemy):
             self.direction.y = 0
 
         if self.is_jumping:
-            self._normalize_direction()
-
-    def _will_hit_wall(self):
-        wall_height = self.rect.height * 0.6
-        wall_offset = (self.rect.height - wall_height) / 2
-
-        wall_rect_right = pygame.FRect(
-            (self.rect.right, self.rect.top + wall_offset), (2, wall_height)
-        )
-        wall_rect_left = pygame.FRect(
-            (self.rect.left - 2, self.rect.top + wall_offset), (2, wall_height)
-        )
-
-        hit_wall_right = (
-            self.direction.x > 0 and (
-                wall_rect_right.collidelist(self.platform_rects) >= 0 or
-                wall_rect_right.collidelist(self.environment_rects) >= 0
-            )
-        )
-        hit_wall_left = (
-            self.direction.x < 0 and (
-                wall_rect_left.collidelist(self.platform_rects) >= 0 or
-                wall_rect_left.collidelist(self.environment_rects) >= 0
-            )
-        )
-        return hit_wall_right or hit_wall_left
-
-    def _normalize_direction(self):
-        x, y = self.direction
-        diagonal_value = .707107
-
-        is_moving_horizontally = (x == 1 or x == -1)
-        is_moving_upward = (y == -1 or y == -diagonal_value)
-
-        if is_moving_horizontally and is_moving_upward:
-            self.direction.x *= diagonal_value
-            if y == -1:
-                self.direction.y = -diagonal_value
+            self.direction = normalize_direction(self.direction)
 
     def collision(self, collision_handler):
         for platform_rect in self.platform_rects:

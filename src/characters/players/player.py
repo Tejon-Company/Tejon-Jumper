@@ -134,19 +134,7 @@ class Player(Character):
         self.is_sprinting = self.energy > 0 and (
             keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT])
 
-        self._normalize_direction()
-
-    def _normalize_direction(self):
-        x, y = self.direction
-        diagonal_value = .707107
-
-        is_moving_horizontally = (x == 1 or x == -1)
-        is_moving_upward = (y == -1 or y == -diagonal_value)
-
-        if is_moving_horizontally and is_moving_upward:
-            self.direction.x *= diagonal_value
-            if y == -1:
-                self.direction.y = -diagonal_value
+        self.direction = normalize_direction(self.direction)
 
     def _move(self, delta_time):
         self._move_horizontally(delta_time)
@@ -167,7 +155,7 @@ class Player(Character):
             self.direction.y = 0
 
         if self.is_jumping:
-            self._normalize_direction()
+            self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
     def collision(self, collision_handler=None):
