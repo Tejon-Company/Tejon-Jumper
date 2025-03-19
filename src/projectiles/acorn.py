@@ -3,13 +3,12 @@ from projectiles.projectile import Projectile
 
 
 class Acorn(Projectile):
-    def __init__(self, pos, surf, direction, groups, game):
-        super().__init__(pos, surf, direction, groups, game)
-        self.image = pygame.Surface((8, 8))
+    def __init__(self, pos, surf, direction, groups, game, sprite_sheet_name, animations):
+        super().__init__(pos, surf, direction, groups, game, sprite_sheet_name, animations)
+        self.rect = self.image.get_frect(topleft=pos)
         self.gravity = 170
         self.speed = 100
         self.fall = 0
-        self.image.fill(color="black")
 
     def set_facing_right(self, is_facing_right: bool):
         self._is_facing_right = is_facing_right

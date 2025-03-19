@@ -1,6 +1,7 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.players.collision_utils import is_below_collision
+from characters.animation_utils import update_animation, setup_animation
 
 
 class Bat(MovingEnemy):
@@ -21,12 +22,12 @@ class Bat(MovingEnemy):
 
         self.left_limit = pos_x - TILE_SIZE * 4
         self.right_limit = pos_x + TILE_SIZE * 4
-        self._setup_animation()
+        setup_animation(self)
 
     def update(self, delta_time, environment_rects):
         self.facing_right = self.direction.x > 0
         self._handle_collision_with_player()
-        self._update_animation(delta_time)
+        update_animation(delta_time, self)
         self._move(delta_time)
         self._check_path()
 

@@ -6,6 +6,7 @@ from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.moving_enemies.bear import Bear
 from characters.enemies.shooters.squirrel import Squirrel
 from characters.enemies.shooters.mushroom_direction import MushroomDirection
+from characters.animation_utils import create_animation_rects
 
 
 def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player, game):
@@ -18,7 +19,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 player,
                 platform_rects,
                 "hedgehog.png",
-                _create_animation_rects(0, 2),
+                create_animation_rects(0, 2, TILE_SIZE),
                 game
             )
         case "Mushroom":
@@ -35,7 +36,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 direction.value[0],
                 player,
                 "mushroom.png",
-                _create_animation_rects(direction.value[1], 3),
+                create_animation_rects(direction.value[1], 3, TILE_SIZE),
                 game,
                 spore_pool
             )
@@ -47,7 +48,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 player,
                 platform_rects,
                 "fox.png",
-                _create_animation_rects(0, 3),
+                create_animation_rects(0, 3, TILE_SIZE),
                 game
             )
         case "Bear":
@@ -68,7 +69,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (groups["moving_enemies"], groups["enemies"]),
                 player,
                 "bat.png",
-                _create_animation_rects(0, 3),
+                create_animation_rects(0, 3, TILE_SIZE),
                 game
             )
         case "Squirrel":
@@ -78,7 +79,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (groups["all_sprites"], groups["enemies"]),
                 player,
                 "squirrel.png",
-                _create_animation_rects(1, 2),
+                create_animation_rects(1, 2, TILE_SIZE),
                 game,
                 acorn_pool
             )

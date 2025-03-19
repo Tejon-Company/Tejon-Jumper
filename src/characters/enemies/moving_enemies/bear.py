@@ -1,5 +1,6 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.players.collision_utils import check_cooldown
+from characters.animation_utils import setup_animation
 
 
 class Bear(MovingEnemy):
@@ -16,7 +17,7 @@ class Bear(MovingEnemy):
         self.remaining_lives = 3
         self.last_damage_time_ms = None
 
-        self._setup_animation()
+        setup_animation(self)
 
     def _defeat(self):
         if self.remaining_lives <= 0:

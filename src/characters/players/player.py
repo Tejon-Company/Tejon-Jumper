@@ -41,7 +41,8 @@ class Player(Character):
         self.animations = {
             'idle': [(0, 0, 32, 32)],
             'run': [(x + (x//32), 0, 32, 32) for x in range(64, 416, 32)],
-            'jump': [(165, 0, 32, 32)]
+            'jump': [(165, 0, 32, 32)],
+            'roll': [(x, 0, 32, 32) for x in range(429, 640, 32)],
         }
 
         self.current_animation = 'idle'
@@ -97,15 +98,16 @@ class Player(Character):
         self._update_sprite()
 
     def _determine_current_animation(self):
-        if not self.on_surface:
+        if self.is_sprinting:
+            self.current_animation = 'roll'
+        elif not self.on_surface:
             self.current_animation = 'jump'
-            if self.direction.x != 0:
-                self.facing_right = self.direction.x > 0
         elif abs(self.direction.x) > 0:
             self.current_animation = 'run'
-            self.facing_right = self.direction.x > 0
         else:
             self.current_animation = 'idle'
+
+        self.facing_right = self.direction.x > 0
 
     def _reset_animation(self):
         self.animation_time = 0
