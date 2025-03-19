@@ -31,12 +31,12 @@ class Enemy(Character):
             self.player.rect, self.player.old_rect, self.rect)
 
         if is_player_colliding_from_above or self.player.is_sprinting:
-            self.defeat()
+            self._defeat()
             return
 
         self.game.receive_damage()
 
-    def defeat(self):
+    def _defeat(self):
         for group in self.groups:
             if self in group:
                 group.remove(self)

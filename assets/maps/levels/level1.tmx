@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="132">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="105">
  <tileset firstgid="1" source="../tiled/patterns/enviroment.tsx"/>
  <tileset firstgid="769" source="../tiled/patterns/log.tsx"/>
  <tileset firstgid="775" source="../tiled/patterns/berries.tsx"/>
@@ -119,7 +119,7 @@
  </layer>
  <objectgroup id="6" name="Enemies" locked="1">
   <object id="50" name="Hedgehog" gid="792" x="1439.33" y="640" width="32" height="32"/>
-  <object id="52" name="Fox" gid="779" x="800" y="640.67" width="32" height="32"/>
+  <object id="52" name="Bear" gid="779" x="800" y="640.67" width="32" height="32"/>
   <object id="54" name="Squirrel" gid="795" x="2816.67" y="542.67" width="32" height="32"/>
   <object id="89" name="Mushroom" gid="784" x="1247.25" y="616.75" width="32" height="32">
    <properties>
