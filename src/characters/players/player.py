@@ -18,7 +18,7 @@ class Player(Character):
         self.rage_sprite_sheet = ResourceManager.load_sprite_sheet(
             rage_sprite_sheet
         )
-        self.actual_sprite_sheet = self.normal_sprite_sheet
+        self.current_sprite_sheet = self.normal_sprite_sheet
 
         self.health_points = health_points
         self.maximum_health_points = health_points
@@ -132,7 +132,7 @@ class Player(Character):
 
     def _update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]
-        self.image = self.actual_sprite_sheet.subsurface(frame_rect)
+        self.image = self.current_sprite_sheet.subsurface(frame_rect)
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
@@ -235,7 +235,7 @@ class Player(Character):
 
     def activate_rage(self):
         self.is_in_rage = True
-        self.actual_sprite_sheet = self.rage_sprite_sheet
+        self.current_sprite_sheet = self.rage_sprite_sheet
         self.speed = 200
 
     def _update_rage_state(self):
@@ -243,5 +243,5 @@ class Player(Character):
             self.last_time_in_rage, cooldown=7000)
         if self.is_in_rage and has_rage_finished:
             self.is_in_rage = False
-            self.actual_sprite_sheet = self.normal_sprite_sheet
+            self.current_sprite_sheet = self.normal_sprite_sheet
             self.speed = 150
