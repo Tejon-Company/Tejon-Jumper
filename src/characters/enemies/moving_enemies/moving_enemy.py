@@ -1,5 +1,6 @@
 from settings import *
 from characters.enemies.enemy import Enemy
+from characters.animation_utils import update_animation
 from abc import ABC
 from characters.players.collision_utils import is_on_surface
 
@@ -18,17 +19,7 @@ class MovingEnemy(Enemy, ABC):
         self._detect_platform_contact()
 
         self.facing_right = self.direction > 0
-        self._update_animation(delta_time)
-
-    def _update_animation(self, delta_time):
-        self._update_animation_frame(delta_time)
-        self._update_sprite()
-
-    def _update_animation_frame(self, delta_time):
-        self.animation_time += delta_time
-        frames_in_animation = len(self.animations)
-        elapsed_frames = self.animation_time / self.animation_speed
-        self.animation_frame = int(elapsed_frames) % frames_in_animation
+        update_animation(delta_time, self)
 
     def _update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
