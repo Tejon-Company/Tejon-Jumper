@@ -95,31 +95,31 @@
 </data>
  </layer>
  <objectgroup id="5" name="Berries">
-  <object id="76" name="health_berrie" gid="775" x="721.58" y="576.667" width="32" height="32"/>
-  <object id="77" name="energy_berrie" gid="777" x="1075.58" y="577.667" width="32" height="32"/>
-  <object id="78" name="rage_berrie" gid="776" x="1235.08" y="513.667" width="32" height="32"/>
-  <object id="79" name="health_berrie" gid="775" x="3969.08" y="576.667" width="32" height="32"/>
-  <object id="80" name="energy_berrie" gid="777" x="4162.58" y="641.167" width="32" height="32"/>
-  <object id="81" name="coin_berrie" gid="778" x="225.58" y="642.667" width="32" height="32"/>
-  <object id="82" name="coin_berrie" gid="778" x="321.58" y="578.167" width="32" height="32"/>
-  <object id="83" name="coin_berrie" gid="778" x="417.58" y="642.667" width="32" height="32"/>
-  <object id="84" name="coin_berrie" gid="778" x="561.58" y="546.667" width="32" height="32"/>
-  <object id="85" name="coin_berrie" gid="778" x="881.08" y="642.667" width="32" height="32"/>
-  <object id="86" name="coin_berrie" gid="778" x="1425.58" y="611.167" width="32" height="32"/>
-  <object id="87" name="coin_berrie" gid="778" x="2129.58" y="611.167" width="32" height="32"/>
-  <object id="88" name="coin_berrie" gid="778" x="2482.08" y="642.667" width="32" height="32"/>
-  <object id="89" name="coin_berrie" gid="778" x="2754.08" y="610.667" width="32" height="32"/>
-  <object id="90" name="coin_berrie" gid="778" x="2930.08" y="546.667" width="32" height="32"/>
-  <object id="91" name="coin_berrie" gid="778" x="3089.08" y="514.667" width="32" height="32"/>
-  <object id="92" name="coin_berrie" gid="778" x="3232.08" y="482.667" width="32" height="32"/>
-  <object id="93" name="coin_berrie" gid="778" x="3441.58" y="546.667" width="32" height="32"/>
-  <object id="94" name="coin_berrie" gid="778" x="3793.58" y="514.667" width="32" height="32"/>
-  <object id="95" name="coin_berrie" gid="778" x="4161.08" y="578.667" width="32" height="32"/>
-  <object id="96" name="coin_berrie" gid="778" x="4321.08" y="546.167" width="32" height="32"/>
-  <object id="97" name="coin_berrie" gid="778" x="4545.08" y="547.167" width="32" height="32"/>
-  <object id="98" name="coin_berrie" gid="778" x="4609.08" y="578.667" width="32" height="32"/>
-  <object id="99" name="coin_berrie" gid="778" x="4641.08" y="610.667" width="32" height="32"/>
-  <object id="100" name="coin_berrie" gid="778" x="4705.08" y="642.667" width="32" height="32"/>
+  <object id="76" name="health_berry" gid="775" x="721.58" y="576.667" width="32" height="32"/>
+  <object id="77" name="energy_berry" gid="777" x="1075.58" y="577.667" width="32" height="32"/>
+  <object id="78" name="rage_berry" gid="776" x="1235.08" y="513.667" width="32" height="32"/>
+  <object id="79" name="health_berry" gid="775" x="3969.08" y="576.667" width="32" height="32"/>
+  <object id="80" name="energy_berry" gid="777" x="4162.58" y="641.167" width="32" height="32"/>
+  <object id="81" name="coin_berry" gid="778" x="225.58" y="642.667" width="32" height="32"/>
+  <object id="82" name="coin_berry" gid="778" x="321.58" y="578.167" width="32" height="32"/>
+  <object id="83" name="coin_berry" gid="778" x="417.58" y="642.667" width="32" height="32"/>
+  <object id="84" name="coin_berry" gid="778" x="561.58" y="546.667" width="32" height="32"/>
+  <object id="85" name="coin_berry" gid="778" x="881.08" y="642.667" width="32" height="32"/>
+  <object id="86" name="coin_berry" gid="778" x="1425.58" y="611.167" width="32" height="32"/>
+  <object id="87" name="coin_berry" gid="778" x="2129.58" y="611.167" width="32" height="32"/>
+  <object id="88" name="coin_berry" gid="778" x="2482.08" y="642.667" width="32" height="32"/>
+  <object id="89" name="coin_berry" gid="778" x="2754.08" y="610.667" width="32" height="32"/>
+  <object id="90" name="coin_berry" gid="778" x="2930.08" y="546.667" width="32" height="32"/>
+  <object id="91" name="coin_berry" gid="778" x="3089.08" y="514.667" width="32" height="32"/>
+  <object id="92" name="coin_berry" gid="778" x="3232.08" y="482.667" width="32" height="32"/>
+  <object id="93" name="coin_berry" gid="778" x="3441.58" y="546.667" width="32" height="32"/>
+  <object id="94" name="coin_berry" gid="778" x="3793.58" y="514.667" width="32" height="32"/>
+  <object id="95" name="coin_berry" gid="778" x="4161.08" y="578.667" width="32" height="32"/>
+  <object id="96" name="coin_berry" gid="778" x="4321.08" y="546.167" width="32" height="32"/>
+  <object id="97" name="coin_berry" gid="778" x="4545.08" y="547.167" width="32" height="32"/>
+  <object id="98" name="coin_berry" gid="778" x="4609.08" y="578.667" width="32" height="32"/>
+  <object id="99" name="coin_berry" gid="778" x="4641.08" y="610.667" width="32" height="32"/>
+  <object id="100" name="coin_berry" gid="778" x="4705.08" y="642.667" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="6" name="Enemies">
   <object id="137" name="Squirrel" gid="792" x="858.5" y="544.917" width="32" height="32"/>
@@ -144,7 +144,7 @@
   <object id="152" name="Bat" gid="816" x="3521" y="416" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="Player">
-  <object id="146" name="Player" gid="794" x="127.906" y="639.818" width="32" height="32"/>
+  <object id="146" name="Player" gid="794" x="128.088" y="639.909" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Environment">
   <object id="148" name="Flag" gid="814" x="4768.03" y="608.204" width="32" height="32"/>

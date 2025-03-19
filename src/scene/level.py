@@ -168,7 +168,8 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, self.player, self.game)
+            environment_factory(map_element, self.groups,
+                                self.player, self.game)
 
     def update(self, delta_time):
         self.groups["environment"].update()
