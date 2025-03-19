@@ -113,17 +113,10 @@ class Bear(MovingEnemy):
             if y == -1:
                 self.direction.y = -diagonal_value
 
-    def collision(self, collision_handler=None):
-        collision_handler = collision_handler or self._handle_horizontal_collision
+    def collision(self, collision_handler):
         for platform_rect in self.platform_rects:
-            if not platform_rect.colliderect(self.rect):
-                continue
-
-            if collision_handler:
+            if platform_rect.colliderect(self.rect):
                 collision_handler(platform_rect)
-            else:
-                self._handle_horizontal_collision(platform_rect)
-                self._handle_vertical_collision(platform_rect)
 
         for environment_rect in self.environment_rects:
             if environment_rect.colliderect(self.rect):
