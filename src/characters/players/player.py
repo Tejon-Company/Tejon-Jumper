@@ -94,7 +94,7 @@ class Player(Character):
         self._update_rage_state()
 
     def _update_energy(self, delta_time):
-        if self.is_sprinting and self.energy > 0:
+        if self.is_sprinting and self.energy > 0 and not self.is_in_rage:
             self.energy -= self.energy_depletion_rate * delta_time
             self.energy = max(0, self.energy)
 
@@ -239,7 +239,8 @@ class Player(Character):
         self.speed = 200
 
     def _update_rage_state(self):
-        has_rage_finished, self.last_time_in_rage = check_cooldown(self.last_time_in_rage, cooldown=15000)
+        has_rage_finished, self.last_time_in_rage = check_cooldown(
+            self.last_time_in_rage, cooldown=7000)
         if self.is_in_rage and has_rage_finished:
             self.is_in_rage = False
             self.actual_sprite_sheet = self.normal_sprite_sheet
