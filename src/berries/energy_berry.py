@@ -7,7 +7,7 @@ class EneryBerry(Berry):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 
-    def update(self, player: Player):
+    def update(self, game, player: Player):
         if not self.rect.colliderect(player.rect):
             return
 

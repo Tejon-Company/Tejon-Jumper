@@ -22,7 +22,6 @@ class Level(Scene):
     def __init__(
         self,
         director: Director,
-        remaining_lives: int,
         background: str,
         music: str,
         level: str,
@@ -37,7 +36,6 @@ class Level(Scene):
         level_path = join("assets", "maps", "levels", level)
         self.tmx_map = load_pygame(level_path)
 
-        self.remaining_lives = remaining_lives
         self.music = music
 
         self._setup_groups()
@@ -151,7 +149,6 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["players"],
-            5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png"
         )
 
@@ -180,11 +177,11 @@ class Level(Scene):
         self.groups["environment"].update()
         environment_rects = [
             platform.rect for platform in self.groups["environment"]]
+        
         self.groups["all_sprites"].update(delta_time)
         self.groups["players"].update(delta_time, environment_rects)
         self.groups["moving_enemies"].update(delta_time, environment_rects)
 
-        self.groups["berries"].update(self.player)
         self.groups["projectiles"].update(delta_time, self.player)
 
         self.camera.update(self.player)
@@ -220,6 +217,3 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        self.hud.draw_hud(self.player.health_points,
-                          self.remaining_lives, self.player.energy)
