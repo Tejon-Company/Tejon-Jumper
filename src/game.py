@@ -44,6 +44,9 @@ class Game:
         self.level.events(event_list)
 
     def update(self, delta_time):
+        if self._is_game_paused(): 
+            return
+    
         self.level.update(delta_time)
         self._handle_fall()
 
@@ -67,6 +70,14 @@ class Game:
             self._restart_level()
 
     def _restart_level(self):
+        self._load_level()
+
+    def change_current_level(self):
+        if self.current_level == 3:
+            self.current_level = 1
+            return
+
+        self.current_level += 1
         self._load_level()
 
     def receive_damage(self):
@@ -110,14 +121,16 @@ class Game:
         if not has_max_health and should_receive_heal:
             self.health_points += 1
 
-    def change_current_level(self):
-        if self.current_level == 3:
-            self.current_level = 1
-            return
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
 
-        self.current_level += 1
-        self._load_level()
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+            self.director.stack_scene(Pause(self.director))
+            self.is_on_pause = False
 
+        return self.is_on_pause
+    
     def draw(self, surface):
         self.level.draw(surface)
         self.hud.draw_hud(self.health_points,
