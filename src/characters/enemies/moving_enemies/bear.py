@@ -132,22 +132,17 @@ class Bear(MovingEnemy):
     def _handle_horizontal_collision(self, platform_rect):
         if is_right_collision(self.rect, self.old_rect, platform_rect):
             self.rect.right = platform_rect.left + TILE_SIZE
-            print("right")
 
         if is_left_collision(self.rect, self.old_rect, platform_rect):
-            print("left")
-
             self.rect.left = platform_rect.right - TILE_SIZE
 
     def _handle_vertical_collision(self, platform_rect):
         if is_below_collision(self.rect, self.old_rect, platform_rect):
-            print("below")
             self.rect.bottom = platform_rect.top
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
-            print("above")
-
             self.rect.top = platform_rect.bottom
+
         self.fall = 0
 
         self.direction.y = 0

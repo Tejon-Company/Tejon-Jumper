@@ -191,8 +191,8 @@ class Player(Character):
             if collision_handler:
                 collision_handler(platform_rect)
             else:
-                self._handle_horizontal_collision(platform_rect)
                 self._handle_vertical_collision(platform_rect)
+                self._handle_horizontal_collision(platform_rect)
 
         for environment_rect in self.environment_rects:
             if environment_rect.colliderect(self.rect):
@@ -206,8 +206,12 @@ class Player(Character):
             self.rect.left = platform_rect.right
 
     def _handle_vertical_collision(self, platform_rect):
+        if self.rect.bottom >= platform_rect.top:
+            self.rect.bottom = platform_rect.top
+            
         if is_below_collision(self.rect, self.old_rect, platform_rect):
             self.rect.bottom = platform_rect.top
+            print("aslñefjsef")
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
