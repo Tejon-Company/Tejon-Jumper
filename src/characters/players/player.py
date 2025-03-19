@@ -41,8 +41,6 @@ class Player(Character):
         self.is_sprinting = False
         self.is_in_rage = False
 
-        self.last_health_time_ms = None
-
     def _setup_animation(self):
         self.animation_frame = 0
         self.animation_speed = 0.2
@@ -60,25 +58,6 @@ class Player(Character):
 
     def set_platform_rects(self, platform_rects):
         self.platform_rects = platform_rects
-
-    def heal(self):
-        has_max_health = self.health_points == self.maximum_health_points
-        should_receive_heal, self.last_health_time_ms = Player._check_cooldown(
-            self.last_health_time_ms)
-
-        if not has_max_health and should_receive_heal:
-            self.health_points += 1
-
-    def _check_cooldown(last_time_ms):
-        current_time_ms = pygame.time.get_ticks()
-
-        if not last_time_ms:
-            return True, current_time_ms
-
-        if current_time_ms < last_time_ms + 2000:
-            return False, last_time_ms
-
-        return True, current_time_ms
 
     def update(self, delta_time, environment_rects):
         self.platform_rects = self.platform_rects

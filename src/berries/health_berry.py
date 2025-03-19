@@ -10,10 +10,10 @@ class HealthBerry(Berry):
         self.recover_health_sound = ResourceManager.load_sound(
             "recover_health.ogg")
 
-    def update(self, player: Player):
+    def update(self, game, player: Player):
         if not self.rect.colliderect(player.rect):
             return
 
         self.recover_health_sound.play()
-        player.heal()
+        game.heal()
         self.kill()
