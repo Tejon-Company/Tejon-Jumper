@@ -8,7 +8,8 @@ from pygame.sprite import collide_rect
 
 class Hedgehog(MovingEnemy):
     def __init__(self, pos, surf, groups, player, platform_rects, sprite_sheet_name, animations, game):
-        super().__init__(pos, surf, groups, player, platform_rects, sprite_sheet_name, animations, game)
+        super().__init__(pos, surf, groups, player,
+                         platform_rects, sprite_sheet_name, animations, game)
 
         self.rect = self.image.get_frect(topleft=pos)
 
@@ -22,7 +23,8 @@ class Hedgehog(MovingEnemy):
             return
 
         self._adjust_player_position(self.player)
-        is_below = is_below_collision(self.player.rect, self.player.old_rect, self.rect)
+        is_below = is_below_collision(
+            self.player.rect, self.player.old_rect, self.rect)
 
         if self.player.is_sprinting and not is_below:
             self.defeat()
