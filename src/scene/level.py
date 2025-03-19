@@ -59,7 +59,6 @@ class Level(Scene):
 
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
-        self._setup_deco()
 
         self._setup_music()
 
@@ -170,11 +169,7 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, self.player)
-
-    def _setup_flag(self):
-        for flag in self.tmx_map.get_layer_by_name("Flag"):
-            return
+            environment_factory(map_element, self.groups, self.player, self.game)
 
     def update(self, delta_time):
         self.groups["environment"].update()

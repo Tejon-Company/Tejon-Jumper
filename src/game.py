@@ -68,6 +68,10 @@ class Game:
 
     def _restart_level(self):
         self._load_level()
+        
+    def next_level(self):
+        self.current_level += 1
+        self._load_level()
 
     def receive_damage(self):
         should_receive_damage, self.last_damage_time_ms = self._check_cooldown(
@@ -100,3 +104,4 @@ class Game:
 
     def _game_over(self):
         self.director.exit_program()
+        
