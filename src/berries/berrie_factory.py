@@ -1,28 +1,35 @@
 from berries.health_berry import HealthBerry
-from berries.coin_berrie import CoinBerry
-from berries.energy_berry import EneryBerry
+from berries.coin_berry import CoinBerry
+from berries.energy_berry import EnergyBerry
+from berries.rage_berry import RageBerry
 
 
-def berrie_factory(berrie, groups):
-    match berrie.name:
-        case "health_berrie":
+def berry_factory(berry, groups):
+    match berry.name:
+        case "health_berry":
             HealthBerry(
-                (berrie.x, berrie.y),
-                berrie.image,
+                (berry.x, berry.y),
+                berry.image,
                 (groups["berries"])
             )
-        case "coin_berrie":
+        case "coin_berry":
             CoinBerry(
-                (berrie.x, berrie.y),
-                berrie.image,
+                (berry.x, berry.y),
+                berry.image,
                 (groups["berries"])
             )
-        case "energy_berrie":
-            EneryBerry(
-                (berrie.x, berrie.y),
-                berrie.image,
+        case "energy_berry":
+            EnergyBerry(
+                (berry.x, berry.y),
+                berry.image,
+                (groups["berries"])
+            )
+        case "rage_berry":
+            RageBerry(
+                (berry.x, berry.y),
+                berry.image,
                 (groups["berries"])
             )
         case _:
             raise ValueError(
-                f"The entitie {berrie.name} is not a valid berrie")
+                f"The entitie {berry.name} is not a valid berry")

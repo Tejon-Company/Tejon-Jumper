@@ -4,16 +4,14 @@ from berries.berry import Berry
 from resource_manager import ResourceManager
 
 
-class HealthBerry(Berry):
+class CoinBerry(Berry):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
-        self.recover_health_sound = ResourceManager.load_sound(
-            "recover_health.ogg")
+        self.get_coin_sound = ResourceManager.load_sound("get_coin.ogg")
 
     def update(self, game, player: Player):
         if not self.rect.colliderect(player.rect):
             return
-
-        self.recover_health_sound.play()
-        game.heal()
+        self.get_coin_sound.play()
+        game.add_coin()
         self.kill()
