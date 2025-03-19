@@ -85,22 +85,12 @@ class Player(Character):
         self._update_sprite()
 
     def _determine_current_animation(self):
-        is_sprinting = self.is_sprinting and (pygame.key.get_pressed(
-        )[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT])
-
-        if not self.on_surface:
-            if is_sprinting:
-                self.current_animation = 'roll'
-            else:
-                self.current_animation = 'jump'
-            if self.direction.x != 0:
-                self.facing_right = self.direction.x > 0
+        if self.is_sprinting:
+            self.current_animation = 'roll'
+        elif not self.on_surface:
+            self.current_animation = 'jump'
         elif abs(self.direction.x) > 0:
-            if is_sprinting:
-                self.current_animation = 'roll'
-            else:
-                self.current_animation = 'run'
-            self.facing_right = self.direction.x > 0
+            self.current_animation = 'run'
         else:
             self.current_animation = 'idle'
 
