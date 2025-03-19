@@ -24,7 +24,6 @@ class Squirrel(Shooter):
 
     def update(self, delta_time):
         super().update(delta_time)
-
         self._update_direction()
 
     def _update_direction(self):

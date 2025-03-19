@@ -15,6 +15,10 @@ class Player(Character):
         self.health_points = health_points
         self.maximum_health_points = health_points
 
+        self.energy = 100
+        self.max_energy = 100
+        self.energy_depletion_rate = 30
+
         self.platform_rects = self.platform_rects
 
         self.direction = vector(0, 0)
@@ -65,13 +69,22 @@ class Player(Character):
 
         return True, current_time_ms
 
-    def update(self, delta_time):
+    def update(self, delta_time, environment_rects):
         self.platform_rects = self.platform_rects
         self.old_rect = self.rect.copy()
+
+        self.environment_rects = environment_rects
+
         self._input()
         self._move(delta_time)
         self._detect_platform_contact()
+        self._update_energy(delta_time)
         self._update_animation(delta_time)
+
+    def _update_energy(self, delta_time):
+        if self.is_sprinting and self.energy > 0:
+            self.energy -= self.energy_depletion_rate * delta_time
+            self.energy = max(0, self.energy)
 
     def _update_animation(self, delta_time):
         previous_animation = self.current_animation
@@ -128,7 +141,8 @@ class Player(Character):
             self.direction.y = -1
             self.is_jumping = True
 
-        self.is_sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+        self.is_sprinting = self.energy > 0 and (
+            keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT])
 
         self._normalize_direction()
 
@@ -178,6 +192,10 @@ class Player(Character):
                 self._handle_horizontal_collision(platform_rect)
                 self._handle_vertical_collision(platform_rect)
 
+        for environment_rect in self.environment_rects:
+            if environment_rect.colliderect(self.rect):
+                collision_handler(environment_rect)
+
     def _handle_horizontal_collision(self, platform_rect):
         if is_right_collision(self.rect, self.old_rect, platform_rect):
             self.rect.right = platform_rect.left
@@ -191,14 +209,13 @@ class Player(Character):
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
-            self.fall = 0
+        self.fall = 0
 
         self.direction.y = 0
 
     def _detect_platform_contact(self):
-        character_height = 2
-        platform_rect = pygame.Rect(
-            self.rect.bottomleft, (self.rect.width, character_height)
-        )
+        self.on_surface = is_on_surface(
+            self.rect, self.platform_rects, self.environment_rects)
 
-        self.on_surface = platform_rect.collidelist(self.platform_rects) >= 0
+    def recover_energy(self):
+        self.energy = self.max_energy
