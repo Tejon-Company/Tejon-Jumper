@@ -1,7 +1,8 @@
 from environment.rock import Rock
+from environment.flag import Flag
 
 
-def environment_factory(enviroment_element, groups, player):
+def environment_factory(enviroment_element, groups, player, game):
     match enviroment_element.name:
         case "Rock":
             Rock(
@@ -9,6 +10,14 @@ def environment_factory(enviroment_element, groups, player):
                 enviroment_element.image,
                 groups["environment"],
                 player
+            )
+        case "Flag":
+            Flag(
+                (enviroment_element.x, enviroment_element.y),
+                enviroment_element.image,
+                groups["environment"],
+                player,
+                game
             )
         case _:
             raise ValueError(
