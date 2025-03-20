@@ -78,10 +78,13 @@ class Game:
             return False
 
         channel = self.damage_sound.play()
+        effects_volume = ResourceManager.get_effects_volume()
         if is_collision_on_left:
-            channel.set_volume(ResourceManager.get_effects_volume(), 0.0)
+            channel.set_volume(effects_volume, 0.0)
         elif is_collision_on_right:
-            channel.set_volume(0.0, ResourceManager.get_effects_volume())
+            channel.set_volume(0.0, effects_volume)
+        else:
+            channel.set_volume(effects_volume, effects_volume)
 
         self.health_points -= 1
 
