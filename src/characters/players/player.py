@@ -27,7 +27,9 @@ class Player(Character):
         self.platform_rects = self.platform_rects
 
         self.direction = vector(0, 0)
-        self.speed = 150
+        self.normal_speed = 150
+        self.rage_speed = 200
+        self.current_speed = self.normal_speed
         self.gravity = 1000
         self.fall = 0
         self.is_jumping = False
@@ -37,6 +39,11 @@ class Player(Character):
         self.on_surface = False
         self.is_sprinting = False
         self.is_in_rage = False
+
+        self.activate_rage_sound = ResourceManager.load_sound(
+            "activate_rage.ogg")
+        self.deactivate_rage_sound = ResourceManager.load_sound(
+            "deactivate_rage.ogg")
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -153,7 +160,8 @@ class Player(Character):
 
     def _move_horizontally(self, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
-        self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
+        self.rect.x += self.direction.x * \
+            self.current_speed * delta_time * sprint_multiplier
         self.collision(self._handle_horizontal_collision)
 
     def _move_vertically(self, delta_time):
@@ -210,14 +218,20 @@ class Player(Character):
         self.energy = self.max_energy
 
     def activate_rage(self):
+        self.activate_rage_sound.play()
         self.is_in_rage = True
         self.current_sprite_sheet = self.rage_sprite_sheet
-        self.speed = 200
+        self.current_speed = self.rage_speed
 
     def _update_rage_state(self):
         has_rage_finished, self.last_time_in_rage = check_cooldown(
             self.last_time_in_rage, cooldown=15000)
+
         if self.is_in_rage and has_rage_finished:
-            self.is_in_rage = False
-            self.current_sprite_sheet = self.normal_sprite_sheet
-            self.speed = 150
+            self._deactivate_rage()
+
+    def _deactivate_rage(self):
+        self.deactivate_rage_sound.play()
+        self.is_in_rage = False
+        self.current_sprite_sheet = self.normal_sprite_sheet
+        self.current_speed = self.normal_speed

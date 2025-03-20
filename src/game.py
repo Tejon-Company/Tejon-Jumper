@@ -31,8 +31,7 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
-        # level_music = f"level_{self.current_level}.ogg"
-        level_music = "level_1.ogg"
+        level_music = f"level_{self.current_level}.ogg"
         self.level = Level(self.director,
                            level_background, level_music, level_name, self)
         self.player = self.level.player
