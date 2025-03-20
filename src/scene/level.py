@@ -2,11 +2,12 @@ from resource_manager import ResourceManager
 from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
+from characters.enemies.moving_enemies.bear import Bear
+from characters.animation_utils import create_animation_rects
 from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
 from scene.camera import Camera
-from ui.hud import HUD
 from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
@@ -16,6 +17,7 @@ from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
 from os import listdir
+from ui.hud import HUD
 
 
 class Level(Scene):
@@ -30,8 +32,6 @@ class Level(Scene):
         super().__init__(director)
 
         self.game = game
-        self.display_surface = pygame.display.get_surface()
-        self.hud = HUD(self.display_surface)
 
         level_path = join("assets", "maps", "levels", level)
         self.tmx_map = load_pygame(level_path)
@@ -51,6 +51,7 @@ class Level(Scene):
 
         self._setup_player()
         self._setup_enemies()
+        self._setup_boss()
         self._setup_environment()
 
         self._setup_platform_rects()
@@ -159,6 +160,23 @@ class Level(Scene):
             enemy_factory(enemy, self.groups, self.platform_rects, self.spore_pool,
                           self.acorn_pool, self.player, self.game)
 
+    def _setup_boss(self):
+        try:
+            boss_layer = self.tmx_map.get_layer_by_name("Boss")
+            for boss in boss_layer:
+                self.boss = Bear(
+                    (boss.x, boss.y),
+                    boss.image,
+                    (self.groups["moving_enemies"], self.groups["enemies"]),
+                    self.player,
+                    self.platform_rects,
+                    "bear.png",
+                    create_animation_rects(0, 4, sprite_width=64),
+                    self.game
+                )
+        except ValueError:
+            self.boss = None
+
     def _setup_platform_rects(self):
         self.platform_rects = [
             platform.rect for platform in self.groups["platforms"]]
@@ -219,3 +237,11 @@ class Level(Scene):
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
+
+        if self.boss:
+            HUD.draw_hud(display_surface, self.game.health_points,
+                         self.game.remaining_lives, self.game.coins, self.game.player.energy, self.boss.health_points)
+        else:
+            HUD.draw_hud(display_surface,
+                         self.game.health_points,
+                         self.game.remaining_lives, self.game.coins, self.game.player.energy)

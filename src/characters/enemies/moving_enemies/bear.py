@@ -24,7 +24,7 @@ class Bear(MovingEnemy):
 
         self.facing_right = True
 
-        self.remaining_lives = 20
+        self.health_points = 3
         self.last_damage_time_ms = None
 
         setup_animation(self)
@@ -70,9 +70,6 @@ class Bear(MovingEnemy):
         if is_below_collision(self.rect, self.old_rect, platform_rect):
             self.rect.bottom = platform_rect.top
 
-        if is_above_collision(self.rect, self.old_rect, platform_rect):
-            self.rect.top = platform_rect.bottom
-
         self.fall = 0
         self.direction.y = 0
 
@@ -82,10 +79,8 @@ class Bear(MovingEnemy):
 
         self._adjust_player_position()
 
-        is_player_colliding_from_above = is_below_collision(
-            self.player.rect, self.player.old_rect, self.rect)
+        is_player_colliding_from_above = self._is_below_collision()
 
-        print(is_player_colliding_from_above)
         if is_player_colliding_from_above:
             self._receive_damage()
             return
@@ -94,8 +89,13 @@ class Bear(MovingEnemy):
         if should_damage:
             self.game.receive_damage()
 
+    def _is_below_collision(self):
+        approaching_from_top = self.player.rect.bottom >= self.rect.top
+        was_above = self.player.old_rect.bottom <= self.old_rect.top
+        return approaching_from_top and was_above
+
     def _receive_damage(self):
-        if self.remaining_lives <= 0:
+        if self.health_points <= 0:
             return self._defeat()
 
         self.is_jumping = True
@@ -103,5 +103,6 @@ class Bear(MovingEnemy):
             self.last_damage_time_ms)
 
         if should_receive_damage:
-            self.remaining_lives -= 1
+            print("receive damage")
+            self.health_points -= 1
             self.speed += self.speed * .2

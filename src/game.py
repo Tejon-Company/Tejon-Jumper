@@ -11,7 +11,7 @@ class Game:
     def __init__(self, director):
         self.director = director
         self.remaining_lives = 3
-        self.max_health_points = 50
+        self.max_health_points = 5
         self.health_points = self.max_health_points
         self.player = None
         self.coins = 0
@@ -23,8 +23,7 @@ class Game:
 
         self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
-        self.display_surface = pygame.display.get_surface()
-        self.hud = HUD(self.display_surface)
+        HUD.initialize()
 
         self._load_level()
 
@@ -110,8 +109,6 @@ class Game:
 
     def draw(self, surface):
         self.level.draw(surface)
-        self.hud.draw_hud(self.health_points,
-                          self.remaining_lives, self.coins, self.player.energy)
 
     def _game_over(self):
         self.director.exit_program()
