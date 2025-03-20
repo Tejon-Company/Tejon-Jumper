@@ -110,7 +110,8 @@ class Bear(MovingEnemy):
             return self._defeat()
 
         self.is_jumping = True
-        should_receive_damage, self.last_damage_time_ms = check_cooldown(self.last_damage_time_ms)
+        should_receive_damage, self.last_damage_time_ms = check_cooldown(
+            self.last_damage_time_ms)
 
         if should_receive_damage:
             print("Bear received damage")

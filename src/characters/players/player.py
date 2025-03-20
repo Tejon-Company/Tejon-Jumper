@@ -159,7 +159,6 @@ class Player(Character):
             self.is_jumping = False
 
     def collision(self, collision_handler=None):
-        collision_handler = collision_handler or self._handle_horizontal_collision
         for platform_rect in self.platform_rects:
             if not platform_rect.colliderect(self.rect):
                 continue
@@ -167,6 +166,7 @@ class Player(Character):
             if collision_handler:
                 collision_handler(platform_rect)
             else:
+                print("asoeifjsef")
                 self._handle_vertical_collision(platform_rect)
                 self._handle_horizontal_collision(platform_rect)
 
@@ -182,7 +182,7 @@ class Player(Character):
             self.rect.left = platform_rect.right
 
     def _handle_vertical_collision(self, platform_rect):
-        if self.rect.bottom >= platform_rect.top:
+        if is_below_collision(self.rect, self.old_rect, platform_rect):
             self.rect.bottom = platform_rect.top
 
         if is_above_collision(self.rect, self.old_rect, platform_rect):
