@@ -4,6 +4,7 @@ from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
 from scene.pause import Pause
+from characters.players.collision_utils import check_cooldown
 
 
 class Game:
@@ -30,7 +31,8 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
-        level_music = f"level_{self.current_level}.ogg"
+        # level_music = f"level_{self.current_level}.ogg"
+        level_music = "level_1.ogg"
         self.level = Level(self.director,
                            level_background, level_music, level_name, self)
         self.player = self.level.player
@@ -44,18 +46,28 @@ class Game:
         self.level.events(event_list)
 
     def update(self, delta_time):
-        if self._is_game_paused(): 
+        if self._is_game_paused():
             return
-    
+
         self.level.update(delta_time)
         self._handle_fall()
 
-        for berry in self.level.groups.get( "berries", []):
+        for berry in self.level.groups.get("berries", []):
             berry.update(self, self.player)
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self._handle_dead()
+
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
+
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+            self.director.stack_scene(Pause(self.director))
+            self.is_on_pause = False
+
+        return self.is_on_pause
 
     def _handle_dead(self):
         if self.remaining_lives <= 0:
@@ -72,16 +84,12 @@ class Game:
     def _restart_level(self):
         self._load_level()
 
-    def change_current_level(self):
-        if self.current_level == 3:
-            self.current_level = 1
-            return
-
+    def next_level(self):
         self.current_level += 1
         self._load_level()
 
     def receive_damage(self):
-        should_receive_damage, self.last_damage_time_ms = self._check_cooldown(
+        should_receive_damage, self.last_damage_time_ms = check_cooldown(
             self.last_damage_time_ms)
 
         if not should_receive_damage:
