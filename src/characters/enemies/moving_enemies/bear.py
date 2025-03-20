@@ -89,7 +89,11 @@ class Bear(MovingEnemy):
 
         should_damage, _ = check_cooldown(self.last_damage_time_ms)
         if should_damage:
-            self.game.receive_damage()
+            is_player_colliding_from_left = self.player.rect.centerx > self.rect.centerx
+            is_player_colliding_from_right = self.player.rect.centerx < self.rect.centerx
+
+            self.game.receive_damage(
+                is_player_colliding_from_left, is_player_colliding_from_right)
 
     def _is_collision_from_above(self):
         approaching_from_top = self.player.rect.bottom >= self.rect.top

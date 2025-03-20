@@ -55,7 +55,7 @@ class Player(Character):
             'idle': create_animation_rects(0, 1),
             'run': create_animation_rects(1, 12),
             'jump': create_animation_rects(4, 1),
-            'roll': create_animation_rects(12, 8),
+            'roll': create_animation_rects(13, 8),
         }
 
         self.current_animation = 'idle'
