@@ -16,12 +16,45 @@ class HUD:
         self.player_icon = scale(load(player_icon_path), (32, 32))
 
         self._setup_health_icon()
+        self._setup_coin_icon()
         self._setup_energy_icon()
 
-    def draw_hud(self, remaining_health_points: int, remaining_lives: int, energy: int):
+    def _setup_health_icon(self):
+        health_icon_path = join(
+            'assets', 'creatures_and_else', 'berries', 'without_background', 'berries.png')
+        health_icon_image = load(health_icon_path)
+        health_icon_image = health_icon_image.convert_alpha()
+
+        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
+        first_icon = scale(first_icon, (32, 32))
+
+        self.health_icon = first_icon
+
+    def _setup_coin_icon(self):
+        coin_icon_path = join(
+            'assets', 'creatures_and_else', 'berries', 'without_background', 'berries.png')
+
+        coin_icon_image = load(coin_icon_path).convert_alpha()
+
+        icon = coin_icon_image.subsurface((98, 0, 32, 32))
+        icon = scale(icon, (32, 32))
+
+        self.coin_icon = icon
+
+    def _setup_energy_icon(self):
+        energy_icon_path = 'berries.png'
+        energy_icon_image = ResourceManager.load_sprite_sheet(energy_icon_path)
+
+        first_icon = energy_icon_image.subsurface((65, 0, 32, 32))
+        first_icon = scale(first_icon, (32, 32))
+
+        self.energy_icon = first_icon
+        
+    def draw_hud(self, remaining_health_points: int, remaining_lives: int, coins: int, energy: int):
         self._draw_hearts(remaining_health_points)
         self._draw_energy_bar(energy)
         self._draw_lifes_counter(remaining_lives)
+        self._draw_coins_counter(coins)
 
     def _draw_hearts(self, remaining_health_points):
         heart_size = 32
@@ -64,21 +97,19 @@ class HUD:
         text_surface = self.font.render(lives_text, True, (255, 255, 255))
         self.display_surface.blit(text_surface, (50, 90))
 
-    def _setup_health_icon(self):
-        health_icon_path = 'berries.png'
-        health_icon_image = ResourceManager.load_sprite_sheet(health_icon_path)
-        health_icon_image = health_icon_image.convert_alpha()
+    def _draw_coins_counter(self, coins: int):
+        coin_icon = self.coin_icon
 
-        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
+        margin = 10
+        coin_icon_x = self.display_surface.get_width() - coin_icon.get_width() - 40
+        coin_icon_y = margin
 
-        self.health_icon = first_icon
+        self.display_surface.blit(coin_icon, (coin_icon_x, coin_icon_y))
 
-    def _setup_energy_icon(self):
-        energy_icon_path = 'berries.png'
-        energy_icon_image = ResourceManager.load_sprite_sheet(energy_icon_path)
+        coins_text = f"x{coins}"
+        text_surface = self.font.render(coins_text, True, (255, 255, 255))
 
-        first_icon = energy_icon_image.subsurface((65, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
+        text_x = coin_icon_x + coin_icon.get_width() + 5
+        text_y = coin_icon_y
 
-        self.energy_icon = first_icon
+        self.display_surface.blit(text_surface, (text_x, text_y))

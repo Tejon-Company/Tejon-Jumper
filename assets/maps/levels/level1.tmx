@@ -13,7 +13,7 @@
  <tileset firstgid="799" source="../tiled/patterns/player.tsx"/>
  <tileset firstgid="819" source="../tiled/patterns/bat.tsx"/>
  <tileset firstgid="822" source="../tiled/patterns/rock.tsx"/>
- <layer id="5" name="Background" width="121" height="23">
+ <layer id="5" name="Background" width="121" height="23" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -41,44 +41,45 @@
 </data>
  </layer>
  <objectgroup id="2" name="Berries" locked="1">
-  <object id="2" name="coin_berrie" gid="778" x="383.5" y="608.5" width="32" height="32"/>
-  <object id="10" name="coin_berrie" gid="778" x="416" y="578" width="32" height="32"/>
-  <object id="11" name="coin_berrie" gid="778" x="449" y="577" width="32" height="32"/>
-  <object id="12" name="coin_berrie" gid="778" x="481" y="608.5" width="32" height="32"/>
-  <object id="13" name="coin_berrie" gid="778" x="544" y="607.5" width="32" height="32"/>
-  <object id="14" name="coin_berrie" gid="778" x="641" y="609" width="32" height="32"/>
-  <object id="15" name="coin_berrie" gid="778" x="703.5" y="544.5" width="32" height="32"/>
-  <object id="16" name="coin_berrie" gid="778" x="800" y="513" width="32" height="32"/>
-  <object id="17" name="coin_berrie" gid="778" x="832.5" y="481" width="32" height="32"/>
-  <object id="18" name="coin_berrie" gid="778" x="864.5" y="480.5" width="32" height="32"/>
-  <object id="19" name="coin_berrie" gid="778" x="895.5" y="543.5" width="32" height="32"/>
-  <object id="20" name="coin_berrie" gid="778" x="895.5" y="577" width="32" height="32"/>
-  <object id="21" name="coin_berrie" gid="778" x="899" y="479.5" width="32" height="32"/>
-  <object id="22" name="coin_berrie" gid="778" x="896.5" y="511" width="32" height="32"/>
-  <object id="23" name="coin_berrie" gid="778" x="896.5" y="608.5" width="32" height="32"/>
-  <object id="24" name="coin_berrie" gid="778" x="1663.5" y="608.5" width="32" height="32"/>
-  <object id="25" name="coin_berrie" gid="778" x="1696.5" y="576.5" width="32" height="32"/>
-  <object id="26" name="coin_berrie" gid="778" x="1728" y="608" width="32" height="32"/>
-  <object id="27" name="coin_berrie" gid="778" x="1696.5" y="640.5" width="32" height="32"/>
-  <object id="29" name="coin_berrie" gid="778" x="2752.5" y="608" width="32" height="32"/>
-  <object id="30" name="coin_berrie" gid="778" x="2847.5" y="543.5" width="32" height="32"/>
-  <object id="31" name="coin_berrie" gid="778" x="2943.5" y="576" width="32" height="32"/>
-  <object id="32" name="coin_berrie" gid="778" x="3040.5" y="511" width="32" height="32"/>
-  <object id="33" name="coin_berrie" gid="778" x="3071" y="512" width="32" height="32"/>
-  <object id="34" name="coin_berrie" gid="778" x="3168.5" y="575.5" width="32" height="32"/>
-  <object id="35" name="coin_berrie" gid="778" x="3296" y="544" width="32" height="32"/>
-  <object id="36" name="coin_berrie" gid="778" x="3360" y="607.5" width="32" height="32"/>
-  <object id="37" name="coin_berrie" gid="778" x="3488" y="607" width="32" height="32"/>
-  <object id="38" name="coin_berrie" gid="778" x="3648" y="512.5" width="32" height="32"/>
-  <object id="39" name="health_berrie" gid="775" x="1040" y="554.67" width="32" height="32"/>
-  <object id="45" name="health_berrie" gid="775" x="1554" y="562.67" width="32" height="32"/>
-  <object id="46" name="health_berrie" gid="775" x="3058" y="625.33" width="32" height="32"/>
-  <object id="47" name="energy_berrie" gid="777" x="1696" y="608.67" width="32" height="32"/>
-  <object id="49" name="energy_berrie" gid="777" x="2657.33" y="609.33" width="32" height="32"/>
-  <object id="99" name="energy_berrie" gid="777" x="1922" y="642" width="32" height="32"/>
-  <object id="100" name="energy_berrie" gid="777" x="2431" y="641" width="32" height="32"/>
+  <object id="2" name="coin_berry" gid="778" x="383.5" y="608.5" width="32" height="32"/>
+  <object id="10" name="coin_berry" gid="778" x="416" y="578" width="32" height="32"/>
+  <object id="11" name="coin_berry" gid="778" x="449" y="577" width="32" height="32"/>
+  <object id="12" name="coin_berry" gid="778" x="481" y="608.5" width="32" height="32"/>
+  <object id="13" name="coin_berry" gid="778" x="544" y="607.5" width="32" height="32"/>
+  <object id="14" name="coin_berry" gid="778" x="641" y="609" width="32" height="32"/>
+  <object id="15" name="coin_berry" gid="778" x="703.5" y="544.5" width="32" height="32"/>
+  <object id="16" name="coin_berry" gid="778" x="800" y="513" width="32" height="32"/>
+  <object id="17" name="coin_berry" gid="778" x="832.5" y="481" width="32" height="32"/>
+  <object id="18" name="coin_berry" gid="778" x="864.5" y="480.5" width="32" height="32"/>
+  <object id="19" name="coin_berry" gid="778" x="895.5" y="543.5" width="32" height="32"/>
+  <object id="20" name="coin_berry" gid="778" x="895.5" y="577" width="32" height="32"/>
+  <object id="21" name="coin_berry" gid="778" x="899" y="479.5" width="32" height="32"/>
+  <object id="22" name="coin_berry" gid="778" x="896.5" y="511" width="32" height="32"/>
+  <object id="23" name="coin_berry" gid="778" x="896.5" y="608.5" width="32" height="32"/>
+  <object id="24" name="coin_berry" gid="778" x="1663.5" y="608.5" width="32" height="32"/>
+  <object id="25" name="coin_berry" gid="778" x="1696.5" y="576.5" width="32" height="32"/>
+  <object id="26" name="coin_berry" gid="778" x="1728" y="608" width="32" height="32"/>
+  <object id="27" name="coin_berry" gid="778" x="1696.5" y="640.5" width="32" height="32"/>
+  <object id="29" name="coin_berry" gid="778" x="2752.5" y="608" width="32" height="32"/>
+  <object id="30" name="coin_berry" gid="778" x="2847.5" y="543.5" width="32" height="32"/>
+  <object id="31" name="coin_berry" gid="778" x="2943.5" y="576" width="32" height="32"/>
+  <object id="32" name="coin_berry" gid="778" x="3040.5" y="511" width="32" height="32"/>
+  <object id="33" name="coin_berry" gid="778" x="3071" y="512" width="32" height="32"/>
+  <object id="34" name="coin_berry" gid="778" x="3168.5" y="575.5" width="32" height="32"/>
+  <object id="35" name="coin_berry" gid="778" x="3296" y="544" width="32" height="32"/>
+  <object id="36" name="coin_berry" gid="778" x="3360" y="607.5" width="32" height="32"/>
+  <object id="37" name="coin_berry" gid="778" x="3488" y="607" width="32" height="32"/>
+  <object id="38" name="coin_berry" gid="778" x="3648" y="512.5" width="32" height="32"/>
+  <object id="39" name="health_berry" gid="775" x="1040" y="554.67" width="32" height="32"/>
+  <object id="45" name="health_berry" gid="775" x="1554" y="562.67" width="32" height="32"/>
+  <object id="46" name="health_berry" gid="775" x="3058" y="625.33" width="32" height="32"/>
+  <object id="47" name="energy_berry" gid="777" x="1696" y="608.67" width="32" height="32"/>
+  <object id="49" name="energy_berry" gid="777" x="2657.33" y="609.33" width="32" height="32"/>
+  <object id="99" name="energy_berry" gid="777" x="1922" y="642" width="32" height="32"/>
+  <object id="100" name="energy_berry" gid="777" x="2431" y="641" width="32" height="32"/>
+  <object id="105" name="rage_berry" gid="776" x="222.667" y="640.667" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="7" name="Environment">
+ <objectgroup id="7" name="Environment" locked="1">
   <object id="107" name="Rock" gid="822" x="1799.67" y="574" width="32" height="32"/>
   <object id="108" name="Rock" gid="822" x="1800.33" y="606.667" width="32" height="32"/>
   <object id="109" name="Rock" gid="822" x="1802.67" y="640.333" width="32" height="32"/>
@@ -93,7 +94,7 @@
   <object id="124" name="Rock" gid="822" x="300" y="600" width="32" height="32"/>
   <object id="132" name="Flag" gid="797" x="3744.33" y="480.333" width="32" height="32"/>
  </objectgroup>
- <layer id="4" name="Deco" width="121" height="23">
+ <layer id="4" name="Deco" width="121" height="23" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -134,7 +135,7 @@
  <objectgroup id="8" name="Player">
   <object id="65" name="Player" gid="799" x="116.833" y="638.667" width="32" height="32"/>
  </objectgroup>
- <layer id="3" name="Terrain" width="121" height="23">
+ <layer id="3" name="Terrain" width="121" height="23" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,769,769,769,769,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,769,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,216,218,218,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -153,7 +154,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,248,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,251,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,395,434,434,434,435,436,
-0,0,0,0,0,0,0,104,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,773,773,88,466,466,466,467,468,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,773,773,88,466,466,466,467,468,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,0,0,0,0,0,0,0,300,301,0,0,0,0,0,0,772,772,772,772,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,60,0,0,0,0,55,60,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,88,466,466,467,468,500,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,773,0,0,0,0,0,0,300,217,217,301,0,0,0,0,0,772,772,772,772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,773,773,773,773,88,498,466,466,467,468,
 434,434,434,434,434,434,434,435,436,434,435,436,398,0,0,395,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,434,435,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,436,434,435,398,0,0,0,0,433,398,0,0,0,0,395,435,434,434,434,434,434,434,434,434,434,434,435,436,498,498,466,467,468,468,

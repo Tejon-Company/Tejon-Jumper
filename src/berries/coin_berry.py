@@ -9,8 +9,10 @@ class CoinBerry(Berry):
         super().__init__(pos, surf, groups)
         self.get_coin_sound = ResourceManager.load_sound("get_coin.ogg")
 
-    def update(self, player: Player):
+    def update(self, game, player: Player):
         if not self.rect.colliderect(player.rect):
             return
+
         self.get_coin_sound.play()
+        game.add_coin()
         self.kill()

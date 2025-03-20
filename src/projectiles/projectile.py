@@ -60,7 +60,10 @@ class Projectile(Sprite, ABC):
             self._deactivate_projectile()
             return
 
-        self.game.receive_damage()
+        is_player_colliding_from_left = player.rect.centerx > self.rect.centerx
+        is_player_colliding_from_right = player.rect.centerx < self.rect.centerx
+
+        self.game.receive_damage(is_player_colliding_from_left, is_player_colliding_from_right)
         self._deactivate_projectile()
 
     @abstractmethod

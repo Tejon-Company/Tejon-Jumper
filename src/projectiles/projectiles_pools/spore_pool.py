@@ -17,7 +17,7 @@ class SporePool(ProjectilesPool):
                 direction=pygame.math.Vector2(-1, 0),
                 groups=self.projectile_groups,
                 sprite_sheet_name="spore.png",
-                animations=create_animation_rects(0, 3, 16),
+                animations=create_animation_rects(0, 3, sprite_height=16, sprite_width=16),
                 game=self.game
             )
             self.pool.append(spore)
