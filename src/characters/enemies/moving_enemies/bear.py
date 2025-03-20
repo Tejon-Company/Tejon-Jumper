@@ -103,6 +103,5 @@ class Bear(MovingEnemy):
             self.last_damage_time_ms)
 
         if should_receive_damage:
-            print("receive damage")
             self.health_points -= 1
             self.speed += self.speed * .2

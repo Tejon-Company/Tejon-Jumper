@@ -82,17 +82,26 @@ class HUD:
         cls._draw_bear_hearts(display_surface, bear_health_points)
 
     @classmethod
-    def _draw_hearts(cls, display_surface, remaining_health_points):
+    def _draw_icon_with_counter(cls, display_surface, icon, count: int, x: int, y: int):
+        display_surface.blit(icon, (x, y))
+        count_text = f"x{count}"
+        text_surface = cls.font.render(count_text, True, (255, 255, 255))
+        display_surface.blit(text_surface, (x + icon.get_width() + 5, y))
+
+    @classmethod
+    def _draw_health_icons(cls, display_surface, health_points: int, icon, start_x: int, start_y: int):
         heart_size = 32
         spacing = 10
-        start_x = 10
-        start_y = 10
-
-        for i in range(remaining_health_points):
+        for i in range(health_points):
             display_surface.blit(
-                cls.health_icon,
+                icon,
                 (start_x + i * (heart_size + spacing), start_y)
             )
+
+    @classmethod
+    def _draw_hearts(cls, display_surface, remaining_health_points):
+        cls._draw_health_icons(
+            display_surface, remaining_health_points, cls.health_icon, 10, 10)
 
     @classmethod
     def _draw_energy_bar(cls, display_surface, energy: float):
@@ -120,38 +129,17 @@ class HUD:
 
     @classmethod
     def _draw_lifes_counter(cls, display_surface, remaining_lives: int):
-        display_surface.blit(cls.player_icon, (10, 90))
-        lives_text = f"x{remaining_lives}"
-        text_surface = cls.font.render(lives_text, True, (255, 255, 255))
-        display_surface.blit(text_surface, (50, 90))
+        cls._draw_icon_with_counter(
+            display_surface, cls.player_icon, remaining_lives, 10, 90)
 
     @classmethod
     def _draw_coins_counter(cls, display_surface, coins: int):
-        coin_icon = cls.coin_icon
-
-        margin = 10
-        coin_icon_x = display_surface.get_width() - coin_icon.get_width() - 40
-        coin_icon_y = margin
-
-        display_surface.blit(coin_icon, (coin_icon_x, coin_icon_y))
-
-        coins_text = f"x{coins}"
-        text_surface = cls.font.render(coins_text, True, (255, 255, 255))
-
-        text_x = coin_icon_x + coin_icon.get_width() + 5
-        text_y = coin_icon_y
-
-        display_surface.blit(text_surface, (text_x, text_y))
+        coin_icon_x = display_surface.get_width() - cls.coin_icon.get_width() - 40
+        cls._draw_icon_with_counter(
+            display_surface, cls.coin_icon, coins, coin_icon_x, 10)
 
     @classmethod
     def _draw_bear_hearts(cls, display_surface, bear_healt_points: int):
-        heart_size = 32
-        spacing = 10
         start_x = WINDOW_WIDTH // 2 - TILE_SIZE * 2
-        start_y = 10
-
-        for i in range(bear_healt_points):
-            display_surface.blit(
-                cls.bear_health_icon,
-                (start_x + i * (heart_size + spacing), start_y)
-            )
+        cls._draw_health_icons(
+            display_surface, bear_healt_points, cls.bear_health_icon, start_x, 10)
