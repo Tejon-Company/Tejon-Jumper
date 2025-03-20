@@ -61,7 +61,7 @@ class Enemy(Character):
         else:
             self._adjust_player_position_vertically()
 
-        self.player.collision()
+        self.player.handle_collisions_with_rects()
 
     def _adjust_player_position_horizontally(self):
         if self.player.rect.centerx < self.rect.centerx:
