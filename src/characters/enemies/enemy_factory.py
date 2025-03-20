@@ -88,7 +88,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 f"The entitie {enemy.name} is not a valid entitie")
 
 
-def _create_animation_rects(frame_start_x, number_of_frames, sprite_width = TILE_SIZE):
+def _create_animation_rects(frame_start_x, number_of_frames, sprite_width=TILE_SIZE):
     sprite_height = TILE_SIZE
     frame_start_x *= sprite_width
     y = 0
