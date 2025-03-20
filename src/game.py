@@ -87,14 +87,23 @@ class Game:
         self.current_level += 1
         self._load_level()
 
-    def receive_damage(self):
+    def receive_damage(self, is_collision_on_left, is_collision_on_right):
         should_receive_damage, self.last_damage_time_ms = check_cooldown(
             self.last_damage_time_ms)
 
         if not should_receive_damage:
             return False
 
-        self.damage_sound.play()
+        channel = self.damage_sound.play()
+        effects_volume = ResourceManager.get_effects_volume()
+
+        if is_collision_on_left:
+            channel.set_volume(effects_volume, 0.0)
+        elif is_collision_on_right:
+            channel.set_volume(0.0, effects_volume)
+        else:
+            channel.set_volume(effects_volume, effects_volume)
+
         self.health_points -= 1
 
         if (self.health_points <= 0):
