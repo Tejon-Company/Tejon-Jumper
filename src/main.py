@@ -1,12 +1,11 @@
 from settings import *
 from director import Director
-from game import Game
+from scene.menu import Menu
 
 
 if __name__ == "__main__":
     pygame.init()
     director = Director()
-    game = Game(director)
-    director.stack_scene(game)
+    director.stack_scene(Menu(director)) 
     director.run()
     pygame.quit()

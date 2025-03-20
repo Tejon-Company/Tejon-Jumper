@@ -3,7 +3,6 @@ from characters.enemies.moving_enemies.hedgehog import Hedgehog
 from characters.enemies.shooters.mushroom import Mushroom
 from characters.enemies.moving_enemies.fox import Fox
 from characters.enemies.moving_enemies.bat import Bat
-from characters.enemies.moving_enemies.bear import Bear
 from characters.enemies.shooters.squirrel import Squirrel
 from characters.enemies.shooters.mushroom_direction import MushroomDirection
 from characters.utils.animation_utils import create_animation_rects
