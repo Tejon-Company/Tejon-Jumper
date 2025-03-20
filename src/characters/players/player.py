@@ -1,11 +1,13 @@
+from characters.utils.check_cooldown import check_cooldown
+from characters.utils.normalize_direction import normalize_direction
+from characters.utils.collision_utils import is_above_collision, is_below_collision, is_left_collision, is_on_surface, is_right_collision
 from settings import *
 from characters.character import Character
-from characters.players.collision_utils import *
 from resource_manager import ResourceManager
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points, normal_sprite_sheet_name, rage_sprite_sheet):
+    def __init__(self, pos, surf, groups, normal_sprite_sheet_name, rage_sprite_sheet):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
@@ -27,7 +29,9 @@ class Player(Character):
         self.platform_rects = self.platform_rects
 
         self.direction = vector(0, 0)
-        self.speed = 150
+        self.normal_speed = 150
+        self.rage_speed = 200
+        self.current_speed = self.normal_speed
         self.gravity = 1000
         self.fall = 0
         self.is_jumping = False
@@ -37,6 +41,11 @@ class Player(Character):
         self.on_surface = False
         self.is_sprinting = False
         self.is_in_rage = False
+
+        self.activate_rage_sound = ResourceManager.load_sound(
+            "activate_rage.ogg")
+        self.deactivate_rage_sound = ResourceManager.load_sound(
+            "deactivate_rage.ogg")
 
     def _setup_animation(self):
         self.animation_frame = 0
@@ -142,13 +151,14 @@ class Player(Character):
 
     def _move_horizontally(self, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
-        self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
-        self.collision(self._handle_horizontal_collision)
+        self.rect.x += self.direction.x * \
+            self.current_speed * delta_time * sprint_multiplier
+        self.handle_collisions_with_rects(self._handle_horizontal_collision)
 
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
-        self.collision(self._handle_vertical_collision)
+        self.handle_collisions_with_rects(self._handle_vertical_collision)
 
         if self.on_surface:
             self.fall = -self.jump_height if self.is_jumping else 0
@@ -158,7 +168,7 @@ class Player(Character):
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
-    def collision(self, collision_handler=None):
+    def handle_collisions_with_rects(self, collision_handler=None):
         for rect in self.platform_rects + self.environment_rects:
             if not rect.colliderect(self.rect):
                 continue
@@ -194,14 +204,20 @@ class Player(Character):
         self.energy = self.max_energy
 
     def activate_rage(self):
+        self.activate_rage_sound.play()
         self.is_in_rage = True
         self.current_sprite_sheet = self.rage_sprite_sheet
-        self.speed = 200
+        self.current_speed = self.rage_speed
 
     def _update_rage_state(self):
         has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=7000)
+            self.last_time_in_rage, cooldown=15000)
+
         if self.is_in_rage and has_rage_finished:
-            self.is_in_rage = False
-            self.current_sprite_sheet = self.normal_sprite_sheet
-            self.speed = 150
+            self._deactivate_rage()
+
+    def _deactivate_rage(self):
+        self.deactivate_rage_sound.play()
+        self.is_in_rage = False
+        self.current_sprite_sheet = self.normal_sprite_sheet
+        self.current_speed = self.normal_speed

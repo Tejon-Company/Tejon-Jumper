@@ -2,7 +2,7 @@ from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
 from pygame.sprite import collide_rect
-from characters.players.collision_utils import is_below_collision
+from characters.utils.collision_utils import is_below_collision
 
 
 class Enemy(Character):
@@ -34,7 +34,10 @@ class Enemy(Character):
             self._defeat()
             return
 
-        self.game.receive_damage()
+        is_player_colliding_from_left = self.player.rect.centerx > self.rect.centerx
+        is_player_colliding_from_right = self.player.rect.centerx < self.rect.centerx
+
+        self.game.receive_damage(is_player_colliding_from_left, is_player_colliding_from_right)
 
     def _defeat(self):
         for group in self.groups:
@@ -58,7 +61,7 @@ class Enemy(Character):
         else:
             self._adjust_player_position_vertically()
 
-        self.player.collision()
+        self.player.handle_collisions_with_rects()
 
     def _adjust_player_position_horizontally(self):
         if self.player.rect.centerx < self.rect.centerx:

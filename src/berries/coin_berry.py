@@ -12,6 +12,7 @@ class CoinBerry(Berry):
     def update(self, game, player: Player):
         if not self.rect.colliderect(player.rect):
             return
+
         self.get_coin_sound.play()
         game.add_coin()
         self.kill()

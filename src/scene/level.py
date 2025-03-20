@@ -3,7 +3,7 @@ from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
-from characters.animation_utils import create_animation_rects
+from characters.utils.animation_utils import create_animation_rects
 from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
@@ -58,7 +58,6 @@ class Level(Scene):
 
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
-        self._setup_deco()
 
         self._setup_music()
 
@@ -150,7 +149,6 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["players"],
-            5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png",
             "rage_badger.png"
         )
@@ -187,11 +185,8 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, self.player)
-
-    def _setup_flag(self):
-        for flag in self.tmx_map.get_layer_by_name("Flag"):
-            return
+            environment_factory(map_element, self.groups,
+                                self.player, self.game)
 
     def update(self, delta_time):
         self.groups["environment"].update()

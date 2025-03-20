@@ -1,8 +1,8 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
-from characters.players.collision_utils import is_below_collision
-from characters.animation_utils import setup_animation
+from characters.utils.collision_utils import is_below_collision
+from characters.utils.animation_utils import setup_animation
 from pygame.sprite import collide_rect
 
 
@@ -30,4 +30,7 @@ class Hedgehog(MovingEnemy):
             self._defeat()
             return
 
-        self.game.receive_damage()
+        is_player_colliding_from_left = self.player.rect.centerx > self.rect.centerx
+        is_player_colliding_from_right = self.player.rect.centerx < self.rect.centerx
+
+        self.game.receive_damage(is_player_colliding_from_left, is_player_colliding_from_right)

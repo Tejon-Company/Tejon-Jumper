@@ -1,8 +1,8 @@
 from settings import *
 from characters.enemies.enemy import Enemy
-from characters.animation_utils import update_animation
+from characters.utils.animation_utils import update_animation
 from abc import ABC
-from characters.players.collision_utils import is_on_surface
+from characters.utils.collision_utils import is_on_surface
 
 
 class MovingEnemy(Enemy, ABC):

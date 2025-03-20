@@ -1,7 +1,7 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
-from characters.animation_utils import setup_animation
+from characters.utils.animation_utils import setup_animation
 
 
 class Squirrel(Shooter):

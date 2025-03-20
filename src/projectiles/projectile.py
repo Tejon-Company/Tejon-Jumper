@@ -1,10 +1,10 @@
 from settings import *
 from abc import ABC, abstractmethod
 from characters.sprite import Sprite
-from characters.players.collision_utils import is_below_collision
+from characters.utils.collision_utils import is_below_collision
 from pygame.sprite import collide_rect
 from resource_manager import ResourceManager
-from characters.animation_utils import update_animation, setup_animation
+from characters.utils.animation_utils import update_animation, setup_animation
 
 
 class Projectile(Sprite, ABC):
@@ -60,7 +60,10 @@ class Projectile(Sprite, ABC):
             self._deactivate_projectile()
             return
 
-        self.game.receive_damage()
+        is_player_colliding_from_left = player.rect.centerx > self.rect.centerx
+        is_player_colliding_from_right = player.rect.centerx < self.rect.centerx
+
+        self.game.receive_damage(is_player_colliding_from_left, is_player_colliding_from_right)
         self._deactivate_projectile()
 
     @abstractmethod

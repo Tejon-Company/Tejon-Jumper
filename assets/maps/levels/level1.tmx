@@ -89,6 +89,8 @@
   <object id="121" name="Rock" gid="822" x="2588" y="640" width="32" height="32"/>
   <object id="122" name="Rock" gid="822" x="2587.5" y="607.75" width="32" height="32"/>
   <object id="123" name="Rock" gid="822" x="2619.25" y="639.5" width="32" height="32"/>
+  <object id="124" name="Rock" gid="822" x="300" y="600" width="32" height="32"/>
+  <object id="132" name="Flag" gid="797" x="3744" y="480.25" width="32" height="32"/>
  </objectgroup>
  <layer id="4" name="Deco" width="121" height="23" locked="1">
   <data encoding="csv">
