@@ -79,6 +79,7 @@ class Game:
 
         channel = self.damage_sound.play()
         effects_volume = ResourceManager.get_effects_volume()
+
         if is_collision_on_left:
             channel.set_volume(effects_volume, 0.0)
         elif is_collision_on_right:
