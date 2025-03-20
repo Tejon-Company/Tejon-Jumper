@@ -24,7 +24,7 @@ class Bear(MovingEnemy):
 
         self.facing_right = True
 
-        self.remaining_lives = 3
+        self.remaining_lives = 20
         self.last_damage_time_ms = None
 
         setup_animation(self)
@@ -43,7 +43,6 @@ class Bear(MovingEnemy):
 
     def _move_horizontally(self, delta_time):
         self.rect.x += self.direction.x * self.speed * delta_time
-        self.collision(self._handle_horizontal_collision)
 
         if self._will_hit_wall(self.direction.x):
             self.direction.x *= -1
@@ -53,7 +52,7 @@ class Bear(MovingEnemy):
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
-        self.collision(self._handle_vertical_collision)
+        self._handle_collisions_with_rects()
 
         if self.on_surface:
             self.fall = -self.jump_height if self.is_jumping else 0
@@ -62,21 +61,10 @@ class Bear(MovingEnemy):
         if self.is_jumping:
             self.direction = normalize_direction(self.direction)
 
-    def collision(self, collision_handler):
-        for platform_rect in self.platform_rects:
-            if platform_rect.colliderect(self.rect):
-                collision_handler(platform_rect)
-
-        for environment_rect in self.environment_rects:
-            if environment_rect.colliderect(self.rect):
-                collision_handler(environment_rect)
-
-    def _handle_horizontal_collision(self, platform_rect):
-        if is_right_collision(self.rect, self.old_rect, platform_rect):
-            self.rect.right = platform_rect.left + TILE_SIZE
-
-        if is_left_collision(self.rect, self.old_rect, platform_rect):
-            self.rect.left = platform_rect.right - TILE_SIZE
+    def _handle_collisions_with_rects(self):
+        for rect in self.platform_rects + self.environment_rects:
+            if rect.colliderect(self.rect):
+                self._handle_vertical_collision(rect)
 
     def _handle_vertical_collision(self, platform_rect):
         if is_below_collision(self.rect, self.old_rect, platform_rect):
@@ -97,6 +85,7 @@ class Bear(MovingEnemy):
         is_player_colliding_from_above = is_below_collision(
             self.player.rect, self.player.old_rect, self.rect)
 
+        print(is_player_colliding_from_above)
         if is_player_colliding_from_above:
             self._receive_damage()
             return
@@ -114,6 +103,5 @@ class Bear(MovingEnemy):
             self.last_damage_time_ms)
 
         if should_receive_damage:
-            print("Bear received damage")
             self.remaining_lives -= 1
             self.speed += self.speed * .2

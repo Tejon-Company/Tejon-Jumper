@@ -11,7 +11,7 @@ class Game:
     def __init__(self, director):
         self.director = director
         self.remaining_lives = 3
-        self.max_health_points = 5
+        self.max_health_points = 50
         self.health_points = self.max_health_points
         self.player = None
         self.coins = 0
