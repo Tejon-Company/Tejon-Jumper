@@ -3,7 +3,7 @@ from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
-from characters.animation_utils import create_animation_rects
+from characters.utils.animation_utils import create_animation_rects
 from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
@@ -150,7 +150,6 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["players"],
-            5 if DIFFICULTY == Difficulty.NORMAL else 3,
             "badger.png",
             "rage_badger.png"
         )

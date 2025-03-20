@@ -6,7 +6,7 @@ from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.moving_enemies.bear import Bear
 from characters.enemies.shooters.squirrel import Squirrel
 from characters.enemies.shooters.mushroom_direction import MushroomDirection
-from characters.animation_utils import create_animation_rects
+from characters.utils.animation_utils import create_animation_rects
 
 
 def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player, game):

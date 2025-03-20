@@ -1,8 +1,8 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from random import choice
-from characters.players.collision_utils import is_below_collision
-from characters.animation_utils import setup_animation
+from characters.utils.collision_utils import is_below_collision
+from characters.utils.animation_utils import setup_animation
 from pygame.sprite import collide_rect
 
 

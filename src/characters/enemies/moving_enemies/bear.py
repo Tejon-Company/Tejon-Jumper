@@ -1,7 +1,9 @@
+from characters.utils.check_cooldown import check_cooldown
+from characters.utils.normalize_direction import normalize_direction
+from characters.utils.collision_utils import is_below_collision
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from characters.players.collision_utils import *
-from characters.animation_utils import setup_animation, update_animation
+from characters.utils.animation_utils import setup_animation, update_animation
 from pygame.sprite import collide_rect
 
 
@@ -79,7 +81,7 @@ class Bear(MovingEnemy):
 
         self._adjust_player_position()
 
-        is_player_colliding_from_above = self._is_below_collision()
+        is_player_colliding_from_above = self._is_collision_from_above()
 
         if is_player_colliding_from_above:
             self._receive_damage()
@@ -89,7 +91,7 @@ class Bear(MovingEnemy):
         if should_damage:
             self.game.receive_damage()
 
-    def _is_below_collision(self):
+    def _is_collision_from_above(self):
         approaching_from_top = self.player.rect.bottom >= self.rect.top
         was_above = self.player.old_rect.bottom <= self.old_rect.top
         return approaching_from_top and was_above

@@ -1,5 +1,5 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from characters.animation_utils import setup_animation
+from characters.utils.animation_utils import setup_animation
 from random import choice
 
 

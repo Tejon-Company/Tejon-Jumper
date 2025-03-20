@@ -1,11 +1,13 @@
+from characters.utils.check_cooldown import check_cooldown
+from characters.utils.normalize_direction import normalize_direction
+from characters.utils.collision_utils import is_above_collision, is_below_collision, is_left_collision, is_on_surface, is_right_collision
 from settings import *
 from characters.character import Character
-from characters.players.collision_utils import *
 from resource_manager import ResourceManager
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, health_points, normal_sprite_sheet_name, rage_sprite_sheet):
+    def __init__(self, pos, surf, groups, normal_sprite_sheet_name, rage_sprite_sheet):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
@@ -143,12 +145,12 @@ class Player(Character):
     def _move_horizontally(self, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
         self.rect.x += self.direction.x * self.speed * delta_time * sprint_multiplier
-        self.collision(self._handle_horizontal_collision)
+        self.handle_collisions_with_rects(self._handle_horizontal_collision)
 
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
-        self.collision(self._handle_vertical_collision)
+        self.handle_collisions_with_rects(self._handle_vertical_collision)
 
         if self.on_surface:
             self.fall = -self.jump_height if self.is_jumping else 0
@@ -158,7 +160,7 @@ class Player(Character):
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
-    def collision(self, collision_handler=None):
+    def handle_collisions_with_rects(self, collision_handler=None):
         for rect in self.platform_rects + self.environment_rects:
             if not rect.colliderect(self.rect):
                 continue

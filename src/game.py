@@ -4,7 +4,7 @@ from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
 from scene.pause import Pause
-from characters.players.collision_utils import check_cooldown
+from characters.utils.check_cooldown import check_cooldown
 
 
 class Game:

@@ -2,7 +2,7 @@ from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
 from pygame.sprite import collide_rect
-from characters.players.collision_utils import is_below_collision
+from characters.utils.collision_utils import is_below_collision
 
 
 class Enemy(Character):
