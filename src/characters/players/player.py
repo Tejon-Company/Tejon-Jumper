@@ -20,9 +20,6 @@ class Player(Character):
         )
         self.current_sprite_sheet = self.normal_sprite_sheet
 
-        self.health_points = health_points
-        self.maximum_health_points = health_points
-
         self.energy = 100
         self.max_energy = 100
         self.energy_depletion_rate = 30
@@ -219,7 +216,7 @@ class Player(Character):
 
     def _update_rage_state(self):
         has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=7000)
+            self.last_time_in_rage, cooldown=15000)
         if self.is_in_rage and has_rage_finished:
             self.is_in_rage = False
             self.current_sprite_sheet = self.normal_sprite_sheet
