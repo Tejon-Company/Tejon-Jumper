@@ -57,10 +57,6 @@ class SettingsMenu(Scene):
             self.current_difficulty = (
                 self.current_difficulty + 1) % len(self.difficulty_levels)
 
-        # elif self.resolution_btn.collidepoint(event.pos):
-        #    self.current_resolution = (self.current_resolution + 1) % len(self.resolutions)
-        #    pygame.display.set_mode(self.resolutions[self.current_resolution])
-
         elif self.back_btn.collidepoint(event.pos):
             from scene.menu import Menu
             self.director.change_scene(Menu(self.director))
@@ -85,16 +81,11 @@ class SettingsMenu(Scene):
         display_surface.blit(
             resolution_label, (self.resolution_btn.x - 135, self.resolution_btn.y + 15))
 
+        resolution_text = f"{self.resolutions[self.current_resolution][0]}x{self.resolutions[self.current_resolution][1]}"
         self._draw_button(display_surface, self.resolution_btn,
-                          f"{self.resolutions[self.current_resolution][0]}x{self.resolutions[self.current_resolution][1]}", font)
+                          resolution_text, font)
 
         self._draw_button(display_surface, self.back_btn, "Return", font)
-
-    def _draw_button(self, display_surface, rect, text, font):
-        draw_rect(display_surface, 'black', rect)
-        text_surf = font.render(text, True, 'white')
-        text_rect = text_surf.get_rect(center=rect.center)
-        display_surface.blit(text_surf, text_rect.topleft)
 
     def _draw_volume_bar(self, display_surface, rect, volume, label, font):
         draw_rect(display_surface, 'white', rect)
@@ -103,3 +94,9 @@ class SettingsMenu(Scene):
         label_surf = font.render(label, True, 'white')
         display_surface.blit(
             label_surf, (rect.x - label_surf.get_width() - 10, rect.y))
+
+    def _draw_button(self, display_surface, rect, text, font):
+        draw_rect(display_surface, 'black', rect)
+        text_surf = font.render(text, True, 'white')
+        text_rect = text_surf.get_rect(center=rect.center)
+        display_surface.blit(text_surf, text_rect.topleft)
