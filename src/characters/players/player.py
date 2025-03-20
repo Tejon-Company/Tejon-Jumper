@@ -1,6 +1,7 @@
 from characters.utils.check_cooldown import check_cooldown
 from characters.utils.normalize_direction import normalize_direction
-from characters.utils.collision_utils import is_above_collision, is_below_collision, is_left_collision, is_on_surface, is_right_collision
+from characters.utils.collision_utils import *
+from characters.utils.animation_utils import *
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
@@ -48,15 +49,13 @@ class Player(Character):
             "deactivate_rage.ogg")
 
     def _setup_animation(self):
-        self.animation_frame = 0
-        self.animation_speed = 0.2
-        self.animation_time = 0
+        setup_animation(self)
 
         self.animations = {
-            'idle': [(0, 0, 32, 32)],
-            'run': [(x + (x//32), 0, 32, 32) for x in range(64, 416, 32)],
-            'jump': [(165, 0, 32, 32)],
-            'roll': [(x, 0, 32, 32) for x in range(429, 640, 32)],
+            'idle': create_animation_rects(0, 1),
+            'run': create_animation_rects(1, 12),
+            'jump': create_animation_rects(4, 1),
+            'roll': create_animation_rects(12, 8),
         }
 
         self.current_animation = 'idle'
