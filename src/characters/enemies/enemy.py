@@ -35,7 +35,7 @@ class Enemy(Character, ABC):
         self._check_should_receive_damage()
         self._process_player_collision()
 
-        update_animation(delta_time, self)
+        update_animation(delta_time, self, self.animations)
 
     def _check_should_receive_damage(self):
         is_player_colliding_from_above = is_below_collision(

@@ -33,7 +33,7 @@ class Bat(MovingEnemy):
         self._check_path()
 
         self.facing_right = self.direction.x > 0
-        update_animation(delta_time, self)
+        update_animation(delta_time, self, self.animations)
 
     def _move(self, delta_time):
         self.rect.x += self.direction.x * self.x_speed * delta_time

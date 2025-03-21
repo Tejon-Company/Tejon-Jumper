@@ -73,7 +73,7 @@ class Level(Scene):
             "deco": Group(),
             "environment": Group(),
             "players": Group(),
-            "moving_enemies": Group()
+            "moving_enemies": Group(),
         }
 
     def _setup_pools(self):
@@ -142,21 +142,25 @@ class Level(Scene):
 
         if player_count != 1:
             raise ValueError(
-                f"Expected exactly one player in the map, found {player_count}")
+                f"Expected exactly one player in the map, found {player_count}"
+            )
 
         character = next(iter(player_layer))
         self.player = Player(
-            (character.x, character.y),
-            character.image,
-            self.groups["players"],
-            "badger.png",
-            "rage_badger.png"
+            (character.x, character.y), character.image, self.groups["players"]
         )
 
     def _setup_enemies(self):
         for enemy in self.tmx_map.get_layer_by_name("Enemies"):
-            enemy_factory(enemy, self.groups, self.platform_rects, self.spore_pool,
-                          self.acorn_pool, self.player, self.game)
+            enemy_factory(
+                enemy,
+                self.groups,
+                self.platform_rects,
+                self.spore_pool,
+                self.acorn_pool,
+                self.player,
+                self.game,
+            )
 
     def _setup_boss(self):
         try:
@@ -169,15 +173,13 @@ class Level(Scene):
                     self.player,
                     self.platform_rects,
                     "bear.png",
-                    create_animation_rects(0, 4, sprite_width=64),
-                    self.game
+                    self.game,
                 )
         except ValueError:
             self.boss = None
 
     def _setup_platform_rects(self):
-        self.platform_rects = [
-            platform.rect for platform in self.groups["platforms"]]
+        self.platform_rects = [platform.rect for platform in self.groups["platforms"]]
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
@@ -185,13 +187,11 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups,
-                                self.player, self.game)
+            environment_factory(map_element, self.groups, self.player, self.game)
 
     def update(self, delta_time):
         self.groups["environment"].update()
-        environment_rects = [
-            platform.rect for platform in self.groups["environment"]]
+        environment_rects = [platform.rect for platform in self.groups["environment"]]
 
         self.groups["all_sprites"].update(delta_time)
         self.groups["players"].update(delta_time, environment_rects)
@@ -207,8 +207,7 @@ class Level(Scene):
                 self.director.exit_program()
 
     def draw(self, display_surface):
-        self.camera.draw_background(
-            self.groups["backgrounds"], display_surface)
+        self.camera.draw_background(self.groups["backgrounds"], display_surface)
 
         for sprite in self.groups["deco"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
@@ -227,16 +226,25 @@ class Level(Scene):
 
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
-                display_surface.blit(
-                    projectile.image, self.camera.apply(projectile))
+                display_surface.blit(projectile.image, self.camera.apply(projectile))
 
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
         if self.boss:
-            HUD.draw_hud(display_surface, self.game.health_points,
-                         self.game.remaining_lives, self.game.coins, self.game.player.energy, self.boss.health_points)
+            HUD.draw_hud(
+                display_surface,
+                self.game.health_points,
+                self.game.remaining_lives,
+                self.game.coins,
+                self.game.player.energy,
+                self.boss.health_points,
+            )
         else:
-            HUD.draw_hud(display_surface,
-                         self.game.health_points,
-                         self.game.remaining_lives, self.game.coins, self.game.player.energy)
+            HUD.draw_hud(
+                display_surface,
+                self.game.health_points,
+                self.game.remaining_lives,
+                self.game.coins,
+                self.game.player.energy,
+            )

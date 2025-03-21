@@ -1,9 +1,13 @@
 from characters.utils.check_cooldown import check_cooldown
 from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import is_below_collision
+from characters.utils.animation_utils import (
+    create_animation_rects,
+    setup_animation,
+    update_animation,
+)
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from characters.utils.animation_utils import update_animation
 
 
 class Bear(MovingEnemy):
@@ -15,7 +19,6 @@ class Bear(MovingEnemy):
         player,
         platform_rects,
         sprite_sheet_name,
-        animations,
         game,
     ):
         super().__init__(
@@ -25,9 +28,11 @@ class Bear(MovingEnemy):
             player,
             platform_rects,
             sprite_sheet_name,
-            animations,
+            None,
             game,
         )
+
+        self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.rect.width = TILE_SIZE * 2
@@ -45,6 +50,52 @@ class Bear(MovingEnemy):
         self.health_points = 3
         self.last_damage_time_ms = None
 
+    def _setup_animation(self):
+        setup_animation(self)
+
+        self.animations = {
+            "run": create_animation_rects(0, 5, sprite_width=TILE_SIZE * 2),
+            "jump": create_animation_rects(6, 1, sprite_width=TILE_SIZE * 2),
+            "fall": create_animation_rects(5, 1, TILE_SIZE * 2),
+        }
+
+        self.current_animation = "run"
+        self.facing_right = True
+
+    def _determine_current_animation(self):
+        if self.is_jumping:
+            self.current_animation = "fall" if self.fall > 0 else "jump"
+        else:
+            self.current_animation = "run"
+
+        self.facing_right = self.direction.x > 0
+
+    def update(self, delta_time, environment_rects):
+        self.environment_rects = environment_rects
+
+        self._check_should_receive_damage()
+        self._process_player_collision()
+
+        self._determine_current_animation()
+        update_animation(delta_time, self, self.animations[self.current_animation])
+
+        self.old_rect = self.rect.copy()
+        self.environment_rects = environment_rects
+        self._move(delta_time)
+        self._detect_platform_contact()
+
+        self.facing_right = self.direction.x > 0
+
+    def _update_sprite(self):
+        frame_rect = self.animations[self.current_animation][self.animation_frame]
+        self.image = self.sprite_sheet.subsurface(frame_rect)
+
+        if not self.facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
+
+        color_key = self.image.get_at((0, 0))
+        self.image.set_colorkey(color_key)
+
     def _move(self, delta_time):
         self._move_horizontally(delta_time)
         self._move_vertically(delta_time)
@@ -60,6 +111,7 @@ class Bear(MovingEnemy):
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * delta_time
         self.fall += self.gravity / 2 * delta_time
+
         self._handle_collisions_with_rects()
 
         if self.on_surface:

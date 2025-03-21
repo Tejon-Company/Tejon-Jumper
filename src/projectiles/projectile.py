@@ -26,7 +26,7 @@ class Projectile(Sprite, ABC):
         self._reset_projectile_if_off_screen()
         self.old_rect = self.rect.copy()
         self._move(delta_time)
-        update_animation(delta_time, self)
+        update_animation(delta_time, self, self.animations)
         self._handle_collision_with_player(player)
 
     def _update_sprite(self):

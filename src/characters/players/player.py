@@ -8,7 +8,7 @@ from resource_manager import ResourceManager
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, normal_sprite_sheet_name, rage_sprite_sheet):
+    def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
@@ -16,11 +16,8 @@ class Player(Character):
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
-        self.normal_sprite_sheet = ResourceManager.load_sprite_sheet(
-            normal_sprite_sheet_name)
-        self.rage_sprite_sheet = ResourceManager.load_sprite_sheet(
-            rage_sprite_sheet
-        )
+        self.normal_sprite_sheet = ResourceManager.load_sprite_sheet("badger.png")
+        self.rage_sprite_sheet = ResourceManager.load_sprite_sheet("rage_badger.png")
         self.current_sprite_sheet = self.normal_sprite_sheet
 
         self.energy = 100
@@ -43,29 +40,26 @@ class Player(Character):
         self.is_sprinting = False
         self.is_in_rage = False
 
-        self.activate_rage_sound = ResourceManager.load_sound(
-            "activate_rage.ogg")
-        self.deactivate_rage_sound = ResourceManager.load_sound(
-            "deactivate_rage.ogg")
+        self.activate_rage_sound = ResourceManager.load_sound("activate_rage.ogg")
+        self.deactivate_rage_sound = ResourceManager.load_sound("deactivate_rage.ogg")
 
     def _setup_animation(self):
         setup_animation(self)
 
         self.animations = {
-            'idle': create_animation_rects(0, 1),
-            'run': create_animation_rects(1, 12),
-            'jump': create_animation_rects(4, 1),
-            'roll': create_animation_rects(13, 8),
+            "idle": create_animation_rects(0, 1),
+            "run": create_animation_rects(1, 12),
+            "jump": create_animation_rects(4, 1),
+            "roll": create_animation_rects(13, 8),
         }
 
-        self.current_animation = 'idle'
+        self.current_animation = "idle"
         self.facing_right = True
 
     def set_platform_rects(self, platform_rects):
         self.platform_rects = platform_rects
 
     def update(self, delta_time, environment_rects):
-        self.platform_rects = self.platform_rects
         self.old_rect = self.rect.copy()
 
         self.environment_rects = environment_rects
@@ -94,13 +88,13 @@ class Player(Character):
 
     def _determine_current_animation(self):
         if self.is_sprinting:
-            self.current_animation = 'roll'
+            self.current_animation = "roll"
         elif not self.on_surface:
-            self.current_animation = 'jump'
+            self.current_animation = "jump"
         elif abs(self.direction.x) > 0:
-            self.current_animation = 'run'
+            self.current_animation = "run"
         else:
-            self.current_animation = 'idle'
+            self.current_animation = "idle"
 
         if self.direction.x != 0:
             self.facing_right = self.direction.x > 0
@@ -140,7 +134,8 @@ class Player(Character):
             self.is_jumping = True
 
         self.is_sprinting = self.energy > 0 and (
-            keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT])
+            keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+        )
 
         self.direction = normalize_direction(self.direction)
 
@@ -150,8 +145,9 @@ class Player(Character):
 
     def _move_horizontally(self, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
-        self.rect.x += self.direction.x * \
-            self.current_speed * delta_time * sprint_multiplier
+        self.rect.x += (
+            self.direction.x * self.current_speed * delta_time * sprint_multiplier
+        )
         self.handle_collisions_with_rects(self._handle_horizontal_collision)
 
     def _move_vertically(self, delta_time):
@@ -197,7 +193,8 @@ class Player(Character):
 
     def _detect_platform_contact(self):
         self.on_surface = is_on_surface(
-            self.rect, self.platform_rects, self.environment_rects)
+            self.rect, self.platform_rects, self.environment_rects
+        )
 
     def recover_energy(self):
         self.energy = self.max_energy
@@ -210,7 +207,8 @@ class Player(Character):
 
     def _update_rage_state(self):
         has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=15000)
+            self.last_time_in_rage, cooldown=15000
+        )
 
         if self.is_in_rage and has_rage_finished:
             self._deactivate_rage()
