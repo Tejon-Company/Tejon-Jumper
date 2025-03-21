@@ -4,8 +4,6 @@ from resource_manager import ResourceManager
 from pygame.sprite import collide_rect
 from abc import ABC
 from typing import final
-from characters.utils.collision_utils import is_below_collision
-from characters.utils.animation_utils import update_animation
 
 
 class Enemy(Character, ABC):
@@ -34,8 +32,6 @@ class Enemy(Character, ABC):
 
         self._check_should_receive_damage()
         self._process_player_collision()
-
-        update_animation(delta_time, self, self.animations)
 
     def _check_should_receive_damage(self):
         self.should_receive_damage = (

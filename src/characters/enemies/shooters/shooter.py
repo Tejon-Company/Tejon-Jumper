@@ -2,7 +2,7 @@ from settings import *
 from characters.enemies.enemy import Enemy
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from characters.utils.animation_utils import update_animation, setup_animation
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class Shooter(Enemy, ABC):
@@ -32,8 +32,9 @@ class Shooter(Enemy, ABC):
 
     def update(self, delta_time):
         super().update(delta_time)
-
         self._shoot()
+        self._update_animation_frame(delta_time)
+        self.update_sprite()
 
     def _shoot(self):
         current_time = pygame.time.get_ticks()
@@ -46,10 +47,14 @@ class Shooter(Enemy, ABC):
             self.last_shot = current_time
 
     def _is_player_near(self):
-        player_pos, projectile_pos = vector(self.player.rect.center)
+        player_pos = vector(self.player.rect.center)
         projectile_pos = vector(self.rect.center)
 
         return projectile_pos.distance_to(player_pos) < 500
+
+    @abstractmethod
+    def _update_animation_frame(self, delta_time):
+        pass
 
     def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]

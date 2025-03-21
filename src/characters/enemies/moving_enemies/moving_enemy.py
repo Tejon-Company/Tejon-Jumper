@@ -2,7 +2,7 @@ from settings import *
 from characters.enemies.enemy import Enemy
 from abc import ABC
 from characters.utils.collision_utils import is_on_surface
-from characters.utils.animation_utils import setup_animation
+from characters.utils.animation_utils import setup_animation, update_animation
 from random import choice
 
 
@@ -37,6 +37,8 @@ class MovingEnemy(Enemy, ABC):
 
     def update(self, delta_time, environment_rects):
         super().update(delta_time)
+
+        update_animation(delta_time, self, self.animations)
 
         self.old_rect = self.rect.copy()
         self.environment_rects = environment_rects
