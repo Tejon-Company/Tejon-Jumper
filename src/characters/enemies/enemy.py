@@ -2,7 +2,8 @@ from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
 from pygame.sprite import collide_rect
-from abc import ABC, abstractmethod
+from abc import ABC
+from typing import final
 from characters.utils.collision_utils import is_below_collision
 from characters.utils.animation_utils import update_animation
 
@@ -47,6 +48,7 @@ class Enemy(Character, ABC):
             or self.player.is_in_rage
         )
 
+    @final
     def _process_player_collision(self):
         if not collide_rect(self, self.player):
             return
