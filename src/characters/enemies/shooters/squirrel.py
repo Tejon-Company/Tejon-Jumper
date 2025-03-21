@@ -5,9 +5,27 @@ from characters.utils.animation_utils import setup_animation
 
 
 class Squirrel(Shooter):
-    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, game, projectiles_pool=AcornPool):
-        super().__init__(pos, surf, groups, player,
-                         sprite_sheet_name, animations, game, projectiles_pool)
+    def __init__(
+        self,
+        pos,
+        surf,
+        groups,
+        player,
+        sprite_sheet_name,
+        animations,
+        game,
+        projectiles_pool=AcornPool,
+    ):
+        super().__init__(
+            pos,
+            surf,
+            groups,
+            player,
+            sprite_sheet_name,
+            animations,
+            game,
+            projectiles_pool,
+        )
 
         self.rect = self.image.get_frect(topleft=pos)
 
@@ -39,6 +57,5 @@ class Squirrel(Shooter):
 
         if is_shooting:
             self.is_shooting = True
-            self.projectiles_pool.shoot(
-                self.pos[0], self.pos[1], self._is_facing_right)
+            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self._is_facing_right)
             self.last_shot = current_time

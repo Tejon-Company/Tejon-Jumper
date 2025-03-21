@@ -11,9 +11,28 @@ class Mushroom(Shooter):
         PREPARING = auto()
         SHOOTING = auto()
 
-    def __init__(self, pos, surf, groups, direction, player, sprite_sheet_name, animations, game, projectiles_pool=SporePool):
-        super().__init__(pos, surf, groups, player,
-                         sprite_sheet_name, animations, game, projectiles_pool)
+    def __init__(
+        self,
+        pos,
+        surf,
+        groups,
+        direction,
+        player,
+        sprite_sheet_name,
+        animations,
+        game,
+        projectiles_pool=SporePool,
+    ):
+        super().__init__(
+            pos,
+            surf,
+            groups,
+            player,
+            sprite_sheet_name,
+            animations,
+            game,
+            projectiles_pool,
+        )
         self.direction = direction
         self.shoot_cooldown = 5000
         self.rect = self.image.get_frect(topleft=pos)
@@ -56,8 +75,7 @@ class Mushroom(Shooter):
         is_shooting_ready = self.state_timer >= self.shooting_duration
 
         if is_shooting_ready:
-            self.projectiles_pool.shoot(
-                self.pos[0], self.pos[1], self.direction)
+            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self.direction)
             self.current_state = self.MushroomState.IDLE
             self.state_timer = 0
         else:

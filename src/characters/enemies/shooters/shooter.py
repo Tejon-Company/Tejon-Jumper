@@ -5,9 +5,20 @@ from abc import ABC
 
 
 class Shooter(Enemy, ABC):
-    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, game, projectiles_pool=ProjectilesPool):
-        super().__init__(pos, surf, groups, player,
-                         None, sprite_sheet_name, animations, game)
+    def __init__(
+        self,
+        pos,
+        surf,
+        groups,
+        player,
+        sprite_sheet_name,
+        animations,
+        game,
+        projectiles_pool=ProjectilesPool,
+    ):
+        super().__init__(
+            pos, surf, groups, player, None, sprite_sheet_name, animations, game
+        )
         self.shoot_cooldown = 3000
         self.pos = pos
         self.last_shot = 0
@@ -21,7 +32,6 @@ class Shooter(Enemy, ABC):
         super().update(delta_time)
 
         self._shoot()
-        self._update_animation(delta_time)
 
     def _shoot(self):
         current_time = pygame.time.get_ticks()
@@ -34,13 +44,10 @@ class Shooter(Enemy, ABC):
             self.last_shot = current_time
 
     def _is_player_near(self):
-        player_pos, projectile_pos = vector(
-            self.player.rect.center), vector(self.rect.center)
+        player_pos, projectile_pos = vector(self.player.rect.center), vector(
+            self.rect.center
+        )
         return projectile_pos.distance_to(player_pos) < 500
-
-    def _update_animation(self, delta_time):
-        self._update_animation_frame(delta_time)
-        self._update_sprite()
 
     def _update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
