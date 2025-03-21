@@ -1,6 +1,7 @@
 from settings import *
 from characters.players.player import Player
 from berries.berry import Berry
+from resource_manager import ResourceManager
 
 
 class EnergyBerry(Berry):
@@ -10,6 +11,7 @@ class EnergyBerry(Berry):
         self.respawn_time = None
         self.hidden = False
         self.respawn_duration = 20000
+        self.get_energy_sound = ResourceManager.load_sound("get_energy.ogg")
 
     def update(self, game, player: Player):
         self._check_respawn()
@@ -23,7 +25,8 @@ class EnergyBerry(Berry):
 
     def _check_collision(self, player: Player):
         if self.rect.colliderect(player.rect):
-            player.recover_energy()
+            self.get_energy_sound.play()
+        player.recover_energy()
             self._hide()
 
     def _hide(self):

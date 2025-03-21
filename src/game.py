@@ -31,8 +31,7 @@ class Game:
     def _load_level(self):
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
-        # level_music = f"level_{self.current_level}.ogg"
-        level_music = "level_1.ogg"
+        level_music = f"level_{self.current_level}.ogg"
         self.level = Level(self.director,
                            level_background, level_music, level_name, self)
         self.player = self.level.player
@@ -88,14 +87,23 @@ class Game:
         self.current_level += 1
         self._load_level()
 
-    def receive_damage(self):
+    def receive_damage(self, is_collision_on_left, is_collision_on_right):
         should_receive_damage, self.last_damage_time_ms = check_cooldown(
             self.last_damage_time_ms)
 
         if not should_receive_damage:
             return False
 
-        self.damage_sound.play()
+        channel = self.damage_sound.play()
+        effects_volume = ResourceManager.get_effects_volume()
+
+        if is_collision_on_left:
+            channel.set_volume(effects_volume, 0.0)
+        elif is_collision_on_right:
+            channel.set_volume(0.0, effects_volume)
+        else:
+            channel.set_volume(effects_volume, effects_volume)
+
         self.health_points -= 1
 
         if (self.health_points <= 0):
@@ -129,14 +137,16 @@ class Game:
         if not has_max_health and should_receive_heal:
             self.health_points += 1
 
-    def change_current_level(self):
-        if self.current_level == 3:
-            self.current_level = 1
-            return
+    def _is_game_paused(self):
+        keys = pygame.key.get_just_released()
 
-        self.current_level += 1
-        self._load_level()
+        if keys[pygame.K_p]:
+            self.is_on_pause = not self.is_on_pause
+            self.director.stack_scene(Pause(self.director))
+            self.is_on_pause = False
 
+        return self.is_on_pause
+    
     def draw(self, surface):
         self.level.draw(surface)
         self.hud.draw_hud(self.health_points,
