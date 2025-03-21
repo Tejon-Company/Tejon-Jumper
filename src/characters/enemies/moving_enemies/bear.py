@@ -81,11 +81,6 @@ class Bear(MovingEnemy):
     def _check_should_receive_damage(self):
         self.should_receive_damage = self._is_player_colliding_from_above()
 
-    def _is_player_colliding_from_above(self):
-        approaching_from_top = self.player.rect.bottom >= self.rect.top
-        was_above = self.player.old_rect.bottom <= self.old_rect.top
-        return approaching_from_top and was_above
-
     def _determine_current_animation(self):
         if self.is_jumping:
             self.current_animation = "fall" if self.fall > 0 else "jump"

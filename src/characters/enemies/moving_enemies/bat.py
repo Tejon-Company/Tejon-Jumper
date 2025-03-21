@@ -25,7 +25,10 @@ class Bat(MovingEnemy):
         self.right_limit = pos_x + TILE_SIZE * 4
 
     def update(self, delta_time, environment_rects):
-        Enemy.update(self, delta_time, environment_rects)
+        self._check_should_receive_damage()
+        self._process_player_collision()
+
+        update_animation(delta_time, self, self.animations)
 
         self.old_rect = self.rect.copy()
 

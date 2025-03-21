@@ -38,15 +38,16 @@ class Enemy(Character, ABC):
         update_animation(delta_time, self, self.animations)
 
     def _check_should_receive_damage(self):
-        is_player_colliding_from_above = is_below_collision(
-            self.player.rect, self.player.old_rect, self.rect
-        )
-
         self.should_receive_damage = (
-            is_player_colliding_from_above
+            self._is_player_colliding_from_above()
             or self.player.is_sprinting
             or self.player.is_in_rage
         )
+
+    def _is_player_colliding_from_above(self):
+        approaching_from_top = self.player.rect.bottom >= self.rect.top
+        was_above = self.player.old_rect.bottom <= self.old_rect.top
+        return approaching_from_top and was_above
 
     @final
     def _process_player_collision(self):
