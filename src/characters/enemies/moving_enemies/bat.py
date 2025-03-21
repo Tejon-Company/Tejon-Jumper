@@ -1,7 +1,6 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.utils.animation_utils import update_animation
-from characters.enemies.enemy import Enemy
 
 
 class Bat(MovingEnemy):

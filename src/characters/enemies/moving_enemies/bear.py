@@ -55,8 +55,8 @@ class Bear(MovingEnemy):
 
         self.animations = {
             "run": create_animation_rects(0, 5, sprite_width=TILE_SIZE * 2),
-            "jump": create_animation_rects(6, 1, sprite_width=TILE_SIZE * 2),
-            "fall": create_animation_rects(5, 1, TILE_SIZE * 2),
+            "jump": create_animation_rects(5, 1, sprite_width=TILE_SIZE * 2),
+            "fall": create_animation_rects(6, 1, TILE_SIZE * 2),
         }
 
         self.current_animation = "run"
