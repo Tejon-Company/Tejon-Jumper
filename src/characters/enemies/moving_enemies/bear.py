@@ -62,14 +62,6 @@ class Bear(MovingEnemy):
         self.current_animation = "run"
         self.facing_right = True
 
-    def _determine_current_animation(self):
-        if self.is_jumping:
-            self.current_animation = "fall" if self.fall > 0 else "jump"
-        else:
-            self.current_animation = "run"
-
-        self.facing_right = self.direction.x > 0
-
     def update(self, delta_time, environment_rects):
         self.environment_rects = environment_rects
 
@@ -83,6 +75,22 @@ class Bear(MovingEnemy):
         self.environment_rects = environment_rects
         self._move(delta_time)
         self._detect_platform_contact()
+
+        self.facing_right = self.direction.x > 0
+
+    def _check_should_receive_damage(self):
+        self.should_receive_damage = self._is_player_colliding_from_above()
+
+    def _is_player_colliding_from_above(self):
+        approaching_from_top = self.player.rect.bottom >= self.rect.top
+        was_above = self.player.old_rect.bottom <= self.old_rect.top
+        return approaching_from_top and was_above
+
+    def _determine_current_animation(self):
+        if self.is_jumping:
+            self.current_animation = "fall" if self.fall > 0 else "jump"
+        else:
+            self.current_animation = "run"
 
         self.facing_right = self.direction.x > 0
 
@@ -133,19 +141,11 @@ class Bear(MovingEnemy):
         self.fall = 0
         self.direction.y = 0
 
-    def _check_should_receive_damage(self):
-        self.should_receive_damage = self._is_player_colliding_from_above()
-
     def _deal_damage_to_player(self):
         should_damage_player, _ = check_cooldown(self.last_damage_time_ms)
 
         if should_damage_player:
             super()._deal_damage_to_player()
-
-    def _is_player_colliding_from_above(self):
-        approaching_from_top = self.player.rect.bottom >= self.rect.top
-        was_above = self.player.old_rect.bottom <= self.old_rect.top
-        return approaching_from_top and was_above
 
     def _defeat(self):
         if self.health_points == 0:
