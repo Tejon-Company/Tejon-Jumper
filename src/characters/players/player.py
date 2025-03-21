@@ -72,7 +72,10 @@ class Player(Character):
         self._update_rage_state()
 
     def _update_energy(self, delta_time):
-        if self.is_sprinting and self.energy > 0 and not self.is_in_rage:
+        if self.is_in_rage:
+            self.recover_energy()
+
+        elif self.is_sprinting and self.energy > 0:
             self.energy -= self.energy_depletion_rate * delta_time
             self.energy = max(0, self.energy)
 
