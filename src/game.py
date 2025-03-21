@@ -4,7 +4,7 @@ from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
 from scene.pause import Pause
-from characters.players.collision_utils import check_cooldown
+from characters.utils.check_cooldown import check_cooldown
 
 
 class Game:
@@ -23,8 +23,7 @@ class Game:
 
         self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
-        self.display_surface = pygame.display.get_surface()
-        self.hud = HUD(self.display_surface)
+        HUD.initialize()
 
         self._load_level()
 
@@ -111,17 +110,6 @@ class Game:
 
         return self.health_points <= 0
 
-    def _check_cooldown(self, last_time_ms):
-        current_time_ms = pygame.time.get_ticks()
-
-        if not last_time_ms:
-            return True, current_time_ms
-
-        if current_time_ms < last_time_ms + 2000:
-            return False, last_time_ms
-
-        return True, current_time_ms
-
     def add_coin(self):
         self.coins += 1
 
@@ -131,7 +119,7 @@ class Game:
 
     def heal(self):
         has_max_health = self.health_points == self.max_health_points
-        should_receive_heal, self.last_health_time_ms = self._check_cooldown(
+        should_receive_heal, self.last_health_time_ms = check_cooldown(
             self.last_health_time_ms)
 
         if not has_max_health and should_receive_heal:
@@ -149,8 +137,6 @@ class Game:
     
     def draw(self, surface):
         self.level.draw(surface)
-        self.hud.draw_hud(self.health_points,
-                          self.remaining_lives, self.coins, self.player.energy)
 
     def _game_over(self):
         self.director.exit_program()

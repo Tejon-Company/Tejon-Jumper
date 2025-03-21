@@ -14,17 +14,19 @@ class EnergyBerry(Berry):
         self.get_energy_sound = ResourceManager.load_sound("get_energy.ogg")
 
     def update(self, game, player: Player):
-        self._check_respawn()
-        if self.hidden:
+        self._update_visibility_status()
+        self._check_collision_with_player(player)
+
+    def _update_visibility_status(self):
+        if not self.hidden or pygame.time.get_ticks() < self.respawn_time:
             return
-        self._check_collision(player)
 
-    def _check_respawn(self):
-        if self.hidden and pygame.time.get_ticks() >= self.respawn_time:
-            self._show()
+        self.hidden = False
+        self.respawn_time = None
+        self.rect.topleft = self.original_pos
 
-    def _check_collision(self, player: Player):
-        if self.rect.colliderect(player.rect):  
+    def _check_collision_with_player(self, player: Player):
+        if not self.hidden and self.rect.colliderect(player.rect):
             player.recover_energy()
             self.get_energy_sound.play()
             self._hide()
@@ -33,11 +35,6 @@ class EnergyBerry(Berry):
         self.hidden = True
         self.respawn_time = pygame.time.get_ticks() + self.respawn_duration
         self.rect.topleft = (-100, -100)
-
-    def _show(self):
-        self.hidden = False
-        self.respawn_time = None
-        self.rect.topleft = self.original_pos
 
     def draw(self, surface):
         if not self.hidden:

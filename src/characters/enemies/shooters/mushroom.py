@@ -1,5 +1,6 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
+from characters.utils.animation_utils import setup_animation
 from projectiles.projectiles_pools.spore_pool import SporePool
 from enum import Enum, auto
 import pygame
@@ -11,9 +12,28 @@ class Mushroom(Shooter):
         PREPARING = auto()
         SHOOTING = auto()
 
-    def __init__(self, pos, surf, groups, direction, player, sprite_sheet_name, animations, game, projectiles_pool=SporePool):
-        super().__init__(pos, surf, groups, player,
-                         sprite_sheet_name, animations, game, projectiles_pool)
+    def __init__(
+        self,
+        pos,
+        surf,
+        groups,
+        direction,
+        player,
+        sprite_sheet_name,
+        animations,
+        game,
+        projectiles_pool=SporePool,
+    ):
+        super().__init__(
+            pos,
+            surf,
+            groups,
+            player,
+            sprite_sheet_name,
+            animations,
+            game,
+            projectiles_pool,
+        )
         self.direction = direction
         self.shoot_cooldown = 5000
         self.rect = self.image.get_frect(topleft=pos)
@@ -24,9 +44,13 @@ class Mushroom(Shooter):
         self.current_state = self.MushroomState.IDLE
         self.state_timer = 0
 
+    def update(self, delta_time):
+        super().update(delta_time)
+
     def _shoot(self):
         current_time = pygame.time.get_ticks()
         had_cooldown_passed = current_time - self.last_shot >= self.shoot_cooldown
+
         if had_cooldown_passed and self._is_player_near():
             self.current_state = self.MushroomState.PREPARING
             self.state_timer = 0
@@ -56,8 +80,7 @@ class Mushroom(Shooter):
         is_shooting_ready = self.state_timer >= self.shooting_duration
 
         if is_shooting_ready:
-            self.projectiles_pool.shoot(
-                self.pos[0], self.pos[1], self.direction)
+            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self.direction)
             self.current_state = self.MushroomState.IDLE
             self.state_timer = 0
         else:

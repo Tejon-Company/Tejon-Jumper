@@ -1,7 +1,7 @@
 from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.spore import Spore
-from characters.animation_utils import create_animation_rects
+from characters.utils.animation_utils import create_animation_rects
 from typing import Optional
 
 
