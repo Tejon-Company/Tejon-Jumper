@@ -24,9 +24,9 @@ class EnergyBerry(Berry):
             self._show()
 
     def _check_collision(self, player: Player):
-        if self.rect.colliderect(player.rect):
+        if self.rect.colliderect(player.rect):  
+            player.recover_energy()
             self.get_energy_sound.play()
-        player.recover_energy()
             self._hide()
 
     def _hide(self):
