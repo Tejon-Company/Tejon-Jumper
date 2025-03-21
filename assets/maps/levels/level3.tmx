@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="160" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="66">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="160" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="68">
  <tileset firstgid="1" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/enviroment.tsx"/>
  <tileset firstgid="769" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/log.tsx"/>
  <tileset firstgid="775" source="../../../../../TEJON/Tejon-Jumper/assets/maps/tiled/patterns/rock.tsx"/>
@@ -67,12 +67,11 @@
   <object id="26" name="Rock" gid="775" x="2435.5" y="543.5" width="32" height="32"/>
   <object id="27" name="Rock" gid="775" x="2467.5" y="607.5" width="32" height="32"/>
   <object id="35" name="Flag" gid="817" x="4705.75" y="575.75" width="32" height="32"/>
-  <object id="36" gid="821" x="6024" y="1448" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="10" name="Berries">
-  <object id="38" name="energy_berry " gid="821" x="1563.33" y="574.667" width="32" height="32"/>
-  <object id="40" name="energy_berry " gid="821" x="1939.33" y="572.667" width="32" height="32"/>
-  <object id="41" name="energy_berry " gid="821" x="2331" y="574" width="32" height="32"/>
+  <object id="38" name="energy_berry" gid="821" x="1563.33" y="574.667" width="32" height="32"/>
+  <object id="40" name="energy_berry" gid="821" x="1939.33" y="572.667" width="32" height="32"/>
+  <object id="41" name="energy_berry" gid="821" x="2331" y="574" width="32" height="32"/>
   <object id="42" name="health_berry" gid="819" x="1435" y="286" width="32" height="32"/>
   <object id="46" name="coin_berry" gid="822" x="332.667" y="581.333" width="32" height="32"/>
   <object id="47" name="coin_berry" gid="822" x="435.333" y="577.333" width="32" height="32"/>
@@ -92,6 +91,8 @@
   <object id="62" name="coin_berry" gid="822" x="1633.33" y="256" width="32" height="32"/>
   <object id="63" name="coin_berry" gid="822" x="1647.33" y="286" width="32" height="32"/>
   <object id="64" name="coin_berry" gid="822" x="1663.33" y="311.333" width="32" height="32"/>
+  <object id="66" name="energy_berry" gid="821" x="830" y="617.333" width="32" height="32"/>
+  <object id="67" name="energy_berry" gid="821" x="1405.33" y="286.667" width="32" height="32"/>
  </objectgroup>
  <layer id="5" name="Deco" width="160" height="23">
   <data encoding="csv">
