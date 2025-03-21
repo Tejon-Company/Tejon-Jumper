@@ -28,7 +28,7 @@ def setup_animation(entity):
 
 def update_animation(delta_time, entity, animations):
     _update_animation_frame(delta_time, entity, animations)
-    entity._update_sprite()
+    entity.update_sprite()
 
 
 def _update_animation_frame(delta_time, entity, animations):

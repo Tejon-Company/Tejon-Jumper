@@ -1,5 +1,6 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
+from characters.utils.animation_utils import setup_animation
 from projectiles.projectiles_pools.spore_pool import SporePool
 from enum import Enum, auto
 import pygame
@@ -46,6 +47,7 @@ class Mushroom(Shooter):
     def _shoot(self):
         current_time = pygame.time.get_ticks()
         had_cooldown_passed = current_time - self.last_shot >= self.shoot_cooldown
+
         if had_cooldown_passed and self._is_player_near():
             self.current_state = self.MushroomState.PREPARING
             self.state_timer = 0

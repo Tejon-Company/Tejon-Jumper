@@ -1,6 +1,7 @@
 from settings import *
 from characters.enemies.enemy import Enemy
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
+from characters.utils.animation_utils import update_animation, setup_animation
 from abc import ABC
 
 
@@ -27,6 +28,7 @@ class Shooter(Enemy, ABC):
         self.is_shooting = False
         self.shooting_timer = 0
         self.shooting_duration = 500
+        setup_animation(self)
 
     def update(self, delta_time):
         super().update(delta_time)
@@ -44,12 +46,12 @@ class Shooter(Enemy, ABC):
             self.last_shot = current_time
 
     def _is_player_near(self):
-        player_pos, projectile_pos = vector(self.player.rect.center), vector(
-            self.rect.center
-        )
+        player_pos, projectile_pos = vector(self.player.rect.center)
+        projectile_pos = vector(self.rect.center)
+
         return projectile_pos.distance_to(player_pos) < 500
 
-    def _update_sprite(self):
+    def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
 

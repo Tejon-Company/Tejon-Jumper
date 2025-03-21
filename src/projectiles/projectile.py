@@ -29,7 +29,7 @@ class Projectile(Sprite, ABC):
         update_animation(delta_time, self, self.animations)
         self._handle_collision_with_player(player)
 
-    def _update_sprite(self):
+    def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
 

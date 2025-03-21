@@ -45,7 +45,7 @@ class MovingEnemy(Enemy, ABC):
 
         self.facing_right = self.direction.x > 0
 
-    def _update_sprite(self):
+    def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
 
