@@ -27,14 +27,17 @@ class SettingsMenu(Menu):
 
     def _mouse_button_down(self, event):
         if self.return_button.collidepoint(event.pos):
+            self.click_button_sound.play()
             self.director.pop_scene()
 
         elif self.resolution_button.collidepoint(event.pos):
+            self.click_button_sound.play()
             self.current_resolution = (self.current_resolution + 1) % len(
                 self.resolutions
             )
 
         elif self.difficulty_button.collidepoint(event.pos):
+            self.click_button_sound.play()
             self.current_difficulty = (self.current_difficulty + 1) % len(
                 self.difficulties
             )

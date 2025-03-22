@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
 from scene.scene import Scene
 import pygame
+from resource_manager import ResourceManager
 
 
 class Menu(Scene, ABC):
     def __init__(self, director):
         super().__init__(director)
+        self.click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
 
     def events(self, events_list):
         for event in events_list:

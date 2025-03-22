@@ -20,11 +20,14 @@ class MainMenu(Menu):
 
     def _mouse_button_down(self, event):
         if self.play_button.collidepoint(event.pos):
+            self.click_button_sound.play()
+
             from game import Game
 
             self.director.change_scene(Game(self.director))
 
         elif self.settings_button.collidepoint(event.pos):
+            self.click_button_sound.play()
             self.director.stack_scene(SettingsMenu(self.director))
 
     def draw(self, display_surface):

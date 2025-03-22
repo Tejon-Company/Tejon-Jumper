@@ -16,9 +16,12 @@ class PauseMenu(Menu):
 
     def _mouse_button_down(self, event):
         if self.continue_button.collidepoint(event.pos):
+            self.click_button_sound.play()
             self.director.pop_scene()
 
         elif self.restart_button.collidepoint(event.pos):
+            self.click_button_sound.play()
+
             from game import Game
 
             self.director.change_scene(Game(self.director))
