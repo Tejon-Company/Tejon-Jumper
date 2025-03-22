@@ -3,7 +3,7 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from scene.menus.pause_menu import Pause
+from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
 
 
@@ -62,7 +62,7 @@ class Game:
 
         if keys[pygame.K_p]:
             self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(Pause(self.director))
+            self.director.stack_scene(PauseMenu(self.director))
             self.is_on_pause = False
 
         return self.is_on_pause
@@ -130,7 +130,7 @@ class Game:
 
         if keys[pygame.K_p]:
             self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(Pause(self.director))
+            self.director.stack_scene(PauseMenu(self.director))
             self.is_on_pause = False
 
         return self.is_on_pause

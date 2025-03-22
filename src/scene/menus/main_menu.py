@@ -1,4 +1,3 @@
-from pygame.draw import rect as draw_rect
 from pygame.rect import Rect
 from scene.scene import Scene
 from resource_manager import ResourceManager
