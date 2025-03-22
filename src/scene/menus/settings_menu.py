@@ -46,19 +46,7 @@ class SettingsMenu(Scene):
                 self._mouse_button_down(event)
 
     def _mouse_button_down(self, event):
-        if self.music_volume_bar.collidepoint(event.pos):
-            self.music_volume = (
-                event.pos[0] - self.music_volume_bar.x
-            ) / self.music_volume_bar.width
-            ResourceManager.set_music_volume(self.music_volume)
-
-        elif self.effects_volume_bar.collidepoint(event.pos):
-            self.effects_volume = (
-                event.pos[0] - self.effects_volume_bar.x
-            ) / self.effects_volume_bar.width
-            ResourceManager.set_effects_volume(self.effects_volume)
-
-        elif self.difficulty_btn.collidepoint(event.pos):
+        if self.difficulty_btn.collidepoint(event.pos):
             self.current_difficulty = (self.current_difficulty + 1) % len(
                 self.difficulty_levels
             )

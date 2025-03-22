@@ -59,19 +59,7 @@ class PauseMenu(Scene):
         if self.continue_btn.collidepoint(event.pos):
             self.director.pop_scene()
 
-        if self.restart_btn.collidepoint(event.pos):
+        elif self.restart_btn.collidepoint(event.pos):
             from game import Game
 
             self.director.change_scene(Game(self.director))
-
-        if self.music_volume_bar.collidepoint(event.pos):
-            self.music_volume = (
-                event.pos[0] - self.music_volume_bar.x
-            ) / self.music_volume_bar.width
-            ResourceManager.set_music_volume(self.music_volume)
-
-        if self.effects_volume_bar.collidepoint(event.pos):
-            self.effects_volume = (
-                event.pos[0] - self.effects_volume_bar.x
-            ) / self.effects_volume_bar.width
-            ResourceManager.set_effects_volume(self.effects_volume)
