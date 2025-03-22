@@ -43,11 +43,11 @@ class PauseMenu(Scene):
         draw_button(display_surface, self.continue_btn, "Continue", font)
         draw_button(display_surface, self.restart_btn, "Restart", font)
 
-        draw_volume_bar(
+        self.music_volume = draw_volume_bar(
             display_surface, self.music_volume_bar, self.music_volume, "Music", font
         )
 
-        draw_volume_bar(
+        self.effects_volume = draw_volume_bar(
             display_surface,
             self.effects_volume_bar,
             self.effects_volume,

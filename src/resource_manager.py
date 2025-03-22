@@ -13,7 +13,7 @@ class ResourceManager:
             return cls.resources[name]
 
         try:
-            fullname = join('assets', name)
+            fullname = join("assets", name)
             image = pygame.image.load(fullname).convert_alpha()
             if colorkey:
                 image.set_colorkey(colorkey)
@@ -23,12 +23,12 @@ class ResourceManager:
             print(f"Error loading image {fullname}: {e}")
 
     @classmethod
-    def load_sound(cls, name):
+    def load_sound_effect(cls, name):
         if name in cls.resources:
             return cls.resources[name]
 
         try:
-            fullname = join('assets', 'sounds', 'sound_effects', name)
+            fullname = join("assets", "sounds", "sound_effects", name)
             sound = pygame.mixer.Sound(fullname)
             sound.set_volume(cls.effects_volume)
             cls.resources[name] = sound
@@ -40,7 +40,7 @@ class ResourceManager:
     @classmethod
     def load_music(cls, name):
         try:
-            music_path = join('assets', 'sounds', 'music', name)
+            music_path = join("assets", "sounds", "music", name)
             pygame.mixer.music.load(music_path)
             cls.resources[name] = music_path
             return music_path
@@ -54,7 +54,7 @@ class ResourceManager:
             return cls.resources[key]
 
         try:
-            fullname = join('assets', 'fonts', name)
+            fullname = join("assets", "fonts", name)
             font = pygame.font.Font(fullname, size)
             cls.resources[key] = font
             return font
@@ -67,7 +67,7 @@ class ResourceManager:
             return cls.resources[name]
 
         try:
-            fullname = join('assets', 'sprites', name)
+            fullname = join("assets", "sprites", name)
             image = pygame.image.load(fullname).convert_alpha()
             color_key = image.get_at((0, 0))
             image.set_colorkey(color_key)

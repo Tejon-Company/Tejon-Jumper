@@ -21,7 +21,7 @@ class Game:
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.damage_sound = ResourceManager.load_sound("damage.ogg")
+        self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
 
         HUD.initialize()
 
@@ -37,8 +37,8 @@ class Game:
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
-        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
-        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
+        self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound_effect("life_lost.ogg")
 
     def events(self, event_list):
         self.level.events(event_list)

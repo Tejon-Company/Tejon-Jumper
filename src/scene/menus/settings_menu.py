@@ -71,14 +71,14 @@ class SettingsMenu(Scene):
     def draw(self, display_surface):
         display_background(display_surface, self.background)
 
-        draw_volume_bar(
+        self.music_volume = draw_volume_bar(
             display_surface,
             self.music_volume_bar,
             self.music_volume,
             "Music",
             self.font,
         )
-        draw_volume_bar(
+        self.effects_volume = draw_volume_bar(
             display_surface,
             self.effects_volume_bar,
             self.effects_volume,

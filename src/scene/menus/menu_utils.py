@@ -27,10 +27,11 @@ def display_label(display_surface, text, x, y, font):
 
 
 def draw_volume_bar(display_surface, rect, volume, text, font):
-    volume = _update_volume_from_mouse(rect, volume, text)
-    _draw_bar(display_surface, rect, volume)
+    updated_volume = _update_volume_from_mouse(rect, volume, text)
+    _draw_bar(display_surface, rect, updated_volume)
     text_width = font.render(text, True, "white").get_width()
     display_label(display_surface, text, rect.x - text_width - 10, rect.y, font)
+    return updated_volume
 
 
 def _update_volume_from_mouse(rect, volume, text):
