@@ -3,7 +3,7 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from scene.pause import Pause
+from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
 
 
@@ -21,7 +21,7 @@ class Game:
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.damage_sound = ResourceManager.load_sound("damage.ogg")
+        self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
 
         HUD.initialize(TILE_SIZE, 22)
 
@@ -38,8 +38,8 @@ class Game:
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
-        self.game_over_sound = ResourceManager.load_sound("game_over.ogg")
-        self.life_lost_sound = ResourceManager.load_sound("life_lost.ogg")
+        self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound_effect("life_lost.ogg")
 
     def events(self, event_list):
         self.level.events(event_list)
@@ -63,7 +63,7 @@ class Game:
 
         if keys[pygame.K_p]:
             self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(Pause(self.director))
+            self.director.stack_scene(PauseMenu(self.director))
             self.is_on_pause = False
 
         return self.is_on_pause
@@ -133,7 +133,7 @@ class Game:
 
         if keys[pygame.K_p]:
             self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(Pause(self.director))
+            self.director.stack_scene(PauseMenu(self.director))
             self.is_on_pause = False
 
         return self.is_on_pause

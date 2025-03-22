@@ -11,7 +11,7 @@ class EnergyBerry(Berry):
         self.respawn_time = None
         self.hidden = False
         self.respawn_duration = 20000
-        self.get_energy_sound = ResourceManager.load_sound("get_energy.ogg")
+        self.get_energy_sound = ResourceManager.load_sound_effect("get_energy.ogg")
 
     def update(self, game, player: Player):
         self._update_visibility_status()
