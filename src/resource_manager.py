@@ -81,6 +81,10 @@ class ResourceManager:
         pygame.mixer.music.set_volume(volume)
 
     @classmethod
+    def get_music_volume(cls):
+        return pygame.mixer.music.get_volume()
+
+    @classmethod
     def set_effects_volume(cls, volume):
         cls.effects_volume = volume
         for sound in cls.loaded_sounds:

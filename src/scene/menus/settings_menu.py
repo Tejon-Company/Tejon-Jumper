@@ -16,19 +16,13 @@ class SettingsMenu(Scene):
         Y = WINDOW_HEIGHT // 2
         WIDTH = 200
         HEIGHT = 50
-        VOLUME_BAR_HEIGHT = 20
 
-        self.music_volume_bar = Rect(X - WIDTH // 2, Y - 150, WIDTH, VOLUME_BAR_HEIGHT)
-        self.effects_volume_bar = Rect(
-            X - WIDTH // 2, Y - 100, WIDTH, VOLUME_BAR_HEIGHT
-        )
+        self.music_bar_y = Y - 150
+        self.effects_bar_y = Y - 100
 
         self.difficulty_btn = Rect(X - WIDTH // 2, Y - 30, WIDTH, HEIGHT)
         self.resolution_btn = Rect(X - WIDTH // 2, Y + 50, WIDTH, HEIGHT)
         self.back_btn = Rect(X - WIDTH // 2, Y + 130, WIDTH, HEIGHT)
-
-        self.music_volume = pygame.mixer.music.get_volume()
-        self.effects_volume = ResourceManager.get_effects_volume()
 
         self.difficulty_levels = ["Easy", "Hard"]
         self.current_difficulty = 1
@@ -59,20 +53,8 @@ class SettingsMenu(Scene):
     def draw(self, display_surface):
         display_background(display_surface, self.background)
 
-        self.music_volume = draw_volume_bar(
-            display_surface,
-            self.music_volume_bar,
-            self.music_volume,
-            "Music",
-            self.font,
-        )
-        self.effects_volume = draw_volume_bar(
-            display_surface,
-            self.effects_volume_bar,
-            self.effects_volume,
-            "Sound Effects",
-            self.font,
-        )
+        draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
+        draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
 
         display_label(
             display_surface,

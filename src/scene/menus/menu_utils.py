@@ -1,4 +1,4 @@
-import pygame
+from settings import *
 from pygame.draw import rect as draw_rect
 from resource_manager import ResourceManager
 
@@ -26,15 +26,38 @@ def display_label(display_surface, text, x, y, font):
     display_surface.blit(label, (x, y))
 
 
-def draw_volume_bar(display_surface, rect, volume, text, font):
-    updated_volume = _update_volume_from_mouse(rect, volume, text)
+def draw_music_volume_bar(display_surface, y_pos, font):
+    volume = ResourceManager.get_music_volume()
+    _draw_volume_bar(
+        display_surface, y_pos, volume, "Music", font, ResourceManager.set_music_volume
+    )
+
+
+def draw_effects_volume_bar(display_surface, y_pos, font):
+    volume = ResourceManager.get_effects_volume()
+    _draw_volume_bar(
+        display_surface,
+        y_pos,
+        volume,
+        "Effects",
+        font,
+        ResourceManager.set_effects_volume,
+    )
+
+
+def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
+    X = WINDOW_WIDTH // 2
+    WIDTH = 200
+    HEIGHT = 20
+    rect = pygame.Rect(X - WIDTH//2, y_pos, WIDTH, HEIGHT)
+
+    updated_volume = _update_volume_from_mouse(rect, volume, set_volume)
     _draw_bar(display_surface, rect, updated_volume)
     text_width = font.render(text, True, "white").get_width()
     display_label(display_surface, text, rect.x - text_width - 10, rect.y, font)
-    return updated_volume
 
 
-def _update_volume_from_mouse(rect, volume, text):
+def _update_volume_from_mouse(rect, volume, set_volume):
     if not (
         pygame.mouse.get_pressed()[0] and rect.collidepoint(pygame.mouse.get_pos())
     ):
@@ -43,10 +66,7 @@ def _update_volume_from_mouse(rect, volume, text):
     mouse_x = pygame.mouse.get_pos()[0]
     new_volume = max(0, min((mouse_x - rect.x) / rect.width, 1))
 
-    if text == "Music":
-        ResourceManager.set_music_volume(new_volume)
-    else:
-        ResourceManager.set_effects_volume(new_volume)
+    set_volume(new_volume)
 
     return new_volume
 

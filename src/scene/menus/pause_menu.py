@@ -2,7 +2,7 @@ from pygame.rect import Rect
 from scene.scene import Scene
 from resource_manager import ResourceManager
 from settings import *
-from scene.menus.menu_utils import draw_button, draw_volume_bar
+from scene.menus.menu_utils import *
 
 
 class PauseMenu(Scene):
@@ -14,16 +14,13 @@ class PauseMenu(Scene):
         Y = WINDOW_HEIGHT // 2
         WIDTH = 200
         HEIGHT = 50
-        VOLUME_BAR_HEIGHT = 20
+
+        self.music_bar_y = Y + 100
+        self.effects_bar_y = Y + 150
 
         self.pause_menu_title = Rect(X - 125, Y - 300, WIDTH, HEIGHT)
         self.continue_btn = Rect(X - 100, Y - 100, WIDTH, HEIGHT)
         self.restart_btn = Rect(X - 100, Y, WIDTH, HEIGHT)
-        self.music_volume_bar = Rect(X - 100, Y + 100, WIDTH, VOLUME_BAR_HEIGHT)
-        self.effects_volume_bar = Rect(X - 100, Y + 150, WIDTH, VOLUME_BAR_HEIGHT)
-
-        self.music_volume = pygame.mixer.music.get_volume()
-        self.effects_volume = ResourceManager.get_effects_volume()
 
     def events(self, events_list):
         for event in events_list:
@@ -43,17 +40,8 @@ class PauseMenu(Scene):
         draw_button(display_surface, self.continue_btn, "Continue", font)
         draw_button(display_surface, self.restart_btn, "Restart", font)
 
-        self.music_volume = draw_volume_bar(
-            display_surface, self.music_volume_bar, self.music_volume, "Music", font
-        )
-
-        self.effects_volume = draw_volume_bar(
-            display_surface,
-            self.effects_volume_bar,
-            self.effects_volume,
-            "Sound Effects",
-            font,
-        )
+        draw_music_volume_bar(display_surface, self.music_bar_y, font)
+        draw_effects_volume_bar(display_surface, self.effects_bar_y, font)
 
     def _mouse_button_down(self, event):
         if self.continue_btn.collidepoint(event.pos):
