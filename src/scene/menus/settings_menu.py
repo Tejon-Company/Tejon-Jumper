@@ -10,14 +10,12 @@ class SettingsMenu(Menu):
         super().__init__(director)
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
-        Y = WINDOW_HEIGHT // 2
+        self.music_bar_y = WINDOW_HEIGHT * 0.35
+        self.effects_bar_y = WINDOW_HEIGHT * 0.45
 
-        self.music_bar_y = Y - 150
-        self.effects_bar_y = Y - 100
-
-        self.difficulty_btn_y = Y - 30
-        self.resolution_btn_y = Y + 50
-        self.return_btn_y = Y + 130
+        self.difficulty_btn_y = WINDOW_HEIGHT * 0.55
+        self.resolution_btn_y = WINDOW_HEIGHT * 0.65
+        self.return_btn_y = WINDOW_HEIGHT * 0.75
 
         self.difficulties = ["Easy", "Hard"]
         self.current_difficulty = 1
@@ -55,7 +53,7 @@ class SettingsMenu(Menu):
             f"{self.difficulties[self.current_difficulty]}",
             "Game Mode",
             self.font,
-            self.difficulty_btn_y + 15,
+            self.difficulty_btn_y + WINDOW_HEIGHT * 0.02,
         )
 
         current_resolution = self.resolutions[self.current_resolution]

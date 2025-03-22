@@ -7,12 +7,10 @@ class PauseMenu(Menu):
     def __init__(self, director):
         super().__init__(director)
 
-        Y = WINDOW_HEIGHT // 2
-
-        self.music_bar_y = Y - 150
-        self.effects_bar_y = Y - 100
-        self.continue_button_y = Y - 30
-        self.restart_button_y = Y + 50
+        self.music_bar_y = 0.25 * WINDOW_HEIGHT
+        self.effects_bar_y = 0.3333 * WINDOW_HEIGHT
+        self.continue_button_y = 0.45 * WINDOW_HEIGHT
+        self.restart_button_y = 0.5833 * WINDOW_HEIGHT
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 

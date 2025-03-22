@@ -4,9 +4,10 @@ from resource_manager import ResourceManager
 
 
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
-    button_width = 200
-    button_height = 50
-    gap = 10
+    button_width = int(WINDOW_WIDTH * 0.2)
+    button_height = int(WINDOW_HEIGHT * 0.07)
+    gap = int(WINDOW_WIDTH * 0.01)
+
     label = font.render(label_text, True, "white")
     label_width = label.get_width()
     button_rect = pygame.Rect(
@@ -26,7 +27,11 @@ def draw_button_with_label(display_surface, button_text, label_text, font, y_pos
     return button_rect
 
 
-def draw_button(display_surface, text, font, y_pos, width=200, height=50):
+def draw_button(display_surface, text, font, y_pos, width=None, height=None):
+    if width is None:
+        width = int(WINDOW_WIDTH * 0.2)
+    if height is None:
+        height = int(WINDOW_HEIGHT * 0.07)
     rect = pygame.Rect(WINDOW_WIDTH // 2 - width // 2, y_pos, width, height)
     draw_rect(display_surface, "#895129", rect, border_radius=10)
     text_surf = font.render(text, True, "white")
@@ -71,15 +76,18 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
 
 
 def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
-    X = WINDOW_WIDTH // 2
-    WIDTH = 200
-    HEIGHT = 20
-    rect = pygame.Rect(X - WIDTH // 2, y_pos, WIDTH, HEIGHT)
+    center_x = WINDOW_WIDTH // 2
+    bar_width = int(WINDOW_WIDTH * 0.2)
+    bar_height = int(WINDOW_HEIGHT * 0.03)
+    rect = pygame.Rect(center_x - bar_width // 2, y_pos, bar_width, bar_height)
 
     updated_volume = _update_volume_from_mouse(rect, volume, set_volume)
     _draw_bar(display_surface, rect, updated_volume)
     text_width = font.render(text, True, "white").get_width()
-    display_label(display_surface, text, rect.x - text_width - 10, rect.y, font)
+    label_offset = int(WINDOW_WIDTH * 0.01)
+    display_label(
+        display_surface, text, rect.x - text_width - label_offset, rect.y, font
+    )
 
 
 def _update_volume_from_mouse(rect, volume, set_volume):
@@ -97,7 +105,7 @@ def _update_volume_from_mouse(rect, volume, set_volume):
 
 
 def _draw_bar(display_surface, rect, volume):
-    border_margin = 3
+    border_margin = int(WINDOW_WIDTH * 0.005)
     smaller_rect = pygame.Rect(rect.x, rect.y, rect.width - border_margin, rect.height)
     draw_rect(display_surface, "white", smaller_rect, border_radius=10)
     draw_rect(

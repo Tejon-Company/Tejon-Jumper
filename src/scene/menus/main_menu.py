@@ -13,7 +13,6 @@ class MainMenu(Menu):
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
         self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
-
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
 
     def _mouse_button_down(self, event):
@@ -27,38 +26,54 @@ class MainMenu(Menu):
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
+
         self._draw_title(display_surface)
+
         self._draw_buttons(display_surface)
 
     def _draw_title(self, display_surface):
+        text_surface, text_rect = self._create_title_text()
+        background_surface, background_rect = self._create_title_background(text_rect)
+
+        display_surface.blit(background_surface, background_rect.topleft)
+        display_surface.blit(text_surface, text_rect)
+
+    def _create_title_text(self):
         text_surface = self.title_font.render("Tejon jumper", True, "black")
         text_rect = text_surface.get_rect(
             center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 4)
         )
-        beige_rect = text_rect.inflate(20, 20)
-        translucent_surface = pygame.Surface(
+        return text_surface, text_rect
+
+    def _create_title_background(self, text_rect):
+        padding_x = WINDOW_WIDTH * 0.025
+        padding_y = WINDOW_HEIGHT * 0.05
+        beige_rect = text_rect.inflate(padding_x, padding_y)
+        background_surface = pygame.Surface(
             (beige_rect.width, beige_rect.height), pygame.SRCALPHA
         )
         opacity = 215
-        translucent_surface.fill((245, 245, 220, opacity))
-        display_surface.blit(translucent_surface, beige_rect.topleft)
-        display_surface.blit(text_surface, text_rect)
+        background_surface.fill((245, 245, 220, opacity))
+        return background_surface, beige_rect
 
     def _draw_buttons(self, display_surface):
+        button_width = WINDOW_WIDTH * 0.2
+        button_height = WINDOW_HEIGHT * 0.1
+
         self.play_button = draw_button(
             display_surface,
             "Play",
             self.button_font,
-            WINDOW_HEIGHT // 2,
-            width=230,
-            height=70,
+            WINDOW_HEIGHT * 0.5,
+            width=button_width,
+            height=button_height,
         )
 
         self.settings_button = draw_button(
             display_surface,
             "Settings",
             self.button_font,
-            WINDOW_HEIGHT // 2 + 120,
-            width=230,
-            height=70,
+            WINDOW_HEIGHT * 0.67,
+            width=button_width,
+            height=button_height,
         )
