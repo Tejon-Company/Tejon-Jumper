@@ -12,23 +12,20 @@ class SettingsMenu(Scene):
         self.display_surface = pygame.display.get_surface()
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
-        X = WINDOW_WIDTH // 2
         Y = WINDOW_HEIGHT // 2
-        WIDTH = 200
-        HEIGHT = 50
 
         self.music_bar_y = Y - 150
         self.effects_bar_y = Y - 100
 
-        self.difficulty_btn = Rect(X - WIDTH // 2, Y - 30, WIDTH, HEIGHT)
-        self.resolution_btn = Rect(X - WIDTH // 2, Y + 50, WIDTH, HEIGHT)
-        self.back_btn = Rect(X - WIDTH // 2, Y + 130, WIDTH, HEIGHT)
+        self.difficulty_btn_y = Y - 30
+        self.resolution_btn_y = Y + 50
+        self.return_btn_y = Y + 130
 
         self.difficulty_levels = ["Easy", "Hard"]
         self.current_difficulty = 1
 
-        self.resolutions = [(800, 600), (1280, 720), (1920, 1080)]
-        self.current_resolution = 1
+        self.resolutions = [(1280, 720), (1920, 1080)]
+        self.current_resolution = 0
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 20)
 
@@ -40,15 +37,16 @@ class SettingsMenu(Scene):
                 self._mouse_button_down(event)
 
     def _mouse_button_down(self, event):
-        if self.difficulty_btn.collidepoint(event.pos):
-            self.current_difficulty = (self.current_difficulty + 1) % len(
-                self.difficulty_levels
-            )
+        x, y = event.pos
+        if WINDOW_WIDTH // 2 <= x <= WINDOW_WIDTH // 2 + 200:
+            if self.difficulty_btn_y <= y <= self.difficulty_btn_y + 50:
+                self.current_difficulty = (self.current_difficulty + 1) % len(
+                    self.difficulty_levels
+                )
+            elif self.return_btn_y <= y <= self.return_btn_y + 50:
+                from scene.menus.main_menu import MainMenu
 
-        elif self.back_btn.collidepoint(event.pos):
-            from scene.menus.main_menu import MainMenu
-
-            self.director.change_scene(MainMenu(self.director))
+                self.director.change_scene(MainMenu(self.director))
 
     def draw(self, display_surface):
         display_background(display_surface, self.background)
@@ -56,27 +54,31 @@ class SettingsMenu(Scene):
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
         draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
 
-        display_label(
+        self._draw_buttons(display_surface)
+
+    def _draw_buttons(self, display_surface):
+        self.difficulty_button = draw_button_with_label(
             display_surface,
-            "Game Mode",
-            self.difficulty_btn.x - 150,
-            self.difficulty_btn.y + 15,
-            self.font,
-        )
-        draw_button(
-            display_surface,
-            self.difficulty_btn,
             f"{self.difficulty_levels[self.current_difficulty]}",
+            "Game Mode",
             self.font,
+            self.difficulty_btn_y + 15,
         )
 
-        display_label(
+        current_resolution = self.resolutions[self.current_resolution]
+        width, height = current_resolution
+
+        self.resolution_button = draw_button_with_label(
             display_surface,
             "Resolution",
-            self.resolution_btn.x - 135,
-            self.resolution_btn.y + 15,
+            f"{width}x{height}",
             self.font,
+            self.resolution_btn_y,
         )
-        resolution_text = f"{self.resolutions[self.current_resolution][0]}x{self.resolutions[self.current_resolution][1]}"
-        draw_button(display_surface, self.resolution_btn, resolution_text, self.font)
-        draw_button(display_surface, self.back_btn, "Return", self.font)
+
+        self.return_button = draw_button(
+            display_surface,
+            "Return",
+            self.font,
+            self.return_btn_y,
+        )

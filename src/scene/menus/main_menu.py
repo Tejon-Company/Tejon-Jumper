@@ -1,4 +1,3 @@
-from pygame.rect import Rect
 from scene.scene import Scene
 from resource_manager import ResourceManager
 from scene.menus.settings_menu import SettingsMenu
@@ -10,18 +9,13 @@ from scene.menus.menu_utils import draw_button, display_background
 class MainMenu(Scene):
     def __init__(self, director):
         super().__init__(director)
+
         self.display_surface = pygame.display.get_surface()
         self.background = ResourceManager.load_image("menu_background.jpeg")
-        X = WINDOW_WIDTH // 2
-        Y = WINDOW_HEIGHT // 2
-        WIDTH = 230
-        HEIGHT = 70
-        self.play_btn = Rect(X - WIDTH // 2, Y, WIDTH, HEIGHT)
-        self.settings_btn = Rect(X - WIDTH // 2, Y + 120, WIDTH, HEIGHT)
 
+        self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
         self.button_font.set_bold(True)
-        self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
 
     def events(self, events_list):
         for event in events_list:
@@ -31,18 +25,35 @@ class MainMenu(Scene):
                 self._mouse_button_down(event)
 
     def _mouse_button_down(self, event):
-        if self.play_btn.collidepoint(event.pos):
+        if self.play_button.collidepoint(event.pos):
             from game import Game
 
             self.director.change_scene(Game(self.director))
-        if self.settings_btn.collidepoint(event.pos):
+        if self.settings_button.collidepoint(event.pos):
             self.director.change_scene(SettingsMenu(self.director))
 
     def draw(self, display_surface):
         display_background(display_surface, self.background)
+
         self._draw_title(display_surface)
-        draw_button(display_surface, self.play_btn, "Play", self.button_font)
-        draw_button(display_surface, self.settings_btn, " Settings", self.button_font)
+
+        self.play_button = draw_button(
+            display_surface,
+            "Play",
+            self.button_font,
+            WINDOW_HEIGHT // 2,
+            width=230,
+            height=70,
+        )
+
+        self.settings_button = draw_button(
+            display_surface,
+            "Settings",
+            self.button_font,
+            WINDOW_HEIGHT // 2 + 120,
+            width=230,
+            height=70,
+        )
 
     def _draw_title(self, display_surface):
         text_surface = self.title_font.render("Tejon jumper", True, "black")
@@ -57,10 +68,3 @@ class MainMenu(Scene):
         translucent_surface.fill((245, 245, 220, opacity))
         display_surface.blit(translucent_surface, beige_rect.topleft)
         display_surface.blit(text_surface, text_rect)
-
-    def run(self):
-        if len(self.stack) == 0:
-            self.stack.append(MainMenu(self))
-        while len(self.stack) > 0:
-            scene = self.stack[-1]
-            self._loop(scene)
