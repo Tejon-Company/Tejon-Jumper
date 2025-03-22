@@ -16,11 +16,10 @@ class HUD:
 
     @classmethod
     def initialize(cls):
-        lives_font_path = join("Beta54.ttf")
-        cls.font = ResourceManager.load_font(lives_font_path, 22)
+        cls.font = ResourceManager.load_font("Beta54.ttf", 22)
 
-        player_icon_path = join("assets", "badger_icon.png")
-        cls.player_icon = scale(load(player_icon_path), (32, 32))
+        player_icon_path = ResourceManager.load_image("badger_icon.png")
+        cls.player_icon = scale(player_icon_path, (32, 32))
 
         cls._setup_health_icon()
         cls._setup_coin_icon()
@@ -29,56 +28,36 @@ class HUD:
 
     @classmethod
     def _setup_health_icon(cls):
-        health_icon_path = join(
-            "assets",
-            "creatures_and_else",
-            "berries",
-            "without_background",
-            "berries.png",
-        )
-        health_icon_image = load(health_icon_path)
-        health_icon_image = health_icon_image.convert_alpha()
+        health_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
-        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
+        health_icon = health_icon_image.subsurface((0, 0, 32, 32))
+        health_icon = scale(health_icon, (32, 32))
 
-        cls.health_icon = first_icon
+        cls.health_icon = health_icon
 
     @classmethod
     def _setup_coin_icon(cls):
-        coin_icon_path = join(
-            "assets",
-            "creatures_and_else",
-            "berries",
-            "without_background",
-            "berries.png",
-        )
+        coin_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
-        coin_icon_image = load(coin_icon_path).convert_alpha()
+        coin_icon = coin_icon_image.subsurface((98, 0, 32, 32))
+        coin_icon = scale(coin_icon, (32, 32))
 
-        icon = coin_icon_image.subsurface((98, 0, 32, 32))
-        icon = scale(icon, (32, 32))
-
-        cls.coin_icon = icon
+        cls.coin_icon = coin_icon
 
     @classmethod
     def _setup_energy_icon(cls):
-        energy_icon_path = "berries.png"
-        energy_icon_image = ResourceManager.load_sprite_sheet(energy_icon_path)
+        energy_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
-        first_icon = energy_icon_image.subsurface((65, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
+        energy_icon = energy_icon_image.subsurface((65, 0, 32, 32))
+        energy_icon = scale(energy_icon, (32, 32))
 
-        cls.energy_icon = first_icon
+        cls.energy_icon = energy_icon
 
     @classmethod
     def _setup_bear_health_icon(cls):
-        health_icon_path = join("assets", "sprites", "bear_heart.png")
-        health_icon_image = load(health_icon_path)
-        health_icon_image.set_colorkey(health_icon_image.get_at((0, 0)))
-        health_icon_image = health_icon_image.convert_alpha()
+        bear_health_icon_image = ResourceManager.load_sprite_sheet("bear_heart.png")
 
-        first_icon = health_icon_image.subsurface((0, 0, 32, 32))
+        first_icon = bear_health_icon_image.subsurface((0, 0, 32, 32))
         first_icon = scale(first_icon, (32, 32))
 
         cls.bear_health_icon = first_icon
