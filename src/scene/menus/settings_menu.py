@@ -21,7 +21,7 @@ class SettingsMenu(Scene):
         self.resolution_btn_y = Y + 50
         self.return_btn_y = Y + 130
 
-        self.difficulty_levels = ["Easy", "Hard"]
+        self.difficulties = ["Easy", "Hard"]
         self.current_difficulty = 1
 
         self.resolutions = [(1280, 720), (1920, 1080)]
@@ -37,16 +37,18 @@ class SettingsMenu(Scene):
                 self._mouse_button_down(event)
 
     def _mouse_button_down(self, event):
-        x, y = event.pos
-        if WINDOW_WIDTH // 2 <= x <= WINDOW_WIDTH // 2 + 200:
-            if self.difficulty_btn_y <= y <= self.difficulty_btn_y + 50:
-                self.current_difficulty = (self.current_difficulty + 1) % len(
-                    self.difficulty_levels
-                )
-            elif self.return_btn_y <= y <= self.return_btn_y + 50:
-                from scene.menus.main_menu import MainMenu
+        if self.return_button.collidepoint(event.pos):
+            self.director.pop_scene()
 
-                self.director.change_scene(MainMenu(self.director))
+        elif self.resolution_button.collidepoint(event.pos):
+            self.current_resolution = (self.current_resolution + 1) % len(
+                self.resolutions
+            )
+
+        elif self.difficulty_button.collidepoint(event.pos):
+            self.current_difficulty = (self.current_difficulty + 1) % len(
+                self.difficulties
+            )
 
     def draw(self, display_surface):
         display_background(display_surface, self.background)
@@ -59,7 +61,7 @@ class SettingsMenu(Scene):
     def _draw_buttons(self, display_surface):
         self.difficulty_button = draw_button_with_label(
             display_surface,
-            f"{self.difficulty_levels[self.current_difficulty]}",
+            f"{self.difficulties[self.current_difficulty]}",
             "Game Mode",
             self.font,
             self.difficulty_btn_y + 15,
@@ -70,8 +72,8 @@ class SettingsMenu(Scene):
 
         self.resolution_button = draw_button_with_label(
             display_surface,
-            "Resolution",
             f"{width}x{height}",
+            "Resolution",
             self.font,
             self.resolution_btn_y,
         )

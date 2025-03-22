@@ -21,6 +21,7 @@ class MainMenu(Scene):
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self._mouse_button_down(event)
 
@@ -29,8 +30,9 @@ class MainMenu(Scene):
             from game import Game
 
             self.director.change_scene(Game(self.director))
-        if self.settings_button.collidepoint(event.pos):
-            self.director.change_scene(SettingsMenu(self.director))
+
+        elif self.settings_button.collidepoint(event.pos):
+            self.director.stack_scene(SettingsMenu(self.director))
 
     def draw(self, display_surface):
         display_background(display_surface, self.background)
