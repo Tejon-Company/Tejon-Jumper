@@ -23,7 +23,7 @@ class Enemy(Character, ABC):
         self.player = player
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
         self.animations = animations
-        self.defeat_enemy_sound = ResourceManager.load_sound("defeat_enemy.ogg")
+        self.defeat_enemy_sound = ResourceManager.load_sound_effect("defeat_enemy.ogg")
         self.game = game
         self.should_receive_damage = False
 

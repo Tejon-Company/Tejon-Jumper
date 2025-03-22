@@ -7,7 +7,7 @@ from resource_manager import ResourceManager
 class HealthBerry(Berry):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
-        self.recover_health_sound = ResourceManager.load_sound(
+        self.recover_health_sound = ResourceManager.load_sound_effect(
             "recover_health.ogg")
 
     def update(self, game, player: Player):
