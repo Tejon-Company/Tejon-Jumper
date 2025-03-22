@@ -30,7 +30,7 @@ class SettingsMenu(Scene):
         self.effects_volume = ResourceManager.get_effects_volume()
 
         self.difficulty_levels = ["Easy", "Hard"]
-        self.current_difficulty = 1
+        self.current_difficulty = 0
 
         self.resolutions = [(800, 600), (1280, 720), (1920, 1080)]
         self.current_resolution = 1
@@ -56,6 +56,7 @@ class SettingsMenu(Scene):
         elif self.difficulty_btn.collidepoint(event.pos):
             self.current_difficulty = (
                 self.current_difficulty + 1) % len(self.difficulty_levels)
+            self.director.difficulty = self.difficulty_levels[self.current_difficulty]
 
         elif self.back_btn.collidepoint(event.pos):
             from scene.menu import Menu

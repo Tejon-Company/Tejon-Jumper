@@ -11,6 +11,7 @@ class Director():
         self.stack = []
         self.exit_scene = False
         self.clock = pygame.time.Clock()
+        self.difficulty = "Easy"
 
     def _loop(self, scene):
         self.exit_scene = False

@@ -11,13 +11,17 @@ class Game:
     def __init__(self, director):
         self.director = director
         self.remaining_lives = 3
-        self.max_health_points = 5
-        self.health_points = self.max_health_points
         self.player = None
         self.coins = 0
         self.current_level = 1
         self.is_on_pause = False
 
+        if self.director.difficulty == "Easy":
+            self.max_health_points = 5
+        else:
+            self.max_health_points = 3
+
+        self.health_points = self.max_health_points
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
@@ -134,7 +138,7 @@ class Game:
             self.is_on_pause = False
 
         return self.is_on_pause
-    
+
     def draw(self, surface):
         self.level.draw(surface)
 
