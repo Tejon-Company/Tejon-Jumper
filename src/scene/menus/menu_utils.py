@@ -4,40 +4,44 @@ from resource_manager import ResourceManager
 
 
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
-    button_width = int(WINDOW_WIDTH * 0.2)
-    button_height = int(WINDOW_HEIGHT * 0.07)
     gap = int(WINDOW_WIDTH * 0.01)
+    button_rect = draw_button(display_surface, button_text, font, y_pos)
 
-    label = font.render(label_text, True, "white")
-    label_width = label.get_width()
-    button_rect = pygame.Rect(
-        WINDOW_WIDTH // 2 - button_width // 2, y_pos, button_width, button_height
-    )
-    display_label(
-        display_surface,
-        label_text,
-        button_rect.x - label_width - gap,
-        y_pos + (button_height - label.get_height()) // 2,
-        font,
-    )
-    draw_rect(display_surface, "#895129", button_rect, border_radius=10)
-    text_surf = font.render(button_text, True, "white")
-    text_rect = text_surf.get_rect(center=button_rect.center)
-    display_surface.blit(text_surf, text_rect.topleft)
+    label_surface = font.render(label_text, True, "white")
+    label_width = label_surface.get_width()
+    label_height = label_surface.get_height()
+    label_y = y_pos + (button_rect.height - label_height) // 2
+    label_x = button_rect.x - label_width - gap
+    display_label(display_surface, label_text, label_x, label_y, font)
+
     return button_rect
 
 
 def draw_button(display_surface, text, font, y_pos, width=None, height=None):
+    width, height = _get_button_dimensions(width, height)
+    button_rect = pygame.Rect(WINDOW_WIDTH // 2 - width // 2, y_pos, width, height)
+    brown = "#895129"
+    _draw_background_rect(display_surface, button_rect, brown)
+    _draw_button_text(display_surface, text, button_rect, font)
+    return button_rect
+
+
+def _get_button_dimensions(width, height):
     if width is None:
         width = int(WINDOW_WIDTH * 0.2)
     if height is None:
         height = int(WINDOW_HEIGHT * 0.07)
-    rect = pygame.Rect(WINDOW_WIDTH // 2 - width // 2, y_pos, width, height)
-    draw_rect(display_surface, "#895129", rect, border_radius=10)
-    text_surf = font.render(text, True, "white")
-    text_rect = text_surf.get_rect(center=rect.center)
-    display_surface.blit(text_surf, text_rect.topleft)
-    return rect
+    return width, height
+
+
+def _draw_background_rect(display_surface, rect, background_color, border_radius=10):
+    draw_rect(display_surface, background_color, rect, border_radius=border_radius)
+
+
+def _draw_button_text(display_surface, text, rect, font):
+    text_surface = font.render(text, True, "white")
+    text_rect = text_surface.get_rect(center=rect.center)
+    display_surface.blit(text_surface, text_rect.topleft)
 
 
 def draw_background(display_surface, background):
@@ -45,15 +49,18 @@ def draw_background(display_surface, background):
 
 
 def display_label(display_surface, text, x, y, font):
-    label = font.render(text, True, "white")
     padding = 4
-    label_width = label.get_width() + padding * 2
-    label_height = label.get_height() + padding * 2
-    label_bg = pygame.Surface((label_width, label_height), pygame.SRCALPHA)
-    rect = label_bg.get_rect()
-    pygame.draw.rect(label_bg, "#9A7856", rect, border_radius=5)
-    display_surface.blit(label_bg, (x - padding, y - padding))
-    display_surface.blit(label, (x, y))
+    text_surface = font.render(text, True, "white")
+    text_rect = text_surface.get_rect(topleft=(x, y))
+    label_rect = pygame.Rect(
+        x - padding,
+        y - padding,
+        text_rect.width + padding * 2,
+        text_rect.height + padding * 2,
+    )
+    brown = "#9A7856"
+    _draw_background_rect(display_surface, label_rect, brown, border_radius=5)
+    display_surface.blit(text_surface, (x, y))
 
 
 def draw_music_volume_bar(display_surface, y_pos, font):
@@ -77,8 +84,8 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
 
 def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
     center_x = WINDOW_WIDTH // 2
-    bar_width = int(WINDOW_WIDTH * 0.2)
-    bar_height = int(WINDOW_HEIGHT * 0.03)
+    bar_width = WINDOW_WIDTH * 0.2
+    bar_height = WINDOW_HEIGHT * 0.03
     rect = pygame.Rect(center_x - bar_width // 2, y_pos, bar_width, bar_height)
 
     updated_volume = _update_volume_from_mouse(rect, volume, set_volume)
@@ -91,9 +98,10 @@ def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
 
 
 def _update_volume_from_mouse(rect, volume, set_volume):
-    if not (
-        pygame.mouse.get_pressed()[0] and rect.collidepoint(pygame.mouse.get_pos())
-    ):
+    mouse_pressed = pygame.mouse.get_pressed()[0]
+    mouse_over_volume_bar = rect.collidepoint(pygame.mouse.get_pos())
+
+    if not (mouse_pressed and mouse_over_volume_bar):
         return volume
 
     mouse_x = pygame.mouse.get_pos()[0]
@@ -105,12 +113,13 @@ def _update_volume_from_mouse(rect, volume, set_volume):
 
 
 def _draw_bar(display_surface, rect, volume):
-    border_margin = int(WINDOW_WIDTH * 0.005)
+    border_margin = WINDOW_WIDTH * 0.005
     smaller_rect = pygame.Rect(rect.x, rect.y, rect.width - border_margin, rect.height)
     draw_rect(display_surface, "white", smaller_rect, border_radius=10)
+    blue = "#90D5FF"
     draw_rect(
         display_surface,
-        "#90D5FF",
+        blue,
         (rect.x, rect.y, volume * rect.width, rect.height),
         border_radius=10,
     )
