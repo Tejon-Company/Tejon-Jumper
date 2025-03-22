@@ -23,7 +23,7 @@ class Game:
 
         self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
-        HUD.initialize()
+        HUD.initialize(TILE_SIZE, 22)
 
         self._load_level()
 

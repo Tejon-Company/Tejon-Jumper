@@ -7,7 +7,9 @@ from resource_manager import ResourceManager
 
 class HUD:
     display_surface = None
+    sprite_size = None
     font = None
+    font_size = None
     player_icon = None
     health_icon = None
     coin_icon = None
@@ -15,11 +17,13 @@ class HUD:
     bear_health_icon = None
 
     @classmethod
-    def initialize(cls):
-        cls.font = ResourceManager.load_font("Beta54.ttf", 22)
+    def initialize(cls, sprite_size, font_size):
+        cls.sprite_size = sprite_size
+        cls.font_size = font_size
+        cls.font = ResourceManager.load_font("Beta54.ttf", cls.font_size)
 
         player_icon_path = ResourceManager.load_image("badger_icon.png")
-        cls.player_icon = scale(player_icon_path, (32, 32))
+        cls.player_icon = scale(player_icon_path, (cls.sprite_size, cls.sprite_size))
 
         cls._setup_health_icon()
         cls._setup_coin_icon()
@@ -30,8 +34,10 @@ class HUD:
     def _setup_health_icon(cls):
         health_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
-        health_icon = health_icon_image.subsurface((0, 0, 32, 32))
-        health_icon = scale(health_icon, (32, 32))
+        health_icon = health_icon_image.subsurface(
+            (0, 0, cls.sprite_size, cls.sprite_size)
+        )
+        health_icon = scale(health_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.health_icon = health_icon
 
@@ -39,8 +45,10 @@ class HUD:
     def _setup_coin_icon(cls):
         coin_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
-        coin_icon = coin_icon_image.subsurface((98, 0, 32, 32))
-        coin_icon = scale(coin_icon, (32, 32))
+        coin_icon = coin_icon_image.subsurface(
+            (((cls.sprite_size * 3) + 2), 0, cls.sprite_size, cls.sprite_size)
+        )
+        coin_icon = scale(coin_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.coin_icon = coin_icon
 
@@ -48,8 +56,10 @@ class HUD:
     def _setup_energy_icon(cls):
         energy_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
-        energy_icon = energy_icon_image.subsurface((65, 0, 32, 32))
-        energy_icon = scale(energy_icon, (32, 32))
+        energy_icon = energy_icon_image.subsurface(
+            (((cls.sprite_size * 2) + 1), 0, cls.sprite_size, cls.sprite_size)
+        )
+        energy_icon = scale(energy_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.energy_icon = energy_icon
 
@@ -57,10 +67,12 @@ class HUD:
     def _setup_bear_health_icon(cls):
         bear_health_icon_image = ResourceManager.load_sprite_sheet("bear_heart.png")
 
-        first_icon = bear_health_icon_image.subsurface((0, 0, 32, 32))
-        first_icon = scale(first_icon, (32, 32))
+        bear_health_icon = bear_health_icon_image.subsurface(
+            (0, 0, cls.sprite_size, cls.sprite_size)
+        )
+        bear_health_icon = scale(bear_health_icon, (cls.sprite_size, cls.sprite_size))
 
-        cls.bear_health_icon = first_icon
+        cls.bear_health_icon = bear_health_icon
 
     @classmethod
     def draw_hud(
