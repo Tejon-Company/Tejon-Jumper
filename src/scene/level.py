@@ -1,9 +1,7 @@
-from resource_manager import ResourceManager
 from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
-from characters.utils.animation_utils import create_animation_rects
 from pygame.sprite import Group
 from characters.enemies.enemy_factory import enemy_factory
 from scene.background import Background
@@ -12,7 +10,6 @@ from projectiles.projectiles_pools.acorn_pool import AcornPool
 from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
 from berries.berrie_factory import berry_factory
-from pygame.mixer import music
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
 from director import Director
@@ -36,8 +33,6 @@ class Level(Scene):
         level_path = join("assets", "maps", "levels", level)
         self.tmx_map = load_pygame(level_path)
 
-        self.music = music
-
         self._setup_groups()
         self._setup_pools()
         self._setup_camera()
@@ -59,7 +54,7 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
 
-        self._setup_music()
+        Scene._setup_music(music)
 
     def _setup_groups(self):
         self.groups = {
@@ -84,11 +79,6 @@ class Level(Scene):
         map_width = self.tmx_map.width * TILE_SIZE
         map_height = self.tmx_map.height * TILE_SIZE
         self.camera = Camera(map_width, map_height)
-
-    def _setup_music(self):
-        music_file = ResourceManager.load_music(self.music)
-        music.load(music_file)
-        music.play(-1)
 
     def _setup_background(self, background):
         background_folder = join("assets", "maps", "backgrounds", background)

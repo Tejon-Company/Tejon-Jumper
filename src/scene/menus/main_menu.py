@@ -4,6 +4,7 @@ from settings import *
 import pygame
 from scene.menus.menu_utils import draw_button, draw_background
 from scene.menus.menu import Menu
+from scene.scene import Scene
 
 
 class MainMenu(Menu):
@@ -14,6 +15,8 @@ class MainMenu(Menu):
 
         self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
+
+        Scene._setup_music("main_menu_music.ogg")
 
     def _mouse_button_down(self, event):
         if self.play_button.collidepoint(event.pos):
