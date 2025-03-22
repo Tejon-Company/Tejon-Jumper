@@ -23,7 +23,7 @@ class Game:
 
         self.damage_sound = ResourceManager.load_sound("damage.ogg")
 
-        HUD.initialize()
+        HUD.initialize(TILE_SIZE, 22)
 
         self._load_level()
 
@@ -31,8 +31,9 @@ class Game:
         level_name = f"level{self.current_level}.tmx"
         level_background = f"background{self.current_level}"
         level_music = f"level_{self.current_level}.ogg"
-        self.level = Level(self.director,
-                           level_background, level_music, level_name, self)
+        self.level = Level(
+            self.director, level_background, level_music, level_name, self
+        )
         self.player = self.level.player
         self._setup_sound_effects()
 
@@ -88,7 +89,8 @@ class Game:
 
     def receive_damage(self, is_collision_on_left, is_collision_on_right):
         should_receive_damage, self.last_damage_time_ms = check_cooldown(
-            self.last_damage_time_ms)
+            self.last_damage_time_ms
+        )
 
         if not should_receive_damage:
             return False
@@ -105,7 +107,7 @@ class Game:
 
         self.health_points -= 1
 
-        if (self.health_points <= 0):
+        if self.health_points <= 0:
             self._handle_dead()
 
         return self.health_points <= 0
@@ -120,7 +122,8 @@ class Game:
     def heal(self):
         has_max_health = self.health_points == self.max_health_points
         should_receive_heal, self.last_health_time_ms = check_cooldown(
-            self.last_health_time_ms)
+            self.last_health_time_ms
+        )
 
         if not has_max_health and should_receive_heal:
             self.health_points += 1
@@ -134,7 +137,7 @@ class Game:
             self.is_on_pause = False
 
         return self.is_on_pause
-    
+
     def draw(self, surface):
         self.level.draw(surface)
 
