@@ -58,8 +58,8 @@ class SettingsMenu(Scene):
                 self.current_difficulty + 1) % len(self.difficulty_levels)
 
         elif self.back_btn.collidepoint(event.pos):
-            from scene.menu import Menu
-            self.director.change_scene(Menu(self.director))
+            from scene.menus.main_menu import MainMenu
+            self.director.change_scene(MainMenu(self.director))
 
     def draw(self, display_surface):
         display_surface.fill((50, 50, 50))

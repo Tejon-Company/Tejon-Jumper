@@ -3,7 +3,7 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from scene.pause import Pause
+from scene.menus.pause_menu import Pause
 from characters.utils.check_cooldown import check_cooldown
 
 
