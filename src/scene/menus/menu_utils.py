@@ -52,7 +52,9 @@ def _update_volume_from_mouse(rect, volume, text):
 
 
 def _draw_bar(display_surface, rect, volume):
-    draw_rect(display_surface, "white", rect, border_radius=10)
+    border_margin = 3
+    smaller_rect = pygame.Rect(rect.x, rect.y, rect.width - border_margin, rect.height)
+    draw_rect(display_surface, "white", smaller_rect, border_radius=10)
     draw_rect(
         display_surface,
         "#90D5FF",
