@@ -1,7 +1,4 @@
 from settings import *
-from os.path import join
-from pygame.transform import scale
-from pygame.image import load
 from resource_manager import ResourceManager
 
 
@@ -22,8 +19,7 @@ class HUD:
         cls.font_size = font_size
         cls.font = ResourceManager.load_font("Beta54.ttf", cls.font_size)
 
-        player_icon_path = ResourceManager.load_image("badger_icon.png")
-        cls.player_icon = scale(player_icon_path, (cls.sprite_size, cls.sprite_size))
+        cls.player_icon = ResourceManager.load_image("badger_icon.png")
 
         cls._setup_health_icon()
         cls._setup_coin_icon()
@@ -37,7 +33,6 @@ class HUD:
         health_icon = health_icon_image.subsurface(
             (0, 0, cls.sprite_size, cls.sprite_size)
         )
-        health_icon = scale(health_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.health_icon = health_icon
 
@@ -48,7 +43,6 @@ class HUD:
         coin_icon = coin_icon_image.subsurface(
             (((cls.sprite_size * 3) + 2), 0, cls.sprite_size, cls.sprite_size)
         )
-        coin_icon = scale(coin_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.coin_icon = coin_icon
 
@@ -59,7 +53,6 @@ class HUD:
         energy_icon = energy_icon_image.subsurface(
             (((cls.sprite_size * 2) + 1), 0, cls.sprite_size, cls.sprite_size)
         )
-        energy_icon = scale(energy_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.energy_icon = energy_icon
 
@@ -70,7 +63,6 @@ class HUD:
         bear_health_icon = bear_health_icon_image.subsurface(
             (0, 0, cls.sprite_size, cls.sprite_size)
         )
-        bear_health_icon = scale(bear_health_icon, (cls.sprite_size, cls.sprite_size))
 
         cls.bear_health_icon = bear_health_icon
 
