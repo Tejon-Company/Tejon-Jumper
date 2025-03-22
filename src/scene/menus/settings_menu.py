@@ -1,15 +1,13 @@
-from pygame.rect import Rect
-from scene.scene import Scene
 from resource_manager import ResourceManager
 from settings import *
-import pygame
 from scene.menus.menu_utils import *
+from resource_manager import ResourceManager
+from scene.menus.menu import Menu
 
 
-class SettingsMenu(Scene):
+class SettingsMenu(Menu):
     def __init__(self, director):
         super().__init__(director)
-        self.display_surface = pygame.display.get_surface()
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
         Y = WINDOW_HEIGHT // 2
@@ -27,14 +25,7 @@ class SettingsMenu(Scene):
         self.resolutions = [(1280, 720), (1920, 1080)]
         self.current_resolution = 0
 
-        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 20)
-
-    def events(self, events_list):
-        for event in events_list:
-            if event.type == pygame.QUIT:
-                self.director.exit_program()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                self._mouse_button_down(event)
+        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
     def _mouse_button_down(self, event):
         if self.return_button.collidepoint(event.pos):
@@ -51,7 +42,7 @@ class SettingsMenu(Scene):
             )
 
     def draw(self, display_surface):
-        display_background(display_surface, self.background)
+        draw_background(display_surface, self.background)
 
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
         draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)

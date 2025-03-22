@@ -35,7 +35,7 @@ def draw_button(display_surface, text, font, y_pos, width=200, height=50):
     return rect
 
 
-def display_background(display_surface, background):
+def draw_background(display_surface, background):
     display_surface.blit(background, (0, 0))
 
 

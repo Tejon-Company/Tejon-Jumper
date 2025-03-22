@@ -1,13 +1,11 @@
-from scene.scene import Scene
-from resource_manager import ResourceManager
 from settings import *
 from scene.menus.menu_utils import *
+from scene.menus.menu import Menu
 
 
-class PauseMenu(Scene):
+class PauseMenu(Menu):
     def __init__(self, director):
         super().__init__(director)
-        self.display_surface = pygame.display.get_surface()
 
         Y = WINDOW_HEIGHT // 2
 
@@ -18,17 +16,29 @@ class PauseMenu(Scene):
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
-    def events(self, events_list):
-        for event in events_list:
-            if event.type == pygame.QUIT:
-                self.director.exit_program()
+    def _mouse_button_down(self, event):
+        if self.continue_button.collidepoint(event.pos):
+            self.director.pop_scene()
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                self._mouse_button_down(event)
+        elif self.restart_button.collidepoint(event.pos):
+            from game import Game
+
+            self.director.change_scene(Game(self.director))
 
     def draw(self, display_surface):
         self._draw_overlay(display_surface)
 
+        draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
+        draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
+
+        self._draw_buttons(display_surface)
+
+    def _draw_overlay(self, display_surface):
+        overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 0))
+        display_surface.blit(overlay, (0, 0))
+
+    def _draw_buttons(self, display_surface):
         self.continue_button = draw_button(
             display_surface,
             "Continue",
@@ -42,20 +52,3 @@ class PauseMenu(Scene):
             self.font,
             self.restart_button_y,
         )
-
-        draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
-        draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
-
-    def _draw_overlay(self, display_surface):
-        overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
-        overlay.fill((0, 0, 0, 0))
-        display_surface.blit(overlay, (0, 0))
-
-    def _mouse_button_down(self, event):
-        if self.continue_button.collidepoint(event.pos):
-            self.director.pop_scene()
-
-        elif self.restart_button.collidepoint(event.pos):
-            from game import Game
-
-            self.director.change_scene(Game(self.director))
