@@ -33,14 +33,6 @@ class Projectile(Sprite, ABC):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
 
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
-
-    def _setup_animation(self):
-        self.animation_frame = 0
-        self.animation_speed = 0.2
-        self.animation_time = 0
-
     @abstractmethod
     def _reset_projectile_if_off_screen(self):
         pass

@@ -1,7 +1,6 @@
 from settings import *
 from characters.sprite import Sprite
 from abc import ABC, abstractmethod
-from resource_manager import ResourceManager
 
 
 class Character(ABC, Sprite):

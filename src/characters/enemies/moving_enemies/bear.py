@@ -96,9 +96,6 @@ class Bear(MovingEnemy):
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
 
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
-
     def _move(self, delta_time):
         self._move_horizontally(delta_time)
         self._move_vertically(delta_time)

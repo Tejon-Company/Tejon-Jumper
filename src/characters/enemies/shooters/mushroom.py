@@ -1,6 +1,5 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
-from characters.utils.animation_utils import setup_animation
 from projectiles.projectiles_pools.spore_pool import SporePool
 from enum import Enum, auto
 import pygame

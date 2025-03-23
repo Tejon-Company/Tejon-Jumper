@@ -1,6 +1,5 @@
 from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from random import choice
 from characters.utils.collision_utils import is_below_collision
 
 
