@@ -93,7 +93,7 @@ class Game:
         )
 
         if not should_receive_damage:
-            return False
+            return
 
         channel = self.damage_sound.play()
         effects_volume = ResourceManager.get_effects_volume()
@@ -109,8 +109,6 @@ class Game:
 
         if self.health_points <= 0:
             self._handle_dead()
-
-        return self.health_points <= 0
 
     def add_coin(self):
         self.coins += 1
