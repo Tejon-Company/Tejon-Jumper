@@ -1,21 +1,21 @@
 from settings import *
 from abc import ABC, abstractmethod
 from characters.sprite import Sprite
-from characters.utils.collision_utils import is_below_collision
 from pygame.sprite import collide_rect
 from resource_manager import ResourceManager
 from characters.utils.animation_utils import update_animation, setup_animation
 
 
 class Projectile(Sprite, ABC):
-    def __init__(self, pos, surf, direction, groups, game, sprite_sheet_name, animations):
+    def __init__(
+        self, pos, surf, direction, groups, game, sprite_sheet_name, animations
+    ):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.game = game
         self.speed = None
         self.is_activated = False
-        self.sprite_sheet = ResourceManager.load_sprite_sheet(
-            sprite_sheet_name)
+        self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
         self.animations = animations
         setup_animation(self)
 
@@ -27,7 +27,7 @@ class Projectile(Sprite, ABC):
         self.old_rect = self.rect.copy()
         self._move(delta_time)
         update_animation(delta_time, self, self.animations)
-        self._handle_collision_with_player(player)
+        self._process_player_collision(player)
 
     def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
@@ -49,22 +49,21 @@ class Projectile(Sprite, ABC):
     def _move(self, delta_time):
         pass
 
-    def _handle_collision_with_player(self, player):
+    def _process_player_collision(self, player):
         if not collide_rect(self, player):
             return
 
-        is_player_colliding_from_above = is_below_collision(
-            player.rect, player.old_rect, self.rect)
+        self._deactivate_projectile()
 
-        if is_player_colliding_from_above or player.is_sprinting:
-            self._deactivate_projectile()
+        if player.is_in_rage:
             return
 
         is_player_colliding_from_left = player.rect.centerx > self.rect.centerx
         is_player_colliding_from_right = player.rect.centerx < self.rect.centerx
 
-        self.game.receive_damage(is_player_colliding_from_left, is_player_colliding_from_right)
-        self._deactivate_projectile()
+        self.game.receive_damage(
+            is_player_colliding_from_left, is_player_colliding_from_right
+        )
 
     @abstractmethod
     def _deactivate_projectile(self):
