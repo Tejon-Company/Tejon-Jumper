@@ -5,8 +5,7 @@ from resource_manager import ResourceManager
 from ui.hud import HUD
 from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
-
-
+from scene.menus.victory_menu import Victory
 class Game:
     def __init__(self, director):
         self.director = director
@@ -84,6 +83,9 @@ class Game:
         self._load_level()
 
     def next_level(self):
+        if self.current_level == 3:
+            self.director.change_scene(Victory(self.director))
+            return
         self.current_level += 1
         self._load_level()
 
