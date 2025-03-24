@@ -40,6 +40,7 @@ class PauseMenu(Menu):
         display_surface.blit(overlay, (0, 0))
 
     def _draw_buttons(self, display_surface):
+
         self.continue_button = draw_button(
             display_surface,
             "Continue",

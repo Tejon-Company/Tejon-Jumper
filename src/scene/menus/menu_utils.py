@@ -39,6 +39,7 @@ def _draw_background_rect(display_surface, rect, background_color, border_radius
 
 def draw_button(display_surface, text, font, y_pos, width=None, height=None):
     width, height = _get_button_dimensions(width, height)
+    print(width)
     button_rect = Rect(WINDOW_WIDTH // 2 - width // 2, y_pos, width, height)
     brown = "#895129"
     _draw_background_rect(display_surface, button_rect, brown)

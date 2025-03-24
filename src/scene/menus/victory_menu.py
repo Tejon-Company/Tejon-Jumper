@@ -11,6 +11,8 @@ class Victory(Menu):
         self.message_x=0.28 * WINDOW_WIDTH
         self.message_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
+        self.replay_button_y = 0.45 * WINDOW_HEIGHT
+        self.quit_button_y = 0.5833 * WINDOW_HEIGHT
 
     def _mouse_button_down(self, event):
         if self.replay_button_y.collidepoint(event.pos):
@@ -21,28 +23,23 @@ class Victory(Menu):
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
-        display_label(display_surface,"Enhorabuena! has hecho justicia",self.message_x, self.message_y, self.message_font)
+        display_label(display_surface,"Congratulations! You've done justice.",self.message_x, self.message_y, self.message_font)
         self._draw_buttons(display_surface)
 
 
 
     def _draw_buttons(self, display_surface):
-        button_width = WINDOW_WIDTH * 0.2
-        button_height = WINDOW_HEIGHT * 0.1
+
         self.replay_button_y = draw_button(
             display_surface,
             "REPLAY",
             self.button_font,
-            0.45 * WINDOW_HEIGHT,
-            width=button_width,
-            height=button_height
+            self.replay_button_y,
         )
 
         self.quit_button = draw_button(
             display_surface,
             "QUIT",
             self.button_font,
-            0.5833 * WINDOW_HEIGHT,
-            width=button_width,
-            height=button_height
+            self.quit_button_y,
         )
