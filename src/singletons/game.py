@@ -5,11 +5,13 @@ from resource_manager import ResourceManager
 from ui.hud import HUD
 from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
+from singletons.singleton_meta import SingletonMeta
+from singletons.director import Director
 
 
-class Game:
-    def __init__(self, director):
-        self.director = director
+class Game(metaclass=SingletonMeta):
+    def __init__(self):
+        self.director = Director()
         self.remaining_lives = 3
         self.max_health_points = 5
         self.health_points = self.max_health_points

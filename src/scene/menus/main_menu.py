@@ -22,9 +22,9 @@ class MainMenu(Menu):
         if self.play_button.collidepoint(event.pos):
             self.click_button_sound.play()
 
-            from game import Game
+            from singletons.game import Game
 
-            self.director.change_scene(Game(self.director))
+            self.director.change_scene(Game())
 
         elif self.settings_button.collidepoint(event.pos):
             self.click_button_sound.play()

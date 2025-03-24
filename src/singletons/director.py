@@ -1,8 +1,9 @@
 from settings import *
 from resource_manager import ResourceManager
+from singletons.singleton_meta import SingletonMeta
 
 
-class Director():
+class Director(metaclass=SingletonMeta):
     def __init__(self):
         self.display_surface = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT))

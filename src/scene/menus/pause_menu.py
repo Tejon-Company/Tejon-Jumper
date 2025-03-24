@@ -22,7 +22,7 @@ class PauseMenu(Menu):
         elif self.restart_button.collidepoint(event.pos):
             self.click_button_sound.play()
 
-            from game import Game
+            from singletons.game import Game
 
             self.director.change_scene(Game(self.director))
 

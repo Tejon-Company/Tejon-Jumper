@@ -12,7 +12,7 @@ from environment.environment_factory import environment_factory
 from berries.berrie_factory import berry_factory
 from scene.scene import Scene
 from pytmx.util_pygame import load_pygame
-from director import Director
+from singletons.director import Director
 from os import listdir
 from ui.hud import HUD
 

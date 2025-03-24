@@ -1,5 +1,5 @@
 from settings import *
-from director import Director
+from singletons.director import Director
 from scene.menus.main_menu import MainMenu
 
 
