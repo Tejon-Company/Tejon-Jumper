@@ -1,7 +1,6 @@
 from settings import *
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
-from characters.utils.animation_utils import setup_animation
 
 
 class Squirrel(Shooter):
@@ -54,5 +53,5 @@ class Squirrel(Shooter):
 
         if is_shooting:
             self.is_shooting = True
-            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self._is_facing_right)
+            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self._is_facing_right, )
             self.last_shot = current_time

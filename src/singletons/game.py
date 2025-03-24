@@ -2,7 +2,6 @@ from settings import *
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
 from singletons.singleton_meta import SingletonMeta
 from singletons.director import Director
@@ -17,7 +16,6 @@ class Game(metaclass=SingletonMeta):
         self.player = None
         self.coins = 0
         self.current_level = 1
-        self.is_on_pause = False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None

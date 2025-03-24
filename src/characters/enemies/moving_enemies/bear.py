@@ -3,7 +3,7 @@ from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import is_below_collision
 from characters.utils.animation_utils import (
     create_animation_rects,
-    setup_animation,
+    set_animation_parameters,
     update_animation,
 )
 from settings import *
@@ -49,7 +49,7 @@ class Bear(MovingEnemy):
         self.last_damage_time_ms = None
 
     def _setup_animation(self):
-        setup_animation(self)
+        set_animation_parameters(self)
 
         self.animations = {
             "run": create_animation_rects(0, 5, sprite_width=TILE_SIZE * 2),
@@ -93,9 +93,6 @@ class Bear(MovingEnemy):
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
-
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
 
     def _move(self, delta_time):
         self._move_horizontally(delta_time)

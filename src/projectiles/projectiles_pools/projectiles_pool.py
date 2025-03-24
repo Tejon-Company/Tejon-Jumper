@@ -1,4 +1,3 @@
-from settings import *
 from singletons.game import Game
 from abc import ABC, abstractmethod
 from typing import Optional

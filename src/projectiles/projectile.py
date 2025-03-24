@@ -1,10 +1,10 @@
-from settings import *
 from abc import ABC, abstractmethod
 from characters.sprite import Sprite
 from pygame.sprite import collide_rect
+from characters.sprite import Sprite
+from characters.utils.animation_utils import update_animation, set_animation_parameters
 from resource_manager import ResourceManager
 from singletons.game import Game
-from characters.utils.animation_utils import update_animation, setup_animation
 
 
 class Projectile(Sprite, ABC):
@@ -18,7 +18,7 @@ class Projectile(Sprite, ABC):
         self.is_activated = False
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
         self.animations = animations
-        setup_animation(self)
+        set_animation_parameters(self)
 
     def update(self, delta_time, player):
         if not self.is_activated:
@@ -33,14 +33,6 @@ class Projectile(Sprite, ABC):
     def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
-
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
-
-    def _setup_animation(self):
-        self.animation_frame = 0
-        self.animation_speed = 0.2
-        self.animation_time = 0
 
     @abstractmethod
     def _reset_projectile_if_off_screen(self):

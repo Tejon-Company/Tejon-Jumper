@@ -1,7 +1,7 @@
 from settings import *
 from characters.enemies.enemy import Enemy
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
-from characters.utils.animation_utils import update_animation, setup_animation
+from characters.utils.animation_utils import set_animation_parameters
 from abc import ABC, abstractmethod
 
 
@@ -27,7 +27,7 @@ class Shooter(Enemy, ABC):
         self.is_shooting = False
         self.shooting_timer = 0
         self.shooting_duration = 500
-        setup_animation(self)
+        set_animation_parameters(self)
 
     def update(self, delta_time):
         super().update(delta_time)
@@ -58,6 +58,3 @@ class Shooter(Enemy, ABC):
     def update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)
-
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)

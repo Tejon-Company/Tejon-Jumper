@@ -14,7 +14,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
             Hedgehog(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["moving_enemies"], groups["enemies"]),
+                (groups["moving_enemies"], groups["characters"]),
                 player,
                 platform_rects,
                 "hedgehog.png",
@@ -23,14 +23,13 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
             if orientation is None:
-                raise KeyError(
-                    "The orientation property is not found")
+                raise KeyError("The orientation property is not found")
 
             direction = MushroomDirection.obtain_direction(orientation)
             Mushroom(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["enemies"], groups["platforms"]),
+                (groups["characters"], groups["platforms"], groups["shooters"]),
                 direction.value[0],
                 player,
                 "mushroom.png",
@@ -41,7 +40,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
             Fox(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["moving_enemies"], groups["enemies"]),
+                (groups["characters"], groups["moving_enemies"]),
                 player,
                 platform_rects,
                 "fox.png",
@@ -51,7 +50,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
             Bat(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["moving_enemies"], groups["enemies"]),
+                (groups["moving_enemies"], groups["characters"]),
                 player,
                 "bat.png",
                 create_animation_rects(0, 3, TILE_SIZE)
@@ -60,12 +59,11 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
             Squirrel(
                 (enemy.x, enemy.y),
                 enemy.image,
-                (groups["all_sprites"], groups["enemies"]),
+                (groups["characters"], groups["shooters"]),
                 player,
                 "squirrel.png",
                 create_animation_rects(1, 2, TILE_SIZE),
                 acorn_pool
             )
         case _:
-            raise ValueError(
-                f"The entitie {enemy.name} is not a valid entitie")
+            raise ValueError(f"The enemy {enemy.name} is not a valid enemy")

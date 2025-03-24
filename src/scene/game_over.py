@@ -1,6 +1,5 @@
-import pygame
-from settings import *
 from scene.scene import Scene
+from settings import *
 
 
 class GameOver(Scene):

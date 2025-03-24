@@ -1,8 +1,8 @@
-from settings import *
+from resource_manager import ResourceManager
+from singletons.game import Game
+from pygame.sprite import collide_rect
 from characters.character import Character
 from resource_manager import ResourceManager
-from pygame.sprite import collide_rect
-from singletons.game import Game
 from abc import ABC
 from typing import final
 

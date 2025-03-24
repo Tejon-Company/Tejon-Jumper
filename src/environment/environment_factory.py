@@ -8,14 +8,14 @@ def environment_factory(enviroment_element, groups, player, level):
             Rock(
                 (enviroment_element.x, enviroment_element.y),
                 enviroment_element.image,
-                groups["environment"],
+                groups,
                 player
             )
         case "Flag":
             Flag(
                 (enviroment_element.x, enviroment_element.y),
                 enviroment_element.image,
-                groups["environment"],
+                groups,
                 player,
                 level
             )
