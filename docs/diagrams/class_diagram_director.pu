@@ -1,11 +1,12 @@
-@startuml Class Diagram Director-Scene-Level
+@startuml Class Diagram Director
 class Director {
-    + display_surface : Surface
-    + stack : list
-    + clock : Clock
+    - display_surface : Surface
+    - stack : list
+    - exit_scene : bool
+    - clock : Clock
     - _loop(scene)
     + run()
-    + exit_scene()
+    + pop_scene()
     + exit_program()
     + change_scene(scene)
     + stack_scene(scene)
@@ -13,37 +14,194 @@ class Director {
 
 abstract class Scene {
     + director
+    - {static} _setup_music(music_name)
+    + update()
+    + events(events_list) {abstract}
+    + draw(display_surface) {abstract}
+}
+
+class Level {
+    - game : Game
+    - tmx_map : TiledMap
+    - _setup_groups()
+    - _setup_pools()
+    - _setup_camera()
+    - _setup_background(background)
+    - _get_image_files(background_folder)
+    - _setup_tiled_background()
+    - _setup_terrain()
+    - _setup_deco() 
+    - _setup_player()
+    - _setup_enemies()
+    - _setup_boss()
+    - _setup_platform_rects()
+    - _setup_berries()
+    - _setup_environment()
     + update(delta_time)
     + events(events_list)
     + draw(display_surface)
 }
 
-class Level {
-    + display_surface : Surface
-    + tmx_map : TiledMap
-    + background_folder : String
-    + music_file : String
-    + groups : dict[String, Group]
-    + player : Player
-    + camera : Camera
-    - _init_groups()
-    - _init_camera()
-    - _setup_background()
-    - _get_image_files() : list[String]
-    - _setup_music()
-    - _setup_terrain()
-    - _setup_characters()
-    - _setup_player(character)
-    - _setup_berries()
-    - _check_collision()
+class GameOver {
+    - display_surface : Surface
+    + events(events_list)
+    + draw(display_surface)
 }
 
-class GameOver {
-    + display_surface : Surface
+class Camera {
+    - camera : Rect
+    - width : int
+    + apply(entity) : Rect
+    + update(target)
+    + draw_background(backgrounds, surface)
+}
+
+class Background {
+    - image : Surface
+    - rect : Rect
+    - parallax_factor : int
+    - offset_x : int
+    + apply_parallax(camera_x)
+    + draw(surface)
+}
+
+abstract class Menu {
+    - click_button_sound : Sound
+    + events(events_list)
+    + _mouse_button_down(event) {abstract}
+}
+
+class MainMenu {
+    - background: Surface
+    - title_font: Font
+    - button_font: Font
+    + _mouse_button_down(event)
+    + draw(display_surface)
+    + _draw_title(display_surface)
+    + _create_title_text() Tuple[Surface, Rect]
+    + _create_title_background(text_rect) Tuple[Surface, Rect]
+    + _draw_buttons(display_surface)
+}
+
+class PauseMenu {
+    - music_bar_y : float 
+    - effects_bar_y : float
+    - continue_button_y : float
+    - restart_button_y : float
+    - font : Font
+    - _mouse_button_down(event)
+    + draw(display_surface)
+    + _draw_overlay(display_surface)
+    + _draw_buttons(display_surface)
+}
+
+class SettingsMenu {
+    - background : Surface
+    - music_bar_y : float
+    - effects_bar_y : float
+    - difficulty_btn_y : float
+    - resolution_btn_y : float
+    - return_btn_y : float
+    - difficulties : list
+    - current_difficulty : int
+    - resolutions : list
+    - current_resolution : int
+    - font : Font
+    - _mouse_button_down(event)
+    + draw(display_surface)
+    + _draw_buttons(display_surface)
+}
+
+class HUD {
+    - display_surface : Surface
+    - sprite_size : int
+    - font : Font
+    - font_size : int
+    - player_icon : Surface
+    - health_icon : Surface
+    - coin_icon : Surface
+    - energy_icon : Surface
+    - bear_health_icon : Surface
+    + {static} initialize(sprite_size, font_size)
+    - {static} _setup_health_icon()
+    - {static} _setup_coin_icon()
+    - {static} _setup_energy_icon()
+    - {static} _setup_bear_health_icon()
+    + {static} draw_hud(display_surface, remaining_health_points, remaining_lives, coind, energy, bear_health_points)
+    - {static} _draw_icon_with_counter(display_surface, icon, count, z, y)
+    - {static} _draw_health_icons(display_surface, health_points, icon, start_x, start_y)
+    - {static} _draw_hearts(display_surface, remaining_health_points)
+    - {static} _draw_energy_bar(display_surface, energy)
+    - {static} _draw_lifes_counter(display_surface, remaining_lives)
+    - {static} _draw_coins_counter(display_surface, coins)
+    - {static} _draw_bear_hearts(display_surface, bear_health_points)
+}
+
+class Game {
+    - director : Director
+    - remaining_lives : int
+    - max_health_points : int 
+    - health_points : int
+    - player : Player
+    - coins : int
+    - current_level : int
+    - is_on_paused : bool
+    - last_damage_time_ms : int
+    - last_health_time_ms : int
+    - damage_sound : Sound
+    - _load_level()
+    - _setup_sound_effects()
+    + events(event_list)
+    + update(delta_time)
+    - _handle_fall()
+    - _is_game_paused() : bool
+    - _handle_dead()
+    - _restart_level()
+    + next_level()
+    + receive_damage(is_collision_on_left, is_collision_on_right)
+    + add_coin()
+    + heal()
+    + draw(surface)
+    - _game_over()
+}
+
+class ResourceManager {
+    - resources : dict
+    - effects_volume : float
+    - loaded_sounds : list
+    + {static} load_image(name, colorkey) : Surface
+    + {static} load_sound_effect(name) : Sound
+    + {static} load_music(name) : string
+    + {static} load_font(name, size) : Font
+    + {static} load_sprite_sheet(name) : Surface
+    + {static} set_volume_music(volume)
+    + {static} get_music_volume() : float
+    + {static} set_effects_volume(volume)
+    + {static} get_effects_volume() : float
+    + {static} clear_resources()
 }
 
 Director <--> Scene
+Director --> ResourceManager
+Scene --> ResourceManager
 Scene <|-- Level
 Scene <|-- GameOver
+Level --> Camera
+Level --> Background
+Level --> HUD
+Scene <|-- Menu
+Menu --> ResourceManager
+Menu <|-- MainMenu
+MainMenu --> ResourceManager
+MainMenu --> SettingsMenu
+Menu <|-- PauseMenu
+Menu <|-- SettingsMenu
+SettingsMenu --> ResourceManager
+HUD --> ResourceManager
+Game --> Level
+Game --> GameOver
+Game --> ResourceManager
+Game --> HUD
+Game --> PauseMenu
 
 @enduml
