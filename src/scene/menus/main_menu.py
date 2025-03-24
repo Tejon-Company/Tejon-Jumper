@@ -1,6 +1,6 @@
 from resource_manager import ResourceManager
 from scene.menus.settings_menu import SettingsMenu
-from settings import *
+from settings import config
 import pygame
 from scene.menus.menu_utils import draw_button, draw_background
 from scene.menus.menu import Menu
@@ -11,10 +11,13 @@ class MainMenu(Menu):
     def __init__(self, director):
         super().__init__(director)
 
+        self.config = config
+
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
         self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
-        self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
+        self.button_font = ResourceManager.load_font(
+            "Timetwist-Regular.ttf", 30)
 
         Scene._setup_music("main_menu_music.ogg")
 
@@ -39,7 +42,8 @@ class MainMenu(Menu):
 
     def _draw_title(self, display_surface):
         text_surface, text_rect = self._create_title_text()
-        background_surface, background_rect = self._create_title_background(text_rect)
+        background_surface, background_rect = self._create_title_background(
+            text_rect)
 
         display_surface.blit(background_surface, background_rect.topleft)
         display_surface.blit(text_surface, text_rect)
@@ -47,13 +51,14 @@ class MainMenu(Menu):
     def _create_title_text(self):
         text_surface = self.title_font.render("Tejon jumper", True, "black")
         text_rect = text_surface.get_rect(
-            center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 4)
+            center=(self.config.window_width // 2,
+                    self.config.window_height // 4)
         )
         return text_surface, text_rect
 
     def _create_title_background(self, text_rect):
-        padding_x = WINDOW_WIDTH * 0.025
-        padding_y = WINDOW_HEIGHT * 0.05
+        padding_x = self.config.window_width * 0.025
+        padding_y = self.config.window_height * 0.05
         beige_rect = text_rect.inflate(padding_x, padding_y)
         background_surface = pygame.Surface(
             (beige_rect.width, beige_rect.height), pygame.SRCALPHA
@@ -63,14 +68,14 @@ class MainMenu(Menu):
         return background_surface, beige_rect
 
     def _draw_buttons(self, display_surface):
-        button_width = WINDOW_WIDTH * 0.2
-        button_height = WINDOW_HEIGHT * 0.1
+        button_width = self.config.window_width * 0.2
+        button_height = self.config.window_height * 0.1
 
         self.play_button = draw_button(
             display_surface,
             "Play",
             self.button_font,
-            WINDOW_HEIGHT * 0.5,
+            self.config.window_height * 0.5,
             width=button_width,
             height=button_height,
         )
@@ -79,7 +84,7 @@ class MainMenu(Menu):
             display_surface,
             "Settings",
             self.button_font,
-            WINDOW_HEIGHT * 0.67,
+            self.config.window_height * 0.67,
             width=button_width,
             height=button_height,
         )

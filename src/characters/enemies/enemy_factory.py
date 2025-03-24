@@ -1,4 +1,4 @@
-from settings import *
+from settings import config
 from characters.enemies.moving_enemies.hedgehog import Hedgehog
 from characters.enemies.shooters.mushroom import Mushroom
 from characters.enemies.moving_enemies.fox import Fox
@@ -18,7 +18,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 player,
                 platform_rects,
                 "hedgehog.png",
-                create_animation_rects(0, 2, TILE_SIZE),
+                create_animation_rects(0, 2, config.tile_size),
                 game
             )
         case "Mushroom":
@@ -35,7 +35,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 direction.value[0],
                 player,
                 "mushroom.png",
-                create_animation_rects(direction.value[1], 3, TILE_SIZE),
+                create_animation_rects(direction.value[1], 3, config.tile_size),
                 game,
                 spore_pool
             )
@@ -47,7 +47,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 player,
                 platform_rects,
                 "fox.png",
-                create_animation_rects(0, 3, TILE_SIZE),
+                create_animation_rects(0, 3, config.tile_size),
                 game
             )
         case "Bat":
@@ -57,7 +57,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (groups["moving_enemies"], groups["enemies"]),
                 player,
                 "bat.png",
-                create_animation_rects(0, 3, TILE_SIZE),
+                create_animation_rects(0, 3, config.tile_size),
                 game
             )
         case "Squirrel":
@@ -67,7 +67,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (groups["all_sprites"], groups["enemies"]),
                 player,
                 "squirrel.png",
-                create_animation_rects(1, 2, TILE_SIZE),
+                create_animation_rects(1, 2, config.tile_size),
                 game,
                 acorn_pool
             )

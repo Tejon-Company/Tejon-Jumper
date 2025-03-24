@@ -1,4 +1,5 @@
-from settings import *
+from settings import config
+import pygame
 from resource_manager import ResourceManager
 
 
@@ -147,7 +148,7 @@ class HUD:
 
     @classmethod
     def _draw_bear_hearts(cls, display_surface, bear_healt_points: int):
-        start_x = WINDOW_WIDTH // 2 - TILE_SIZE * 2
+        start_x = config.window_width // 2 - config.tile_size * 2
         cls._draw_health_icons(
             display_surface, bear_healt_points, cls.bear_health_icon, start_x, 10
         )

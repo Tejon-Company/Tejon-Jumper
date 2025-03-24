@@ -1,4 +1,4 @@
-from settings import *
+from settings import config
 from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
 
@@ -7,10 +7,10 @@ class PauseMenu(Menu):
     def __init__(self, director):
         super().__init__(director)
 
-        self.music_bar_y = 0.25 * WINDOW_HEIGHT
-        self.effects_bar_y = 0.3333 * WINDOW_HEIGHT
-        self.continue_button_y = 0.45 * WINDOW_HEIGHT
-        self.restart_button_y = 0.5833 * WINDOW_HEIGHT
+        self.music_bar_y = 0.25 * config.window_height
+        self.effects_bar_y = 0.3333 * config.window_height
+        self.continue_button_y = 0.45 * config.window_height
+        self.restart_button_y = 0.5833 * config.window_height
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
@@ -35,7 +35,8 @@ class PauseMenu(Menu):
         self._draw_buttons(display_surface)
 
     def _draw_overlay(self, display_surface):
-        overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
+        overlay = pygame.Surface(
+            (config.window_width, config.window_height), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 0))
         display_surface.blit(overlay, (0, 0))
 

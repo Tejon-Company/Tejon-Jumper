@@ -1,3 +1,5 @@
+import pygame
+import settings
 from characters.utils.check_cooldown import check_cooldown
 from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import is_below_collision
@@ -6,7 +8,6 @@ from characters.utils.animation_utils import (
     setup_animation,
     update_animation,
 )
-from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 
 
@@ -21,6 +22,8 @@ class Bear(MovingEnemy):
         sprite_sheet_name,
         game,
     ):
+        self.config = settings.config
+
         super().__init__(
             pos,
             surf,
@@ -35,8 +38,7 @@ class Bear(MovingEnemy):
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = TILE_SIZE * 2
-
+        self.rect.width = self.config.tile_size * 2
         self.speed = 100
         self.gravity = 1000
         self.fall = 0
@@ -44,18 +46,17 @@ class Bear(MovingEnemy):
         self.jump_height = 250
 
         self.on_surface = True
-
         self.facing_right = True
 
-        self.health_points = 3 if DIFFICULTY == Difficulty.EASY else 5
+        self.health_points = 5 if self.config.difficulty == settings.Difficulty.EASY else 3
 
     def _setup_animation(self):
         setup_animation(self)
 
         self.animations = {
-            "run": create_animation_rects(0, 5, sprite_width=TILE_SIZE * 2),
-            "jump": create_animation_rects(5, 1, sprite_width=TILE_SIZE * 2),
-            "fall": create_animation_rects(6, 1, TILE_SIZE * 2),
+            "run": create_animation_rects(0, 5, sprite_width=self.config.tile_size * 2),
+            "jump": create_animation_rects(5, 1, sprite_width=self.config.tile_size * 2),
+            "fall": create_animation_rects(6, 1, self.config.tile_size * 2),
         }
 
         self.current_animation = "run"

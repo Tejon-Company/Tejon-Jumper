@@ -1,4 +1,5 @@
-from settings import *
+from settings import config
+from pygame.math import Vector2 as vector
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.utils.animation_utils import update_animation
 
@@ -18,10 +19,10 @@ class Bat(MovingEnemy):
         pos_x, pos_y = pos
 
         self.top_pos = pos_y
-        self.bottom_pos = pos_y + TILE_SIZE * 4
+        self.bottom_pos = pos_y + config.tile_size * 4
 
-        self.left_limit = pos_x - TILE_SIZE * 4
-        self.right_limit = pos_x + TILE_SIZE * 4
+        self.left_limit = pos_x - config.tile_size * 4
+        self.right_limit = pos_x + config.tile_size * 4
 
     def update(self, delta_time, environment_rects):
         self._check_should_receive_damage()

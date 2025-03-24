@@ -1,4 +1,6 @@
-from settings import *
+from settings import config
+import pygame
+from os.path import join
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
@@ -76,8 +78,8 @@ class Level(Scene):
         self.acorn_pool = AcornPool(20, self.groups["projectiles"], self.game)
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * TILE_SIZE
-        map_height = self.tmx_map.height * TILE_SIZE
+        map_width = self.tmx_map.width * config.tile_size
+        map_height = self.tmx_map.height * config.tile_size
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
@@ -88,7 +90,7 @@ class Level(Scene):
             Background(
                 join(background_folder, image_name),
                 (0, 0),
-                PARALLAX_FACTOR[i % len(PARALLAX_FACTOR)],
+                config.parallax_factor[i % len(config.parallax_factor)],
                 self.groups["backgrounds"],
             )
 
@@ -105,15 +107,15 @@ class Level(Scene):
     def _setup_tiled_background(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
-                surf,
-                (self.groups["all_sprites"]),
+                (x * config.tile_size, y * config.tile_size), 
+                surf, 
+                self.groups["all_sprites"]
             )
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * config.tile_size, y * config.tile_size), 
                 surf,
                 (self.groups["all_sprites"], self.groups["platforms"]),
             )
@@ -121,7 +123,7 @@ class Level(Scene):
     def _setup_deco(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * config.tile_size, y * config.tile_size), 
                 surf,
                 (self.groups["deco"]),
             )

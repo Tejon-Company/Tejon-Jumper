@@ -1,5 +1,5 @@
 import pygame
-from settings import *
+from settings import config
 from scene.scene import Scene
 
 
@@ -20,9 +20,9 @@ class GameOver(Scene):
         display_surface.fill((0, 0, 0))
         font = pygame.font.Font(None, 74)
         text = font.render("Game Over!", True, (255, 0, 0))
-        display_surface.blit(text, (WINDOW_WIDTH // 2 - text.get_width() //
-                             2, WINDOW_HEIGHT // 2 - text.get_height() // 2))
+        display_surface.blit(text, (config.window_width // 2 - text.get_width() //
+                             2, config.window_height // 2 - text.get_height() // 2))
         font = pygame.font.Font(None, 36)
         text = font.render("Press Enter to Restart", True, (255, 255, 255))
-        display_surface.blit(text, (WINDOW_WIDTH // 2 - text.get_width() //
-                             2, WINDOW_HEIGHT // 2 + text.get_height()))
+        display_surface.blit(text, (config.window_width // 2 - text.get_width() //
+                             2, config.window_height // 2 + text.get_height()))

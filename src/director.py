@@ -1,11 +1,12 @@
-from settings import *
+import pygame
+from settings import config
 from resource_manager import ResourceManager
 
 
-class Director():
+class Director:
     def __init__(self):
         self.display_surface = pygame.display.set_mode(
-            (WINDOW_WIDTH, WINDOW_HEIGHT))
+            (config.window_width, config.window_height))
         pygame.display.set_caption("Tejón Jumper")
 
         self.stack = []
@@ -26,14 +27,14 @@ class Director():
             pygame.display.flip()
 
     def run(self):
-        while (len(self.stack) > 0):
+        while len(self.stack) > 0:
             scene = self.stack[-1]
             self._loop(scene)
 
     def pop_scene(self):
         ResourceManager.clear_resources()
         self.exit_scene = True
-        if (len(self.stack) > 0):
+        if len(self.stack) > 0:
             self.stack.pop()
 
     def exit_program(self):

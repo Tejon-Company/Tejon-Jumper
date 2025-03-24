@@ -1,4 +1,5 @@
-from settings import *
+import pygame
+import settings
 from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
@@ -15,7 +16,9 @@ class Game:
         self.current_level = 1
         self.is_on_pause = False
 
-        if DIFFICULTY == Difficulty.EASY:
+        self.config = settings.config
+
+        if self.config.difficulty == settings.Difficulty.EASY:
             self.max_health_points = 5
             self.remaining_lives = 3
         else:
@@ -28,7 +31,7 @@ class Game:
 
         self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
 
-        HUD.initialize(TILE_SIZE, 22)
+        HUD.initialize(self.config.tile_size, 22)
 
         self._load_level()
 
@@ -43,8 +46,10 @@ class Game:
         self._setup_sound_effects()
 
     def _setup_sound_effects(self):
-        self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")
-        self.life_lost_sound = ResourceManager.load_sound_effect("life_lost.ogg")
+        self.game_over_sound = ResourceManager.load_sound_effect(
+            "game_over.ogg")
+        self.life_lost_sound = ResourceManager.load_sound_effect(
+            "life_lost.ogg")
 
     def events(self, event_list):
         self.level.events(event_list)
@@ -60,7 +65,7 @@ class Game:
             berry.update(self, self.player)
 
     def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
+        if self.player.rect.bottom > self.config.window_height:
             self._handle_dead()
 
     def _is_game_paused(self):
@@ -82,7 +87,6 @@ class Game:
             self.remaining_lives -= 1
             self.health_points = self.max_health_points
             self.coins = 0
-
             self._restart_level()
 
     def _restart_level(self):
@@ -130,16 +134,6 @@ class Game:
 
         if not has_max_health and should_receive_heal:
             self.health_points += 1
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
 
     def draw(self, surface):
         self.level.draw(surface)

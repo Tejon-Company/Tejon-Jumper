@@ -10,11 +10,28 @@ class Difficulty(Enum):
     HARD = auto()
 
 
-DIFFICULTY = Difficulty.EASY
+class GameConfig:
+    _instance = None
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(GameConfig, cls).__new__(cls)
+            cls._instance._initialize()
+        return cls._instance
 
-TILE_SIZE = 32
-ANIMATION_SPEED = 6
+    def _initialize(self):
+        self.difficulty = Difficulty.EASY
+        self.window_width = 1280
+        self.window_height = 720
+        self.tile_size = 32
+        self.animation_speed = 6
+        self.parallax_factor = [0.1, 0.2, 0.4, 0.9]
 
-PARALLAX_FACTOR = [0.1, 0.2, 0.4, 0.9]
+    def set_difficulty(self, difficulty: Difficulty):
+        self.difficulty = difficulty
+
+    def get_resolution(self):
+        return self.window_width, self.window_height
+
+
+config = GameConfig()

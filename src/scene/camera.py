@@ -1,4 +1,5 @@
-from settings import *
+from settings import config
+import pygame
 
 
 class Camera:
@@ -10,9 +11,9 @@ class Camera:
         return entity.rect.move(self.camera.topleft)
 
     def update(self, target):
-        camera_x = -target.rect.centerx + WINDOW_WIDTH // 2
+        camera_x = -target.rect.centerx + config.window_width // 2
         camera_x = min(0, camera_x)
-        camera_x = max(-(self.width - WINDOW_WIDTH), camera_x)
+        camera_x = max(-(self.width - config.window_width), camera_x)
 
         interpolation_factor = 0.055
         self.camera.x += (camera_x - self.camera.x) * interpolation_factor
