@@ -84,7 +84,6 @@ class Player(Character):
             self.energy = max(0, self.energy)
 
     def _update_animation(self, delta_time):
-        previous_animation = self.current_animation
         self._determine_current_animation()
 
         update_animation(delta_time, self, self.animations[self.current_animation])
