@@ -24,6 +24,7 @@ class Level(Scene):
         background: str,
         music: str,
         level: str,
+        current_level: int,
         next_level: int,
     ):
         super().__init__()

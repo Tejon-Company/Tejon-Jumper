@@ -5,6 +5,7 @@ from characters.utils.animation_utils import *
 from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
+from singletons.game import Game
 
 
 class Player(Character):
@@ -12,6 +13,7 @@ class Player(Character):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
+        self.game = Game()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -40,8 +42,12 @@ class Player(Character):
         self.is_sprinting = False
         self.is_in_rage = False
 
-        self.activate_rage_sound = ResourceManager.load_sound_effect("activate_rage.ogg")
-        self.deactivate_rage_sound = ResourceManager.load_sound_effect("deactivate_rage.ogg")
+        self.activate_rage_sound = ResourceManager.load_sound_effect(
+            "activate_rage.ogg"
+        )
+        self.deactivate_rage_sound = ResourceManager.load_sound_effect(
+            "deactivate_rage.ogg"
+        )
 
     def _setup_animation(self):
         setup_animation(self)
@@ -158,6 +164,9 @@ class Player(Character):
         if self.is_jumping:
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
+
+        if self.rect.bottom > WINDOW_HEIGHT:
+            self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):
         for rect in self.platform_rects + self.environment_rects:

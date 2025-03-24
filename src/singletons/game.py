@@ -30,11 +30,7 @@ class Game(metaclass=SingletonMeta):
         self.life_lost_sound = ResourceManager.load_sound_effect("life_lost.ogg")
         self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
 
-    def _handle_fall(self):
-        if self.player.rect.bottom > WINDOW_HEIGHT:
-            self._handle_dead()
-
-    def _handle_dead(self):
+    def handle_dead(self):
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
             self.director.push_scene(GameOver(self.director))
@@ -47,11 +43,7 @@ class Game(metaclass=SingletonMeta):
             self._restart_level()
 
     def _restart_level(self):
-        self._load_level()
-
-    def next_level(self):
-        self.current_level += 1
-        self._load_level()
+        current_scene = self.director.pop_scene()
 
     def receive_damage(self, is_collision_on_left, is_collision_on_right):
         should_receive_damage, self.last_damage_time_ms = check_cooldown(
@@ -91,16 +83,6 @@ class Game(metaclass=SingletonMeta):
 
         if not has_max_health and should_receive_heal:
             self.health_points += 1
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.push_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
 
     def _game_over(self):
         self.director.exit_program()
