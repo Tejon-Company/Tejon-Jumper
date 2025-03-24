@@ -206,7 +206,11 @@ class Level(Scene):
         self._draw_group(display_surface, "platforms")
         self._draw_group(display_surface, "characters")
         self._draw_group(display_surface, "environment")
-        self._draw_group(display_surface, "projectiles")
+
+        for projectile in self.groups["projectiles"]:
+            if projectile.is_activated:
+                display_surface.blit(projectile.image, self.camera.apply(projectile))
+
         self._draw_group(display_surface, "berries")
 
         boss_health = self.boss.health_points if self.boss else 0
