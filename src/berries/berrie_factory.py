@@ -22,7 +22,7 @@ def berry_factory(berry, groups):
             EnergyBerry(
                 (berry.x, berry.y),
                 berry.image,
-                (groups)
+                groups
             )
         case "rage_berry":
             RageBerry(

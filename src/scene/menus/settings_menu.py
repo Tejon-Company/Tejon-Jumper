@@ -1,4 +1,3 @@
-from resource_manager import ResourceManager
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
 
