@@ -101,3 +101,4 @@ class SettingsMenu(Scene):
         text_surf = font.render(text, True, 'white')
         text_rect = text_surf.get_rect(center=rect.center)
         display_surface.blit(text_surf, text_rect.topleft)
+

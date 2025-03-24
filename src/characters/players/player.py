@@ -40,8 +40,8 @@ class Player(Character):
         self.is_sprinting = False
         self.is_in_rage = False
 
-        self.activate_rage_sound = ResourceManager.load_sound("activate_rage.ogg")
-        self.deactivate_rage_sound = ResourceManager.load_sound("deactivate_rage.ogg")
+        self.activate_rage_sound = ResourceManager.load_sound_effect("activate_rage.ogg")
+        self.deactivate_rage_sound = ResourceManager.load_sound_effect("deactivate_rage.ogg")
 
     def _setup_animation(self):
         setup_animation(self)
