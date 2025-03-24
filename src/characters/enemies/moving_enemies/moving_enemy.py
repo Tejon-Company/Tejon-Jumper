@@ -16,7 +16,6 @@ class MovingEnemy(Enemy, ABC):
         platform_rects,
         sprite_sheet_name,
         animations,
-        game,
     ):
         super().__init__(
             pos,
@@ -26,7 +25,6 @@ class MovingEnemy(Enemy, ABC):
             platform_rects,
             sprite_sheet_name,
             animations,
-            game,
         )
 
         direction_x = choice((-1, 1))

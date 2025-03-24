@@ -2,6 +2,7 @@ from settings import *
 from characters.players.player import Player
 from berries.berry import Berry
 from resource_manager import ResourceManager
+from singletons.game import Game
 
 
 class HealthBerry(Berry):
@@ -9,11 +10,12 @@ class HealthBerry(Berry):
         super().__init__(pos, surf, groups)
         self.recover_health_sound = ResourceManager.load_sound_effect(
             "recover_health.ogg")
+        self.game = Game()
 
-    def update(self, game, player: Player):
+    def update(self, player: Player):
         if not self.rect.colliderect(player.rect):
             return
 
         self.recover_health_sound.play()
-        game.heal()
+        self.game.heal()
         self.kill()

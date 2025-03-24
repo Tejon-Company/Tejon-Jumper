@@ -13,7 +13,7 @@ class EnergyBerry(Berry):
         self.respawn_duration = 20000
         self.get_energy_sound = ResourceManager.load_sound_effect("get_energy.ogg")
 
-    def update(self, game, player: Player):
+    def update(self, player: Player):
         self._update_visibility_status()
         self._check_collision_with_player(player)
 

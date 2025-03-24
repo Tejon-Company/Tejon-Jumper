@@ -6,8 +6,8 @@ from scene.menus.menu import Menu
 
 
 class SettingsMenu(Menu):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
         self.music_bar_y = WINDOW_HEIGHT * 0.35

@@ -13,7 +13,6 @@ class Squirrel(Shooter):
         player,
         sprite_sheet_name,
         animations,
-        game,
         projectiles_pool=AcornPool,
     ):
         super().__init__(
@@ -23,7 +22,6 @@ class Squirrel(Shooter):
             player,
             sprite_sheet_name,
             animations,
-            game,
             projectiles_pool,
         )
         self.rect = self.image.get_frect(topleft=pos)

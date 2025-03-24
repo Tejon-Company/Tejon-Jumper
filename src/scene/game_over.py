@@ -4,8 +4,8 @@ from scene.scene import Scene
 
 
 class GameOver(Scene):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
         self.display_surface = pygame.display.get_surface()
 
     def events(self, events_list):

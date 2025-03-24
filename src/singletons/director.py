@@ -35,7 +35,8 @@ class Director(metaclass=SingletonMeta):
         ResourceManager.clear_resources()
         self.exit_scene = True
         if (len(self.stack) > 0):
-            self.stack.pop()
+            current_scene = self.stack.pop()
+            return current_scene
 
     def exit_program(self):
         ResourceManager.clear_resources()
@@ -47,6 +48,6 @@ class Director(metaclass=SingletonMeta):
         self.pop_scene()
         self.stack.append(scene)
 
-    def stack_scene(self, scene):
+    def push_scene(self, scene):
         self.exit_scene = True
         self.stack.append(scene)

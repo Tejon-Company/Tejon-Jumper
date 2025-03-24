@@ -19,7 +19,6 @@ class Bear(MovingEnemy):
         player,
         platform_rects,
         sprite_sheet_name,
-        game,
     ):
         super().__init__(
             pos,
@@ -29,7 +28,6 @@ class Bear(MovingEnemy):
             platform_rects,
             sprite_sheet_name,
             None,
-            game,
         )
 
         self._setup_animation()

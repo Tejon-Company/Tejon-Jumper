@@ -14,11 +14,10 @@ class Shooter(Enemy, ABC):
         player,
         sprite_sheet_name,
         animations,
-        game,
         projectiles_pool=ProjectilesPool,
     ):
         super().__init__(
-            pos, surf, groups, player, None, sprite_sheet_name, animations, game
+            pos, surf, groups, player, None, sprite_sheet_name, animations
         )
         self.shoot_cooldown = 3000
         self.pos = pos

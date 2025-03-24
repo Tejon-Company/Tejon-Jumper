@@ -4,12 +4,13 @@ from settings import *
 import pygame
 from scene.menus.menu_utils import draw_button, draw_background
 from scene.menus.menu import Menu
+from scene.level import Level
 from scene.scene import Scene
 
 
 class MainMenu(Menu):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
 
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
@@ -22,13 +23,18 @@ class MainMenu(Menu):
         if self.play_button.collidepoint(event.pos):
             self.click_button_sound.play()
 
-            from singletons.game import Game
+            first_level_background = "background1"
+            first_level_music = "level_1.ogg"
+            first_level_map = "level1.tmx"
+            first_level = Level(
+                first_level_background, first_level_music, first_level_map, 2
+            )
 
-            self.director.change_scene(Game())
+            self.director.change_scene(first_level)
 
         elif self.settings_button.collidepoint(event.pos):
             self.click_button_sound.play()
-            self.director.stack_scene(SettingsMenu(self.director))
+            self.director.push_scene(SettingsMenu())
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)

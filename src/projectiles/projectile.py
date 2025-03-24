@@ -3,16 +3,17 @@ from abc import ABC, abstractmethod
 from characters.sprite import Sprite
 from pygame.sprite import collide_rect
 from resource_manager import ResourceManager
+from singletons.game import Game
 from characters.utils.animation_utils import update_animation, setup_animation
 
 
 class Projectile(Sprite, ABC):
     def __init__(
-        self, pos, surf, direction, groups, game, sprite_sheet_name, animations
+        self, pos, surf, direction, groups, sprite_sheet_name, animations
     ):
         super().__init__(pos, surf, groups)
         self.direction = direction
-        self.game = game
+        self.game = Game()
         self.speed = None
         self.is_activated = False
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)

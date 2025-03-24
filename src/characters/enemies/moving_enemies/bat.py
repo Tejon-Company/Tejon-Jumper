@@ -4,9 +4,9 @@ from characters.utils.animation_utils import update_animation
 
 
 class Bat(MovingEnemy):
-    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations, game):
+    def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations):
         super().__init__(
-            pos, surf, groups, player, None, sprite_sheet_name, animations, game
+            pos, surf, groups, player, None, sprite_sheet_name, animations
         )
 
         self.rect = self.image.get_frect(topleft=pos)

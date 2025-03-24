@@ -2,12 +2,13 @@ from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.spore import Spore
 from characters.utils.animation_utils import create_animation_rects
+from singletons.game import Game
 from typing import Optional
 
 
 class SporePool(ProjectilesPool):
-    def __init__(self, size, projectile_groups, game):
-        super().__init__(size, projectile_groups, game)
+    def __init__(self, size, projectile_groups):
+        super().__init__(size, projectile_groups)
 
     def _create_pool(self):
         for _ in range(self.size):
@@ -18,7 +19,6 @@ class SporePool(ProjectilesPool):
                 groups=self.projectile_groups,
                 sprite_sheet_name="spore.png",
                 animations=create_animation_rects(0, 3, sprite_height=16, sprite_width=16),
-                game=self.game
             )
             self.pool.append(spore)
 

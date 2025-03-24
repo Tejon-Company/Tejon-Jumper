@@ -11,8 +11,9 @@ from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
 from berries.berrie_factory import berry_factory
 from scene.scene import Scene
-from pytmx.util_pygame import load_pygame
-from singletons.director import Director
+from resource_manager import ResourceManager
+from singletons.game import Game
+from scene.menus.pause_menu import PauseMenu
 from os import listdir
 from ui.hud import HUD
 
@@ -20,18 +21,19 @@ from ui.hud import HUD
 class Level(Scene):
     def __init__(
         self,
-        director: Director,
         background: str,
         music: str,
         level: str,
-        game=None,
+        next_level: int,
     ):
-        super().__init__(director)
+        super().__init__()
 
-        self.game = game
+        self.game = Game()
+        self.next_level = next_level
 
-        level_path = join("assets", "maps", "levels", level)
-        self.tmx_map = load_pygame(level_path)
+        self.is_on_pause = False
+
+        self.tmx_map = ResourceManager.load_tmx_map(level)
 
         self._setup_groups()
         self._setup_pools()
@@ -72,8 +74,8 @@ class Level(Scene):
         }
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(20, self.groups["projectiles"], self.game)
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"], self.game)
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
         map_width = self.tmx_map.width * TILE_SIZE
@@ -149,7 +151,6 @@ class Level(Scene):
                 self.spore_pool,
                 self.acorn_pool,
                 self.player,
-                self.game,
             )
 
     def _setup_boss(self):
@@ -163,7 +164,6 @@ class Level(Scene):
                     self.player,
                     self.platform_rects,
                     "bear.png",
-                    self.game,
                 )
         except ValueError:
             self.boss = None
@@ -177,9 +177,22 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, self.player, self.game)
+            environment_factory(map_element, self.groups, self.player, self)
+
+    def go_to_next_level(self):
+        next_level_background = f"background{self.next_level}"
+        next_level_music = f"level_{self.next_level}.ogg"
+        next_level_map = f"level{self.next_level}.tmx"
+        new_next_level = self.next_level + 1 if self.next_level < 3 else 0
+        next_level = Level(
+            next_level_background, next_level_music, next_level_map, new_next_level
+        )
+        self.director.change_scene(next_level)
 
     def update(self, delta_time):
+        if self.is_on_pause:
+            return
+
         self.groups["environment"].update()
         environment_rects = [platform.rect for platform in self.groups["environment"]]
 
@@ -192,9 +205,15 @@ class Level(Scene):
         self.camera.update(self.player)
 
     def events(self, events_list):
+        keys = pygame.key.get_just_released()
+
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
+            elif keys[pygame.K_p]:
+                self.is_on_pause = not self.is_on_pause
+                self.director.push_scene(PauseMenu())
+                self.is_on_pause = False
 
     def draw(self, display_surface):
         self.camera.draw_background(self.groups["backgrounds"], display_surface)
@@ -221,20 +240,11 @@ class Level(Scene):
         for sprite in self.groups["berries"]:
             display_surface.blit(sprite.image, self.camera.apply(sprite))
 
-        if self.boss:
-            HUD.draw_hud(
-                display_surface,
-                self.game.health_points,
-                self.game.remaining_lives,
-                self.game.coins,
-                self.game.player.energy,
-                self.boss.health_points,
-            )
-        else:
-            HUD.draw_hud(
-                display_surface,
-                self.game.health_points,
-                self.game.remaining_lives,
-                self.game.coins,
-                self.game.player.energy,
-            )
+        HUD.draw_hud(
+            display_surface,
+            self.game.health_points,
+            self.game.remaining_lives,
+            self.game.coins,
+            self.player.energy,
+            self.boss.health_points if self.boss else 0,
+        )

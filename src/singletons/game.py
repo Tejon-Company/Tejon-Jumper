@@ -1,5 +1,4 @@
 from settings import *
-from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
@@ -23,57 +22,22 @@ class Game(metaclass=SingletonMeta):
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
 
-        self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
-
-        HUD.initialize(TILE_SIZE, 22)
-
-        self._load_level()
-
-    def _load_level(self):
-        level_name = f"level{self.current_level}.tmx"
-        level_background = f"background{self.current_level}"
-        level_music = f"level_{self.current_level}.ogg"
-        self.level = Level(
-            self.director, level_background, level_music, level_name, self
-        )
-        self.player = self.level.player
         self._setup_sound_effects()
+        HUD.initialize(TILE_SIZE, 22)
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")
         self.life_lost_sound = ResourceManager.load_sound_effect("life_lost.ogg")
-
-    def events(self, event_list):
-        self.level.events(event_list)
-
-    def update(self, delta_time):
-        if self._is_game_paused():
-            return
-
-        self.level.update(delta_time)
-        self._handle_fall()
-
-        for berry in self.level.groups.get("berries", []):
-            berry.update(self, self.player)
+        self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self._handle_dead()
 
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
-
     def _handle_dead(self):
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
-            self.director.stack_scene(GameOver(self.director))
+            self.director.push_scene(GameOver(self.director))
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
@@ -133,13 +97,10 @@ class Game(metaclass=SingletonMeta):
 
         if keys[pygame.K_p]:
             self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
+            self.director.push_scene(PauseMenu(self.director))
             self.is_on_pause = False
 
         return self.is_on_pause
-
-    def draw(self, surface):
-        self.level.draw(surface)
 
     def _game_over(self):
         self.director.exit_program()

@@ -4,8 +4,8 @@ from scene.menus.menu import Menu
 
 
 class PauseMenu(Menu):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
 
         self.music_bar_y = 0.25 * WINDOW_HEIGHT
         self.effects_bar_y = 0.3333 * WINDOW_HEIGHT

@@ -3,8 +3,8 @@ from projectiles.projectile import Projectile
 
 
 class Acorn(Projectile):
-    def __init__(self, pos, surf, direction, groups, game, sprite_sheet_name, animations):
-        super().__init__(pos, surf, direction, groups, game, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
+        super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.rect = self.image.get_frect(topleft=pos)
         self.gravity = 170
         self.speed = 100

@@ -12,7 +12,6 @@ class Fox(MovingEnemy):
         platform_rects,
         sprite_sheet_name,
         animations,
-        game,
     ):
         super().__init__(
             pos,
@@ -22,7 +21,6 @@ class Fox(MovingEnemy):
             platform_rects,
             sprite_sheet_name,
             animations,
-            game,
         )
 
         self.rect = self.image.get_frect(topleft=pos)

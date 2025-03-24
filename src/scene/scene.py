@@ -4,8 +4,8 @@ from resource_manager import ResourceManager
 from pygame.mixer import music
 
 class Scene(ABC):
-    def __init__(self, director: Director):
-        self.director = director
+    def __init__(self):
+        self.director = Director()
 
     @staticmethod
     def _setup_music(music_name):
