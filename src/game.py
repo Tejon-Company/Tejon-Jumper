@@ -52,21 +52,11 @@ class Game:
         self._handle_fall()
 
         for berry in self.level.groups.get("berries", []):
-            berry.update(self, self.player)
+            berry.update(self, self.player, )
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self._handle_dead()
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
 
     def _handle_dead(self):
         if self.remaining_lives <= 0:
@@ -125,16 +115,6 @@ class Game:
 
         if not has_max_health and should_receive_heal:
             self.health_points += 1
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
 
     def draw(self, surface):
         self.level.draw(surface)

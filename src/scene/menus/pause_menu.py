@@ -1,6 +1,5 @@
-from settings import *
-from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
+from scene.menus.menu_utils import *
 
 
 class PauseMenu(Menu):

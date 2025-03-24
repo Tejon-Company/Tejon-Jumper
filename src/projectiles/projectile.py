@@ -1,9 +1,10 @@
-from settings import *
 from abc import ABC, abstractmethod
-from characters.sprite import Sprite
+
 from pygame.sprite import collide_rect
-from resource_manager import ResourceManager
+
+from characters.sprite import Sprite
 from characters.utils.animation_utils import update_animation, set_animation_parameters
+from resource_manager import ResourceManager
 
 
 class Projectile(Sprite, ABC):

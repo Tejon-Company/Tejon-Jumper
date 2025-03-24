@@ -1,4 +1,3 @@
-from settings import *
 from projectiles.projectile import Projectile
 
 
