@@ -47,12 +47,7 @@ class Bear(MovingEnemy):
 
         self.facing_right = True
 
-        if DIFFICULTY == Difficulty.EASY:
-            self.health_points = 3
-        else:
-            self.health_points = 5
-
-        self.last_damage_time_ms = None
+        self.health_points = 3 if DIFFICULTY == Difficulty.EASY else 5
 
     def _setup_animation(self):
         setup_animation(self)

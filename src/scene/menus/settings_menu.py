@@ -41,10 +41,7 @@ class SettingsMenu(Menu):
             self.current_difficulty = (
                 self.current_difficulty + 1) % len(self.difficulties)
 
-            if self.current_difficulty == 0:
-                settings.DIFFICULTY = Difficulty.EASY
-            else:
-                settings.DIFFICULTY = Difficulty.HARD
+            settings.DIFFICULTY = settings.Difficulty.EASY if self.current_difficulty == 0 else settings.Difficulty.HARD
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
