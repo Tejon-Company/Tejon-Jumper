@@ -1,5 +1,5 @@
 from resource_manager import ResourceManager
-from settings import *
+import settings
 from scene.menus.menu_utils import *
 from resource_manager import ResourceManager
 from scene.menus.menu import Menu
@@ -18,7 +18,7 @@ class SettingsMenu(Menu):
         self.return_btn_y = WINDOW_HEIGHT * 0.75
 
         self.difficulties = ["Easy", "Hard"]
-        self.current_difficulty = 1
+        self.current_difficulty = 0
 
         self.resolutions = [(1280, 720), (1920, 1080)]
         self.current_resolution = 0
@@ -38,9 +38,13 @@ class SettingsMenu(Menu):
 
         elif self.difficulty_button.collidepoint(event.pos):
             self.click_button_sound.play()
-            self.current_difficulty = (self.current_difficulty + 1) % len(
-                self.difficulties
-            )
+            self.current_difficulty = (
+                self.current_difficulty + 1) % len(self.difficulties)
+
+            if self.current_difficulty == 0:
+                settings.DIFFICULTY = Difficulty.EASY
+            else:
+                settings.DIFFICULTY = Difficulty.HARD
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)

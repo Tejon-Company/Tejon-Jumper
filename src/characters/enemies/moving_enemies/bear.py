@@ -47,7 +47,11 @@ class Bear(MovingEnemy):
 
         self.facing_right = True
 
-        self.health_points = 3
+        if DIFFICULTY == Difficulty.EASY:
+            self.health_points = 3
+        else:
+            self.health_points = 5
+
         self.last_damage_time_ms = None
 
     def _setup_animation(self):
@@ -69,7 +73,8 @@ class Bear(MovingEnemy):
         self._process_player_collision()
 
         self._determine_current_animation()
-        update_animation(delta_time, self, self.animations[self.current_animation])
+        update_animation(delta_time, self,
+                         self.animations[self.current_animation])
 
         self.old_rect = self.rect.copy()
         self.environment_rects = environment_rects

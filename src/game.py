@@ -10,16 +10,17 @@ from characters.utils.check_cooldown import check_cooldown
 class Game:
     def __init__(self, director):
         self.director = director
-        self.remaining_lives = 3
         self.player = None
         self.coins = 0
-        self.current_level = 1
+        self.current_level = 3
         self.is_on_pause = False
 
-        if self.director.difficulty == "Easy":
+        if DIFFICULTY == Difficulty.EASY:
             self.max_health_points = 5
+            self.remaining_lives = 3
         else:
             self.max_health_points = 3
+            self.remaining_lives = 1
 
         self.health_points = self.max_health_points
         self.last_damage_time_ms = None
