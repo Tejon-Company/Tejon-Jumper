@@ -15,8 +15,7 @@ class Game:
         self.current_level = 1
         self.is_on_pause = False
 
-
-        if self.config.difficulty == Difficulty.EASY:
+        if config.difficulty == Difficulty.EASY:
             self.max_health_points = 5
             self.remaining_lives = 3
         else:
@@ -29,7 +28,7 @@ class Game:
 
         self.damage_sound = ResourceManager.load_sound_effect("damage.ogg")
 
-        HUD.initialize(self.config.tile_size, 22)
+        HUD.initialize(config.tile_size, 22)
 
         self._load_level()
 
@@ -63,7 +62,7 @@ class Game:
             berry.update(self, self.player)
 
     def _handle_fall(self):
-        if self.player.rect.bottom > self.config.window_height:
+        if self.player.rect.bottom > config.window_height:
             self._handle_dead()
 
     def _is_game_paused(self):
