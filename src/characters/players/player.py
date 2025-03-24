@@ -87,9 +87,6 @@ class Player(Character):
         previous_animation = self.current_animation
         self._determine_current_animation()
 
-        if previous_animation != self.current_animation:
-            self._reset_animation()
-
         update_animation(delta_time, self, self.animations[self.current_animation])
 
     def _determine_current_animation(self):
@@ -104,9 +101,6 @@ class Player(Character):
 
         if self.direction.x != 0:
             self.facing_right = self.direction.x > 0
-
-    def _reset_animation(self):
-        pass
 
     def update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]

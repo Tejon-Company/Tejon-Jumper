@@ -3,7 +3,6 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
 
 
@@ -16,7 +15,6 @@ class Game:
         self.player = None
         self.coins = 0
         self.current_level = 1
-        self.is_on_pause = False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -45,9 +43,6 @@ class Game:
         self.level.events(event_list)
 
     def update(self, delta_time):
-        if self._is_game_paused():
-            return
-
         self.level.update(delta_time)
         self._handle_fall()
 
