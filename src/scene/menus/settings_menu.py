@@ -1,8 +1,5 @@
-from resource_manager import ResourceManager
-from settings import *
-from scene.menus.menu_utils import *
-from resource_manager import ResourceManager
 from scene.menus.menu import Menu
+from scene.menus.menu_utils import *
 
 
 class SettingsMenu(Menu):

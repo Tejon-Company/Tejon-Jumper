@@ -3,7 +3,6 @@ from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
-from scene.menus.pause_menu import PauseMenu
 from characters.utils.check_cooldown import check_cooldown
 
 
@@ -16,7 +15,6 @@ class Game:
         self.player = None
         self.coins = 0
         self.current_level = 1
-        self.is_on_pause = False
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -45,28 +43,15 @@ class Game:
         self.level.events(event_list)
 
     def update(self, delta_time):
-        if self._is_game_paused():
-            return
-
         self.level.update(delta_time)
         self._handle_fall()
 
         for berry in self.level.groups.get("berries", []):
-            berry.update(self, self.player)
+            berry.update(self, self.player, )
 
     def _handle_fall(self):
         if self.player.rect.bottom > WINDOW_HEIGHT:
             self._handle_dead()
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
 
     def _handle_dead(self):
         if self.remaining_lives <= 0:
@@ -125,16 +110,6 @@ class Game:
 
         if not has_max_health and should_receive_heal:
             self.health_points += 1
-
-    def _is_game_paused(self):
-        keys = pygame.key.get_just_released()
-
-        if keys[pygame.K_p]:
-            self.is_on_pause = not self.is_on_pause
-            self.director.stack_scene(PauseMenu(self.director))
-            self.is_on_pause = False
-
-        return self.is_on_pause
 
     def draw(self, surface):
         self.level.draw(surface)

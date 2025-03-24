@@ -3,6 +3,7 @@ from director import Director
 from resource_manager import ResourceManager
 from pygame.mixer import music
 
+
 class Scene(ABC):
     def __init__(self, director: Director):
         self.director = director

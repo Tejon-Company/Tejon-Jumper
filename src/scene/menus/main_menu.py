@@ -51,7 +51,8 @@ class MainMenu(Menu):
         )
         return text_surface, text_rect
 
-    def _create_title_background(self, text_rect):
+    @staticmethod
+    def _create_title_background(text_rect):
         padding_x = WINDOW_WIDTH * 0.025
         padding_y = WINDOW_HEIGHT * 0.05
         beige_rect = text_rect.inflate(padding_x, padding_y)

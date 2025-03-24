@@ -1,6 +1,5 @@
-from settings import *
-from characters.players.player import Player
 from berries.berry import Berry
+from characters.players.player import Player
 from resource_manager import ResourceManager
 
 
