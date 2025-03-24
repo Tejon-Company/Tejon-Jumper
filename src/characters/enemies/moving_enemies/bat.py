@@ -1,4 +1,4 @@
-from settings import config
+from settings import *
 from pygame.math import Vector2 as vector
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.utils.animation_utils import update_animation

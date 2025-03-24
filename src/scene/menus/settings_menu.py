@@ -1,5 +1,4 @@
-import pygame
-import settings
+from settings import *
 from resource_manager import ResourceManager
 from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
@@ -10,8 +9,6 @@ class SettingsMenu(Menu):
         super().__init__(director)
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
-        self.config = settings.config
-
         self.music_bar_y = self.config.window_height * 0.35
         self.effects_bar_y = self.config.window_height * 0.45
         self.difficulty_btn_y = self.config.window_height * 0.55
@@ -19,7 +16,7 @@ class SettingsMenu(Menu):
         self.return_btn_y = self.config.window_height * 0.75
 
         self.difficulties = ["Easy", "Hard"]
-        self.current_difficulty = 0 if self.config.difficulty == settings.Difficulty.EASY else 1
+        self.current_difficulty = 0 if self.config.difficulty == Difficulty.EASY else 1
 
         self.resolutions = [(1280, 720), (1920, 1080)]
         self.current_resolution = 0 if (
@@ -44,7 +41,7 @@ class SettingsMenu(Menu):
         elif self.difficulty_button.collidepoint(event.pos):
             self.click_button_sound.play()
             self.current_difficulty = (self.current_difficulty + 1) % len(self.difficulties)
-            self.config.difficulty = settings.Difficulty.EASY if self.current_difficulty == 0 else settings.Difficulty.HARD
+            self.config.difficulty = Difficulty.EASY if self.current_difficulty == 0 else Difficulty.HARD
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)

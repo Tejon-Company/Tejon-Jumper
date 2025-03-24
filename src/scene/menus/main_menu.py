@@ -1,7 +1,6 @@
 from resource_manager import ResourceManager
 from scene.menus.settings_menu import SettingsMenu
-from settings import config
-import pygame
+from settings import *
 from scene.menus.menu_utils import draw_button, draw_background
 from scene.menus.menu import Menu
 from scene.scene import Scene
@@ -10,8 +9,6 @@ from scene.scene import Scene
 class MainMenu(Menu):
     def __init__(self, director):
         super().__init__(director)
-
-        self.config = config
 
         self.background = ResourceManager.load_image("menu_background.jpeg")
 

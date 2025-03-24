@@ -1,5 +1,4 @@
-from settings import config
-import pygame
+from settings import *
 from resource_manager import ResourceManager
 
 

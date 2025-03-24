@@ -1,5 +1,4 @@
-import pygame
-import settings
+from settings import *
 from scene.level import Level
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
@@ -16,9 +15,8 @@ class Game:
         self.current_level = 1
         self.is_on_pause = False
 
-        self.config = settings.config
 
-        if self.config.difficulty == settings.Difficulty.EASY:
+        if self.config.difficulty == Difficulty.EASY:
             self.max_health_points = 5
             self.remaining_lives = 3
         else:

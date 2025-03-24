@@ -1,4 +1,4 @@
-from settings import config
+from settings import *
 
 
 def create_animation_rects(

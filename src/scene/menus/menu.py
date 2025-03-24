@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from scene.scene import Scene
-import pygame
+from settings import *
 from resource_manager import ResourceManager
 
 

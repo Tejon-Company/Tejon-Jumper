@@ -1,5 +1,4 @@
-import pygame
-import settings
+from settings import *
 from characters.utils.check_cooldown import check_cooldown
 from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import is_below_collision
@@ -22,7 +21,6 @@ class Bear(MovingEnemy):
         sprite_sheet_name,
         game,
     ):
-        self.config = settings.config
 
         super().__init__(
             pos,
@@ -48,7 +46,7 @@ class Bear(MovingEnemy):
         self.on_surface = True
         self.facing_right = True
 
-        self.health_points = 5 if self.config.difficulty == settings.Difficulty.EASY else 3
+        self.health_points = 5 if self.config.difficulty == Difficulty.EASY else 3
 
     def _setup_animation(self):
         setup_animation(self)

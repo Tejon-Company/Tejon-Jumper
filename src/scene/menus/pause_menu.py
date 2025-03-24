@@ -1,4 +1,4 @@
-from settings import config
+from settings import *
 from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
 

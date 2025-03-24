@@ -1,6 +1,4 @@
-from settings import config
-import pygame
-from os.path import join
+from settings import *
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear

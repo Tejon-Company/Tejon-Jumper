@@ -1,4 +1,4 @@
-from settings import config
+from settings import *
 from projectiles.projectile import Projectile
 
 

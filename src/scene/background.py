@@ -1,5 +1,4 @@
-from settings import config
-import pygame
+from settings import *
 
 
 class Background:

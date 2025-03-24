@@ -2,7 +2,7 @@ import pygame
 from pygame.draw import rect as draw_rect
 from pygame.rect import Rect
 from resource_manager import ResourceManager
-from settings import config
+from settings import *
 
 
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
