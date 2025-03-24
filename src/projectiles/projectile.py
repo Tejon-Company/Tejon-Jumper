@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from characters.sprite import Sprite
 from pygame.sprite import collide_rect
 
 from characters.sprite import Sprite
