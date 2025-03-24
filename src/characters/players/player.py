@@ -40,11 +40,15 @@ class Player(Character):
         self.is_sprinting = False
         self.is_in_rage = False
 
-        self.activate_rage_sound = ResourceManager.load_sound_effect("activate_rage.ogg")
-        self.deactivate_rage_sound = ResourceManager.load_sound_effect("deactivate_rage.ogg")
+        self.activate_rage_sound = ResourceManager.load_sound_effect(
+            "activate_rage.ogg"
+        )
+        self.deactivate_rage_sound = ResourceManager.load_sound_effect(
+            "deactivate_rage.ogg"
+        )
 
     def _setup_animation(self):
-        setup_animation(self)
+        set_animation_parameters(self)
 
         self.animations = {
             "idle": create_animation_rects(0, 1),
@@ -102,8 +106,7 @@ class Player(Character):
             self.facing_right = self.direction.x > 0
 
     def _reset_animation(self):
-        self.animation_time = 0
-        self.animation_frame = 0
+        pass
 
     def update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]
@@ -111,7 +114,6 @@ class Player(Character):
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
-
 
     def _input(self):
         keys = pygame.key.get_pressed()

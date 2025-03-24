@@ -43,7 +43,8 @@ class Spore(Projectile):
     def _is_moving_horizontally(self):
         return self.direction.x != 0
 
-    def _check_if_position_exceeded(self, distance_traveled, direction, rect):
+    @staticmethod
+    def _check_if_position_exceeded(distance_traveled, direction, rect):
         if direction > 0:
             return rect >= distance_traveled
         return rect <= distance_traveled

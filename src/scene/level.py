@@ -92,7 +92,8 @@ class Level(Scene):
                 self.groups["backgrounds"],
             )
 
-    def _get_image_files(self, background_folder):
+    @staticmethod
+    def _get_image_files(background_folder):
         image_files = []
         for file in listdir(background_folder):
             if file.endswith(".png"):

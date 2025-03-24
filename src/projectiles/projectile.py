@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from characters.sprite import Sprite
 from pygame.sprite import collide_rect
 from resource_manager import ResourceManager
-from characters.utils.animation_utils import update_animation, setup_animation
+from characters.utils.animation_utils import update_animation, set_animation_parameters
 
 
 class Projectile(Sprite, ABC):
@@ -17,7 +17,7 @@ class Projectile(Sprite, ABC):
         self.is_activated = False
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
         self.animations = animations
-        setup_animation(self)
+        set_animation_parameters(self)
 
     def update(self, delta_time, player):
         if not self.is_activated:

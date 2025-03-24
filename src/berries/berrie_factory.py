@@ -32,4 +32,4 @@ def berry_factory(berry, groups):
             )
         case _:
             raise ValueError(
-                f"The entitie {berry.name} is not a valid berry")
+                f"The entity {berry.name} is not a valid berry")

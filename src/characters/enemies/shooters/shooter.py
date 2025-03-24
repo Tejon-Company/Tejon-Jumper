@@ -1,7 +1,7 @@
 from settings import *
 from characters.enemies.enemy import Enemy
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
-from characters.utils.animation_utils import setup_animation
+from characters.utils.animation_utils import set_animation_parameters
 from abc import ABC, abstractmethod
 
 
@@ -28,7 +28,7 @@ class Shooter(Enemy, ABC):
         self.is_shooting = False
         self.shooting_timer = 0
         self.shooting_duration = 500
-        setup_animation(self)
+        set_animation_parameters(self)
 
     def update(self, delta_time):
         super().update(delta_time)
