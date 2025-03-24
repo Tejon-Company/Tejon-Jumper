@@ -67,7 +67,7 @@ class ResourceManager:
             return cls.resources[name]
 
         try:
-            fullname = join("assets", "sprites", name)
+            fullname = join("assets", "sprites", "hd", name)
             image = pygame.image.load(fullname).convert_alpha()
             color_key = image.get_at((0, 0))
             image.set_colorkey(color_key)
