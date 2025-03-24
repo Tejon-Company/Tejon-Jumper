@@ -12,7 +12,7 @@ class Game:
         self.director = director
         self.player = None
         self.coins = 0
-        self.current_level = 3
+        self.current_level = 1
         self.is_on_pause = False
 
         if DIFFICULTY == Difficulty.EASY:
