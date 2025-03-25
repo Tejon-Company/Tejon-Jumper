@@ -1,5 +1,35 @@
 @startuml Class Diagram Sprite
 
+title general class diagram (II)
+
+class Level {
+    - settings : Settings
+    - director : Director
+    - game : Game
+    - current_level : int
+    - is_on_pause : bool
+    - tmx_map : TiledMap
+    - _setup_groups()
+    - _setup_pools()
+    - _setup_camera()
+    - _setup_background(background)
+    - {static}_get_image_files(background_folder)
+    - _setup_tiled_background()
+    - _setup_terrain()
+    - _setup_deco() 
+    - _setup_player()
+    - _setup_enemies()
+    - _setup_boss()
+    - _setup_platform_rects()
+    - _setup_berries()
+    - _setup_environment()
+    + go_to_next_level()
+    + update(delta_time)
+    + events(events_list)
+    + draw(display_surface)
+    - _draw_group(display_surface, group)
+}
+
 class Sprite {
     - image : Surface
     - rect : FRect
@@ -297,6 +327,7 @@ class ResourceManager {
     + {static} load_music(name) : string
     + {static} load_font(name, size) : Font
     + {static} load_sprite_sheet(name) : Surface
+    + {static} load_tmx_map(name) : TiledMap
     + {static} set_volume_music(volume)
     + {static} get_music_volume() : float
     + {static} set_effects_volume(volume)
@@ -304,26 +335,44 @@ class ResourceManager {
     + {static} clear_resources()
 }
 
-' Berries:
+Level --> Player 
+Level --> Bear
+Level --> AcornPool
+Level --> SporePool
+Level --> Sprite
+
 Sprite <|-- Berry
-Berry <|-- CoinBerry
-CoinBerry --> ResourceManager
-Berry <|-- EnergyBerry
-EnergyBerry --> ResourceManager
-Berry <|-- HealthBerry
-HealthBerry --> ResourceManager
-Berry <|-- RageBerry
-' Player:
 Sprite <|-- Character
+Sprite <|-- Projectile
+
+Berry <|-- CoinBerry
+Berry <|-- EnergyBerry
+Berry <|-- HealthBerry
+Berry <|-- RageBerry
+
+CoinBerry --> ResourceManager
+EnergyBerry --> ResourceManager
+HealthBerry --> ResourceManager
+
+Projectile --> ResourceManager
+Projectile <|-- Spore
+Projectile <|-- Acorn
+
+ProjectilesPool <|-- SporePool
+ProjectilesPool <|-- AcornPool
+
+SporePool o-- Spore
+AcornPool o-- Acorn
+
 Character <|-- Player
+Character <|-- Enemy
+
 Player --> ResourceManager
 Player --> Berry
-' Enemy:
-Character <|-- Enemy
-Enemy --> ResourceManager
 
 Enemy <|-- MovingEnemy
 Enemy <|-- Shooter
+Enemy --> ResourceManager
 
 MovingEnemy <|-- Hedgehog
 MovingEnemy <|-- Fox
@@ -337,16 +386,5 @@ Squirrel --> AcornPool
 Mushroom --> MushroomDirection
 Mushroom --> MushroomState
 Mushroom --> SporePool
-' Projectiles:
-Sprite <|-- Projectile
-Projectile --> ResourceManager
-Projectile <|-- Spore
-Projectile <|-- Acorn
-
-ProjectilesPool <|-- SporePool
-ProjectilesPool <|-- AcornPool
-
-SporePool o-- Spore
-AcornPool o-- Acorn
 
 @enduml
