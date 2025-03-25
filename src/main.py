@@ -1,6 +1,6 @@
-from settings import *
 from singletons.director import Director
 from scene.menus.main_menu import MainMenu
+import pygame
 
 
 if __name__ == "__main__":

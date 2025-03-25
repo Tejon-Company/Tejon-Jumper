@@ -1,4 +1,4 @@
-from settings import *
+from singletons.settings import Settings
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
@@ -15,33 +15,36 @@ from resource_manager import ResourceManager
 from singletons.game import Game
 from scene.menus.pause_menu import PauseMenu
 from os import listdir
+from os.path import join
 from ui.hud import HUD
+import pygame
 
 
 class Level(Scene):
     def __init__(
         self,
-        background: str,
-        music: str,
-        level: str,
         current_level: int,
-        next_level: int,
     ):
         super().__init__()
 
+        self.settings = Settings()
         self.game = Game()
-        self.next_level = next_level
+        self.current_level = current_level
 
         self.is_on_pause = False
 
-        self.tmx_map = ResourceManager.load_tmx_map(level)
+        self.tmx_map = ResourceManager.load_tmx_map(
+            self.settings.levels_config[self.current_level]["map"]
+        )
 
         self._setup_groups()
         self.backgrounds = []
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_background(background)
+        self._setup_background(
+            self.settings.levels_config[self.current_level]["background"]
+        )
         self._setup_tiled_background()
         self._setup_terrain()
         self._setup_deco()
@@ -58,7 +61,7 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
 
-        Scene._setup_music(music)
+        Scene._setup_music(self.settings.levels_config[self.current_level]["music"])
 
     def _setup_groups(self):
         self.groups = {
@@ -78,8 +81,8 @@ class Level(Scene):
         self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * TILE_SIZE
-        map_height = self.tmx_map.height * TILE_SIZE
+        map_width = self.tmx_map.width * self.settings.tile_size
+        map_height = self.tmx_map.height * self.settings.tile_size
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
@@ -91,7 +94,9 @@ class Level(Scene):
                 Background(
                     join(background_folder, image_name),
                     (0, 0),
-                    PARALLAX_FACTOR[i % len(PARALLAX_FACTOR)],
+                    self.settings.parallax_factor[
+                        i % len(self.settings.parallax_factor)
+                    ],
                 )
             )
 
@@ -109,7 +114,7 @@ class Level(Scene):
     def _setup_tiled_background(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
                 (self.groups["backgrounds"]),
             )
@@ -117,7 +122,7 @@ class Level(Scene):
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
                 (self.groups["platforms"]),
             )
@@ -125,7 +130,7 @@ class Level(Scene):
     def _setup_deco(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
                 (self.groups["deco"]),
             )
@@ -179,16 +184,13 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, self.player, self)
+            environment_factory(
+                map_element, self.groups["environment"], self.player, self
+            )
 
     def go_to_next_level(self):
-        next_level_background = f"background{self.next_level}"
-        next_level_music = f"level_{self.next_level}.ogg"
-        next_level_map = f"level{self.next_level}.tmx"
-        new_next_level = self.next_level + 1 if self.next_level < 3 else 0
-        next_level = Level(
-            next_level_background, next_level_music, next_level_map, new_next_level
-        )
+        next_level_index = self.current_level + 1 % 3
+        next_level = Level(next_level_index)
         self.director.change_scene(next_level)
 
     def update(self, delta_time):
@@ -239,3 +241,7 @@ class Level(Scene):
             self.player.energy,
             self.boss.health_points if self.boss else 0,
         )
+
+    def _draw_group(self, display_surface, group):
+        for sprite in self.groups[group]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))

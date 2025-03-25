@@ -1,9 +1,8 @@
-from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.spore import Spore
 from characters.utils.animation_utils import create_animation_rects
-from singletons.game import Game
 from typing import Optional
+import pygame
 
 
 class SporePool(ProjectilesPool):
@@ -18,7 +17,9 @@ class SporePool(ProjectilesPool):
                 direction=pygame.math.Vector2(-1, 0),
                 groups=self.projectile_groups,
                 sprite_sheet_name="spore.png",
-                animations=create_animation_rects(0, 3, sprite_height=16, sprite_width=16),
+                animations=create_animation_rects(
+                    0, 3, sprite_height=16, sprite_width=16
+                ),
             )
             self.pool.append(spore)
 

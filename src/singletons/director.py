@@ -1,12 +1,14 @@
-from settings import *
+from singletons.settings import Settings
 from resource_manager import ResourceManager
 from singletons.singleton_meta import SingletonMeta
+import pygame
 
 
 class Director(metaclass=SingletonMeta):
     def __init__(self):
+        self.settings = Settings()
         self.display_surface = pygame.display.set_mode(
-            (WINDOW_WIDTH, WINDOW_HEIGHT))
+            (self.settings.window_width, self.settings.window_height))
         pygame.display.set_caption("Tejón Jumper")
 
         self.stack = []

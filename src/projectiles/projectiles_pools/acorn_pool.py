@@ -1,9 +1,8 @@
-from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.acorn import Acorn
 from characters.utils.animation_utils import create_animation_rects
-from singletons.game import Game
 from typing import Optional
+import pygame
 
 
 class AcornPool(ProjectilesPool):
@@ -19,7 +18,8 @@ class AcornPool(ProjectilesPool):
                 groups=self.projectile_groups,
                 sprite_sheet_name="acorn.png",
                 animations=create_animation_rects(
-                    0, 8, sprite_height=16, sprite_width=16),
+                    0, 8, sprite_height=16, sprite_width=16
+                ),
             )
             self.pool.append(acorn)
 

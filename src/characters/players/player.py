@@ -2,10 +2,12 @@ from characters.utils.check_cooldown import check_cooldown
 from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import *
 from characters.utils.animation_utils import *
-from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
 from singletons.game import Game
+from singletons.settings import Settings
+from pygame.math import Vector2 as vector
+import pygame
 
 
 class Player(Character):
@@ -14,6 +16,7 @@ class Player(Character):
 
         self._setup_animation()
         self.game = Game()
+        self.settings = Settings()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -154,7 +157,7 @@ class Player(Character):
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
-        if self.rect.bottom > WINDOW_HEIGHT:
+        if self.rect.bottom > self.settings.window_height:
             self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):

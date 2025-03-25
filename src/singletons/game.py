@@ -1,4 +1,4 @@
-from settings import *
+from singletons.settings import Settings
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
@@ -19,9 +19,10 @@ class Game(metaclass=SingletonMeta):
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
+        self.settings = Settings()
 
         self._setup_sound_effects()
-        HUD.initialize(TILE_SIZE, 22)
+        HUD.initialize(self.settings.tile_size, 22)
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")

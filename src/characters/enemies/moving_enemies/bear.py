@@ -6,8 +6,9 @@ from characters.utils.animation_utils import (
     set_animation_parameters,
     update_animation,
 )
-from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
+from singletons.settings import Settings
+import pygame
 
 
 class Bear(MovingEnemy):
@@ -31,9 +32,10 @@ class Bear(MovingEnemy):
         )
 
         self._setup_animation()
+        self.settings = Settings()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = TILE_SIZE * 2
+        self.rect.width = self.settings.tile_size * 2
 
         self.speed = 100
         self.gravity = 1000
@@ -52,9 +54,13 @@ class Bear(MovingEnemy):
         set_animation_parameters(self)
 
         self.animations = {
-            "run": create_animation_rects(0, 5, sprite_width=TILE_SIZE * 2),
-            "jump": create_animation_rects(5, 1, sprite_width=TILE_SIZE * 2),
-            "fall": create_animation_rects(6, 1, TILE_SIZE * 2),
+            "run": create_animation_rects(
+                0, 5, sprite_width=self.settings.tile_size * 2
+            ),
+            "jump": create_animation_rects(
+                5, 1, sprite_width=self.settings.tile_size * 2
+            ),
+            "fall": create_animation_rects(6, 1, self.settings.tile_size * 2),
         }
 
         self.current_animation = "run"

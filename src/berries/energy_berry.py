@@ -1,7 +1,7 @@
-from settings import *
 from characters.players.player import Player
 from berries.berry import Berry
 from resource_manager import ResourceManager
+import pygame
 
 
 class EnergyBerry(Berry):
