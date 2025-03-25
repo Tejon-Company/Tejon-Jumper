@@ -35,3 +35,4 @@ class GameConfig:
 
 
 config = GameConfig()
+

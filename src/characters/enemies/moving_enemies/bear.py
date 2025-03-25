@@ -8,6 +8,8 @@ from characters.utils.animation_utils import (
     update_animation,
 )
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
+from singletons.settings import Settings
+import pygame
 
 
 class Bear(MovingEnemy):
@@ -19,7 +21,6 @@ class Bear(MovingEnemy):
         player,
         platform_rects,
         sprite_sheet_name,
-        game,
     ):
 
         super().__init__(
@@ -30,13 +31,14 @@ class Bear(MovingEnemy):
             platform_rects,
             sprite_sheet_name,
             None,
-            game,
         )
 
+        self.settings = Settings()
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = config.tile_size * 2
+        self.rect.width = self.settings.tile_size * 2
+
         self.speed = 100
         self.gravity = 1000
         self.fall = 0
@@ -53,9 +55,13 @@ class Bear(MovingEnemy):
         set_animation_parameters(self)
 
         self.animations = {
-            "run": create_animation_rects(0, 5, sprite_width=config.tile_size * 2),
-            "jump": create_animation_rects(5, 1, sprite_width=config.tile_size * 2),
-            "fall": create_animation_rects(6, 1, config.tile_size * 2),
+            "run": create_animation_rects(
+                0, 5, sprite_width=self.settings.tile_size * 2
+            ),
+            "jump": create_animation_rects(
+                5, 1, sprite_width=self.settings.tile_size * 2
+            ),
+            "fall": create_animation_rects(6, 1, self.settings.tile_size * 2),
         }
 
         self.current_animation = "run"

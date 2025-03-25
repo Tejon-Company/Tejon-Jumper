@@ -1,14 +1,15 @@
-from settings import *
+from singletons.settings import Settings
 
 
 def create_animation_rects(
-    frame_start_x, number_of_frames,
-    sprite_width=None, sprite_height=None
+    frame_start_x, number_of_frames, sprite_width=None, sprite_height=None
 ):
+    settings = Settings()
     if sprite_width is None:
-        sprite_width = config.tile_size
+        sprite_width = settings.tile_size
+
     if sprite_height is None:
-        sprite_height = config.tile_size
+        sprite_height = settings.tile_size
 
     frame_start_x *= sprite_width
     y = 0

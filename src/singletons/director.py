@@ -1,11 +1,14 @@
-from settings import *
+from singletons.settings import Settings
 from resource_manager import ResourceManager
+from singletons.singleton_meta import SingletonMeta
+import pygame
 
 
-class Director:
+class Director(metaclass=SingletonMeta):
     def __init__(self):
+        self.settings = Settings()
         self.display_surface = pygame.display.set_mode(
-            (config.window_width, config.window_height))
+            (self.settings.window_width, self.settings.window_height))
         pygame.display.set_caption("Tejón Jumper")
 
         self.stack = []
@@ -33,8 +36,9 @@ class Director:
     def pop_scene(self):
         ResourceManager.clear_resources()
         self.exit_scene = True
-        if len(self.stack) > 0:
-            self.stack.pop()
+        if (len(self.stack) > 0):
+            current_scene = self.stack.pop()
+            return current_scene
 
     def exit_program(self):
         ResourceManager.clear_resources()
@@ -46,6 +50,6 @@ class Director:
         self.pop_scene()
         self.stack.append(scene)
 
-    def stack_scene(self, scene):
+    def push_scene(self, scene):
         self.exit_scene = True
         self.stack.append(scene)

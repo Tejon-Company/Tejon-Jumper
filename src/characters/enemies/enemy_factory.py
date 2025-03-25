@@ -1,4 +1,3 @@
-from settings import config
 from characters.enemies.moving_enemies.hedgehog import Hedgehog
 from characters.enemies.shooters.mushroom import Mushroom
 from characters.enemies.moving_enemies.fox import Fox
@@ -6,9 +5,11 @@ from characters.enemies.moving_enemies.bat import Bat
 from characters.enemies.shooters.squirrel import Squirrel
 from characters.enemies.shooters.mushroom_direction import MushroomDirection
 from characters.utils.animation_utils import create_animation_rects
+from singletons.settings import Settings
 
 
-def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player, game):
+def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player):
+    settings = Settings
     match enemy.name:
         case "Hedgehog":
             Hedgehog(
@@ -18,8 +19,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 player,
                 platform_rects,
                 "hedgehog.png",
-                create_animation_rects(0, 2, config.tile_size),
-                game,
+                create_animation_rects(0, 2, settings.tile_size),
             )
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
@@ -34,8 +34,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 direction.value[0],
                 player,
                 "mushroom.png",
-                create_animation_rects(direction.value[1], 3, config.tile_size),
-                game,
+                create_animation_rects(direction.value[1], 3, settings.tile_size),
                 spore_pool,
             )
         case "Fox":
@@ -46,8 +45,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 player,
                 platform_rects,
                 "fox.png",
-                create_animation_rects(0, 3, config.tile_size),
-                game,
+                create_animation_rects(0, 3, settings.tile_size),
             )
         case "Bat":
             Bat(
@@ -56,8 +54,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (groups["moving_enemies"], groups["characters"]),
                 player,
                 "bat.png",
-                create_animation_rects(0, 3, config.tile_size),
-                game,
+                create_animation_rects(0, 3, settings.tile_size),
             )
         case "Squirrel":
             Squirrel(
@@ -66,8 +63,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player,
                 (groups["characters"], groups["shooters"]),
                 player,
                 "squirrel.png",
-                create_animation_rects(1, 2, config.tile_size),
-                game,
+                create_animation_rects(1, 2, settings.tile_size),
                 acorn_pool,
             )
         case _:

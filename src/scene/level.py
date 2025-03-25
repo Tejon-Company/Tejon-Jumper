@@ -1,4 +1,4 @@
-from settings import *
+from singletons.settings import Settings
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
@@ -11,34 +11,42 @@ from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
 from berries.berrie_factory import berry_factory
 from scene.scene import Scene
-from pytmx.util_pygame import load_pygame
-from director import Director
+from resource_manager import ResourceManager
+from singletons.director import Director
+from singletons.game import Game
+from scene.menus.pause_menu import PauseMenu
 from os import listdir
+from os.path import join
 from ui.hud import HUD
+import pygame
 
 
 class Level(Scene):
     def __init__(
         self,
-        director: Director,
-        background: str,
-        music: str,
-        level: str,
-        game=None,
+        current_level: int,
     ):
-        super().__init__(director)
+        super().__init__()
 
-        self.game = game
+        self.settings = Settings()
+        self.director = Director()
+        self.game = Game()
+        self.current_level = current_level
 
-        level_path = join("assets", "maps", "levels", level)
-        self.tmx_map = load_pygame(level_path)
+        self.is_on_pause = False
+
+        self.tmx_map = ResourceManager.load_tmx_map(
+            self.settings.levels_config[self.current_level]["map"]
+        )
 
         self._setup_groups()
         self.backgrounds = []
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_background(background)
+        self._setup_background(
+            self.settings.levels_config[self.current_level]["background"]
+        )
         self._setup_tiled_background()
         self._setup_terrain()
         self._setup_deco()
@@ -55,7 +63,7 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
 
-        Scene._setup_music(music)
+        Scene._setup_music(self.settings.levels_config[self.current_level]["music"])
 
     def _setup_groups(self):
         self.groups = {
@@ -71,12 +79,12 @@ class Level(Scene):
         }
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(20, self.groups["projectiles"], self.game)
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"], self.game)
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * config.tile_size
-        map_height = self.tmx_map.height * config.tile_size
+        map_width = self.tmx_map.width * self.settings.tile_size
+        map_height = self.tmx_map.height * self.settings.tile_size
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
@@ -88,7 +96,9 @@ class Level(Scene):
                 Background(
                     join(background_folder, image_name),
                     (0, 0),
-                    config.parallax_factor[i % len(config.parallax_factor)],
+                    self.settings.parallax_factor[
+                        i % len(self.settings.parallax_factor)
+                    ],
                 )
             )
 
@@ -106,15 +116,15 @@ class Level(Scene):
     def _setup_tiled_background(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
             Sprite(
-                (x * config.tile_size, y * config.tile_size), 
-                surf, 
-                self.groups["backgrounds"]
+                (x * self.settings.tile_size, y * self.settings.tile_size),
+                surf,
+                (self.groups["backgrounds"]),
             )
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
-                (x * config.tile_size, y * config.tile_size), 
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
                 (self.groups["platforms"]),
             )
@@ -122,7 +132,7 @@ class Level(Scene):
     def _setup_deco(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
             Sprite(
-                (x * config.tile_size, y * config.tile_size), 
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
                 (self.groups["deco"]),
             )
@@ -150,7 +160,6 @@ class Level(Scene):
                 self.spore_pool,
                 self.acorn_pool,
                 self.player,
-                self.game,
             )
 
     def _setup_boss(self):
@@ -164,7 +173,6 @@ class Level(Scene):
                     self.player,
                     self.platform_rects,
                     "bear.png",
-                    self.game,
                 )
         except ValueError:
             self.boss = None
@@ -179,10 +187,18 @@ class Level(Scene):
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
             environment_factory(
-                map_element, self.groups["environment"], self.player, self.game
+                map_element, self.groups["environment"], self.player, self
             )
 
+    def go_to_next_level(self):
+        next_level_index = self.current_level + 1 % 3
+        next_level = Level(next_level_index)
+        self.director.change_scene(next_level)
+
     def update(self, delta_time):
+        if self.is_on_pause:
+            return
+
         self.groups["environment"].update()
         environment_rects = [platform.rect for platform in self.groups["environment"]]
 
@@ -190,13 +206,20 @@ class Level(Scene):
         self.groups["projectiles"].update(delta_time, self.player)
         self.groups["moving_enemies"].update(delta_time, environment_rects)
         self.groups["shooters"].update(delta_time)
+        self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
 
     def events(self, events_list):
+        keys = pygame.key.get_just_released()
+
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
+            elif keys[pygame.K_p]:
+                self.is_on_pause = not self.is_on_pause
+                self.director.push_scene(PauseMenu())
+                self.is_on_pause = False
 
     def draw(self, display_surface):
         self.camera.draw_background(self.backgrounds, display_surface)
@@ -213,14 +236,13 @@ class Level(Scene):
 
         self._draw_group(display_surface, "berries")
 
-        boss_health = self.boss.health_points if self.boss else 0
         HUD.draw_hud(
             display_surface,
             self.game.health_points,
             self.game.remaining_lives,
             self.game.coins,
-            self.game.player.energy,
-            boss_health,
+            self.player.energy,
+            self.boss.health_points if self.boss else 0,
         )
 
     def _draw_group(self, display_surface, group):

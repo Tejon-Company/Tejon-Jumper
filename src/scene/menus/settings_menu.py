@@ -1,17 +1,20 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
+from singletons.settings import Settings
 
 
 class SettingsMenu(Menu):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
         self.background = ResourceManager.load_image("menu_background.jpeg")
+        self.settings = Settings()
 
-        self.music_bar_y = config.window_height * 0.35
-        self.effects_bar_y = config.window_height * 0.45
-        self.difficulty_btn_y = config.window_height * 0.55
-        self.resolution_btn_y = config.window_height * 0.65
-        self.return_btn_y = config.window_height * 0.75
+        self.music_bar_y = self.settings.window_height * 0.35
+        self.effects_bar_y = self.settings.window_height * 0.45
+
+        self.difficulty_btn_y = self.settings.window_height * 0.55
+        self.resolution_btn_y = self.settings.window_height * 0.65
+        self.return_btn_y = self.settings.window_height * 0.75
 
         self.difficulties = ["Easy", "Hard"]
         self.current_difficulty = 0 if config.difficulty == Difficulty.EASY else 1
@@ -53,7 +56,7 @@ class SettingsMenu(Menu):
             f"{self.difficulties[self.current_difficulty]}",
             "Game Mode",
             self.font,
-            self.difficulty_btn_y + config.window_height * 0.02,
+            self.difficulty_btn_y + self.settings.window_height * 0.02,
         )
 
         current_resolution = self.resolutions[self.current_resolution]

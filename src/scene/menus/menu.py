@@ -5,8 +5,8 @@ from resource_manager import ResourceManager
 
 
 class Menu(Scene, ABC):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
         self.click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
 
     def events(self, events_list):
