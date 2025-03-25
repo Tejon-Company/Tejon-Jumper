@@ -3,10 +3,10 @@
 title Game Initialization
 
 actor User
-participant "Main"
-participant "Director"
-participant "Main Menu"
-participant "Game"
+participant Main
+participant Director
+participant MainMenu
+participant Game
 
 User -> Main: Executes the program
 Main -> Director: new()
