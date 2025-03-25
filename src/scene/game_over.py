@@ -14,9 +14,10 @@ class GameOver(Scene):
             if event.type == pygame.QUIT:
                 self.director.exit_program()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                from singletons.game import Game
+                from scene.level import Level
 
-                self.director.change_scene(Game(self.director))
+                first_level = Level(1)
+                self.director.change_scene(first_level)
 
     def draw(self, display_surface):
         display_surface.fill((0, 0, 0))

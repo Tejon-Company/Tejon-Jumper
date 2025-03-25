@@ -28,7 +28,7 @@ class Settings(metaclass=SingletonMeta):
         },
         3: {
             "background": "background3",
-            "music": "level_3.tmx",
+            "music": "level_3.ogg",
             "map": "level3.tmx",
         },
     }

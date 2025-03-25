@@ -12,6 +12,7 @@ from environment.environment_factory import environment_factory
 from berries.berrie_factory import berry_factory
 from scene.scene import Scene
 from resource_manager import ResourceManager
+from singletons.director import Director
 from singletons.game import Game
 from scene.menus.pause_menu import PauseMenu
 from os import listdir
@@ -28,6 +29,7 @@ class Level(Scene):
         super().__init__()
 
         self.settings = Settings()
+        self.director = Director()
         self.game = Game()
         self.current_level = current_level
 

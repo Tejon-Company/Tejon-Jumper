@@ -15,7 +15,6 @@ class Game(metaclass=SingletonMeta):
         self.health_points = self.max_health_points
         self.player = None
         self.coins = 0
-        self.current_level = 1
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
@@ -32,7 +31,8 @@ class Game(metaclass=SingletonMeta):
     def handle_dead(self):
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
-            self.director.push_scene(GameOver(self.director))
+            self.director.push_scene(GameOver())
+            self._reload_game()
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
@@ -42,7 +42,11 @@ class Game(metaclass=SingletonMeta):
             self._restart_level()
 
     def _restart_level(self):
+        from scene.level import Level
+
         current_scene = self.director.pop_scene()
+        new_scene = Level(current_scene.current_level)
+        self.director.change_scene(new_scene)
 
     def receive_damage(self, is_collision_on_left, is_collision_on_right):
         should_receive_damage, self.last_damage_time_ms = check_cooldown(
@@ -65,7 +69,7 @@ class Game(metaclass=SingletonMeta):
         self.health_points -= 1
 
         if self.health_points <= 0:
-            self._handle_dead()
+            self.handle_dead()
 
     def add_coin(self):
         self.coins += 1
@@ -83,5 +87,10 @@ class Game(metaclass=SingletonMeta):
         if not has_max_health and should_receive_heal:
             self.health_points += 1
 
-    def _game_over(self):
-        self.director.exit_program()
+    def _reload_game(self):
+        self.remaining_lives = 3
+        self.health_points = self.max_health_points
+        self.coins = 0
+
+        self.last_damage_time_ms = None
+        self.last_health_time_ms = None

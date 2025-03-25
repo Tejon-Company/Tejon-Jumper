@@ -31,8 +31,8 @@ class Bear(MovingEnemy):
             None,
         )
 
-        self._setup_animation()
         self.settings = Settings()
+        self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.rect.width = self.settings.tile_size * 2
