@@ -10,10 +10,11 @@ class AcornPool(ProjectilesPool):
         super().__init__(size, projectile_groups)
 
     def _create_pool(self):
+        acorn_size = self.settings.tile_size / 2
         for _ in range(self.size):
             acorn = Acorn(
                 pos=(0, 0),
-                surf=pygame.Surface((16, 16)),
+                surf=pygame.Surface((acorn_size, acorn_size)),
                 direction=pygame.math.Vector2(-1, 0),
                 groups=self.projectile_groups,
                 sprite_sheet_name="acorn.png",
