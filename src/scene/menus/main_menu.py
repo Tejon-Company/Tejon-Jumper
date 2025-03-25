@@ -24,7 +24,7 @@ class MainMenu(Menu):
         if self.play_button.collidepoint(event.pos):
             self.click_button_sound.play()
 
-            first_level = Level(1)
+            first_level = Level(3)
             self.director.change_scene(first_level)
 
         elif self.settings_button.collidepoint(event.pos):

@@ -32,7 +32,7 @@ class Game(metaclass=SingletonMeta):
         if self.remaining_lives <= 0:
             self.game_over_sound.play()
             self.director.push_scene(GameOver())
-            self._reload_game()
+            self.reload_game()
         else:
             self.life_lost_sound.play()
             self.remaining_lives -= 1
@@ -87,7 +87,7 @@ class Game(metaclass=SingletonMeta):
         if not has_max_health and should_receive_heal:
             self.health_points += 1
 
-    def _reload_game(self):
+    def reload_game(self):
         self.remaining_lives = 3
         self.health_points = self.max_health_points
         self.coins = 0
