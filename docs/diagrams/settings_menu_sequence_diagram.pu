@@ -1,6 +1,6 @@
-@startuml Game Initialization
+@startuml Settings Menu Sequence Diagram
 
-title Game Initialization
+title Settings Menu
 
 actor User
 participant Main
@@ -13,17 +13,9 @@ Main -> Director: new()
 activate Director
 Main -> Director: stack_scene(MainMenu)
 Director -> MainMenu: new()
-activate MainMenu
 Main -> Director: run()
 Director -> MainMenu: loop()
 MainMenu --> Director: Wait for event
-User -> MainMenu: Press "Play"
-MainMenu -> Director: stack_scene(Game)
-deactivate MainMenu
-Director -> Game: new()
-activate Game
-Game -> Game: _load_level()
-deactivate Game
-deactivate Director
+User -> MainMenu: Press "Settings"
 
 @enduml

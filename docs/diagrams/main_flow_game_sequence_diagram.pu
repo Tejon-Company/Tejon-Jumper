@@ -1,0 +1,24 @@
+@startuml Main Flow Game Sequence Diagram
+
+title Main flow of the game 
+
+participant Director
+participant Game
+participant Level
+participant Player
+participant HUD
+
+Director -> Game: _loop(Game)
+activate Game
+activate HUD
+Game -> HUD: initialize()
+Game -> Level: _load_level()
+activate Level
+Level -> Player: update()
+Level -> HUD: draw_hud()
+HUD --> Game: Renderiza HUD
+deactivate Level
+deactivate HUD
+deactivate Game
+
+@enduml
