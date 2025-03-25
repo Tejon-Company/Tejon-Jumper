@@ -69,7 +69,7 @@ class MainMenu(Menu):
 
         self.play_button = draw_button(
             display_surface,
-            "Play",
+            "Jugar",
             self.button_font,
             self.settings.window_height * 0.5,
             width=button_width,
@@ -78,7 +78,7 @@ class MainMenu(Menu):
 
         self.settings_button = draw_button(
             display_surface,
-            "Settings",
+            "Ajustes",
             self.button_font,
             self.settings.window_height * 0.67,
             width=button_width,

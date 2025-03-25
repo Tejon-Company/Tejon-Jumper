@@ -41,14 +41,14 @@ class PauseMenu(Menu):
     def _draw_buttons(self, display_surface):
         self.continue_button = draw_button(
             display_surface,
-            "Continue",
+            "Continuar",
             self.font,
             self.continue_button_y,
         )
 
         self.restart_button = draw_button(
             display_surface,
-            "Restart",
+            "Reiniciar partida",
             self.font,
             self.restart_button_y,
         )
