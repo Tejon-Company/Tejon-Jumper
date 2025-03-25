@@ -7,8 +7,6 @@ participant Director
 participant Level 
 participant PauseMenu as "Pause Menu"
 participant ResourceManager as "Resource Manager"
-participant Game
-
 
 activate Director
 activate Level
@@ -29,12 +27,13 @@ alt [Press continue]
     Director -> Level : stack.pop()
     activate Level
     deactivate Level
+    
 else [Press restart]
     activate PauseMenu
-    PauseMenu -> Director : change_scene(Game)
+    PauseMenu -> Director : change_scene(first_level)
     deactivate PauseMenu
-    Director -> Game : stack.append(Game)
-    activate Game
+    Director -> Level : new()
+    activate Level
 end
 
 deactivate Level

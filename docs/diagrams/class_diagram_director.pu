@@ -127,6 +127,7 @@ abstract class Menu {
 }
 
 class MainMenu {
+    - settings : Settings
     - background: Surface
     - title_font: Font
     - button_font: Font
@@ -139,6 +140,7 @@ class MainMenu {
 }
 
 class PauseMenu {
+    - settings : Settings
     - music_bar_y : float 
     - effects_bar_y : float
     - continue_button_y : float
@@ -251,6 +253,9 @@ MainMenu --> Settings
 MainMenu --> SettingsMenu
 MainMenu --> Level
 MainMenu --> Scene
+
+PauseMenu --> ResourceManager
+PauseMenu --> Settings
 
 SettingsMenu --> ResourceManager
 SettingsMenu --> Settings
