@@ -206,6 +206,7 @@ class Level(Scene):
         self.groups["projectiles"].update(delta_time, self.player)
         self.groups["moving_enemies"].update(delta_time, environment_rects)
         self.groups["shooters"].update(delta_time)
+        self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
 
