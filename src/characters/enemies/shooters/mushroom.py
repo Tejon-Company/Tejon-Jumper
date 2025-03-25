@@ -1,9 +1,7 @@
 from enum import Enum, auto
-
-import pygame
-
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.spore_pool import SporePool
+import pygame
 
 
 class Mushroom(Shooter):
@@ -21,7 +19,6 @@ class Mushroom(Shooter):
         player,
         sprite_sheet_name,
         animations,
-        game,
         projectiles_pool=SporePool,
     ):
         super().__init__(
@@ -31,7 +28,6 @@ class Mushroom(Shooter):
             player,
             sprite_sheet_name,
             animations,
-            game,
             projectiles_pool,
         )
         self.direction = direction

@@ -3,8 +3,8 @@ from scene.menus.menu_utils import *
 
 
 class PauseMenu(Menu):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
 
         self.music_bar_y = 0.25 * WINDOW_HEIGHT
         self.effects_bar_y = 0.3333 * WINDOW_HEIGHT
@@ -21,7 +21,7 @@ class PauseMenu(Menu):
         elif self.restart_button.collidepoint(event.pos):
             self.click_button_sound.play()
 
-            from game import Game
+            from singletons.game import Game
 
             self.director.change_scene(Game(self.director))
 

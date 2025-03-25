@@ -1,10 +1,10 @@
-from abc import ABC
-from typing import final
-
+from resource_manager import ResourceManager
+from singletons.game import Game
 from pygame.sprite import collide_rect
-
 from characters.character import Character
 from resource_manager import ResourceManager
+from abc import ABC
+from typing import final
 
 
 class Enemy(Character, ABC):
@@ -17,7 +17,6 @@ class Enemy(Character, ABC):
         platform_rects,
         sprite_sheet_name,
         animations,
-        game,
     ):
         super().__init__(pos, surf, groups, platform_rects)
         self.groups = groups
@@ -25,7 +24,7 @@ class Enemy(Character, ABC):
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
         self.animations = animations
         self.defeat_enemy_sound = ResourceManager.load_sound_effect("defeat_enemy.ogg")
-        self.game = game
+        self.game = Game()
         self.should_receive_damage = False
 
     def update(self, delta_time):

@@ -1,8 +1,9 @@
-from settings import *
 from characters.enemies.enemy import Enemy
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from characters.utils.animation_utils import set_animation_parameters
 from abc import ABC, abstractmethod
+from pygame.math import Vector2 as vector
+import pygame
 
 
 class Shooter(Enemy, ABC):
@@ -14,12 +15,9 @@ class Shooter(Enemy, ABC):
         player,
         sprite_sheet_name,
         animations,
-        game,
         projectiles_pool=ProjectilesPool,
     ):
-        super().__init__(
-            pos, surf, groups, player, None, sprite_sheet_name, animations, game
-        )
+        super().__init__(pos, surf, groups, player, None, sprite_sheet_name, animations)
         self.shoot_cooldown = 3000
         self.pos = pos
         self.last_shot = 0
