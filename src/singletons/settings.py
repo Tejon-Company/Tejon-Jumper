@@ -20,16 +20,19 @@ class Settings(metaclass=SingletonMeta):
             "background": "background1",
             "music": "level_1.ogg",
             "map": "level1.tmx",
+            "map_size": 121,
         },
         2: {
             "background": "background2",
             "music": "level_2.ogg",
             "map": "level2.tmx",
+            "map_size": 154,
         },
         3: {
             "background": "background3",
             "music": "level_3.ogg",
             "map": "level3.tmx",
+            "map_size": 160,
         },
     }
 
