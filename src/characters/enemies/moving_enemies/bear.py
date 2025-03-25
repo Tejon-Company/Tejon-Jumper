@@ -48,7 +48,8 @@ class Bear(MovingEnemy):
         self.on_surface = True
         self.facing_right = True
 
-        self.health_points = 5 if config.difficulty == Difficulty.HARD else 3
+        self.health_points = 3 if self.settings.difficulty == self.settings.Difficulty.EASY else 5
+            
         self.last_damage_time_ms = None
 
     def _setup_animation(self):

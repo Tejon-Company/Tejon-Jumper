@@ -10,15 +10,17 @@ from singletons.director import Director
 class Game(metaclass=SingletonMeta):
     def __init__(self):
         self.director = Director()
-        self.remaining_lives = 3
-        self.max_health_points = 5
-        self.health_points = self.max_health_points
         self.player = None
         self.coins = 0
 
         self.last_damage_time_ms = None
         self.last_health_time_ms = None
         self.settings = Settings()
+
+        self.max_health_points = 5 if self.settings.difficulty == self.settings.Difficulty.EASY else 3
+        self.remaining_lives = 3 if self.settings.difficulty == self.settings.Difficulty.EASY else 1
+
+        self.health_points = self.max_health_points
 
         self._setup_sound_effects()
         HUD.initialize(self.settings.tile_size, 22)

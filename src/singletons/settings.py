@@ -5,7 +5,7 @@ from enum import Enum, auto
 class Settings(metaclass=SingletonMeta):
     class Difficulty(Enum):
         EASY = auto()
-        HIGH = auto()
+        HARD = auto()
 
     window_width, window_height = 1280, 720
 
