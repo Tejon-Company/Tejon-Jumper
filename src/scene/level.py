@@ -148,7 +148,10 @@ class Level(Scene):
 
         character = next(iter(player_layer))
         self.player = Player(
-            (character.x, character.y), character.image, self.groups["characters"]
+            (character.x, character.y),
+            character.image,
+            self.groups["characters"],
+            self.current_level
         )
 
     def _setup_enemies(self):

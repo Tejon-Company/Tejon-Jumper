@@ -11,12 +11,13 @@ import pygame
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups):
+    def __init__(self, pos, surf, groups, current_level):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
         self.game = Game()
         self.settings = Settings()
+        self.current_level = current_level
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -139,10 +140,30 @@ class Player(Character):
 
     def _move_horizontally(self, delta_time):
         sprint_multiplier = 2 if self.is_sprinting else 1
-        self.rect.x += (
+        self.rect.x = self._get_next_pos(delta_time, sprint_multiplier)
+        self.handle_collisions_with_rects(self._handle_horizontal_collision)
+
+    def _get_next_pos(self, delta_time, sprint_multiplier):
+        next_x_pos = self.rect.x + (
             self.direction.x * self.current_speed * delta_time * sprint_multiplier
         )
-        self.handle_collisions_with_rects(self._handle_horizontal_collision)
+        left_boundary, right_boundary = self._get_boundaries()
+
+        if next_x_pos > right_boundary:
+            next_x_pos = right_boundary
+        elif next_x_pos < left_boundary:
+            next_x_pos = left_boundary
+
+        return next_x_pos
+
+    def _get_boundaries(self):
+        map_size = self.settings.levels_config[self.current_level]["map_size"]
+        tile_size = self.settings.tile_size
+
+        left_boundary = 0
+        right_boundary = map_size * tile_size - tile_size * 2
+
+        return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * delta_time
