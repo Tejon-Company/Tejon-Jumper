@@ -1,5 +1,6 @@
 import pygame
 from os.path import join
+from pytmx.util_pygame import load_pygame
 
 
 class ResourceManager:
@@ -75,6 +76,19 @@ class ResourceManager:
             return image
         except Exception as e:
             print(f"Error loading sprite {fullname}: {e}")
+
+    @classmethod
+    def load_tmx_map(cls, name):
+        if name in cls.resources:
+            return cls.resources[name]
+
+        try:
+            level_path = join("assets", "maps", "levels", name)
+            tmx_map = load_pygame(level_path)
+            return tmx_map
+
+        except Exception as e:
+            print(f"Error loading map {level_path}: {e}")
 
     @classmethod
     def set_music_volume(cls, volume):
