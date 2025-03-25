@@ -1,15 +1,18 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
+from resource_manager import ResourceManager
+from singletons.settings import Settings
 
 
 class PauseMenu(Menu):
     def __init__(self):
         super().__init__()
+        self.settings = Settings()
 
-        self.music_bar_y = 0.25 * WINDOW_HEIGHT
-        self.effects_bar_y = 0.3333 * WINDOW_HEIGHT
-        self.continue_button_y = 0.45 * WINDOW_HEIGHT
-        self.restart_button_y = 0.5833 * WINDOW_HEIGHT
+        self.music_bar_y = 0.25 * self.settings.window_height
+        self.effects_bar_y = 0.3333 * self.settings.window_height
+        self.continue_button_y = 0.45 * self.settings.window_height
+        self.restart_button_y = 0.5833 * self.settings.window_height
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
@@ -20,10 +23,11 @@ class PauseMenu(Menu):
 
         elif self.restart_button.collidepoint(event.pos):
             self.click_button_sound.play()
-
-            from singletons.game import Game
-
-            self.director.change_scene(Game(self.director))
+            self.director.pop_scene()
+            
+            from scene.level import Level
+            current_level = Level(1)
+            self.director.change_scene(current_level)
 
     def draw(self, display_surface):
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
