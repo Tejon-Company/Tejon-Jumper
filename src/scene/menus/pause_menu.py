@@ -23,7 +23,6 @@ class PauseMenu(Menu):
 
         elif self.restart_button.collidepoint(event.pos):
             self.click_button_sound.play()
-            self.director.pop_scene()
 
             from scene.level import Level
             first_level = Level(1)
