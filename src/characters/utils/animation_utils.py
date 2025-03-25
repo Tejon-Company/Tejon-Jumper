@@ -26,7 +26,7 @@ def create_animation_rects(
     return animation_rects
 
 
-def setup_animation(entity):
+def set_animation_parameters(entity):
     entity.animation_frame = 0
     entity.animation_speed = 0.2
     entity.animation_time = 0

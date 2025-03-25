@@ -19,7 +19,7 @@ class Director:
         while not self.exit_scene:
             delta_time = self.clock.tick(60) / 1000
             scene.events(pygame.event.get())
-            scene.update(delta_time)
+            scene.update(delta_time, )
             scene.draw(self.display_surface)
 
             pygame.display.update()

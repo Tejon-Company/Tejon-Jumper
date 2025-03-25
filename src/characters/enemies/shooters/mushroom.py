@@ -1,9 +1,9 @@
-from settings import *
-from characters.enemies.shooters.shooter import Shooter
-from characters.utils.animation_utils import setup_animation
-from projectiles.projectiles_pools.spore_pool import SporePool
 from enum import Enum, auto
+
 import pygame
+
+from characters.enemies.shooters.shooter import Shooter
+from projectiles.projectiles_pools.spore_pool import SporePool
 
 
 class Mushroom(Shooter):
@@ -80,7 +80,7 @@ class Mushroom(Shooter):
         is_shooting_ready = self.state_timer >= self.shooting_duration
 
         if is_shooting_ready:
-            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self.direction)
+            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self.direction, )
             self.current_state = self.MushroomState.IDLE
             self.state_timer = 0
         else:

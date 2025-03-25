@@ -1,9 +1,10 @@
-from settings import *
-from characters.character import Character
-from resource_manager import ResourceManager
-from pygame.sprite import collide_rect
 from abc import ABC
 from typing import final
+
+from pygame.sprite import collide_rect
+
+from characters.character import Character
+from resource_manager import ResourceManager
 
 
 class Enemy(Character, ABC):

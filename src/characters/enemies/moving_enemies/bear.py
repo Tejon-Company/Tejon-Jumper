@@ -4,7 +4,7 @@ from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import is_below_collision
 from characters.utils.animation_utils import (
     create_animation_rects,
-    setup_animation,
+    set_animation_parameters,
     update_animation,
 )
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
@@ -36,7 +36,7 @@ class Bear(MovingEnemy):
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = self.config.tile_size * 2
+        self.rect.width = config.tile_size * 2
         self.speed = 100
         self.gravity = 1000
         self.fall = 0
@@ -46,15 +46,16 @@ class Bear(MovingEnemy):
         self.on_surface = True
         self.facing_right = True
 
-        self.health_points = 5 if self.config.difficulty == Difficulty.EASY else 3
+        self.health_points = 5 if config.difficulty == Difficulty.HARD else 3
+        self.last_damage_time_ms = None
 
     def _setup_animation(self):
-        setup_animation(self)
+        set_animation_parameters(self)
 
         self.animations = {
-            "run": create_animation_rects(0, 5, sprite_width=self.config.tile_size * 2),
-            "jump": create_animation_rects(5, 1, sprite_width=self.config.tile_size * 2),
-            "fall": create_animation_rects(6, 1, self.config.tile_size * 2),
+            "run": create_animation_rects(0, 5, sprite_width=config.tile_size * 2),
+            "jump": create_animation_rects(5, 1, sprite_width=config.tile_size * 2),
+            "fall": create_animation_rects(6, 1, config.tile_size * 2),
         }
 
         self.current_animation = "run"
@@ -94,9 +95,6 @@ class Bear(MovingEnemy):
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
-
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
 
     def _move(self, delta_time):
         self._move_horizontally(delta_time)

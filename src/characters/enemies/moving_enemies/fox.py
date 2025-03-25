@@ -1,5 +1,4 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from random import choice
 
 
 class Fox(MovingEnemy):

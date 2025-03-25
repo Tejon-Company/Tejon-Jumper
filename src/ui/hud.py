@@ -74,7 +74,7 @@ class HUD:
         remaining_lives: int,
         coins: int,
         energy: int,
-        bear_health_points: int = 0,
+        bear_health_points: int,
     ):
         cls._draw_hearts(display_surface, remaining_health_points)
         cls._draw_energy_bar(display_surface, energy)
