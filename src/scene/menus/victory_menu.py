@@ -9,7 +9,7 @@ class VictoryMenu(Menu):
         self.boss_has_been_defeated = boss_has_been_defeated
         settings = Settings()
         self.background = ResourceManager.load_image("menu_background.jpeg")
-        self.message_y = 0.35 * settings.window_height
+        self.message_y = 0.25 * settings.window_height
         self.message_x = 0.28 * settings.window_width
         self.message_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
@@ -30,7 +30,7 @@ class VictoryMenu(Menu):
             victory_message = "¡Felicidades, lograste vencer al oso!"
         else:
             victory_message = (
-                "Has finalizado el juego, pero no has sido capaz de derrotar al oso..."
+                "Has finalizado el juego, pero no\nhas sido capaz de derrotar al oso..."
             )
 
         display_label(
