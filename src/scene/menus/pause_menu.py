@@ -24,10 +24,10 @@ class PauseMenu(Menu):
         elif self.restart_button.collidepoint(event.pos):
             self.click_button_sound.play()
             self.director.pop_scene()
-            
+
             from scene.level import Level
-            current_level = Level(1)
-            self.director.change_scene(current_level)
+            first_level = Level(1)
+            self.director.change_scene(first_level)
 
     def draw(self, display_surface):
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
