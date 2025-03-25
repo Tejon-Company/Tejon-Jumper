@@ -68,7 +68,7 @@ class ResourceManager:
             return cls.resources[name]
 
         try:
-            fullname = join("assets", "sprites", "hd", name)
+            fullname = join("assets", "hd", "sprite_sheets", "day", name)
             image = pygame.image.load(fullname).convert_alpha()
             color_key = image.get_at((0, 0))
             image.set_colorkey(color_key)
@@ -83,7 +83,7 @@ class ResourceManager:
             return cls.resources[name]
 
         try:
-            level_path = join("assets", "maps", "levels", name)
+            level_path = join("assets", "hd", "tiled", "levels", name)
             tmx_map = load_pygame(level_path)
             return tmx_map
 

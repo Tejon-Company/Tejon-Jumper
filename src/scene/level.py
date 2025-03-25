@@ -88,7 +88,7 @@ class Level(Scene):
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
-        background_folder = join("assets", "maps", "backgrounds", background)
+        background_folder = join("assets", "hd", "backgrounds", "day", background)
         image_files = self._get_image_files(background_folder)
 
         for i, image_name in enumerate(image_files):
