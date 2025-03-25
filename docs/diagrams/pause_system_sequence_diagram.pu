@@ -4,16 +4,17 @@ title Pause System
 
 actor User
 participant Director 
-participant Game 
+participant Level 
 participant PauseMenu as "Pause Menu"
 participant ResourceManager as "Resource Manager"
+participant Game
 
 
 activate Director
-activate Game
-User -> Game : Press "P"
-Game -> Director : stack_scene(PauseMenu)
-deactivate Game
+activate Level
+User -> Level : Press "P"
+Level -> Director : push_scene(PauseMenu)
+deactivate Level
 Director -> PauseMenu : new()
 activate PauseMenu
 PauseMenu -> ResourceManager : load_font()
@@ -25,9 +26,9 @@ PauseMenu -> PauseMenu : draw()
 alt [Press continue]
     PauseMenu -> Director : pop_scene()
     deactivate PauseMenu
-    Director -> Game : stack.pop()
-    activate Game
-    deactivate Game
+    Director -> Level : stack.pop()
+    activate Level
+    deactivate Level
 else [Press restart]
     activate PauseMenu
     PauseMenu -> Director : change_scene(Game)
@@ -36,5 +37,5 @@ else [Press restart]
     activate Game
 end
 
-deactivate Game
+deactivate Level
 deactivate Director

@@ -2,23 +2,42 @@
 
 title Main flow of the game 
 
+actor User
 participant Director
-participant Game
 participant Level
-participant Player
+participant Game
 participant HUD
+participant GameOver
 
-Director -> Game: _loop(Game)
-activate Game
-activate HUD
-Game -> HUD: initialize()
-Game -> Level: _load_level()
+activate Director
+Director -> Level: new(current_level)
 activate Level
-Level -> Player: update()
-Level -> HUD: draw_hud()
-HUD --> Game: Renderiza HUD
-deactivate Level
+Level -> Game : new()
+activate Game
+Game -> HUD : initialize(tile_size, font_size)
+activate HUD
+HUD --> Game : renders
 deactivate HUD
-deactivate Game
+
+alt Player loses all lives
+    Game -> Director : push_scene(GameOver)
+    Director -> GameOver : new()
+    activate GameOver
+    User -> GameOver : Press "Enter"
+    GameOver -> Director : change_scene(first_level)
+    deactivate GameOver
+    Director -> Level : stack.append(Level)
+end
+
+alt Player completes level
+    Level -> Director : go_to_next_level()
+    Director -> Level : new(next_level)
+end
+
+alt Player restarts level
+    Game -> Director : pop_scene()
+    Game -> Director : change_scene(new_scene)
+    Director -> Level : new(current_level)
+end
 
 @enduml
