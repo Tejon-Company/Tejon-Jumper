@@ -1,5 +1,6 @@
-from settings import *
 from resource_manager import ResourceManager
+from singletons.settings import Settings
+import pygame
 
 
 class HUD:
@@ -15,6 +16,7 @@ class HUD:
 
     @classmethod
     def initialize(cls, sprite_size, font_size):
+        cls.settings = Settings()
         cls.sprite_size = sprite_size
         cls.font_size = font_size
         cls.font = ResourceManager.load_font("Beta54.ttf", cls.font_size)
@@ -74,7 +76,7 @@ class HUD:
         remaining_lives: int,
         coins: int,
         energy: int,
-        bear_health_points: int = 0,
+        bear_health_points: int,
     ):
         cls._draw_hearts(display_surface, remaining_health_points)
         cls._draw_energy_bar(display_surface, energy)
@@ -147,7 +149,7 @@ class HUD:
 
     @classmethod
     def _draw_bear_hearts(cls, display_surface, bear_healt_points: int):
-        start_x = WINDOW_WIDTH // 2 - TILE_SIZE * 2
+        start_x = cls.settings.window_width // 2 - cls.settings.tile_size * 2
         cls._draw_health_icons(
             display_surface, bear_healt_points, cls.bear_health_icon, start_x, 10
         )

@@ -1,14 +1,16 @@
-from settings import *
+from singletons.game import Game
+from singletons.settings import Settings
 from abc import ABC, abstractmethod
 from typing import Optional
 
 
 class ProjectilesPool(ABC):
-    def __init__(self, size, projectile_groups, game):
+    def __init__(self, size, projectile_groups):
+        self.settings = Settings()
         self.pool = list()
         self.size = size
         self.projectile_groups = projectile_groups
-        self.game = game
+        self.game = Game()
         self._create_pool()
 
     @abstractmethod

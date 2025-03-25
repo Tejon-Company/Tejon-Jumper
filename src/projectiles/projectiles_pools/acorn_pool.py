@@ -1,25 +1,26 @@
-from settings import *
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.acorn import Acorn
 from characters.utils.animation_utils import create_animation_rects
 from typing import Optional
+import pygame
 
 
 class AcornPool(ProjectilesPool):
-    def __init__(self, size, projectile_groups, game):
-        super().__init__(size, projectile_groups, game)
+    def __init__(self, size, projectile_groups):
+        super().__init__(size, projectile_groups)
 
     def _create_pool(self):
+        acorn_size = self.settings.tile_size / 2
         for _ in range(self.size):
             acorn = Acorn(
                 pos=(0, 0),
-                surf=pygame.Surface((16, 16)),
+                surf=pygame.Surface((acorn_size, acorn_size)),
                 direction=pygame.math.Vector2(-1, 0),
                 groups=self.projectile_groups,
                 sprite_sheet_name="acorn.png",
                 animations=create_animation_rects(
-                    0, 8, sprite_height=16, sprite_width=16),
-                game=self.game
+                    0, 8, sprite_height=16, sprite_width=16
+                ),
             )
             self.pool.append(acorn)
 

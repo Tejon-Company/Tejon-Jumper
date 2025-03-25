@@ -1,6 +1,4 @@
-from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from random import choice
 from characters.utils.collision_utils import is_below_collision
 
 
@@ -14,7 +12,6 @@ class Hedgehog(MovingEnemy):
         platform_rects,
         sprite_sheet_name,
         animations,
-        game,
     ):
         super().__init__(
             pos,
@@ -24,7 +21,6 @@ class Hedgehog(MovingEnemy):
             platform_rects,
             sprite_sheet_name,
             animations,
-            game,
         )
 
         self.rect = self.image.get_frect(topleft=pos)

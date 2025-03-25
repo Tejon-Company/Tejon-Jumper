@@ -1,10 +1,9 @@
-from settings import *
 from projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
-    def __init__(self, pos, surf, direction, groups, game, sprite_sheet_name, animations):
-        super().__init__(pos, surf, direction, groups, game, sprite_sheet_name, animations)
+    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
+        super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.rect = self.image.get_frect(topleft=pos)
         self.speed = 70
         self.max_distance = 200
@@ -43,7 +42,8 @@ class Spore(Projectile):
     def _is_moving_horizontally(self):
         return self.direction.x != 0
 
-    def _check_if_position_exceeded(self, distance_traveled, direction, rect):
+    @staticmethod
+    def _check_if_position_exceeded(distance_traveled, direction, rect):
         if direction > 0:
             return rect >= distance_traveled
         return rect <= distance_traveled

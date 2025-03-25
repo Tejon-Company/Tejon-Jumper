@@ -1,11 +1,10 @@
-from settings import *
-from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
+from scene.menus.menu_utils import *
 
 
 class PauseMenu(Menu):
-    def __init__(self, director):
-        super().__init__(director)
+    def __init__(self):
+        super().__init__()
 
         self.music_bar_y = 0.25 * WINDOW_HEIGHT
         self.effects_bar_y = 0.3333 * WINDOW_HEIGHT
@@ -22,22 +21,15 @@ class PauseMenu(Menu):
         elif self.restart_button.collidepoint(event.pos):
             self.click_button_sound.play()
 
-            from game import Game
+            from singletons.game import Game
 
             self.director.change_scene(Game(self.director))
 
     def draw(self, display_surface):
-        self._draw_overlay(display_surface)
-
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
         draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
 
         self._draw_buttons(display_surface)
-
-    def _draw_overlay(self, display_surface):
-        overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
-        overlay.fill((0, 0, 0, 0))
-        display_surface.blit(overlay, (0, 0))
 
     def _draw_buttons(self, display_surface):
 
