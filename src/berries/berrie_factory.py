@@ -10,26 +10,26 @@ def berry_factory(berry, groups):
             HealthBerry(
                 (berry.x, berry.y),
                 berry.image,
-                (groups["berries"])
+                groups
             )
         case "coin_berry":
             CoinBerry(
                 (berry.x, berry.y),
                 berry.image,
-                (groups["berries"])
+                groups
             )
         case "energy_berry":
             EnergyBerry(
                 (berry.x, berry.y),
                 berry.image,
-                (groups["berries"])
+                groups
             )
         case "rage_berry":
             RageBerry(
                 (berry.x, berry.y),
                 berry.image,
-                (groups["berries"])
+                groups
             )
         case _:
             raise ValueError(
-                f"The entitie {berry.name} is not a valid berry")
+                f"The entity {berry.name} is not a valid berry")

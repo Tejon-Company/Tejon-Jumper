@@ -2,9 +2,12 @@ from characters.utils.check_cooldown import check_cooldown
 from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import *
 from characters.utils.animation_utils import *
-from settings import *
 from characters.character import Character
 from resource_manager import ResourceManager
+from singletons.game import Game
+from singletons.settings import Settings
+from pygame.math import Vector2 as vector
+import pygame
 
 
 class Player(Character):
@@ -12,6 +15,8 @@ class Player(Character):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
+        self.game = Game()
+        self.settings = Settings()
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -40,11 +45,15 @@ class Player(Character):
         self.is_sprinting = False
         self.is_in_rage = False
 
-        self.activate_rage_sound = ResourceManager.load_sound_effect("activate_rage.ogg")
-        self.deactivate_rage_sound = ResourceManager.load_sound_effect("deactivate_rage.ogg")
+        self.activate_rage_sound = ResourceManager.load_sound_effect(
+            "activate_rage.ogg"
+        )
+        self.deactivate_rage_sound = ResourceManager.load_sound_effect(
+            "deactivate_rage.ogg"
+        )
 
     def _setup_animation(self):
-        setup_animation(self)
+        set_animation_parameters(self)
 
         self.animations = {
             "idle": create_animation_rects(0, 1),
@@ -80,11 +89,7 @@ class Player(Character):
             self.energy = max(0, self.energy)
 
     def _update_animation(self, delta_time):
-        previous_animation = self.current_animation
         self._determine_current_animation()
-
-        if previous_animation != self.current_animation:
-            self._reset_animation()
 
         update_animation(delta_time, self, self.animations[self.current_animation])
 
@@ -101,19 +106,12 @@ class Player(Character):
         if self.direction.x != 0:
             self.facing_right = self.direction.x > 0
 
-    def _reset_animation(self):
-        self.animation_time = 0
-        self.animation_frame = 0
-
     def update_sprite(self):
         frame_rect = self.animations[self.current_animation][self.animation_frame]
         self.image = self.current_sprite_sheet.subsurface(frame_rect)
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
-
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
 
     def _input(self):
         keys = pygame.key.get_pressed()
@@ -158,6 +156,9 @@ class Player(Character):
         if self.is_jumping:
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
+
+        if self.rect.bottom > self.settings.window_height:
+            self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):
         for rect in self.platform_rects + self.environment_rects:

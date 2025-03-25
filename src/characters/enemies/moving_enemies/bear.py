@@ -3,11 +3,12 @@ from characters.utils.normalize_direction import normalize_direction
 from characters.utils.collision_utils import is_below_collision
 from characters.utils.animation_utils import (
     create_animation_rects,
-    setup_animation,
+    set_animation_parameters,
     update_animation,
 )
-from settings import *
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
+from singletons.settings import Settings
+import pygame
 
 
 class Bear(MovingEnemy):
@@ -19,7 +20,6 @@ class Bear(MovingEnemy):
         player,
         platform_rects,
         sprite_sheet_name,
-        game,
     ):
         super().__init__(
             pos,
@@ -29,13 +29,13 @@ class Bear(MovingEnemy):
             platform_rects,
             sprite_sheet_name,
             None,
-            game,
         )
 
+        self.settings = Settings()
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = TILE_SIZE * 2
+        self.rect.width = self.settings.tile_size * 2
 
         self.speed = 100
         self.gravity = 1000
@@ -51,12 +51,16 @@ class Bear(MovingEnemy):
         self.last_damage_time_ms = None
 
     def _setup_animation(self):
-        setup_animation(self)
+        set_animation_parameters(self)
 
         self.animations = {
-            "run": create_animation_rects(0, 5, sprite_width=TILE_SIZE * 2),
-            "jump": create_animation_rects(5, 1, sprite_width=TILE_SIZE * 2),
-            "fall": create_animation_rects(6, 1, TILE_SIZE * 2),
+            "run": create_animation_rects(
+                0, 5, sprite_width=self.settings.tile_size * 2
+            ),
+            "jump": create_animation_rects(
+                5, 1, sprite_width=self.settings.tile_size * 2
+            ),
+            "fall": create_animation_rects(6, 1, self.settings.tile_size * 2),
         }
 
         self.current_animation = "run"
@@ -95,9 +99,6 @@ class Bear(MovingEnemy):
 
         if not self.facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
-
-        color_key = self.image.get_at((0, 0))
-        self.image.set_colorkey(color_key)
 
     def _move(self, delta_time):
         self._move_horizontally(delta_time)

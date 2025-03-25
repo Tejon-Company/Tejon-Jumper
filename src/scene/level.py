@@ -1,4 +1,4 @@
-from settings import *
+from singletons.settings import Settings
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
@@ -11,33 +11,42 @@ from projectiles.projectiles_pools.spore_pool import SporePool
 from environment.environment_factory import environment_factory
 from berries.berrie_factory import berry_factory
 from scene.scene import Scene
-from pytmx.util_pygame import load_pygame
-from director import Director
+from resource_manager import ResourceManager
+from singletons.director import Director
+from singletons.game import Game
+from scene.menus.pause_menu import PauseMenu
 from os import listdir
+from os.path import join
 from ui.hud import HUD
+import pygame
 
 
 class Level(Scene):
     def __init__(
         self,
-        director: Director,
-        background: str,
-        music: str,
-        level: str,
-        game=None,
+        current_level: int,
     ):
-        super().__init__(director)
+        super().__init__()
 
-        self.game = game
+        self.settings = Settings()
+        self.director = Director()
+        self.game = Game()
+        self.current_level = current_level
 
-        level_path = join("assets", "maps", "levels", level)
-        self.tmx_map = load_pygame(level_path)
+        self.is_on_pause = False
+
+        self.tmx_map = ResourceManager.load_tmx_map(
+            self.settings.levels_config[self.current_level]["map"]
+        )
 
         self._setup_groups()
+        self.backgrounds = []
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_background(background)
+        self._setup_background(
+            self.settings.levels_config[self.current_level]["background"]
+        )
         self._setup_tiled_background()
         self._setup_terrain()
         self._setup_deco()
@@ -54,30 +63,28 @@ class Level(Scene):
         self.player.set_platform_rects(self.platform_rects)
         self._setup_berries()
 
-        Scene._setup_music(music)
+        Scene._setup_music(self.settings.levels_config[self.current_level]["music"])
 
     def _setup_groups(self):
         self.groups = {
-            "all_sprites": Group(),
+            "shooters": Group(),
             "platforms": Group(),
-            "enemies": Group(),
-            "backgrounds": [],
+            "characters": Group(),
+            "backgrounds": Group(),
             "projectiles": Group(),
             "berries": Group(),
-            "tiled_backgrsound": Group(),
             "deco": Group(),
             "environment": Group(),
-            "players": Group(),
             "moving_enemies": Group(),
         }
 
     def _setup_pools(self):
-        self.spore_pool = SporePool(20, self.groups["projectiles"], self.game)
-        self.acorn_pool = AcornPool(20, self.groups["projectiles"], self.game)
+        self.spore_pool = SporePool(20, self.groups["projectiles"])
+        self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * TILE_SIZE
-        map_height = self.tmx_map.height * TILE_SIZE
+        map_width = self.tmx_map.width * self.settings.tile_size
+        map_height = self.tmx_map.height * self.settings.tile_size
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
@@ -85,14 +92,18 @@ class Level(Scene):
         image_files = self._get_image_files(background_folder)
 
         for i, image_name in enumerate(image_files):
-            Background(
-                join(background_folder, image_name),
-                (0, 0),
-                PARALLAX_FACTOR[i % len(PARALLAX_FACTOR)],
-                self.groups["backgrounds"],
+            self.backgrounds.append(
+                Background(
+                    join(background_folder, image_name),
+                    (0, 0),
+                    self.settings.parallax_factor[
+                        i % len(self.settings.parallax_factor)
+                    ],
+                )
             )
 
-    def _get_image_files(self, background_folder):
+    @staticmethod
+    def _get_image_files(background_folder):
         image_files = []
         for file in listdir(background_folder):
             if file.endswith(".png"):
@@ -105,23 +116,23 @@ class Level(Scene):
     def _setup_tiled_background(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
-                (self.groups["all_sprites"]),
+                (self.groups["backgrounds"]),
             )
 
     def _setup_terrain(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
-                (self.groups["all_sprites"], self.groups["platforms"]),
+                (self.groups["platforms"]),
             )
 
     def _setup_deco(self):
         for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
             Sprite(
-                (x * TILE_SIZE, y * TILE_SIZE),
+                (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
                 (self.groups["deco"]),
             )
@@ -137,7 +148,7 @@ class Level(Scene):
 
         character = next(iter(player_layer))
         self.player = Player(
-            (character.x, character.y), character.image, self.groups["players"]
+            (character.x, character.y), character.image, self.groups["characters"]
         )
 
     def _setup_enemies(self):
@@ -149,7 +160,6 @@ class Level(Scene):
                 self.spore_pool,
                 self.acorn_pool,
                 self.player,
-                self.game,
             )
 
     def _setup_boss(self):
@@ -159,11 +169,10 @@ class Level(Scene):
                 self.boss = Bear(
                     (boss.x, boss.y),
                     boss.image,
-                    (self.groups["moving_enemies"], self.groups["enemies"]),
+                    (self.groups["moving_enemies"], self.groups["characters"]),
                     self.player,
                     self.platform_rects,
                     "bear.png",
-                    self.game,
                 )
         except ValueError:
             self.boss = None
@@ -173,68 +182,69 @@ class Level(Scene):
 
     def _setup_berries(self):
         for berrie in self.tmx_map.get_layer_by_name("Berries"):
-            berry_factory(berrie, self.groups)
+            berry_factory(berrie, self.groups["berries"])
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(map_element, self.groups, self.player, self.game)
+            environment_factory(
+                map_element, self.groups["environment"], self.player, self
+            )
+
+    def go_to_next_level(self):
+        next_level_index = self.current_level + 1 % 3
+        next_level = Level(next_level_index)
+        self.director.change_scene(next_level)
 
     def update(self, delta_time):
+        if self.is_on_pause:
+            return
+
         self.groups["environment"].update()
         environment_rects = [platform.rect for platform in self.groups["environment"]]
 
-        self.groups["all_sprites"].update(delta_time)
-        self.groups["players"].update(delta_time, environment_rects)
-        self.groups["moving_enemies"].update(delta_time, environment_rects)
-
+        self.player.update(delta_time, environment_rects)
         self.groups["projectiles"].update(delta_time, self.player)
+        self.groups["moving_enemies"].update(delta_time, environment_rects)
+        self.groups["shooters"].update(delta_time)
+        self.groups["berries"].update(self.player)
 
         self.camera.update(self.player)
 
     def events(self, events_list):
+        keys = pygame.key.get_just_released()
+
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
+            elif keys[pygame.K_p]:
+                self.is_on_pause = not self.is_on_pause
+                self.director.push_scene(PauseMenu())
+                self.is_on_pause = False
 
     def draw(self, display_surface):
-        self.camera.draw_background(self.groups["backgrounds"], display_surface)
+        self.camera.draw_background(self.backgrounds, display_surface)
 
-        for sprite in self.groups["deco"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["all_sprites"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["players"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["moving_enemies"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
-
-        for sprite in self.groups["environment"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
+        self._draw_group(display_surface, "backgrounds")
+        self._draw_group(display_surface, "deco")
+        self._draw_group(display_surface, "platforms")
+        self._draw_group(display_surface, "characters")
+        self._draw_group(display_surface, "environment")
 
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
                 display_surface.blit(projectile.image, self.camera.apply(projectile))
 
-        for sprite in self.groups["berries"]:
-            display_surface.blit(sprite.image, self.camera.apply(sprite))
+        self._draw_group(display_surface, "berries")
 
-        if self.boss:
-            HUD.draw_hud(
-                display_surface,
-                self.game.health_points,
-                self.game.remaining_lives,
-                self.game.coins,
-                self.game.player.energy,
-                self.boss.health_points,
-            )
-        else:
-            HUD.draw_hud(
-                display_surface,
-                self.game.health_points,
-                self.game.remaining_lives,
-                self.game.coins,
-                self.game.player.energy,
-            )
+        HUD.draw_hud(
+            display_surface,
+            self.game.health_points,
+            self.game.remaining_lives,
+            self.game.coins,
+            self.player.energy,
+            self.boss.health_points if self.boss else 0,
+        )
+
+    def _draw_group(self, display_surface, group):
+        for sprite in self.groups[group]:
+            display_surface.blit(sprite.image, self.camera.apply(sprite))

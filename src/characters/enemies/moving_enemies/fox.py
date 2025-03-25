@@ -1,5 +1,4 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from random import choice
 
 
 class Fox(MovingEnemy):
@@ -12,7 +11,6 @@ class Fox(MovingEnemy):
         platform_rects,
         sprite_sheet_name,
         animations,
-        game,
     ):
         super().__init__(
             pos,
@@ -22,7 +20,6 @@ class Fox(MovingEnemy):
             platform_rects,
             sprite_sheet_name,
             animations,
-            game,
         )
 
         self.rect = self.image.get_frect(topleft=pos)

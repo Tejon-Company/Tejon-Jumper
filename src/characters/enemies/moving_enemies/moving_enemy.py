@@ -1,9 +1,10 @@
-from settings import *
 from characters.enemies.enemy import Enemy
 from abc import ABC
 from characters.utils.collision_utils import is_on_surface
-from characters.utils.animation_utils import setup_animation, update_animation
+from characters.utils.animation_utils import set_animation_parameters, update_animation
 from random import choice
+from pygame.math import Vector2 as vector
+import pygame
 
 
 class MovingEnemy(Enemy, ABC):
@@ -16,7 +17,6 @@ class MovingEnemy(Enemy, ABC):
         platform_rects,
         sprite_sheet_name,
         animations,
-        game,
     ):
         super().__init__(
             pos,
@@ -26,14 +26,13 @@ class MovingEnemy(Enemy, ABC):
             platform_rects,
             sprite_sheet_name,
             animations,
-            game,
         )
 
         direction_x = choice((-1, 1))
         self.direction = vector(direction_x, 0)
         self.facing_right = self.direction.x > 0
 
-        setup_animation(self)
+        set_animation_parameters(self)
 
     def update(self, delta_time, environment_rects):
         super().update(delta_time)

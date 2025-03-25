@@ -1,5 +1,5 @@
+from pygame.math import Vector2 as vector
 from enum import Enum
-from settings import *
 
 
 class MushroomDirection(Enum):
@@ -10,7 +10,7 @@ class MushroomDirection(Enum):
 
     @classmethod
     def obtain_direction(cls, orientation):
-        match(orientation.upper()):
+        match (orientation.upper()):
             case "LEFT":
                 return MushroomDirection.LEFT
             case "RIGHT":
@@ -20,5 +20,4 @@ class MushroomDirection(Enum):
             case "DOWN":
                 return MushroomDirection.DOWN
             case _:
-                raise ValueError(
-                    f"The orientation {orientation} does not exist\n")
+                raise ValueError(f"The orientation {orientation} does not exist\n")
