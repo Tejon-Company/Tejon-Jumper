@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="114" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="169">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="114" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="170">
  <tileset firstgid="1" source="../patterns/platforms_and_deco.tsx"/>
  <tileset firstgid="769" source="../patterns/all_characters.tsx"/>
  <layer id="2" name="Background" width="114" height="23">
@@ -144,9 +144,10 @@
    </properties>
   </object>
   <object id="167" name="Bear" gid="770" x="1956" y="606.667" width="32" height="32"/>
-  <object id="168" gid="770" x="3280" y="1248" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="6" name="Player"/>
+ <objectgroup id="6" name="Player">
+  <object id="169" name="Player" gid="769" x="93.75" y="639.25" width="32" height="32"/>
+ </objectgroup>
  <layer id="1" name="Terrain" width="114" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

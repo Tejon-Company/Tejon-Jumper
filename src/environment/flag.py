@@ -9,7 +9,7 @@ class Flag(EnvironmentElement):
         self.level = level
 
     def update(self):
-        expanded_rect = self.rect.inflate(1, 1)
+        expanded_rect = self.rect.inflate(2, 2)
         is_colliding = expanded_rect.colliderect(self.player.rect)
 
         if is_colliding:
