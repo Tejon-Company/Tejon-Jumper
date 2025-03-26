@@ -16,7 +16,7 @@ class SettingsMenu(Menu):
         self.resolution_btn_y = self.settings.window_height * 0.65
         self.return_btn_y = self.settings.window_height * 0.75
 
-        self.difficulties = ["Easy", "Hard"]
+        self.difficulties = ["Fácil", "Difícil"]
         self.current_difficulty = 1
 
         self.resolutions = [(1280, 720), (1920, 1080)]
@@ -53,7 +53,7 @@ class SettingsMenu(Menu):
         self.difficulty_button = draw_button_with_label(
             display_surface,
             f"{self.difficulties[self.current_difficulty]}",
-            "Game Mode",
+            "Dificultad",
             self.font,
             self.difficulty_btn_y + self.settings.window_height * 0.02,
         )
@@ -64,14 +64,14 @@ class SettingsMenu(Menu):
         self.resolution_button = draw_button_with_label(
             display_surface,
             f"{width}x{height}",
-            "Resolution",
+            "Resolución",
             self.font,
             self.resolution_btn_y,
         )
 
         self.return_button = draw_button(
             display_surface,
-            "Return",
+            "Volver",
             self.font,
             self.return_btn_y,
         )

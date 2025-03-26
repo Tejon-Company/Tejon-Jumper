@@ -49,3 +49,6 @@ class Settings(metaclass=SingletonMeta):
         else:
             self.window_width, self.window_height = 1280, 720
             self.tile_size = 32
+
+    def get_number_of_levels(self):
+        return len(self.levels_config)

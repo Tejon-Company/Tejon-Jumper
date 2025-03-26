@@ -14,6 +14,7 @@ from scene.scene import Scene
 from resource_manager import ResourceManager
 from singletons.director import Director
 from singletons.game import Game
+from scene.menus.victory_menu import VictoryMenu
 from scene.menus.pause_menu import PauseMenu
 from os import listdir
 from os.path import join
@@ -47,9 +48,10 @@ class Level(Scene):
         self._setup_background(
             self.settings.levels_config[self.current_level]["background"]
         )
-        self._setup_tiled_background()
-        self._setup_terrain()
-        self._setup_deco()
+
+        self._setup_layer("Background", "backgrounds")
+        self._setup_layer("Terrain", "platforms")
+        self._setup_layer("Deco", "deco")
 
         self._setup_platform_rects()
 
@@ -59,8 +61,8 @@ class Level(Scene):
         self._setup_environment()
 
         self._setup_platform_rects()
-
         self.player.set_platform_rects(self.platform_rects)
+
         self._setup_berries()
 
         Scene._setup_music(self.settings.levels_config[self.current_level]["music"])
@@ -113,28 +115,12 @@ class Level(Scene):
 
         return image_files
 
-    def _setup_tiled_background(self):
-        for x, y, surf in self.tmx_map.get_layer_by_name("Background").tiles():
+    def _setup_layer(self, layer_name, group_key):
+        for x, y, surf in self.tmx_map.get_layer_by_name(layer_name).tiles():
             Sprite(
                 (x * self.settings.tile_size, y * self.settings.tile_size),
                 surf,
-                (self.groups["backgrounds"]),
-            )
-
-    def _setup_terrain(self):
-        for x, y, surf in self.tmx_map.get_layer_by_name("Terrain").tiles():
-            Sprite(
-                (x * self.settings.tile_size, y * self.settings.tile_size),
-                surf,
-                (self.groups["platforms"]),
-            )
-
-    def _setup_deco(self):
-        for x, y, surf in self.tmx_map.get_layer_by_name("Deco").tiles():
-            Sprite(
-                (x * self.settings.tile_size, y * self.settings.tile_size),
-                surf,
-                (self.groups["deco"]),
+                self.groups[group_key],
             )
 
     def _setup_player(self):
@@ -194,9 +180,15 @@ class Level(Scene):
             )
 
     def go_to_next_level(self):
-        next_level_index = self.current_level + 1 % 3
-        next_level = Level(next_level_index)
-        self.director.change_scene(next_level)
+        next_level_index = self.current_level + 1 % self.settings.get_number_of_levels()
+
+        if next_level_index > self.settings.get_number_of_levels():
+            boss_has_been_defeated = not self.boss.alive()
+            self.director.change_scene(VictoryMenu(boss_has_been_defeated))
+
+        else:
+            next_level = Level(next_level_index)
+            self.director.change_scene(next_level)
 
     def update(self, delta_time):
         if self.is_on_pause:
