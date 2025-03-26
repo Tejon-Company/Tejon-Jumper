@@ -1,0 +1,68 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/hd/tiled/levels/level1.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
+    "fileStates": {
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/full_hd/tiled/patterns/all_entities.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/full_hd/tiled/patterns/platforms.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/hd/tiled/levels/level1.tmx": {
+            "expandedObjectLayers": [
+                8
+            ],
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 4004,
+                "y": 894
+            }
+        },
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/hd/tiled/patterns/all_characters.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/hd/tiled/patterns/platforms_and_deco.tsx": {
+            "scaleInDock": 1
+        },
+        "level3.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 3248,
+                "y": 907
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/full_hd/sprite_sheets/day",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 48,
+    "map.tileWidth": 48,
+    "openFiles": [
+        "level3.tmx",
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/hd/tiled/levels/level1.tmx"
+    ],
+    "project": "level3.tiled-project",
+    "recentFiles": [
+        "level3.tmx",
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/hd/tiled/levels/level1.tmx",
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/full_hd/tiled/patterns/platforms.tsx",
+        "C:/Users/marco/OneDrive/Escritorio/rama sprites/Tejon-Jumper/assets/full_hd/tiled/patterns/all_entities.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 48,
+        "width": 48
+    }
+}
