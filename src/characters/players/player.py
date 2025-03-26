@@ -11,13 +11,13 @@ import pygame
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, current_level):
+    def __init__(self, pos, surf, groups, level_width):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
         self.game = Game()
         self.settings = Settings()
-        self.current_level = current_level
+        self.level_width = level_width
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -157,11 +157,10 @@ class Player(Character):
         return next_x_pos
 
     def _get_boundaries(self):
-        map_size = self.settings.levels_config[self.current_level]["map_size"]
         tile_size = self.settings.get_tile_size()
 
         left_boundary = 0
-        right_boundary = map_size * tile_size - tile_size * 2
+        right_boundary = self.level_width * tile_size - tile_size * 2
 
         return left_boundary, right_boundary
 

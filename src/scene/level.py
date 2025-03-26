@@ -23,6 +23,27 @@ import pygame
 
 
 class Level(Scene):
+    _levels_config = {
+        1: {
+            "background": "background1",
+            "music": "level_1.ogg",
+            "map": "level1.tmx",
+            "map_size": 121,
+        },
+        2: {
+            "background": "background2",
+            "music": "level_2.ogg",
+            "map": "level2.tmx",
+            "map_size": 154,
+        },
+        3: {
+            "background": "background3",
+            "music": "level_3.ogg",
+            "map": "level3.tmx",
+            "map_size": 113,
+        },
+    }
+
     def __init__(
         self,
         current_level: int,
@@ -37,7 +58,7 @@ class Level(Scene):
         self.is_on_pause = False
 
         self.tmx_map = ResourceManager.load_tmx_map(
-            self.settings.levels_config[self.current_level]["map"]
+            self._levels_config[self.current_level]["map"]
         )
 
         self._setup_groups()
@@ -45,9 +66,7 @@ class Level(Scene):
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_background(
-            self.settings.levels_config[self.current_level]["background"]
-        )
+        self._setup_background(self._levels_config[self.current_level]["background"])
 
         self._setup_layer("Background", "backgrounds")
         self._setup_layer("Terrain", "platforms")
@@ -65,7 +84,7 @@ class Level(Scene):
 
         self._setup_berries()
 
-        Scene._setup_music(self.settings.levels_config[self.current_level]["music"])
+        Scene._setup_music(self._levels_config[self.current_level]["music"])
 
     def _setup_groups(self):
         self.groups = {
@@ -99,9 +118,7 @@ class Level(Scene):
                 Background(
                     join(background_folder, image_name),
                     (0, 0),
-                    parallax_factor[
-                        i % len(parallax_factor)
-                    ],
+                    parallax_factor[i % len(parallax_factor)],
                 )
             )
 
@@ -138,7 +155,7 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["characters"],
-            self.current_level
+            self._levels_config[self.current_level]["map_size"],
         )
 
     def _setup_enemies(self):
@@ -192,8 +209,6 @@ class Level(Scene):
             self.director.change_scene(next_level)
 
     def update(self, delta_time):
-        print(self.game.health_points)
-        
         if self.is_on_pause:
             return
 

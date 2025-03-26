@@ -20,27 +20,6 @@ class Settings(metaclass=SingletonMeta):
 
         self._current_resolution_index = 0
 
-        self.levels_config = {
-            1: {
-                "background": "background1",
-                "music": "level_1.ogg",
-                "map": "level1.tmx",
-                "map_size": 121,
-            },
-            2: {
-                "background": "background2",
-                "music": "level_2.ogg",
-                "map": "level2.tmx",
-                "map_size": 154,
-            },
-            3: {
-                "background": "background3",
-                "music": "level_3.ogg",
-                "map": "level3.tmx",
-                "map_size": 113,
-            },
-        }
-
         self._difficulties = (
             {
                 "name": "Fácil",
@@ -93,6 +72,3 @@ class Settings(metaclass=SingletonMeta):
 
     def get_bear_health_points(self):
         return self._difficulties[self._current_difficulty]["bear_health_points"]
-
-    def get_number_of_levels(self):
-        return len(self.levels_config)
