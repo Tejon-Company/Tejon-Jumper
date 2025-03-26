@@ -7,7 +7,7 @@ import pygame
 
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
     settings = Settings()
-    gap = int(settings.window_width * 0.01)
+    gap = int(settings.get_window_width() * 0.01)
     button_rect = draw_button(display_surface, button_text, font, y_pos)
 
     label_surface = font.render(label_text, True, "white")
@@ -42,7 +42,7 @@ def _draw_background_rect(display_surface, rect, background_color, border_radius
 def draw_button(display_surface, text, font, y_pos, width=None, height=None):
     settings = Settings()
     width, height = _get_button_dimensions(width, height)
-    button_rect = Rect(settings.window_width // 2 - width // 2, y_pos, width, height)
+    button_rect = Rect(settings.get_window_width() // 2 - width // 2, y_pos, width, height)
     brown = "#895129"
     _draw_background_rect(display_surface, button_rect, brown)
     _draw_button_text(display_surface, text, button_rect, font)
@@ -52,9 +52,9 @@ def draw_button(display_surface, text, font, y_pos, width=None, height=None):
 def _get_button_dimensions(width, height):
     settings = Settings()
     if width is None:
-        width = int(settings.window_width * 0.2)
+        width = int(settings.get_window_width() * 0.2)
     if height is None:
-        height = int(settings.window_height * 0.07)
+        height = int(settings.get_window_height() * 0.07)
     return width, height
 
 
@@ -89,15 +89,15 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
 
 def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
     settings = Settings()
-    center_x = settings.window_width // 2
-    bar_width = settings.window_width * 0.2
-    bar_height = settings.window_height * 0.03
+    center_x = settings.get_window_width() // 2
+    bar_width = settings.get_window_width() * 0.2
+    bar_height = settings.get_window_height() * 0.03
     rect = Rect(center_x - bar_width // 2, y_pos, bar_width, bar_height)
 
     updated_volume = _update_volume_from_mouse(rect, volume, set_volume)
     _draw_bar(display_surface, rect, updated_volume)
     text_width = font.render(text, True, "white").get_width()
-    label_offset = int(settings.window_width * 0.01)
+    label_offset = int(settings.get_window_width() * 0.01)
     display_label(
         display_surface, text, rect.x - text_width - label_offset, rect.y, font
     )
@@ -120,7 +120,7 @@ def _update_volume_from_mouse(rect, volume, set_volume):
 
 def _draw_bar(display_surface, rect, volume):
     settings = Settings()
-    border_margin = settings.window_width * 0.005
+    border_margin = settings.get_window_width() * 0.005
     smaller_rect = Rect(rect.x, rect.y, rect.width - border_margin, rect.height)
     _draw_background_rect(display_surface, smaller_rect, "white", border_radius=10)
 

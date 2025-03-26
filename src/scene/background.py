@@ -14,12 +14,12 @@ class Background:
         self.rect.x = (camera_x * self.parallax_factor) + self.offset_x
 
     def draw(self, surface):
-        effective_x = self.rect.x % self.settings.window_width
+        effective_x = self.rect.x % self.settings.get_window_width()
         surface.blit(
-            self.image, (effective_x - self.settings.window_width, self.rect.y)
+            self.image, (effective_x - self.settings.get_window_width(), self.rect.y)
         )
         surface.blit(self.image, (effective_x, self.rect.y))
-        if effective_x < self.settings.window_width:
+        if effective_x < self.settings.get_window_width():
             surface.blit(
-                self.image, (effective_x + self.settings.window_width, self.rect.y)
+                self.image, (effective_x + self.settings.get_window_width(), self.rect.y)
             )

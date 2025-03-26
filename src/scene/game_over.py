@@ -26,8 +26,8 @@ class GameOver(Scene):
         display_surface.blit(
             text,
             (
-                self.settings.window_width // 2 - text.get_width() // 2,
-                self.settings.window_height // 2 - text.get_height() // 2,
+                self.settings.get_window_width() // 2 - text.get_width() // 2,
+                self.settings.get_window_height() // 2 - text.get_height() // 2,
             ),
         )
         font = pygame.font.Font(None, 36)
@@ -35,7 +35,7 @@ class GameOver(Scene):
         display_surface.blit(
             text,
             (
-                self.settings.window_width // 2 - text.get_width() // 2,
-                self.settings.window_height // 2 + text.get_height(),
+                self.settings.get_window_width() // 2 - text.get_width() // 2,
+                self.settings.get_window_height() // 2 + text.get_height(),
             ),
         )

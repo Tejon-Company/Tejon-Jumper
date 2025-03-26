@@ -11,10 +11,10 @@ class PauseMenu(Menu):
 
         settings = Settings()
 
-        self.music_bar_y = 0.25 * settings.window_height
-        self.effects_bar_y = 0.3333 * settings.window_height
-        self.continue_button_y = 0.45 * settings.window_height
-        self.restart_button_y = 0.5833 * settings.window_height
+        self.music_bar_y = 0.25 * settings.get_window_height()
+        self.effects_bar_y = 0.3333 * settings.get_window_height()
+        self.continue_button_y = 0.45 * settings.get_window_height()
+        self.restart_button_y = 0.5833 * settings.get_window_height()
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 

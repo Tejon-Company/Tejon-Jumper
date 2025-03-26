@@ -18,10 +18,10 @@ class Bat(MovingEnemy):
         pos_x, pos_y = pos
 
         self.top_pos = pos_y
-        self.bottom_pos = pos_y + self.settings.tile_size * 4
+        self.bottom_pos = pos_y + self.settings.get_tile_size() * 4
 
-        self.left_limit = pos_x - self.settings.tile_size * 4
-        self.right_limit = pos_x + self.settings.tile_size * 4
+        self.left_limit = pos_x - self.settings.get_tile_size() * 4
+        self.right_limit = pos_x + self.settings.get_tile_size() * 4
 
     def update(self, delta_time, environment_rects):
         self._check_should_receive_damage()

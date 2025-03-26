@@ -23,7 +23,7 @@ class Acorn(Projectile):
         self.fall += self.gravity / 2 * delta_time
 
     def _reset_projectile_if_off_screen(self):
-        if self.rect.y > self.settings.window_height:
+        if self.rect.y > self.settings.get_window_height():
             self._deactivate_projectile()
 
     def _deactivate_projectile(self):

@@ -158,7 +158,7 @@ class Player(Character):
 
     def _get_boundaries(self):
         map_size = self.settings.levels_config[self.current_level]["map_size"]
-        tile_size = self.settings.tile_size
+        tile_size = self.settings.get_tile_size()
 
         left_boundary = 0
         right_boundary = map_size * tile_size - tile_size * 2
@@ -178,7 +178,7 @@ class Player(Character):
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
-        if self.rect.bottom > self.settings.window_height:
+        if self.rect.bottom > self.settings.get_window_height():
             self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):

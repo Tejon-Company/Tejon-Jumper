@@ -6,10 +6,10 @@ def create_animation_rects(
 ):
     settings = Settings()
     if sprite_width is None:
-        sprite_width = settings.tile_size
+        sprite_width = settings.get_tile_size()
 
     if sprite_height is None:
-        sprite_height = settings.tile_size
+        sprite_height = settings.get_tile_size()
 
     frame_start_x *= sprite_width
     y = 0

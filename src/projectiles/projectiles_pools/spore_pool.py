@@ -10,7 +10,7 @@ class SporePool(ProjectilesPool):
         super().__init__(size, projectile_groups)
 
     def _create_pool(self):
-        spore_size = self.settings.tile_size / 2
+        spore_size = self.settings.get_tile_size() / 2
         for _ in range(self.size):
             spore = Spore(
                 pos=(0, 0),

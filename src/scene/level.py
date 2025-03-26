@@ -85,21 +85,22 @@ class Level(Scene):
         self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * self.settings.tile_size
-        map_height = self.tmx_map.height * self.settings.tile_size
+        map_width = self.tmx_map.width * self.settings.get_tile_size()
+        map_height = self.tmx_map.height * self.settings.get_tile_size()
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
         background_folder = join("assets", "hd", "backgrounds", "day", background)
         image_files = self._get_image_files(background_folder)
+        parallax_factor = [0.1, 0.2, 0.4, 0.9]
 
         for i, image_name in enumerate(image_files):
             self.backgrounds.append(
                 Background(
                     join(background_folder, image_name),
                     (0, 0),
-                    self.settings.parallax_factor[
-                        i % len(self.settings.parallax_factor)
+                    parallax_factor[
+                        i % len(parallax_factor)
                     ],
                 )
             )
@@ -118,7 +119,7 @@ class Level(Scene):
     def _setup_layer(self, layer_name, group_key):
         for x, y, surf in self.tmx_map.get_layer_by_name(layer_name).tiles():
             Sprite(
-                (x * self.settings.tile_size, y * self.settings.tile_size),
+                (x * self.settings.get_tile_size(), y * self.settings.get_tile_size()),
                 surf,
                 self.groups[group_key],
             )

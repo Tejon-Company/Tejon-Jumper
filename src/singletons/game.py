@@ -21,7 +21,7 @@ class Game(metaclass=SingletonMeta):
         self.settings = Settings()
 
         self._setup_sound_effects()
-        HUD.initialize(self.settings.tile_size, 22)
+        HUD.initialize(self.settings.get_tile_size(), 22)
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")

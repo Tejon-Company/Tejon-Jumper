@@ -149,7 +149,9 @@ class HUD:
 
     @classmethod
     def _draw_bear_hearts(cls, display_surface, bear_healt_points: int):
-        start_x = cls.settings.window_width // 2 - cls.settings.tile_size * 2
+        start_x = (
+            cls.settings.get_window_width() // 2 - cls.settings.get_tile_size() * 2
+        )
         cls._draw_health_icons(
             display_surface, bear_healt_points, cls.bear_health_icon, start_x, 10
         )

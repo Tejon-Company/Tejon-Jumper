@@ -48,13 +48,16 @@ class MainMenu(Menu):
     def _create_title_text(self):
         text_surface = self.title_font.render("Tejon jumper", True, "black")
         text_rect = text_surface.get_rect(
-            center=(self.settings.window_width // 2, self.settings.window_height // 4)
+            center=(
+                self.settings.get_window_width() // 2,
+                self.settings.get_window_height() // 4,
+            )
         )
         return text_surface, text_rect
 
     def _create_title_background(self, text_rect):
-        padding_x = self.settings.window_width * 0.025
-        padding_y = self.settings.window_height * 0.05
+        padding_x = self.settings.get_window_width() * 0.025
+        padding_y = self.settings.get_window_height() * 0.05
         beige_rect = text_rect.inflate(padding_x, padding_y)
         background_surface = pygame.Surface(
             (beige_rect.width, beige_rect.height), pygame.SRCALPHA
@@ -64,14 +67,14 @@ class MainMenu(Menu):
         return background_surface, beige_rect
 
     def _draw_buttons(self, display_surface):
-        button_width = self.settings.window_width * 0.2
-        button_height = self.settings.window_height * 0.1
+        button_width = self.settings.get_window_width() * 0.2
+        button_height = self.settings.get_window_height() * 0.1
 
         self.play_button = draw_button(
             display_surface,
             "Jugar",
             self.button_font,
-            self.settings.window_height * 0.5,
+            self.settings.get_window_height() * 0.5,
             width=button_width,
             height=button_height,
         )
@@ -80,7 +83,7 @@ class MainMenu(Menu):
             display_surface,
             "Ajustes",
             self.button_font,
-            self.settings.window_height * 0.67,
+            self.settings.get_window_height() * 0.67,
             width=button_width,
             height=button_height,
         )

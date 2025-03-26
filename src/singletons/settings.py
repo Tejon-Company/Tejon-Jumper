@@ -1,54 +1,83 @@
 from singletons.singleton_meta import SingletonMeta
-from enum import Enum, auto
 
 
 class Settings(metaclass=SingletonMeta):
-    class Difficulty(Enum):
-        EASY = auto()
-        HIGH = auto()
+    def __init__(self):
+        self._resolutions = (
+            {
+                "name": "hd",
+                "window_width": 1280,
+                "window_height": 720,
+                "tile_size": 32,
+            },
+            {
+                "name": "full_hd",
+                "window_width": 1920,
+                "window_height": 1050,
+                "tile_size": 48,
+            },
+        )
 
-    window_width, window_height = 1280, 720
+        self._current_resolution_index = 0
 
-    tile_size = 32
-    animation_speed = 6
-    parallax_factor = [0.1, 0.2, 0.4, 0.9]
 
-    difficulty = Difficulty.EASY
+        self.levels_config = {
+            1: {
+                "background": "background1",
+                "music": "level_1.ogg",
+                "map": "level1.tmx",
+                "map_size": 121,
+            },
+            2: {
+                "background": "background2",
+                "music": "level_2.ogg",
+                "map": "level2.tmx",
+                "map_size": 154,
+            },
+            3: {
+                "background": "background3",
+                "music": "level_3.ogg",
+                "map": "level3.tmx",
+                "map_size": 113,
+            },
+        }
 
-    levels_config = {
-        1: {
-            "background": "background1",
-            "music": "level_1.ogg",
-            "map": "level1.tmx",
-            "map_size": 121,
-        },
-        2: {
-            "background": "background2",
-            "music": "level_2.ogg",
-            "map": "level2.tmx",
-            "map_size": 154,
-        },
-        3: {
-            "background": "background3",
-            "music": "level_3.ogg",
-            "map": "level3.tmx",
-            "map_size": 160,
-        },
-    }
+        self._difficulties = (
+            {
+                "name": "Fácil",
+                "player_health_points": 5,
+                "player_start_lives": 3,
+                "bear_health_points": 3,
+            },
+            {
+                "name": "Difícil",
+                "player_health_points": 3,
+                "player_start_lives": 1,
+                "bear_health_points": 5,
+            },
+        )
 
-    def change_difficulty(self):
-        if self.difficulty == self.Difficulty.EASY:
-            self.difficulty = self.Difficulty.HARD
-        else:
-            self.difficulty = self.Difficulty.EASY
+    def get_resolution_name(self):
+        return self._resolutions[self._current_resolution_index]["name"]
 
-    def change_resolution(self):
-        if self.window_width == 1280 and self.window_height == 720:
-            self.window_width, self.window_height = 1920, 1080
-            self.tile_size = 48
-        else:
-            self.window_width, self.window_height = 1280, 720
-            self.tile_size = 32
+    def get_window_height(self):
+        return self._resolutions[self._current_resolution_index]["window_height"]
+
+    def get_window_width(self):
+        return self._resolutions[self._current_resolution_index]["window_width"]
+
+    def get_tile_size(self):
+        return self._resolutions[self._current_resolution_index]["tile_size"]
+
+    def update_resolution(self):
+        self._current_resolution_index = self._current_resolution_index + 1 % len(
+            self._resolutions
+        )
+
+    def update_difficulty(self):
+        self._current_resolution_index = self._current_resolution_index + 1 % len(
+            self._difficulties
+        )
 
     def get_number_of_levels(self):
         return len(self.levels_config)

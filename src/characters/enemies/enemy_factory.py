@@ -19,7 +19,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 player,
                 platform_rects,
                 "hedgehog.png",
-                create_animation_rects(0, 2, settings.tile_size),
+                create_animation_rects(0, 2, settings.get_tile_size()),
             )
         case "Mushroom":
             orientation = enemy.properties.get("Orientation", None)
@@ -34,7 +34,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 direction.value[0],
                 player,
                 "mushroom.png",
-                create_animation_rects(direction.value[1], 3, settings.tile_size),
+                create_animation_rects(direction.value[1], 3, settings.get_tile_size()),
                 spore_pool,
             )
         case "Fox":
@@ -45,7 +45,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 player,
                 platform_rects,
                 "fox.png",
-                create_animation_rects(0, 3, settings.tile_size),
+                create_animation_rects(0, 3, settings.get_tile_size()),
             )
         case "Bat":
             Bat(
@@ -54,7 +54,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 (groups["moving_enemies"], groups["characters"]),
                 player,
                 "bat.png",
-                create_animation_rects(0, 3, settings.tile_size),
+                create_animation_rects(0, 3, settings.get_tile_size()),
             )
         case "Squirrel":
             Squirrel(
@@ -63,7 +63,7 @@ def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player)
                 (groups["characters"], groups["shooters"]),
                 player,
                 "squirrel.png",
-                create_animation_rects(1, 2, settings.tile_size),
+                create_animation_rects(1, 2, settings.get_tile_size()),
                 acorn_pool,
             )
         case _:

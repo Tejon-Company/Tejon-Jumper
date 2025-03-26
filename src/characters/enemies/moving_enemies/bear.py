@@ -35,7 +35,7 @@ class Bear(MovingEnemy):
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = self.settings.tile_size * 2
+        self.rect.width = self.settings.get_tile_size() * 2
 
         self.speed = 100
         self.gravity = 1000
@@ -55,12 +55,12 @@ class Bear(MovingEnemy):
 
         self.animations = {
             "run": create_animation_rects(
-                0, 5, sprite_width=self.settings.tile_size * 2
+                0, 5, sprite_width=self.settings.get_tile_size() * 2
             ),
             "jump": create_animation_rects(
-                5, 1, sprite_width=self.settings.tile_size * 2
+                5, 1, sprite_width=self.settings.get_tile_size() * 2
             ),
-            "fall": create_animation_rects(6, 1, self.settings.tile_size * 2),
+            "fall": create_animation_rects(6, 1, self.settings.get_tile_size() * 2),
         }
 
         self.current_animation = "run"

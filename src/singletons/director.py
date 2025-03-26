@@ -8,7 +8,7 @@ class Director(metaclass=SingletonMeta):
     def __init__(self):
         self.settings = Settings()
         self.display_surface = pygame.display.set_mode(
-            (self.settings.window_width, self.settings.window_height))
+            (self.settings.get_window_width(), self.settings.get_window_height()))
         pygame.display.set_caption("Tejón Jumper")
 
         self.stack = []
