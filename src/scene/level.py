@@ -192,6 +192,8 @@ class Level(Scene):
             self.director.change_scene(next_level)
 
     def update(self, delta_time):
+        print(self.game.health_points)
+        
         if self.is_on_pause:
             return
 

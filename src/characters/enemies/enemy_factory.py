@@ -9,7 +9,7 @@ from singletons.settings import Settings
 
 
 def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player):
-    settings = Settings
+    settings = Settings()
     match enemy.name:
         case "Hedgehog":
             Hedgehog(

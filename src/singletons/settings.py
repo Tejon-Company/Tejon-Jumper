@@ -20,7 +20,6 @@ class Settings(metaclass=SingletonMeta):
 
         self._current_resolution_index = 0
 
-
         self.levels_config = {
             1: {
                 "background": "background1",
@@ -46,16 +45,18 @@ class Settings(metaclass=SingletonMeta):
             {
                 "name": "Fácil",
                 "player_health_points": 5,
-                "player_start_lives": 3,
+                "player_lives": 3,
                 "bear_health_points": 3,
             },
             {
                 "name": "Difícil",
                 "player_health_points": 3,
-                "player_start_lives": 1,
+                "player_lives": 1,
                 "bear_health_points": 5,
             },
         )
+
+        self._current_difficulty = 0
 
     def get_resolution_name(self):
         return self._resolutions[self._current_resolution_index]["name"]
@@ -74,10 +75,24 @@ class Settings(metaclass=SingletonMeta):
             self._resolutions
         )
 
+    def get_difficulty(self):
+        return self._difficulties[self._current_difficulty]["name"]
+
     def update_difficulty(self):
-        self._current_resolution_index = self._current_resolution_index + 1 % len(
+        self._current_difficulty = self._current_difficulty + 1 % len(
             self._difficulties
         )
+
+    def get_player_health_points(self):
+        return self._difficulties[self._current_difficulty][
+            "player_health_points"
+        ]
+
+    def get_player_lives(self):
+        return self._difficulties[self._current_difficulty]["player_lives"]
+
+    def get_bear_health_points(self):
+        return self._difficulties[self._current_difficulty]["bear_health_points"]
 
     def get_number_of_levels(self):
         return len(self.levels_config)

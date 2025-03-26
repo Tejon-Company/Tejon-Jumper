@@ -1,39 +1,41 @@
 import pygame
 from os.path import join
 from pytmx.util_pygame import load_pygame
+from singletons.settings import Settings
 
 
 class ResourceManager:
-    resources = {}
-    effects_volume = 1.0
-    loaded_sounds = []
+    _resources = {}
+    _effects_volume = 1.0
+    _loaded_sounds = []
+    _settings = Settings()
 
     @classmethod
     def load_image(cls, name, colorkey=None):
-        if name in cls.resources:
-            return cls.resources[name]
+        if name in cls._resources:
+            return cls._resources[name]
 
         try:
-            fullname = join("assets", "hd", name)
+            fullname = join("assets", cls._settings.get_resolution_name(), name)
             image = pygame.image.load(fullname).convert_alpha()
             if colorkey:
                 image.set_colorkey(colorkey)
-            cls.resources[name] = image
+            cls._resources[name] = image
             return image
         except Exception as e:
             print(f"Error loading image {fullname}: {e}")
 
     @classmethod
     def load_sound_effect(cls, name):
-        if name in cls.resources:
-            return cls.resources[name]
+        if name in cls._resources:
+            return cls._resources[name]
 
         try:
             fullname = join("assets", "sounds", "sound_effects", name)
             sound = pygame.mixer.Sound(fullname)
-            sound.set_volume(cls.effects_volume)
-            cls.resources[name] = sound
-            cls.loaded_sounds.append(sound)
+            sound.set_volume(cls._effects_volume)
+            cls._resources[name] = sound
+            cls._loaded_sounds.append(sound)
             return sound
         except Exception as e:
             print(f"Error loading sound {fullname}: {e}")
@@ -43,7 +45,7 @@ class ResourceManager:
         try:
             music_path = join("assets", "sounds", "music", name)
             pygame.mixer.music.load(music_path)
-            cls.resources[name] = music_path
+            cls._resources[name] = music_path
             return music_path
         except Exception as e:
             print(f"Error loading music {music_path}: {e}")
@@ -51,39 +53,47 @@ class ResourceManager:
     @classmethod
     def load_font(cls, name, size):
         key = (name, size)
-        if key in cls.resources:
-            return cls.resources[key]
+        if key in cls._resources:
+            return cls._resources[key]
 
         try:
             fullname = join("assets", "fonts", name)
             font = pygame.font.Font(fullname, size)
-            cls.resources[key] = font
+            cls._resources[key] = font
             return font
         except Exception as e:
             print(f"Error loading font {fullname}: {e}")
 
     @classmethod
     def load_sprite_sheet(cls, name):
-        if name in cls.resources:
-            return cls.resources[name]
+        if name in cls._resources:
+            return cls._resources[name]
 
         try:
-            fullname = join("assets", "hd", "sprite_sheets", "day", name)
+            fullname = join(
+                "assets",
+                cls._settings.get_resolution_name(),
+                "sprite_sheets",
+                "day",
+                name,
+            )
             image = pygame.image.load(fullname).convert_alpha()
             color_key = image.get_at((0, 0))
             image.set_colorkey(color_key)
-            cls.resources[name] = image
+            cls._resources[name] = image
             return image
         except Exception as e:
             print(f"Error loading sprite {fullname}: {e}")
 
     @classmethod
     def load_tmx_map(cls, name):
-        if name in cls.resources:
-            return cls.resources[name]
+        if name in cls._resources:
+            return cls._resources[name]
 
         try:
-            level_path = join("assets", "hd", "tiled", "levels", name)
+            level_path = join(
+                "assets", cls._settings.get_resolution_name(), "tiled", "levels", name
+            )
             tmx_map = load_pygame(level_path)
             return tmx_map
 
@@ -100,14 +110,14 @@ class ResourceManager:
 
     @classmethod
     def set_effects_volume(cls, volume):
-        cls.effects_volume = volume
-        for sound in cls.loaded_sounds:
+        cls._effects_volume = volume
+        for sound in cls._loaded_sounds:
             sound.set_volume(volume)
 
     @classmethod
     def get_effects_volume(cls):
-        return cls.effects_volume
+        return cls._effects_volume
 
     @classmethod
     def clear_resources(cls):
-        cls.resources.clear()
+        cls._resources.clear()

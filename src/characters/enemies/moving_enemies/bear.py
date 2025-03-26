@@ -47,7 +47,7 @@ class Bear(MovingEnemy):
 
         self.facing_right = True
 
-        self.health_points = 3
+        self.health_points = self.settings.get_bear_health_points()
         self.last_damage_time_ms = None
 
     def _setup_animation(self):

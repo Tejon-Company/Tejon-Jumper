@@ -16,12 +16,6 @@ class SettingsMenu(Menu):
         self.resolution_btn_y = self.settings.get_window_height() * 0.65
         self.return_btn_y = self.settings.get_window_height() * 0.75
 
-        self.difficulties = ["Fácil", "Difícil"]
-        self.current_difficulty = 1
-
-        self.resolutions = [(1280, 720), (1920, 1080)]
-        self.current_resolution = 0
-
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
     def _mouse_button_down(self, event):
@@ -37,9 +31,7 @@ class SettingsMenu(Menu):
 
         elif self.difficulty_button.collidepoint(event.pos):
             self.click_button_sound.play()
-            self.current_difficulty = (self.current_difficulty + 1) % len(
-                self.difficulties
-            )
+            self.settings.update_difficulty()
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
@@ -52,18 +44,15 @@ class SettingsMenu(Menu):
     def _draw_buttons(self, display_surface):
         self.difficulty_button = draw_button_with_label(
             display_surface,
-            f"{self.difficulties[self.current_difficulty]}",
+            self.settings.get_difficulty(),
             "Dificultad",
             self.font,
             self.difficulty_btn_y + self.settings.get_window_height() * 0.02,
         )
 
-        current_resolution = self.resolutions[self.current_resolution]
-        width, height = current_resolution
-
         self.resolution_button = draw_button_with_label(
             display_surface,
-            f"{width}x{height}",
+            f"{self.settings.get_window_width()}x{self.settings.get_window_height()}",
             "Resolución",
             self.font,
             self.resolution_btn_y,
