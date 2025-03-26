@@ -71,7 +71,7 @@ def draw_background(display_surface, background):
 def draw_music_volume_bar(display_surface, y_pos, font):
     volume = ResourceManager.get_music_volume()
     _draw_volume_bar(
-        display_surface, y_pos, volume, "Music", font, ResourceManager.set_music_volume
+        display_surface, y_pos, volume, "Música", font, ResourceManager.set_music_volume
     )
 
 
@@ -81,7 +81,7 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
         display_surface,
         y_pos,
         volume,
-        "Effects",
+        "Efectos de sonido",
         font,
         ResourceManager.set_effects_volume,
     )
