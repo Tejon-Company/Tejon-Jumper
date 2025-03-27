@@ -71,7 +71,6 @@ class Player(Character):
 
     def update(self, delta_time, environment_rects):
         self.old_rect = self.rect.copy()
-        print(self.fall)
 
         self.environment_rects = environment_rects
 
