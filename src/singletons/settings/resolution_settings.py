@@ -13,9 +13,9 @@ class ResolutionSettings(metaclass=SingletonMeta):
     def __init__(self):
         self._resolutions = (
             ResolutionSettings._Resolution("hd", 1280, 720, 32),
-            ResolutionSettings._Resolution("full_hd", 1920, 1050, 48),
+            ResolutionSettings._Resolution("full_hd", 1880, 1030, 48),
         )
-        self._current = 0
+        self._current = 1
 
     @property
     def name(self) -> str:

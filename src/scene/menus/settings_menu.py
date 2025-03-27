@@ -27,6 +27,8 @@ class SettingsMenu(Menu):
 
         elif check_if_button_was_clicked(self.resolution_button, pos):
             self.resolution_settings.update_resolution()
+            self.director.update_display_surface_resolution()
+
         elif check_if_button_was_clicked(self.difficulty_button, pos):
             self.difficulty_settings.update_difficulty()
 

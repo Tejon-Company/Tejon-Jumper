@@ -14,7 +14,6 @@ class Director(metaclass=SingletonMeta):
         self.exit_scene = False
         self.clock = pygame.time.Clock()
 
-    # TODO
     def update_display_surface_resolution(self):
         self.display_surface = pygame.display.set_mode(
             (

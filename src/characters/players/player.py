@@ -33,13 +33,13 @@ class Player(Character):
         self.platform_rects = self.platform_rects
 
         self.direction = vector(0, 0)
-        self.normal_speed = 150
-        self.rage_speed = 800
+        self.normal_speed = 300
+        self.rage_speed = 350
         self.current_speed = self.normal_speed
-        self.gravity = 1500
+        self.gravity = 1600
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 300
+        self.jump_height = 500
         self.last_time_in_rage = None
 
         self.on_surface = False
