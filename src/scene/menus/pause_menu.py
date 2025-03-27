@@ -9,6 +9,8 @@ class PauseMenu(Menu):
     def __init__(self):
         super().__init__()
 
+        self.director = Director()
+
         resolution_settings = ResolutionSettings()
 
         self.music_bar_y = 0.25 * resolution_settings.window_height
@@ -18,19 +20,28 @@ class PauseMenu(Menu):
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
-    def _mouse_button_down(self, event):
-        director = Director()
+    def _handle_event(self, event):
+        super()._handle_event(event)
+        keys = pygame.key.get_just_released()
 
+        if keys[pygame.K_p]:
+            self._exit_pause()
+
+    def _exit_pause(self):
+        self.click_button_sound.play()
+        game = Game()
+        game.reload_game()
+        from scene.level import Level
+
+        self.director.push_scene(Level(1))
+
+    def _mouse_button_down(self, event):
         if self.continue_button.collidepoint(event.pos):
             self.click_button_sound.play()
-            director.pop_scene()
+            self.director.pop_scene()
 
         elif self.restart_button.collidepoint(event.pos):
-            self.click_button_sound.play()
-            game = Game()
-            game.reload_game()
-            from scene.level import Level
-            director.push_scene(Level(1))
+            self._exit_pause()
 
     def draw(self, display_surface):
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
