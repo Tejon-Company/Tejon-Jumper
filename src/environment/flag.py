@@ -1,5 +1,4 @@
 from environment.environment_element import EnvironmentElement
-from singletons.game import Game
 
 
 class Flag(EnvironmentElement):

@@ -23,7 +23,7 @@ class ResourceManager:
             cls._resources[name] = image
             return image
         except Exception as e:
-            print(f"Error loading image {fullname}: {e}")
+            print(f"Error loading image {name}: {e}")
 
     @classmethod
     def load_sound_effect(cls, name):
@@ -38,7 +38,7 @@ class ResourceManager:
             cls._loaded_sounds.append(sound)
             return sound
         except Exception as e:
-            print(f"Error loading sound {fullname}: {e}")
+            print(f"Error loading sound {name}: {e}")
 
     @classmethod
     def load_music(cls, name):
@@ -48,7 +48,7 @@ class ResourceManager:
             cls._resources[name] = music_path
             return music_path
         except Exception as e:
-            print(f"Error loading music {music_path}: {e}")
+            print(f"Error loading music {name}: {e}")
 
     @classmethod
     def load_font(cls, name, size):
@@ -62,7 +62,7 @@ class ResourceManager:
             cls._resources[key] = font
             return font
         except Exception as e:
-            print(f"Error loading font {fullname}: {e}")
+            print(f"Error loading font {name}: {e}")
 
     @classmethod
     def load_sprite_sheet(cls, name):
@@ -83,7 +83,7 @@ class ResourceManager:
             cls._resources[name] = image
             return image
         except Exception as e:
-            print(f"Error loading sprite {fullname}: {e}")
+            print(f"Error loading sprite {name}: {e}")
 
     @classmethod
     def load_tmx_map(cls, name):
@@ -102,7 +102,7 @@ class ResourceManager:
             return tmx_map
 
         except Exception as e:
-            print(f"Error loading map {level_path}: {e}")
+            print(f"Error loading map {name}: {e}")
 
     @classmethod
     def set_music_volume(cls, volume):

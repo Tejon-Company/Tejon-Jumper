@@ -1,25 +1,27 @@
-from singletons.settings.resolution_settings import ResolutionSettings
-from characters.sprite import Sprite
-from characters.players.player import Player
-from characters.enemies.moving_enemies.bear import Bear
-from pygame.sprite import Group
-from characters.enemies.enemy_factory import enemy_factory
-from scene.background import Background
-from scene.camera import Camera
-from projectiles.projectiles_pools.acorn_pool import AcornPool
-from projectiles.projectiles_pools.spore_pool import SporePool
-from environment.environment_factory import environment_factory
-from berries.berrie_factory import berry_factory
-from scene.scene import Scene
-from resource_manager import ResourceManager
-from singletons.director import Director
-from singletons.game import Game
-from scene.menus.victory_menu import VictoryMenu
-from scene.menus.pause_menu import PauseMenu
 from os import listdir
 from os.path import join
-from ui.hud import HUD
+
 import pygame
+from pygame.sprite import Group
+
+from berries.berrie_factory import berry_factory
+from characters.enemies.enemy_factory import enemy_factory
+from characters.enemies.moving_enemies.bear import Bear
+from characters.players.player import Player
+from characters.sprite import Sprite
+from environment.environment_factory import environment_factory
+from projectiles.projectiles_pools.acorn_pool import AcornPool
+from projectiles.projectiles_pools.spore_pool import SporePool
+from resource_manager import ResourceManager
+from scene.background import Background
+from scene.camera import Camera
+from scene.menus.pause_menu import PauseMenu
+from scene.menus.victory_menu import VictoryMenu
+from scene.scene import Scene
+from singletons.director import Director
+from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
+from ui.hud import HUD
 
 
 class Level(Scene):
@@ -136,7 +138,10 @@ class Level(Scene):
     def _setup_layer(self, layer_name, group_key):
         for x, y, surf in self.tmx_map.get_layer_by_name(layer_name).tiles():
             Sprite(
-                (x * self.resolution_settings.tile_size, y * self.resolution_settings.tile_size),
+                (
+                    x * self.resolution_settings.tile_size,
+                    y * self.resolution_settings.tile_size,
+                ),
                 surf,
                 self.groups[group_key],
             )

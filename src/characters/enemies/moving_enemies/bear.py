@@ -1,15 +1,16 @@
-from characters.utils.check_cooldown import check_cooldown
-from characters.utils.normalize_direction import normalize_direction
-from characters.utils.collision_utils import is_below_collision
+import pygame
+
+from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.utils.animation_utils import (
     create_animation_rects,
     set_animation_parameters,
     update_animation,
 )
-from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from singletons.settings.resolution_settings import ResolutionSettings
+from characters.utils.check_cooldown import check_cooldown
+from characters.utils.collision_utils import is_below_collision
+from characters.utils.normalize_direction import normalize_direction
 from singletons.settings.difficulty_settings import DifficultySettings
-import pygame
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Bear(MovingEnemy):
@@ -62,7 +63,9 @@ class Bear(MovingEnemy):
             "jump": create_animation_rects(
                 5, 1, sprite_width=self.resolution_settings.tile_size * 2
             ),
-            "fall": create_animation_rects(6, 1, self.resolution_settings.tile_size * 2),
+            "fall": create_animation_rects(
+                6, 1, self.resolution_settings.tile_size * 2
+            ),
         }
 
         self.current_animation = "run"

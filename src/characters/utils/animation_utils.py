@@ -16,7 +16,7 @@ def create_animation_rects(
 
     def calculate_rect(i):
         x = offset + (i * step)
-        return (x, y, sprite_width, sprite_height)
+        return x, y, sprite_width, sprite_height
 
     return [calculate_rect(i) for i in range(number_of_frames)]
 
