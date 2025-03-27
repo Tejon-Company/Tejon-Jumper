@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="229">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="232">
  <tileset firstgid="1" source="../patterns/platforms_and_deco.tsx"/>
  <tileset firstgid="769" source="../patterns/all_characters.tsx"/>
+ <tileset firstgid="792" source="../../../full_hd/tiled/patterns/all_entities.tsx"/>
  <layer id="5" name="Background" width="121" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -69,6 +70,7 @@
   <object id="214" name="coin_berry" gid="780" x="3228" y="509.5" width="32" height="32"/>
   <object id="215" name="coin_berry" gid="780" x="3353.33" y="558.667" width="32" height="32"/>
   <object id="216" name="coin_berry" gid="780" x="3403.33" y="596" width="32" height="32"/>
+  <object id="231" name="energy_berry" gid="779" x="2688" y="602" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="Environment">
   <object id="145" name="Rock" gid="781" x="1824" y="576" width="32" height="32"/>
@@ -131,7 +133,7 @@
  <objectgroup id="8" name="Player">
   <object id="220" name="Player" gid="769" x="127.25" y="639.25" width="32" height="32"/>
  </objectgroup>
- <layer id="3" name="Terrain" width="121" height="23" visible="0">
+ <layer id="3" name="Terrain" width="121" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,783,787,787,787,787,782,0,0,0,0,0,0,0,0,0,0,0,216,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,783,787,787,787,787,782,0,0,0,0,0,0,0,0,0,0,0,216,218,218,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,217,219,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
