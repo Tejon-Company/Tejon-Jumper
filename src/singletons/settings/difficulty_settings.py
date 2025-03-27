@@ -11,10 +11,10 @@ class DifficultySettings(metaclass=SingletonMeta):
         bear_health_points: int
 
     def __init__(self):
-        self._difficulties = [
+        self._difficulties = (
             DifficultySettings._Difficulty("Fácil", 5, 3, 3),
             DifficultySettings._Difficulty("Difícil", 3, 1, 5),
-        ]
+        )
         self._current = 0
 
     @property

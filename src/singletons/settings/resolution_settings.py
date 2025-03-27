@@ -11,10 +11,10 @@ class ResolutionSettings(metaclass=SingletonMeta):
         tile_size: int
 
     def __init__(self):
-        self._resolutions = [
+        self._resolutions = (
             ResolutionSettings._Resolution("hd", 1280, 720, 32),
             ResolutionSettings._Resolution("full_hd", 1920, 1050, 48),
-        ]
+        )
         self._current = 0
 
     @property
