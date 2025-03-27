@@ -1,7 +1,11 @@
 from resource_manager import ResourceManager
 from scene.menus.settings_menu import SettingsMenu
 import pygame
-from scene.menus.menu_utils import draw_button, draw_background, check_if_button_was_clicked
+from scene.menus.menu_utils import (
+    draw_button,
+    draw_background,
+    check_if_button_was_clicked,
+)
 from scene.menus.menu import Menu
 from scene.level import Level
 from scene.scene import Scene
@@ -13,8 +17,13 @@ class MainMenu(Menu):
         super().__init__()
         self.resolution_settings = ResolutionSettings()
 
-        self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
-        self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
+        title_font_size = self.resolution_settings.tile_size * 2
+        button_font_size = self.resolution_settings.tile_size
+
+        self.title_font = ResourceManager.load_font("backto1982.ttf", title_font_size)
+        self.button_font = ResourceManager.load_font(
+            "Timetwist-Regular.ttf", button_font_size
+        )
 
         Scene._setup_music("main_menu_music.ogg")
 

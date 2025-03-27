@@ -15,7 +15,7 @@ class ResolutionSettings(metaclass=SingletonMeta):
             ResolutionSettings._Resolution("hd", 1280, 720, 32),
             ResolutionSettings._Resolution("full_hd", 1880, 1030, 48),
         )
-        self._current = 1
+        self._current = 0
 
     @property
     def name(self) -> str:
@@ -35,3 +35,7 @@ class ResolutionSettings(metaclass=SingletonMeta):
 
     def update_resolution(self):
         self._current = (self._current + 1) % len(self._resolutions)
+        from singletons.director import Director
+
+        director = Director()
+        director.update_display_surface_resolution()

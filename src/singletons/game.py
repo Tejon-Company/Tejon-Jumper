@@ -24,7 +24,7 @@ class Game(metaclass=SingletonMeta):
         self.last_health_time_ms = None
 
         self._setup_sound_effects()
-        HUD.initialize(22)
+        HUD.initialize()
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")

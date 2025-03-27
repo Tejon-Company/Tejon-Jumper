@@ -18,7 +18,8 @@ class PauseMenu(Menu):
         self.continue_button_y = 0.45 * resolution_settings.window_height
         self.restart_button_y = 0.5833 * resolution_settings.window_height
 
-        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
+        font_size = int(resolution_settings.tile_size * 0.7)
+        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", font_size)
 
     def _handle_event(self, event):
         super()._handle_event(event)

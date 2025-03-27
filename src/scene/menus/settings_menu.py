@@ -19,7 +19,8 @@ class SettingsMenu(Menu):
         self.resolution_btn_y = self.resolution_settings.window_height * 0.65
         self.return_btn_y = self.resolution_settings.window_height * 0.75
 
-        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
+        font_size = int(self.resolution_settings.tile_size * 0.7)
+        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", font_size)
 
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self.return_button, pos):
