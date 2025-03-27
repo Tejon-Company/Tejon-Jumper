@@ -34,9 +34,9 @@ class Player(Character):
 
         self.direction = vector(0, 0)
         self.normal_speed = 150
-        self.rage_speed = 200
+        self.rage_speed = 800
         self.current_speed = self.normal_speed
-        self.gravity = 1000
+        self.gravity = 1500
         self.fall = 0
         self.is_jumping = False
         self.jump_height = 300
@@ -71,6 +71,7 @@ class Player(Character):
 
     def update(self, delta_time, environment_rects):
         self.old_rect = self.rect.copy()
+        print(self.fall)
 
         self.environment_rects = environment_rects
 
@@ -145,7 +146,11 @@ class Player(Character):
 
     def _get_next_pos(self, delta_time, sprint_multiplier):
         next_x_pos = self.rect.x + (
-            self.direction.x * self.current_speed * delta_time * sprint_multiplier
+            self.direction.x
+            * self.ratio
+            * self.current_speed
+            * delta_time
+            * sprint_multiplier
         )
         left_boundary, right_boundary = self._get_boundaries()
 
@@ -165,7 +170,7 @@ class Player(Character):
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * delta_time
+        self.rect.y += self.fall * self.ratio * delta_time
         self.fall += self.gravity / 2 * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 

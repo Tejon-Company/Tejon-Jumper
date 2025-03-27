@@ -7,8 +7,8 @@ class Acorn(Projectile):
         super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.resolution_settings = ResolutionSettings()
         self.rect = self.image.get_frect(topleft=pos)
-        self.gravity = 170
-        self.speed = 100
+        self.gravity = 170 * self.ratio
+        self.speed = 100 * self.ratio
         self.fall = 0
 
     def set_facing_right(self, is_facing_right: bool):
@@ -20,7 +20,7 @@ class Acorn(Projectile):
         else:
             self.rect.x += self.direction.x * self.speed * delta_time
         self.rect.y += self.fall * delta_time
-        self.fall += self.gravity / 2 * delta_time
+        self.fall += (self.gravity / 2 * delta_time) * self.ratio
 
     def _reset_projectile_if_off_screen(self):
         if self.rect.y > self.resolution_settings.window_height:

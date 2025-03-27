@@ -5,6 +5,7 @@ from characters.sprite import Sprite
 from characters.utils.animation_utils import update_animation, set_animation_parameters
 from resource_manager import ResourceManager
 from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Projectile(Sprite, ABC):
@@ -14,6 +15,8 @@ class Projectile(Sprite, ABC):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.game = Game()
+        self.resolution_settings = ResolutionSettings()
+        self.ratio = self.resolution_settings.tile_size / 64
         self.speed = None
         self.is_activated = False
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)

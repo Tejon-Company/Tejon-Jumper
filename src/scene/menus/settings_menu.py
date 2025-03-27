@@ -28,9 +28,8 @@ class SettingsMenu(Menu):
 
         elif self.resolution_button.collidepoint(event.pos):
             self.click_button_sound.play()
-            self.current_resolution = (self.current_resolution + 1) % len(
-                self.resolutions
-            )
+            self.resolution_settings.update_resolution()
+            self.director.update_display_surface_resolution()
 
         elif self.difficulty_button.collidepoint(event.pos):
             self.click_button_sound.play()
@@ -38,6 +37,7 @@ class SettingsMenu(Menu):
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
+        self.display_surface = display_surface
 
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
         draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
@@ -50,7 +50,7 @@ class SettingsMenu(Menu):
             self.difficulty_settings.name,
             "Dificultad",
             self.font,
-            self.difficulty_btn_y + self.difficulty_settings.window_height * 0.02,
+            self.difficulty_btn_y + self.resolution_settings.window_height * 0.02,
         )
 
         self.resolution_button = draw_button_with_label(

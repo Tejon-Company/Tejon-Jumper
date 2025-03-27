@@ -64,7 +64,9 @@ def _draw_button_text(display_surface, text, rect, font):
     display_surface.blit(text_surface, text_rect.topleft)
 
 
-def draw_background(display_surface, background):
+def draw_background(
+    display_surface, background=None):
+    background = ResourceManager.load_image("menu_background.jpeg")
     display_surface.blit(background, (0, 0))
 
 

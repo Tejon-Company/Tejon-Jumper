@@ -7,17 +7,21 @@ import pygame
 class Director(metaclass=SingletonMeta):
     def __init__(self):
         self.resolution_settings = ResolutionSettings()
-        self.display_surface = pygame.display.set_mode(
-            (
-                self.resolution_settings.window_width,
-                self.resolution_settings.window_height,
-            )
-        )
+        self.update_display_surface_resolution()
         pygame.display.set_caption("Tejón Jumper")
 
         self.stack = []
         self.exit_scene = False
         self.clock = pygame.time.Clock()
+
+    # TODO
+    def update_display_surface_resolution(self):
+        self.display_surface = pygame.display.set_mode(
+            (
+                self.resolution_settings.window_width,
+                self.resolution_settings.window_height
+            )
+        )
 
     def _loop(self, scene):
         self.exit_scene = False

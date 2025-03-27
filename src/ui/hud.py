@@ -15,9 +15,8 @@ class HUD:
     bear_health_icon = None
 
     @classmethod
-    def initialize(cls, sprite_size, font_size):
+    def initialize(cls, font_size):
         cls.resolution_settings = ResolutionSettings()
-        cls.sprite_size = sprite_size
         cls.font_size = font_size
         cls.font = ResourceManager.load_font("Beta54.ttf", cls.font_size)
 
@@ -33,7 +32,7 @@ class HUD:
         health_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
         health_icon = health_icon_image.subsurface(
-            (0, 0, cls.sprite_size, cls.sprite_size)
+            (0, 0, cls.resolution_settings.tile_size, cls.resolution_settings.tile_size)
         )
 
         cls.health_icon = health_icon
@@ -43,7 +42,12 @@ class HUD:
         coin_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
         coin_icon = coin_icon_image.subsurface(
-            (((cls.sprite_size * 3) + 2), 0, cls.sprite_size, cls.sprite_size)
+            (
+                ((cls.resolution_settings.tile_size * 3) + 2),
+                0,
+                cls.resolution_settings.tile_size,
+                cls.resolution_settings.tile_size,
+            )
         )
 
         cls.coin_icon = coin_icon
@@ -53,7 +57,12 @@ class HUD:
         energy_icon_image = ResourceManager.load_sprite_sheet("berries.png")
 
         energy_icon = energy_icon_image.subsurface(
-            (((cls.sprite_size * 2) + 1), 0, cls.sprite_size, cls.sprite_size)
+            (
+                ((cls.resolution_settings.tile_size * 2) + 1),
+                0,
+                cls.resolution_settings.tile_size,
+                cls.resolution_settings.tile_size,
+            )
         )
 
         cls.energy_icon = energy_icon
@@ -63,7 +72,7 @@ class HUD:
         bear_health_icon_image = ResourceManager.load_sprite_sheet("bear_heart.png")
 
         bear_health_icon = bear_health_icon_image.subsurface(
-            (0, 0, cls.sprite_size, cls.sprite_size)
+            (0, 0, cls.resolution_settings.tile_size, cls.resolution_settings.tile_size)
         )
 
         cls.bear_health_icon = bear_health_icon
@@ -80,7 +89,7 @@ class HUD:
     ):
         cls._draw_hearts(display_surface, remaining_health_points)
         cls._draw_energy_bar(display_surface, energy)
-        cls._draw_lifes_counter(display_surface, remaining_lives)
+        cls._draw_player_lifes_counter(display_surface, remaining_lives)
         cls._draw_coins_counter(display_surface, coins)
         cls._draw_bear_hearts(display_surface, bear_health_points)
 
@@ -135,7 +144,7 @@ class HUD:
         display_surface.blit(cls.energy_icon, (icon_x, icon_y))
 
     @classmethod
-    def _draw_lifes_counter(cls, display_surface, remaining_lives: int):
+    def _draw_player_lifes_counter(cls, display_surface, remaining_lives: int):
         cls._draw_icon_with_counter(
             display_surface, cls.player_icon, remaining_lives, 10, 90
         )

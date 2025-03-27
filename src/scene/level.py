@@ -30,18 +30,21 @@ class Level(Scene):
             "background": "background1",
             "music": "level_1.ogg",
             "map": "level1.tmx",
+            "time_of_day": "day",
             "map_size": 121,
         },
         2: {
             "background": "background2",
             "music": "level_2.ogg",
             "map": "level2.tmx",
+            "time_of_day": "night",
             "map_size": 154,
         },
         3: {
             "background": "background3",
             "music": "level_3.ogg",
             "map": "level3.tmx",
+            "time_of_day": "day",
             "map_size": 113,
         },
     }
@@ -68,7 +71,7 @@ class Level(Scene):
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_background(self._levels_config[self.current_level]["background"])
+        self._setup_background()
 
         self._setup_layer("Background", "backgrounds")
         self._setup_layer("Terrain", "platforms")
@@ -110,8 +113,13 @@ class Level(Scene):
         map_height = self.tmx_map.height * self.resolution_settings.tile_size
         self.camera = Camera(map_width, map_height)
 
-    def _setup_background(self, background):
-        background_folder = join("assets", "hd", "backgrounds", "day", background)
+    def _setup_background(self):
+        background_folder = join(
+            "assets",
+            self.resolution_settings.name,
+            "backgrounds",
+            self._levels_config[self.current_level]["time_of_day"],
+        )
         image_files = self._get_image_files(background_folder)
         parallax_factor = [0.1, 0.2, 0.4, 0.9]
 

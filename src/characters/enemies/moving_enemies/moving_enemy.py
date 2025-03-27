@@ -57,7 +57,7 @@ class MovingEnemy(Enemy, ABC):
         self.image.set_colorkey(color_key)
 
     def _move(self, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
+        self.rect.x += self.direction.x * self.ratio * self.speed * delta_time
         should_change_direction = self._about_to_fall() or self._will_hit_wall()
 
         if should_change_direction:

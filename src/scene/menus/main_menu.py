@@ -13,8 +13,6 @@ class MainMenu(Menu):
         super().__init__()
         self.resolution_settings = ResolutionSettings()
 
-        self.background = ResourceManager.load_image("menu_background.jpeg")
-
         self.title_font = ResourceManager.load_font("backto1982.ttf", 84)
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
 
@@ -32,7 +30,7 @@ class MainMenu(Menu):
             self.director.push_scene(SettingsMenu())
 
     def draw(self, display_surface):
-        draw_background(display_surface, self.background)
+        draw_background(display_surface)
 
         self._draw_title(display_surface)
 
