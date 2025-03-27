@@ -1,20 +1,20 @@
 from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class VictoryMenu(Menu):
     def __init__(self, boss_has_been_defeated):
         super().__init__()
         self.boss_has_been_defeated = boss_has_been_defeated
-        settings = Settings()
+        resolution_settings = ResolutionSettings()
         self.background = ResourceManager.load_image("menu_background.jpeg")
-        self.message_y = 0.25 * settings.get_window_height()
-        self.message_x = 0.28 * settings.get_window_width()
+        self.message_y = 0.25 * resolution_settings.window_height
+        self.message_x = 0.28 * resolution_settings.window_width
         self.message_font = ResourceManager.load_font("Timetwist-Regular.ttf", 30)
         self.button_font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
-        self.replay_button_y = 0.45 * settings.get_window_height()
-        self.quit_button_y = 0.5833 * settings.get_window_height()
+        self.replay_button_y = 0.45 * resolution_settings.window_height
+        self.quit_button_y = 0.5833 * resolution_settings.window_height
 
     def _mouse_button_down(self, event):
         if self.main_menu_button.collidepoint(event.pos):

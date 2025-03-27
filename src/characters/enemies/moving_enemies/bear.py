@@ -7,7 +7,8 @@ from characters.utils.animation_utils import (
     update_animation,
 )
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
+from singletons.settings.difficulty_settings import DifficultySettings
 import pygame
 
 
@@ -31,11 +32,12 @@ class Bear(MovingEnemy):
             None,
         )
 
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
+        self.difficulty_settings = DifficultySettings()
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = self.settings.get_tile_size() * 2
+        self.rect.width = self.resolution_settings.tile_size * 2
 
         self.speed = 100
         self.gravity = 1000
@@ -47,7 +49,7 @@ class Bear(MovingEnemy):
 
         self.facing_right = True
 
-        self.health_points = self.settings.get_bear_health_points()
+        self.health_points = self.difficulty_settings.bear_health_points
         self.last_damage_time_ms = None
 
     def _setup_animation(self):
@@ -55,12 +57,12 @@ class Bear(MovingEnemy):
 
         self.animations = {
             "run": create_animation_rects(
-                0, 5, sprite_width=self.settings.get_tile_size() * 2
+                0, 5, sprite_width=self.resolution_settings.tile_size * 2
             ),
             "jump": create_animation_rects(
-                5, 1, sprite_width=self.settings.get_tile_size() * 2
+                5, 1, sprite_width=self.resolution_settings.tile_size * 2
             ),
-            "fall": create_animation_rects(6, 1, self.settings.get_tile_size() * 2),
+            "fall": create_animation_rects(6, 1, self.resolution_settings.tile_size * 2),
         }
 
         self.current_animation = "run"

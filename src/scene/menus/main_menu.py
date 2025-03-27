@@ -5,13 +5,13 @@ from scene.menus.menu_utils import draw_button, draw_background
 from scene.menus.menu import Menu
 from scene.level import Level
 from scene.scene import Scene
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class MainMenu(Menu):
     def __init__(self):
         super().__init__()
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
 
         self.background = ResourceManager.load_image("menu_background.jpeg")
 
@@ -49,15 +49,15 @@ class MainMenu(Menu):
         text_surface = self.title_font.render("Tejon jumper", True, "black")
         text_rect = text_surface.get_rect(
             center=(
-                self.settings.get_window_width() // 2,
-                self.settings.get_window_height() // 4,
+                self.resolution_settings.window_width // 2,
+                self.resolution_settings.window_height // 4,
             )
         )
         return text_surface, text_rect
 
     def _create_title_background(self, text_rect):
-        padding_x = self.settings.get_window_width() * 0.025
-        padding_y = self.settings.get_window_height() * 0.05
+        padding_x = self.resolution_settings.window_width * 0.025
+        padding_y = self.resolution_settings.window_height * 0.05
         beige_rect = text_rect.inflate(padding_x, padding_y)
         background_surface = pygame.Surface(
             (beige_rect.width, beige_rect.height), pygame.SRCALPHA
@@ -67,14 +67,14 @@ class MainMenu(Menu):
         return background_surface, beige_rect
 
     def _draw_buttons(self, display_surface):
-        button_width = self.settings.get_window_width() * 0.2
-        button_height = self.settings.get_window_height() * 0.1
+        button_width = self.resolution_settings.window_width * 0.2
+        button_height = self.resolution_settings.window_height * 0.1
 
         self.play_button = draw_button(
             display_surface,
             "Jugar",
             self.button_font,
-            self.settings.get_window_height() * 0.5,
+            self.resolution_settings.window_height * 0.5,
             width=button_width,
             height=button_height,
         )
@@ -83,7 +83,7 @@ class MainMenu(Menu):
             display_surface,
             "Ajustes",
             self.button_font,
-            self.settings.get_window_height() * 0.67,
+            self.resolution_settings.window_height * 0.67,
             width=button_width,
             height=button_height,
         )

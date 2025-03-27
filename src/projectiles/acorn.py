@@ -1,11 +1,11 @@
 from projectiles.projectile import Projectile
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Acorn(Projectile):
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.rect = self.image.get_frect(topleft=pos)
         self.gravity = 170
         self.speed = 100
@@ -23,7 +23,7 @@ class Acorn(Projectile):
         self.fall += self.gravity / 2 * delta_time
 
     def _reset_projectile_if_off_screen(self):
-        if self.rect.y > self.settings.get_window_height():
+        if self.rect.y > self.resolution_settings.window_height:
             self._deactivate_projectile()
 
     def _deactivate_projectile(self):

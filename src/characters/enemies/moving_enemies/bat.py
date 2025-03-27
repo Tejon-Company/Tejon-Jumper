@@ -1,6 +1,6 @@
 from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.utils.animation_utils import update_animation
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from pygame.math import Vector2 as vector
 
 
@@ -8,7 +8,7 @@ class Bat(MovingEnemy):
     def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups, player, None, sprite_sheet_name, animations)
 
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.rect = self.image.get_frect(topleft=pos)
 
         self.direction = vector(-1, 1)
@@ -18,10 +18,10 @@ class Bat(MovingEnemy):
         pos_x, pos_y = pos
 
         self.top_pos = pos_y
-        self.bottom_pos = pos_y + self.settings.get_tile_size() * 4
+        self.bottom_pos = pos_y + self.resolution_settings.tile_size * 4
 
-        self.left_limit = pos_x - self.settings.get_tile_size() * 4
-        self.right_limit = pos_x + self.settings.get_tile_size() * 4
+        self.left_limit = pos_x - self.resolution_settings.tile_size * 4
+        self.right_limit = pos_x + self.resolution_settings.tile_size * 4
 
     def update(self, delta_time, environment_rects):
         self._check_should_receive_damage()

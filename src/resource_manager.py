@@ -1,14 +1,14 @@
 import pygame
 from os.path import join
 from pytmx.util_pygame import load_pygame
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class ResourceManager:
     _resources = {}
     _effects_volume = 1.0
     _loaded_sounds = []
-    _settings = Settings()
+    _resolution_settings = ResolutionSettings()
 
     @classmethod
     def load_image(cls, name, colorkey=None):
@@ -16,7 +16,7 @@ class ResourceManager:
             return cls._resources[name]
 
         try:
-            fullname = join("assets", cls._settings.get_resolution_name(), name)
+            fullname = join("assets", cls._resolution_settings.name, name)
             image = pygame.image.load(fullname).convert_alpha()
             if colorkey:
                 image.set_colorkey(colorkey)
@@ -72,7 +72,7 @@ class ResourceManager:
         try:
             fullname = join(
                 "assets",
-                cls._settings.get_resolution_name(),
+                cls._resolution_settings.name,
                 "sprite_sheets",
                 "day",
                 name,
@@ -92,7 +92,11 @@ class ResourceManager:
 
         try:
             level_path = join(
-                "assets", cls._settings.get_resolution_name(), "tiled", "levels", name
+                "assets",
+                cls._resolution_settings.name,
+                "tiled",
+                "levels",
+                name,
             )
             tmx_map = load_pygame(level_path)
             return tmx_map

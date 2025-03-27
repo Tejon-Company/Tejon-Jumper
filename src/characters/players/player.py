@@ -5,7 +5,7 @@ from characters.utils.animation_utils import *
 from characters.character import Character
 from resource_manager import ResourceManager
 from singletons.game import Game
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from pygame.math import Vector2 as vector
 import pygame
 
@@ -16,7 +16,7 @@ class Player(Character):
 
         self._setup_animation()
         self.game = Game()
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.level_width = level_width
 
         self.rect = self.image.get_frect(topleft=pos)
@@ -157,7 +157,7 @@ class Player(Character):
         return next_x_pos
 
     def _get_boundaries(self):
-        tile_size = self.settings.get_tile_size()
+        tile_size = self.resolution_settings.tile_size
 
         left_boundary = 0
         right_boundary = self.level_width * tile_size - tile_size * 2
@@ -177,7 +177,7 @@ class Player(Character):
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
-        if self.rect.bottom > self.settings.get_window_height():
+        if self.rect.bottom > self.resolution_settings.window_height:
             self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):

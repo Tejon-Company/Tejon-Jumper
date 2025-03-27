@@ -1,6 +1,6 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.director import Director
 from singletons.game import Game
 
@@ -9,12 +9,12 @@ class PauseMenu(Menu):
     def __init__(self):
         super().__init__()
 
-        settings = Settings()
+        resolution_settings = ResolutionSettings()
 
-        self.music_bar_y = 0.25 * settings.get_window_height()
-        self.effects_bar_y = 0.3333 * settings.get_window_height()
-        self.continue_button_y = 0.45 * settings.get_window_height()
-        self.restart_button_y = 0.5833 * settings.get_window_height()
+        self.music_bar_y = 0.25 * resolution_settings.window_height
+        self.effects_bar_y = 0.3333 * resolution_settings.window_height
+        self.continue_button_y = 0.45 * resolution_settings.window_height
+        self.restart_button_y = 0.5833 * resolution_settings.window_height
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 

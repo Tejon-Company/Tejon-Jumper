@@ -1,5 +1,5 @@
 from resource_manager import ResourceManager
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 import pygame
 
 
@@ -16,7 +16,7 @@ class HUD:
 
     @classmethod
     def initialize(cls, sprite_size, font_size):
-        cls.settings = Settings()
+        cls.resolution_settings = ResolutionSettings()
         cls.sprite_size = sprite_size
         cls.font_size = font_size
         cls.font = ResourceManager.load_font("Beta54.ttf", cls.font_size)
@@ -150,7 +150,8 @@ class HUD:
     @classmethod
     def _draw_bear_hearts(cls, display_surface, bear_healt_points: int):
         start_x = (
-            cls.settings.get_window_width() // 2 - cls.settings.get_tile_size() * 2
+            cls.resolution_settings.window_width // 2
+            - cls.resolution_settings.tile_size * 2
         )
         cls._draw_health_icons(
             display_surface, bear_healt_points, cls.bear_health_icon, start_x, 10

@@ -10,7 +10,7 @@ class AcornPool(ProjectilesPool):
         super().__init__(size, projectile_groups)
 
     def _create_pool(self):
-        acorn_size = self.settings.get_tile_size() / 2
+        acorn_size = self.resolution_settings.tile_size / 2
         for _ in range(self.size):
             acorn = Acorn(
                 pos=(0, 0),

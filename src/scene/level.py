@@ -1,4 +1,4 @@
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from characters.sprite import Sprite
 from characters.players.player import Player
 from characters.enemies.moving_enemies.bear import Bear
@@ -50,7 +50,7 @@ class Level(Scene):
     ):
         super().__init__()
 
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.director = Director()
         self.game = Game()
         self.current_level = current_level
@@ -104,8 +104,8 @@ class Level(Scene):
         self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * self.settings.get_tile_size()
-        map_height = self.tmx_map.height * self.settings.get_tile_size()
+        map_width = self.tmx_map.width * self.resolution_settings.tile_size
+        map_height = self.tmx_map.height * self.resolution_settings.tile_size
         self.camera = Camera(map_width, map_height)
 
     def _setup_background(self, background):
@@ -136,7 +136,7 @@ class Level(Scene):
     def _setup_layer(self, layer_name, group_key):
         for x, y, surf in self.tmx_map.get_layer_by_name(layer_name).tiles():
             Sprite(
-                (x * self.settings.get_tile_size(), y * self.settings.get_tile_size()),
+                (x * self.resolution_settings.tile_size, y * self.resolution_settings.tile_size),
                 surf,
                 self.groups[group_key],
             )
@@ -198,9 +198,10 @@ class Level(Scene):
             )
 
     def go_to_next_level(self):
-        next_level_index = self.current_level + 1 % self.settings.get_number_of_levels()
+        number_of_levels = len(self._levels_config)
+        next_level_index = self.current_level + 1 % number_of_levels
 
-        if next_level_index > self.settings.get_number_of_levels():
+        if next_level_index > number_of_levels:
             boss_has_been_defeated = not self.boss.alive()
             self.director.change_scene(VictoryMenu(boss_has_been_defeated))
 

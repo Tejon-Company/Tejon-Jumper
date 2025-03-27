@@ -1,4 +1,5 @@
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
+from singletons.settings.difficulty_settings import DifficultySettings
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
 from ui.hud import HUD
@@ -10,11 +11,12 @@ from singletons.director import Director
 class Game(metaclass=SingletonMeta):
     def __init__(self):
         self.director = Director()
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
+        self.difficulty_settings = DifficultySettings()
 
-        self.max_health_points = self.settings.get_player_health_points()
+        self.max_health_points = self.difficulty_settings.player_health_points
         self.health_points = self.max_health_points
-        self.remaining_lives = self.settings.get_player_lives()
+        self.remaining_lives = self.difficulty_settings.player_lives
         self.player = None
         self.coins = 0
 
@@ -22,7 +24,7 @@ class Game(metaclass=SingletonMeta):
         self.last_health_time_ms = None
 
         self._setup_sound_effects()
-        HUD.initialize(self.settings.get_tile_size(), 22)
+        HUD.initialize(self.resolution_settings.tile_size, 22)
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")
@@ -89,7 +91,7 @@ class Game(metaclass=SingletonMeta):
             self.health_points += 1
 
     def reload_game(self):
-        self.remaining_lives = self.settings.get_player_lives()
+        self.remaining_lives = self.difficulty_settings.player_lives
         self.health_points = self.max_health_points
         self.coins = 0
 
