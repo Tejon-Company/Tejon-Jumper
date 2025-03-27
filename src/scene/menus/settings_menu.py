@@ -21,19 +21,16 @@ class SettingsMenu(Menu):
 
         self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
 
-    def _mouse_button_down(self, event):
-        if self.return_button.collidepoint(event.pos):
-            self.click_button_sound.play()
+    def _mouse_button_down(self, pos):
+        if check_if_button_was_clicked(self.return_button, pos):
             self.director.pop_scene()
 
-        elif self.resolution_button.collidepoint(event.pos):
-            self.click_button_sound.play()
+        elif check_if_button_was_clicked(self.resolution_button, pos):
             self.current_resolution = (self.current_resolution + 1) % len(
                 self.resolutions
             )
 
-        elif self.difficulty_button.collidepoint(event.pos):
-            self.click_button_sound.play()
+        elif check_if_button_was_clicked(self.difficulty_button, pos):
             self.difficulty_settings.update_difficulty()
 
     def draw(self, display_surface):

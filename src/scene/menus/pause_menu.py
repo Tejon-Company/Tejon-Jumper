@@ -35,12 +35,11 @@ class PauseMenu(Menu):
 
         self.director.push_scene(Level(1))
 
-    def _mouse_button_down(self, event):
-        if self.continue_button.collidepoint(event.pos):
-            self.click_button_sound.play()
+    def _mouse_button_down(self, pos):
+        if check_if_button_was_clicked(self.continue_button, pos):
             self.director.pop_scene()
 
-        elif self.restart_button.collidepoint(event.pos):
+        elif check_if_button_was_clicked(self.restart_button, pos):
             self._exit_pause()
 
     def draw(self, display_surface):
