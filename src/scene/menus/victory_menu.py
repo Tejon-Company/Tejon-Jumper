@@ -16,13 +16,13 @@ class VictoryMenu(Menu):
         self.replay_button_y = 0.45 * resolution_settings.window_height
         self.quit_button_y = 0.5833 * resolution_settings.window_height
 
-    def _mouse_button_down(self, event):
-        if self.main_menu_button.collidepoint(event.pos):
+    def _mouse_button_down(self, pos):
+        if check_if_button_was_clicked(self.main_menu_button, pos):
             from scene.menus.main_menu import MainMenu
 
             self.director.change_scene(MainMenu())
 
-        elif self.quit_button.collidepoint(event.pos):
+        elif check_if_button_was_clicked(self.quit_button, pos):
             self.director.exit_program()
 
     def draw(self, display_surface):

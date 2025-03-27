@@ -1,7 +1,7 @@
 from resource_manager import ResourceManager
 from scene.menus.settings_menu import SettingsMenu
 import pygame
-from scene.menus.menu_utils import draw_button, draw_background
+from scene.menus.menu_utils import draw_button, draw_background, check_if_button_was_clicked
 from scene.menus.menu import Menu
 from scene.level import Level
 from scene.scene import Scene
@@ -18,15 +18,12 @@ class MainMenu(Menu):
 
         Scene._setup_music("main_menu_music.ogg")
 
-    def _mouse_button_down(self, event):
-        if self.play_button.collidepoint(event.pos):
-            self.click_button_sound.play()
-
+    def _mouse_button_down(self, pos):
+        if check_if_button_was_clicked(self.play_button, pos):
             first_level = Level(1)
             self.director.change_scene(first_level)
 
-        elif self.settings_button.collidepoint(event.pos):
-            self.click_button_sound.play()
+        elif check_if_button_was_clicked(self.settings_button, pos):
             self.director.push_scene(SettingsMenu())
 
     def draw(self, display_surface):

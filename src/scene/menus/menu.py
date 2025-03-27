@@ -17,7 +17,7 @@ class Menu(Scene, ABC):
         if event.type == pygame.QUIT:
             self.director.exit_program()
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            self._mouse_button_down(event)
+            self._mouse_button_down(event.pos)
 
     @abstractmethod
     def _mouse_button_down(self, event):
