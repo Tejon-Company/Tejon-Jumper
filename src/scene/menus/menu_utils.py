@@ -5,6 +5,16 @@ from singletons.settings.resolution_settings import ResolutionSettings
 import pygame
 
 
+def check_if_button_was_clicked(button, pos):
+    click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
+
+    if button.collidepoint(pos):
+        click_button_sound.play()
+        return True
+
+    return False
+
+
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
     resolution_settings = ResolutionSettings()
     gap = int(resolution_settings.window_width * 0.01)
