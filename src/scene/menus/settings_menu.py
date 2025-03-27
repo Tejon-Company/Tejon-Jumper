@@ -26,10 +26,7 @@ class SettingsMenu(Menu):
             self.director.pop_scene()
 
         elif check_if_button_was_clicked(self.resolution_button, pos):
-            self.current_resolution = (self.current_resolution + 1) % len(
-                self.resolutions
-            )
-
+            self.resolution_settings.update_resolution()
         elif check_if_button_was_clicked(self.difficulty_button, pos):
             self.difficulty_settings.update_difficulty()
 
@@ -47,7 +44,7 @@ class SettingsMenu(Menu):
             self.difficulty_settings.name,
             "Dificultad",
             self.font,
-            self.difficulty_btn_y + self.difficulty_settings.window_height * 0.02,
+            self.difficulty_btn_y + self.resolution_settings.window_height * 0.02,
         )
 
         self.resolution_button = draw_button_with_label(
