@@ -12,11 +12,11 @@ class ProjectilesPool(ABC):
     """
 
     def __init__(self, size, projectile_groups):
-        self.resolution_settings = ResolutionSettings()
-        self.pool = list()
-        self.size = size
-        self.projectile_groups = projectile_groups
-        self.game = Game()
+        self._resolution_settings = ResolutionSettings()
+        self._pool = list()
+        self._size = size
+        self._projectile_groups = projectile_groups
+        self._game = Game()
         self._create_pool()
 
     @abstractmethod

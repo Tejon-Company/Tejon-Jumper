@@ -18,25 +18,25 @@ class SporePool(ProjectilesPool):
         super().__init__(size, projectile_groups)
 
     def _create_pool(self):
-        spore_size = self.resolution_settings.tile_size / 2
-        for _ in range(self.size):
+        spore_size = self._resolution_settings.tile_size / 2
+        for _ in range(self._size):
             spore = Spore(
                 (0, 0),
                 pygame.Surface((spore_size, spore_size)),
                 pygame.math.Vector2(-1, 0),
-                self.projectile_groups,
+                self._projectile_groups,
                 "spore.png",
                 create_animation_rects(
                     0,
                     3,
-                    sprite_height=self.resolution_settings.tile_size // 2,
-                    sprite_width=self.resolution_settings.tile_size // 2,
+                    sprite_height=self._resolution_settings.tile_size // 2,
+                    sprite_width=self._resolution_settings.tile_size // 2,
                 ),
             )
-            self.pool.append(spore)
+            self._pool.append(spore)
 
     def shoot(self, pos_x, pos_y, direction: Optional[tuple] = None):
-        for spore in self.pool:
+        for spore in self._pool:
             if spore.is_activated:
                 continue
 
