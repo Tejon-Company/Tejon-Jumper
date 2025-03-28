@@ -1,48 +1,45 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
+from singletons.settings.difficulty_settings import DifficultySettings
 
 
 class SettingsMenu(Menu):
     def __init__(self):
         super().__init__()
         self.background = ResourceManager.load_image("menu_background.jpeg")
-        self.settings = Settings()
 
-        self.music_bar_y = self.settings.window_height * 0.35
-        self.effects_bar_y = self.settings.window_height * 0.45
+        self.resolution_settings = ResolutionSettings()
+        self.difficulty_settings = DifficultySettings()
 
-        self.difficulty_btn_y = self.settings.window_height * 0.55
-        self.resolution_btn_y = self.settings.window_height * 0.65
-        self.return_btn_y = self.settings.window_height * 0.75
+        self.music_bar_y = self.resolution_settings.window_height * 0.35
+        self.effects_bar_y = self.resolution_settings.window_height * 0.45
 
-        self.difficulties = ["Fácil", "Difícil"]
-        self.current_difficulty = 1
+        self.difficulty_btn_y = self.resolution_settings.window_height * 0.55
+        self.resolution_btn_y = self.resolution_settings.window_height * 0.65
+        self.return_btn_y = self.resolution_settings.window_height * 0.75
 
-        self.resolutions = [(1280, 720), (1920, 1080)]
-        self.current_resolution = 0
+        font_size = int(self.resolution_settings.tile_size * 0.7)
+        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", font_size)
 
-        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
+    def _mouse_button_down(self, pos):
+        if check_if_button_was_clicked(self.return_button, pos):
+            from scene.menus.main_menu import MainMenu
 
-    def _mouse_button_down(self, event):
-        if self.return_button.collidepoint(event.pos):
-            self.click_button_sound.play()
-            self.director.pop_scene()
+            self.director.change_scene(MainMenu())
 
-        elif self.resolution_button.collidepoint(event.pos):
-            self.click_button_sound.play()
-            self.current_resolution = (self.current_resolution + 1) % len(
-                self.resolutions
-            )
+        elif check_if_button_was_clicked(self.resolution_button, pos):
+            self.director.update_display_surface_resolution()
+            self.resolution_settings.update_resolution()
 
-        elif self.difficulty_button.collidepoint(event.pos):
-            self.click_button_sound.play()
-            self.current_difficulty = (self.current_difficulty + 1) % len(
-                self.difficulties
-            )
+            self.director.change_scene(SettingsMenu())
+
+        elif check_if_button_was_clicked(self.difficulty_button, pos):
+            self.difficulty_settings.update_difficulty()
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
+        self.display_surface = display_surface
 
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
         draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
@@ -52,18 +49,15 @@ class SettingsMenu(Menu):
     def _draw_buttons(self, display_surface):
         self.difficulty_button = draw_button_with_label(
             display_surface,
-            f"{self.difficulties[self.current_difficulty]}",
+            self.difficulty_settings.name,
             "Dificultad",
             self.font,
-            self.difficulty_btn_y + self.settings.window_height * 0.02,
+            self.difficulty_btn_y + self.resolution_settings.window_height * 0.02,
         )
-
-        current_resolution = self.resolutions[self.current_resolution]
-        width, height = current_resolution
 
         self.resolution_button = draw_button_with_label(
             display_surface,
-            f"{width}x{height}",
+            f"{self.resolution_settings.window_width}x{self.resolution_settings.window_height}",
             "Resolución",
             self.font,
             self.resolution_btn_y,

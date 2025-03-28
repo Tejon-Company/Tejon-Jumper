@@ -1,35 +1,61 @@
-from singletons.settings import Settings
-from characters.sprite import Sprite
-from characters.players.player import Player
-from characters.enemies.moving_enemies.bear import Bear
-from pygame.sprite import Group
-from characters.enemies.enemy_factory import enemy_factory
-from scene.background import Background
-from scene.camera import Camera
-from projectiles.projectiles_pools.acorn_pool import AcornPool
-from projectiles.projectiles_pools.spore_pool import SporePool
-from environment.environment_factory import environment_factory
-from berries.berrie_factory import berry_factory
-from scene.scene import Scene
-from resource_manager import ResourceManager
-from singletons.director import Director
-from singletons.game import Game
-from scene.menus.victory_menu import VictoryMenu
-from scene.menus.pause_menu import PauseMenu
 from os import listdir
 from os.path import join
-from ui.hud import HUD
+
 import pygame
+from pygame.sprite import Group
+
+from berries.berrie_factory import berry_factory
+from characters.enemies.enemy_factory import enemy_factory
+from characters.enemies.moving_enemies.bear import Bear
+from characters.players.player import Player
+from characters.sprite import Sprite
+from environment.environment_factory import environment_factory
+from projectiles.projectiles_pools.acorn_pool import AcornPool
+from projectiles.projectiles_pools.spore_pool import SporePool
+from resource_manager import ResourceManager
+from scene.background import Background
+from scene.camera import Camera
+from scene.menus.pause_menu import PauseMenu
+from scene.menus.victory_menu import VictoryMenu
+from scene.scene import Scene
+from singletons.director import Director
+from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
+from ui.hud import HUD
 
 
 class Level(Scene):
+    _levels_config = {
+        1: {
+            "background": "background1",
+            "music": "level_1.ogg",
+            "map": "level1.tmx",
+            "time_of_day": "day",
+            "map_size": 121,
+        },
+        2: {
+            "background": "background2",
+            "music": "level_2.ogg",
+            "map": "level2.tmx",
+            "time_of_day": "night",
+            "map_size": 154,
+        },
+        3: {
+            "background": "background3",
+            "music": "level_3.ogg",
+            "map": "level3.tmx",
+            "time_of_day": "day",
+            "map_size": 113,
+        },
+    }
+
     def __init__(
         self,
         current_level: int,
     ):
         super().__init__()
 
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.director = Director()
         self.game = Game()
         self.current_level = current_level
@@ -37,7 +63,7 @@ class Level(Scene):
         self.is_on_pause = False
 
         self.tmx_map = ResourceManager.load_tmx_map(
-            self.settings.levels_config[self.current_level]["map"]
+            self._levels_config[self.current_level]["map"]
         )
 
         self._setup_groups()
@@ -45,9 +71,7 @@ class Level(Scene):
         self._setup_pools()
         self._setup_camera()
 
-        self._setup_background(
-            self.settings.levels_config[self.current_level]["background"]
-        )
+        self._setup_background()
 
         self._setup_layer("Background", "backgrounds")
         self._setup_layer("Terrain", "platforms")
@@ -65,7 +89,7 @@ class Level(Scene):
 
         self._setup_berries()
 
-        Scene._setup_music(self.settings.levels_config[self.current_level]["music"])
+        Scene._setup_music(self._levels_config[self.current_level]["music"])
 
     def _setup_groups(self):
         self.groups = {
@@ -76,7 +100,8 @@ class Level(Scene):
             "projectiles": Group(),
             "berries": Group(),
             "deco": Group(),
-            "environment": Group(),
+            "rocks": Group(),
+            "flags": Group(),
             "moving_enemies": Group(),
         }
 
@@ -85,22 +110,26 @@ class Level(Scene):
         self.acorn_pool = AcornPool(20, self.groups["projectiles"])
 
     def _setup_camera(self):
-        map_width = self.tmx_map.width * self.settings.tile_size
-        map_height = self.tmx_map.height * self.settings.tile_size
+        map_width = self.tmx_map.width * self.resolution_settings.tile_size
+        map_height = self.tmx_map.height * self.resolution_settings.tile_size
         self.camera = Camera(map_width, map_height)
 
-    def _setup_background(self, background):
-        background_folder = join("assets", "maps", "backgrounds", background)
+    def _setup_background(self):
+        background_folder = join(
+            "assets",
+            self.resolution_settings.name,
+            "backgrounds",
+            self._levels_config[self.current_level]["time_of_day"],
+        )
         image_files = self._get_image_files(background_folder)
+        parallax_factor = [0.1, 0.2, 0.4, 0.9]
 
         for i, image_name in enumerate(image_files):
             self.backgrounds.append(
                 Background(
                     join(background_folder, image_name),
                     (0, 0),
-                    self.settings.parallax_factor[
-                        i % len(self.settings.parallax_factor)
-                    ],
+                    parallax_factor[i % len(parallax_factor)],
                 )
             )
 
@@ -118,7 +147,10 @@ class Level(Scene):
     def _setup_layer(self, layer_name, group_key):
         for x, y, surf in self.tmx_map.get_layer_by_name(layer_name).tiles():
             Sprite(
-                (x * self.settings.tile_size, y * self.settings.tile_size),
+                (
+                    x * self.resolution_settings.tile_size,
+                    y * self.resolution_settings.tile_size,
+                ),
                 surf,
                 self.groups[group_key],
             )
@@ -137,7 +169,7 @@ class Level(Scene):
             (character.x, character.y),
             character.image,
             self.groups["characters"],
-            self.current_level
+            self._levels_config[self.current_level]["map_size"],
         )
 
     def _setup_enemies(self):
@@ -175,14 +207,13 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(
-                map_element, self.groups["environment"], self.player, self
-            )
+            environment_factory(map_element, self.groups, self.player, self)
 
     def go_to_next_level(self):
-        next_level_index = self.current_level + 1 % self.settings.get_number_of_levels()
+        number_of_levels = len(self._levels_config)
+        next_level_index = self.current_level + 1 % number_of_levels
 
-        if next_level_index > self.settings.get_number_of_levels():
+        if next_level_index > number_of_levels:
             boss_has_been_defeated = not self.boss.alive()
             self.director.change_scene(VictoryMenu(boss_has_been_defeated))
 
@@ -194,14 +225,15 @@ class Level(Scene):
         if self.is_on_pause:
             return
 
-        self.groups["environment"].update()
-        environment_rects = [platform.rect for platform in self.groups["environment"]]
+        self.groups["rocks"].update()
+        environment_rects = [platform.rect for platform in self.groups["rocks"]]
 
         self.player.update(delta_time, environment_rects)
         self.groups["projectiles"].update(delta_time, self.player)
         self.groups["moving_enemies"].update(delta_time, environment_rects)
         self.groups["shooters"].update(delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["flags"].update()
 
         self.camera.update(self.player)
 
@@ -223,7 +255,8 @@ class Level(Scene):
         self._draw_group(display_surface, "deco")
         self._draw_group(display_surface, "platforms")
         self._draw_group(display_surface, "characters")
-        self._draw_group(display_surface, "environment")
+        self._draw_group(display_surface, "rocks")
+        self._draw_group(display_surface, "flags")
 
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:

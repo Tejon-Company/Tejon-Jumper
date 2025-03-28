@@ -1,12 +1,12 @@
 from singletons.game import Game
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from abc import ABC, abstractmethod
 from typing import Optional
 
 
 class ProjectilesPool(ABC):
     def __init__(self, size, projectile_groups):
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.pool = list()
         self.size = size
         self.projectile_groups = projectile_groups

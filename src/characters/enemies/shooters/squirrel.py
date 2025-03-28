@@ -24,6 +24,7 @@ class Squirrel(Shooter):
             projectiles_pool,
         )
         self.rect = self.image.get_frect(topleft=pos)
+        self._is_facing_right = False
 
     def _update_animation_frame(self, delta_time):
         if self.is_shooting:

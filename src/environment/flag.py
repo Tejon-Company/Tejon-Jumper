@@ -1,5 +1,4 @@
 from environment.environment_element import EnvironmentElement
-from singletons.game import Game
 
 
 class Flag(EnvironmentElement):
@@ -9,8 +8,7 @@ class Flag(EnvironmentElement):
         self.level = level
 
     def update(self):
-        expanded_rect = self.rect.inflate(1, 1)
-        is_colliding = expanded_rect.colliderect(self.player.rect)
+        is_colliding = self.rect.colliderect(self.player.rect)
 
         if is_colliding:
             self.level.go_to_next_level()

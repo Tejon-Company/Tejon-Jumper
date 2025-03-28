@@ -5,19 +5,19 @@ from characters.utils.animation_utils import *
 from characters.character import Character
 from resource_manager import ResourceManager
 from singletons.game import Game
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from pygame.math import Vector2 as vector
 import pygame
 
 
 class Player(Character):
-    def __init__(self, pos, surf, groups, current_level):
+    def __init__(self, pos, surf, groups, level_width):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
         self.game = Game()
-        self.settings = Settings()
-        self.current_level = current_level
+        self.resolution_settings = ResolutionSettings()
+        self.level_width = level_width
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -33,13 +33,13 @@ class Player(Character):
         self.platform_rects = self.platform_rects
 
         self.direction = vector(0, 0)
-        self.normal_speed = 150
-        self.rage_speed = 200
+        self.normal_speed = 300
+        self.rage_speed = 350
         self.current_speed = self.normal_speed
-        self.gravity = 1000
+        self.gravity = 900
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 300
+        self.jump_height = 610
         self.last_time_in_rage = None
 
         self.on_surface = False
@@ -145,7 +145,11 @@ class Player(Character):
 
     def _get_next_pos(self, delta_time, sprint_multiplier):
         next_x_pos = self.rect.x + (
-            self.direction.x * self.current_speed * delta_time * sprint_multiplier
+            self.direction.x
+            * self._ratio
+            * self.current_speed
+            * delta_time
+            * sprint_multiplier
         )
         left_boundary, right_boundary = self._get_boundaries()
 
@@ -157,17 +161,16 @@ class Player(Character):
         return next_x_pos
 
     def _get_boundaries(self):
-        map_size = self.settings.levels_config[self.current_level]["map_size"]
-        tile_size = self.settings.tile_size
+        tile_size = self.resolution_settings.tile_size
 
         left_boundary = 0
-        right_boundary = map_size * tile_size - tile_size * 2
+        right_boundary = self.level_width * tile_size - tile_size * 2
 
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * delta_time
-        self.fall += self.gravity / 2 * delta_time
+        self.rect.y += self.fall * self._ratio * delta_time
+        self.fall += self.gravity * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 
         if self.on_surface:
@@ -178,7 +181,7 @@ class Player(Character):
             self.direction = normalize_direction(self.direction)
             self.is_jumping = False
 
-        if self.rect.bottom > self.settings.window_height:
+        if self.rect.bottom > self.resolution_settings.window_height:
             self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):
@@ -224,9 +227,14 @@ class Player(Character):
         self.current_speed = self.rage_speed
 
     def _update_rage_state(self):
-        has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=15000
-        )
+        if not self.is_in_rage:
+            return
+
+        if self.last_time_in_rage is None:
+            self.last_time_in_rage = pygame.time.get_ticks()
+
+        rage_elapsed = pygame.time.get_ticks() - self.last_time_in_rage
+        has_rage_finished = rage_elapsed >= 10000
 
         if self.is_in_rage and has_rage_finished:
             self._deactivate_rage()

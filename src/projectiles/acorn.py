@@ -1,14 +1,14 @@
 from projectiles.projectile import Projectile
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Acorn(Projectile):
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.rect = self.image.get_frect(topleft=pos)
-        self.gravity = 170
-        self.speed = 100
+        self.gravity = 270
+        self.speed = 180
         self.fall = 0
 
     def set_facing_right(self, is_facing_right: bool):
@@ -16,14 +16,15 @@ class Acorn(Projectile):
 
     def _move(self, delta_time):
         if self._is_facing_right:
-            self.rect.x -= self.direction.x * self.speed * delta_time
+            self.rect.x -= self.direction.x * self._ratio * self.speed * delta_time
         else:
-            self.rect.x += self.direction.x * self.speed * delta_time
-        self.rect.y += self.fall * delta_time
-        self.fall += self.gravity / 2 * delta_time
+            self.rect.x += self.direction.x * self._ratio * self.speed * delta_time
+
+        self.rect.y += self.fall * self._ratio * delta_time
+        self.fall += self.gravity * delta_time
 
     def _reset_projectile_if_off_screen(self):
-        if self.rect.y > self.settings.window_height:
+        if self.rect.y > self.resolution_settings.window_height:
             self._deactivate_projectile()
 
     def _deactivate_projectile(self):

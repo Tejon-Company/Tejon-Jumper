@@ -1,6 +1,6 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.director import Director
 from singletons.game import Game
 
@@ -9,28 +9,35 @@ class PauseMenu(Menu):
     def __init__(self):
         super().__init__()
 
-        settings = Settings()
+        self.director = Director()
 
-        self.music_bar_y = 0.25 * settings.window_height
-        self.effects_bar_y = 0.3333 * settings.window_height
-        self.continue_button_y = 0.45 * settings.window_height
-        self.restart_button_y = 0.5833 * settings.window_height
+        resolution_settings = ResolutionSettings()
 
-        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", 22)
+        self.music_bar_y = 0.25 * resolution_settings.window_height
+        self.effects_bar_y = 0.3333 * resolution_settings.window_height
+        self.continue_button_y = 0.45 * resolution_settings.window_height
+        self.restart_button_y = 0.5833 * resolution_settings.window_height
 
-    def _mouse_button_down(self, event):
-        director = Director()
+        font_size = int(resolution_settings.tile_size * 0.7)
+        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", font_size)
 
-        if self.continue_button.collidepoint(event.pos):
-            self.click_button_sound.play()
-            director.pop_scene()
+    def _handle_event(self, event):
+        super()._handle_event(event)
+        keys = pygame.key.get_just_released()
 
-        elif self.restart_button.collidepoint(event.pos):
-            self.click_button_sound.play()
+        if keys[pygame.K_p]:
+            self.director.pop_scene()
+
+    def _mouse_button_down(self, pos):
+        if check_if_button_was_clicked(self.continue_button, pos):
+            self.director.pop_scene()
+
+        elif check_if_button_was_clicked(self.restart_button, pos):
             game = Game()
             game.reload_game()
             from scene.level import Level
-            director.push_scene(Level(1))
+
+            self.director.change_scene(Level(1))
 
     def draw(self, display_surface):
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)

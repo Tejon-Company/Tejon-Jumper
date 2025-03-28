@@ -1,30 +1,24 @@
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 def create_animation_rects(
     frame_start_x, number_of_frames, sprite_width=None, sprite_height=None
 ):
-    settings = Settings()
-    if sprite_width is None:
-        sprite_width = settings.tile_size
+    resolution_settings = ResolutionSettings()
+    sprite_width = sprite_width or resolution_settings.tile_size
+    sprite_height = sprite_height or resolution_settings.tile_size
 
-    if sprite_height is None:
-        sprite_height = settings.tile_size
-
-    frame_start_x *= sprite_width
-    y = 0
+    start_pixel = frame_start_x * sprite_width
+    offset = start_pixel + start_pixel // sprite_width
     pixel_gap = 1
-    animation_rects = []
+    step = sprite_width + pixel_gap
+    y = 0
 
-    for i in range(number_of_frames):
-        x = (
-            (frame_start_x + frame_start_x // sprite_width)
-            + (sprite_width * i)
-            + (i * pixel_gap)
-        )
-        animation_rects.append((x, y, sprite_width, sprite_height))
+    def calculate_rect(i):
+        x = offset + (i * step)
+        return x, y, sprite_width, sprite_height
 
-    return animation_rects
+    return [calculate_rect(i) for i in range(number_of_frames)]
 
 
 def set_animation_parameters(entity):

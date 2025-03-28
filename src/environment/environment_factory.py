@@ -8,17 +8,18 @@ def environment_factory(enviroment_element, groups, player, level):
             Rock(
                 (enviroment_element.x, enviroment_element.y),
                 enviroment_element.image,
-                groups,
-                player
+                groups["rocks"],
+                player,
             )
         case "Flag":
             Flag(
                 (enviroment_element.x, enviroment_element.y),
                 enviroment_element.image,
-                groups,
+                groups["flags"],
                 player,
-                level
+                level,
             )
         case _:
             raise ValueError(
-                f"The entitie {enviroment_element.name} is not a valid enviroment element")
+                f"The entitie {enviroment_element.name} is not a valid enviroment element"
+            )

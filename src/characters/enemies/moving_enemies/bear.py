@@ -1,14 +1,16 @@
-from characters.utils.check_cooldown import check_cooldown
-from characters.utils.normalize_direction import normalize_direction
-from characters.utils.collision_utils import is_below_collision
+import pygame
+
+from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from characters.utils.animation_utils import (
     create_animation_rects,
     set_animation_parameters,
     update_animation,
 )
-from characters.enemies.moving_enemies.moving_enemy import MovingEnemy
-from singletons.settings import Settings
-import pygame
+from characters.utils.check_cooldown import check_cooldown
+from characters.utils.collision_utils import is_below_collision
+from characters.utils.normalize_direction import normalize_direction
+from singletons.settings.difficulty_settings import DifficultySettings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Bear(MovingEnemy):
@@ -31,23 +33,24 @@ class Bear(MovingEnemy):
             None,
         )
 
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
+        self.difficulty_settings = DifficultySettings()
         self._setup_animation()
 
         self.rect = self.image.get_frect(topleft=pos)
-        self.rect.width = self.settings.tile_size * 2
+        self.rect.width = self.resolution_settings.tile_size * 2
 
-        self.speed = 100
+        self.speed = 190
         self.gravity = 1000
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 250
+        self.jump_height = 320
 
         self.on_surface = True
 
         self.facing_right = True
 
-        self.health_points = 3
+        self.health_points = self.difficulty_settings.bear_health_points
         self.last_damage_time_ms = None
 
     def _setup_animation(self):
@@ -55,12 +58,14 @@ class Bear(MovingEnemy):
 
         self.animations = {
             "run": create_animation_rects(
-                0, 5, sprite_width=self.settings.tile_size * 2
+                0, 5, sprite_width=self.resolution_settings.tile_size * 2
             ),
             "jump": create_animation_rects(
-                5, 1, sprite_width=self.settings.tile_size * 2
+                5, 1, sprite_width=self.resolution_settings.tile_size * 2
             ),
-            "fall": create_animation_rects(6, 1, self.settings.tile_size * 2),
+            "fall": create_animation_rects(
+                6, 1, self.resolution_settings.tile_size * 2
+            ),
         }
 
         self.current_animation = "run"
@@ -105,7 +110,7 @@ class Bear(MovingEnemy):
         self._move_vertically(delta_time)
 
     def _move_horizontally(self, delta_time):
-        self.rect.x += self.direction.x * self.speed * delta_time
+        self.rect.x += self.direction.x * self._ratio * self.speed * delta_time
 
         if self._will_hit_wall():
             self.direction.x *= -1
@@ -113,8 +118,8 @@ class Bear(MovingEnemy):
         self.facing_right = self.direction.x > 0
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * delta_time
-        self.fall += self.gravity / 2 * delta_time
+        self.rect.y += self.fall * self._ratio * delta_time
+        self.fall += self.gravity * delta_time * self._ratio
 
         self._handle_collisions_with_rects()
 

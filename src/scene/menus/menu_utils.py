@@ -1,13 +1,23 @@
 from pygame.draw import rect as draw_rect
 from pygame.rect import Rect
 from resource_manager import ResourceManager
-from singletons.settings import Settings
+from singletons.settings.resolution_settings import ResolutionSettings
 import pygame
 
 
+def check_if_button_was_clicked(button, pos):
+    click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
+
+    if button.collidepoint(pos):
+        click_button_sound.play()
+        return True
+
+    return False
+
+
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
-    settings = Settings()
-    gap = int(settings.window_width * 0.01)
+    resolution_settings = ResolutionSettings()
+    gap = int(resolution_settings.window_width * 0.01)
     button_rect = draw_button(display_surface, button_text, font, y_pos)
 
     label_surface = font.render(label_text, True, "white")
@@ -40,7 +50,7 @@ def _draw_background_rect(display_surface, rect, background_color, border_radius
 
 
 def draw_button(display_surface, text, font, y_pos, width=None, height=None):
-    settings = Settings()
+    settings = ResolutionSettings()
     width, height = _get_button_dimensions(width, height)
     button_rect = Rect(settings.window_width // 2 - width // 2, y_pos, width, height)
     brown = "#895129"
@@ -50,7 +60,7 @@ def draw_button(display_surface, text, font, y_pos, width=None, height=None):
 
 
 def _get_button_dimensions(width, height):
-    settings = Settings()
+    settings = ResolutionSettings()
     if width is None:
         width = int(settings.window_width * 0.2)
     if height is None:
@@ -64,7 +74,9 @@ def _draw_button_text(display_surface, text, rect, font):
     display_surface.blit(text_surface, text_rect.topleft)
 
 
-def draw_background(display_surface, background):
+def draw_background(
+    display_surface, background=None):
+    background = ResourceManager.load_image("menu_background.jpeg")
     display_surface.blit(background, (0, 0))
 
 
@@ -88,7 +100,7 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
 
 
 def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
-    settings = Settings()
+    settings = ResolutionSettings()
     center_x = settings.window_width // 2
     bar_width = settings.window_width * 0.2
     bar_height = settings.window_height * 0.03
@@ -119,7 +131,7 @@ def _update_volume_from_mouse(rect, volume, set_volume):
 
 
 def _draw_bar(display_surface, rect, volume):
-    settings = Settings()
+    settings = ResolutionSettings()
     border_margin = settings.window_width * 0.005
     smaller_rect = Rect(rect.x, rect.y, rect.width - border_margin, rect.height)
     _draw_background_rect(display_surface, smaller_rect, "white", border_radius=10)
