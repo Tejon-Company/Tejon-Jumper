@@ -100,7 +100,8 @@ class Level(Scene):
             "projectiles": Group(),
             "berries": Group(),
             "deco": Group(),
-            "environment": Group(),
+            "rocks": Group(),
+            "flags": Group(),
             "moving_enemies": Group(),
         }
 
@@ -206,9 +207,7 @@ class Level(Scene):
 
     def _setup_environment(self):
         for map_element in self.tmx_map.get_layer_by_name("Environment"):
-            environment_factory(
-                map_element, self.groups["environment"], self.player, self
-            )
+            environment_factory(map_element, self.groups, self.player, self)
 
     def go_to_next_level(self):
         number_of_levels = len(self._levels_config)
@@ -226,14 +225,15 @@ class Level(Scene):
         if self.is_on_pause:
             return
 
-        self.groups["environment"].update()
-        environment_rects = [platform.rect for platform in self.groups["environment"]]
+        self.groups["rocks"].update()
+        environment_rects = [platform.rect for platform in self.groups["rocks"]]
 
         self.player.update(delta_time, environment_rects)
         self.groups["projectiles"].update(delta_time, self.player)
         self.groups["moving_enemies"].update(delta_time, environment_rects)
         self.groups["shooters"].update(delta_time)
         self.groups["berries"].update(self.player)
+        self.groups["flags"].update()
 
         self.camera.update(self.player)
 
@@ -255,7 +255,8 @@ class Level(Scene):
         self._draw_group(display_surface, "deco")
         self._draw_group(display_surface, "platforms")
         self._draw_group(display_surface, "characters")
-        self._draw_group(display_surface, "environment")
+        self._draw_group(display_surface, "rocks")
+        self._draw_group(display_surface, "flags")
 
         for projectile in self.groups["projectiles"]:
             if projectile.is_activated:
