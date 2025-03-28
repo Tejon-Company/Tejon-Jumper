@@ -13,24 +13,24 @@ class Background:
     """
 
     def __init__(self, image_path, pos, parallax_factor):
-        self.resolution_settings = ResolutionSettings()
-        self.image = pygame.image.load(image_path).convert_alpha()
-        self.rect = self.image.get_rect(topleft=pos)
-        self.parallax_factor = parallax_factor
-        self.offset_x = 0
+        self._resolution_settings = ResolutionSettings()
+        self._image = pygame.image.load(image_path).convert_alpha()
+        self.rect = self._image.get_rect(topleft=pos)
+        self._parallax_factor = parallax_factor
+        self._offset_x = 0
 
     def apply_parallax(self, camera_x):
-        self.rect.x = (camera_x * self.parallax_factor) + self.offset_x
+        self.rect.x = (camera_x * self._parallax_factor) + self._offset_x
 
     def draw(self, surface):
-        effective_x = self.rect.x % self.resolution_settings.window_width
+        effective_x = self.rect.x % self._resolution_settings.window_width
         surface.blit(
-            self.image,
-            (effective_x - self.resolution_settings.window_width, self.rect.y),
+            self._image,
+            (effective_x - self._resolution_settings.window_width, self.rect.y),
         )
-        surface.blit(self.image, (effective_x, self.rect.y))
-        if effective_x < self.resolution_settings.window_width:
+        surface.blit(self._image, (effective_x, self.rect.y))
+        if effective_x < self._resolution_settings.window_width:
             surface.blit(
-                self.image,
-                (effective_x + self.resolution_settings.window_width, self.rect.y),
+                self._image,
+                (effective_x + self._resolution_settings.window_width, self.rect.y),
             )

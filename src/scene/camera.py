@@ -13,22 +13,22 @@ class Camera:
     """
 
     def __init__(self, width, height):
-        self.resolution_settings = ResolutionSettings()
-        self.camera = pygame.Rect(0, 0, width, height)
-        self.width = width
+        self._resolution_settings = ResolutionSettings()
+        self._camera = pygame.Rect(0, 0, width, height)
+        self._width = width
 
     def apply(self, entity):
-        return entity.rect.move(self.camera.topleft)
+        return entity.rect.move(self._camera.topleft)
 
     def update(self, target):
-        camera_x = -target.rect.centerx + self.resolution_settings.window_width // 2
+        camera_x = -target.rect.centerx + self._resolution_settings.window_width // 2
         camera_x = min(0, camera_x)
-        camera_x = max(-(self.width - self.resolution_settings.window_width), camera_x)
+        camera_x = max(-(self._width - self._resolution_settings.window_width), camera_x)
 
         interpolation_factor = 0.055
-        self.camera.x += (camera_x - self.camera.x) * interpolation_factor
+        self._camera.x += (camera_x - self._camera.x) * interpolation_factor
 
     def draw_background(self, backgrounds, surface):
         for background in backgrounds:
-            background.apply_parallax(self.camera.x)
+            background.apply_parallax(self._camera.x)
             background.draw(surface)

@@ -13,8 +13,8 @@ class GameOver(Scene):
 
     def __init__(self):
         super().__init__()
-        self.resolution_settings = ResolutionSettings()
-        self.display_surface = pygame.display.get_surface()
+        self._resolution_settings = ResolutionSettings()
+        self._display_surface = pygame.display.get_surface()
 
     def events(self, events_list):
         for event in events_list:
@@ -33,8 +33,8 @@ class GameOver(Scene):
         display_surface.blit(
             text,
             (
-                self.resolution_settings.window_width // 2 - text.get_width() // 2,
-                self.resolution_settings.window_height // 2 - text.get_height() // 2,
+                self._resolution_settings.window_width // 2 - text.get_width() // 2,
+                self._resolution_settings.window_height // 2 - text.get_height() // 2,
             ),
         )
         font = pygame.font.Font(None, 36)
@@ -42,7 +42,7 @@ class GameOver(Scene):
         display_surface.blit(
             text,
             (
-                self.resolution_settings.window_width // 2 - text.get_width() // 2,
-                self.resolution_settings.window_height // 2 + text.get_height(),
+                self._resolution_settings.window_width // 2 - text.get_width() // 2,
+                self._resolution_settings.window_height // 2 + text.get_height(),
             ),
         )
