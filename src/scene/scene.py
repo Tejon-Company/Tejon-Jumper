@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from singletons.director import Director
-from resource_manager import ResourceManager
+
 from pygame.mixer import music
+
+from resource_manager import ResourceManager
+from singletons.director import Director
 
 
 class Scene(ABC):

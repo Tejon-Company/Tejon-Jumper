@@ -1,9 +1,11 @@
-from characters.enemies.enemy import Enemy
-from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
-from characters.utils.animation_utils import set_animation_parameters
 from abc import ABC, abstractmethod
-from pygame.math import Vector2 as vector
+
 import pygame
+from pygame.math import Vector2 as vector
+
+from characters.enemies.enemy import Enemy
+from characters.utils.animation_utils import set_animation_parameters
+from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 
 
 class Shooter(Enemy, ABC):

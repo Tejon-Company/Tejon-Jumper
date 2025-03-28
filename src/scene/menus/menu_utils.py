@@ -1,8 +1,9 @@
+import pygame
 from pygame.draw import rect as draw_rect
 from pygame.rect import Rect
+
 from resource_manager import ResourceManager
 from singletons.settings.resolution_settings import ResolutionSettings
-import pygame
 
 
 def check_if_button_was_clicked(button, pos):

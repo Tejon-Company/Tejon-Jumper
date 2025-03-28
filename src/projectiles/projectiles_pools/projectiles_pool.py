@@ -1,7 +1,8 @@
-from singletons.game import Game
-from singletons.settings.resolution_settings import ResolutionSettings
 from abc import ABC, abstractmethod
 from typing import Optional
+
+from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class ProjectilesPool(ABC):

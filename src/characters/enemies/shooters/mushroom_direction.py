@@ -1,5 +1,6 @@
-from pygame.math import Vector2 as vector
 from enum import Enum
+
+from pygame.math import Vector2 as vector
 
 
 class MushroomDirection(Enum):

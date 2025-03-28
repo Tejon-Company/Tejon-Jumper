@@ -1,10 +1,12 @@
-from characters.enemies.enemy import Enemy
 from abc import ABC
-from characters.utils.collision_utils import is_on_surface
-from characters.utils.animation_utils import set_animation_parameters, update_animation
 from random import choice
-from pygame.math import Vector2 as vector
+
 import pygame
+from pygame.math import Vector2 as vector
+
+from characters.enemies.enemy import Enemy
+from characters.utils.animation_utils import set_animation_parameters, update_animation
+from characters.utils.collision_utils import is_on_surface
 
 
 class MovingEnemy(Enemy, ABC):

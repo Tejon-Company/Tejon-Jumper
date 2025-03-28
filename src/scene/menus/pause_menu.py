@@ -1,8 +1,8 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
-from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.director import Director
 from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class PauseMenu(Menu):

@@ -1,7 +1,9 @@
+from os.path import join
+
 import pygame
 import pytmx
-from os.path import join
 from pytmx.util_pygame import load_pygame
+
 from singletons.settings.resolution_settings import ResolutionSettings
 
 

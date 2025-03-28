@@ -1,6 +1,7 @@
-from characters.sprite import Sprite
-from characters.players.player import Player
 from abc import ABC, abstractmethod
+
+from characters.players.player import Player
+from characters.sprite import Sprite
 
 
 class Berry(ABC, Sprite):

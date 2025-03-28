@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
-from characters.sprite import Sprite
+
 from pygame.sprite import collide_rect
+
 from characters.sprite import Sprite
-from characters.utils.animation_utils import update_animation, set_animation_parameters
+from characters.utils.animation_utils import set_animation_parameters, update_animation
 from resource_manager import ResourceManager
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings

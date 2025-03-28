@@ -1,5 +1,6 @@
-from singletons.singleton_meta import SingletonMeta
 from dataclasses import dataclass
+
+from singletons.singleton_meta import SingletonMeta
 
 
 class ResolutionSettings(metaclass=SingletonMeta):

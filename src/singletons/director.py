@@ -1,7 +1,8 @@
-from singletons.settings.resolution_settings import ResolutionSettings
-from resource_manager import ResourceManager
-from singletons.singleton_meta import SingletonMeta
 import pygame
+
+from resource_manager import ResourceManager
+from singletons.settings.resolution_settings import ResolutionSettings
+from singletons.singleton_meta import SingletonMeta
 
 
 class Director(metaclass=SingletonMeta):

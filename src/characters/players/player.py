@@ -1,13 +1,14 @@
-from characters.utils.check_cooldown import check_cooldown
-from characters.utils.normalize_direction import normalize_direction
-from characters.utils.collision_utils import *
-from characters.utils.animation_utils import *
+import pygame
+from pygame.math import Vector2 as vector
+
 from characters.character import Character
+from characters.utils.animation_utils import *
+from characters.utils.check_cooldown import check_cooldown
+from characters.utils.collision_utils import *
+from characters.utils.normalize_direction import normalize_direction
 from resource_manager import ResourceManager
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
-from pygame.math import Vector2 as vector
-import pygame
 
 
 class Player(Character):

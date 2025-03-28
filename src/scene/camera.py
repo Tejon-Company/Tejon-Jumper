@@ -1,5 +1,6 @@
-from singletons.settings.resolution_settings import ResolutionSettings
 import pygame
+
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Camera:

@@ -1,6 +1,7 @@
+import pygame
+
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.acorn_pool import AcornPool
-import pygame
 
 
 class Squirrel(Shooter):

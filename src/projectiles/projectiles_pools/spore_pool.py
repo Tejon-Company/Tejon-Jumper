@@ -1,8 +1,10 @@
+from typing import Optional
+
+import pygame
+
+from characters.utils.animation_utils import create_animation_rects
 from projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 from projectiles.spore import Spore
-from characters.utils.animation_utils import create_animation_rects
-from typing import Optional
-import pygame
 
 
 class SporePool(ProjectilesPool):

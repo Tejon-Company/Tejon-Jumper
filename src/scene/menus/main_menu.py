@@ -1,13 +1,14 @@
-from resource_manager import ResourceManager
-from scene.menus.settings_menu import SettingsMenu
 import pygame
-from scene.menus.menu_utils import (
-    draw_button,
-    draw_background,
-    check_if_button_was_clicked,
-)
-from scene.menus.menu import Menu
+
+from resource_manager import ResourceManager
 from scene.level import Level
+from scene.menus.menu import Menu
+from scene.menus.menu_utils import (
+    check_if_button_was_clicked,
+    draw_background,
+    draw_button,
+)
+from scene.menus.settings_menu import SettingsMenu
 from scene.scene import Scene
 from singletons.settings.resolution_settings import ResolutionSettings
 

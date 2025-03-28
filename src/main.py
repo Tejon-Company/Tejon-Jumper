@@ -1,7 +1,7 @@
-from singletons.director import Director
-from scene.menus.main_menu import MainMenu
 import pygame
 
+from scene.menus.main_menu import MainMenu
+from singletons.director import Director
 
 if __name__ == "__main__":
     pygame.init()

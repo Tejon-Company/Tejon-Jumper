@@ -1,6 +1,6 @@
-from berries.health_berry import HealthBerry
 from berries.coin_berry import CoinBerry
 from berries.energy_berry import EnergyBerry
+from berries.health_berry import HealthBerry
 from berries.rage_berry import RageBerry
 
 

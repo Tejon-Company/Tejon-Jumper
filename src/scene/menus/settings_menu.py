@@ -1,7 +1,7 @@
 from scene.menus.menu import Menu
 from scene.menus.menu_utils import *
-from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.settings.difficulty_settings import DifficultySettings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class SettingsMenu(Menu):

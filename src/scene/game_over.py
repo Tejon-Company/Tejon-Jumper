@@ -1,6 +1,7 @@
+import pygame
+
 from scene.scene import Scene
 from singletons.settings.resolution_settings import ResolutionSettings
-import pygame
 
 
 class GameOver(Scene):

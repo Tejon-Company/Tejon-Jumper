@@ -1,6 +1,7 @@
+import pygame
+
 from resource_manager import ResourceManager
 from singletons.settings.resolution_settings import ResolutionSettings
-import pygame
 
 
 class HUD:

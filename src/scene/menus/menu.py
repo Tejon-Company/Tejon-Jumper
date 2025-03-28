@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from scene.scene import Scene
+
 import pygame
+
 from resource_manager import ResourceManager
+from scene.scene import Scene
 
 
 class Menu(Scene, ABC):

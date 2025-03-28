@@ -1,7 +1,9 @@
 from enum import Enum, auto
+
+import pygame
+
 from characters.enemies.shooters.shooter import Shooter
 from projectiles.projectiles_pools.spore_pool import SporePool
-import pygame
 
 
 class Mushroom(Shooter):

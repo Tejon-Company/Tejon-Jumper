@@ -1,5 +1,5 @@
-from scene.menus.menu_utils import *
 from scene.menus.menu import Menu
+from scene.menus.menu_utils import *
 from singletons.settings.resolution_settings import ResolutionSettings
 
 
