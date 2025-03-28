@@ -25,6 +25,18 @@ from ui.hud import HUD
 
 
 class Level(Scene):
+    """
+    Implementa un nivel del juego.
+    Gestiona la carga y configuración de un nivel específico, incluyendo:
+    - Configuración de fondos, música, mapas y elementos del nivel
+    - Inicialización de grupos de sprites (plataformas, personajes, proyectiles, etc.)
+    - Carga de los elementos del mapa TMX (terreno, decoraciones, enemigos)
+    - Creación del jugador, enemigos, jefes y elementos del entorno
+    - Gestión de la cámara y actualización de los elementos del juego
+    - Manejo de eventos y transiciones entre niveles
+    - Renderizado de todos los elementos en pantalla
+    """
+
     _levels_config = {
         1: {
             "background": "background1",
@@ -243,7 +255,7 @@ class Level(Scene):
         for event in events_list:
             if event.type == pygame.QUIT:
                 self.director.exit_program()
-            elif keys[pygame.K_p]:
+            elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
                 self.is_on_pause = not self.is_on_pause
                 self.director.push_scene(PauseMenu())
                 self.is_on_pause = False

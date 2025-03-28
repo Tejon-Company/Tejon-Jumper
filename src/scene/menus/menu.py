@@ -5,6 +5,12 @@ from resource_manager import ResourceManager
 
 
 class Menu(Scene, ABC):
+    """
+    Clase abstracta que implementa un menú en el juego.
+    Proporciona una estructura base para todos los menús del juego,
+    gestionando eventos de entrada como clics de ratón y salida del programa.
+    """
+
     def __init__(self):
         super().__init__()
         self.click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")

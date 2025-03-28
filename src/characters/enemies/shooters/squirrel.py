@@ -4,6 +4,11 @@ import pygame
 
 
 class Squirrel(Shooter):
+    """
+    Implementa una ardilla enemiga que dispara bellotas al jugador cuando está cerca.
+    Se define el comportamiento de disparo y animación.
+    """
+
     def __init__(
         self,
         pos,

@@ -5,6 +5,11 @@ from typing import Optional
 
 
 class ProjectilesPool(ABC):
+    """
+    Gestiona un conjunto de proyectiles reutilizables para optimizar
+    el rendimiento del juego, evitando la creación y destrucción constante de objetos.
+    """
+
     def __init__(self, size, projectile_groups):
         self.resolution_settings = ResolutionSettings()
         self.pool = list()

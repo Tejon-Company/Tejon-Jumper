@@ -6,6 +6,16 @@ import pygame
 
 
 def check_if_button_was_clicked(button, pos):
+    """
+    Comprueba si un botón fue clickeado y reproduce un sonido si es así.
+
+    Args:
+        button: Objeto Rect que representa el botón.
+        pos: Tupla (x, y) con la posición del clic.
+
+    Returns:
+        bool: True si el botón fue clickeado, False en caso contrario.
+    """
     click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
 
     if button.collidepoint(pos):
@@ -16,6 +26,19 @@ def check_if_button_was_clicked(button, pos):
 
 
 def draw_button_with_label(display_surface, button_text, label_text, font, y_pos):
+    """
+    Dibuja un botón con una etiqueta a su izquierda.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        button_text: Texto que se mostrará en el botón.
+        label_text: Texto que se mostrará en la etiqueta.
+        font: Fuente para renderizar los textos.
+        y_pos: Posición vertical del botón.
+
+    Returns:
+        Rect: Rectángulo que representa el botón dibujado.
+    """
     resolution_settings = ResolutionSettings()
     gap = int(resolution_settings.window_width * 0.01)
     button_rect = draw_button(display_surface, button_text, font, y_pos)
@@ -31,6 +54,16 @@ def draw_button_with_label(display_surface, button_text, label_text, font, y_pos
 
 
 def display_label(display_surface, text, x, y, font):
+    """
+    Muestra una etiqueta de texto con fondo en la pantalla.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        text: Texto a mostrar en la etiqueta.
+        x: Posición horizontal de la etiqueta.
+        y: Posición vertical de la etiqueta.
+        font: Fuente para renderizar el texto.
+    """
     padding = 4
     text_surface = font.render(text, True, "white")
     text_rect = text_surface.get_rect(topleft=(x, y))
@@ -46,10 +79,33 @@ def display_label(display_surface, text, x, y, font):
 
 
 def _draw_background_rect(display_surface, rect, background_color, border_radius=10):
+    """
+    Dibuja un rectángulo con bordes redondeados en la pantalla.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        rect: Objeto Rect que define el rectángulo.
+        background_color: Color del rectángulo.
+        border_radius: Radio de las esquinas redondeadas. Por defecto es 10.
+    """
     draw_rect(display_surface, background_color, rect, border_radius=border_radius)
 
 
 def draw_button(display_surface, text, font, y_pos, width=None, height=None):
+    """
+    Dibuja un botón en la pantalla.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        text: Texto a mostrar en el botón.
+        font: Fuente para renderizar el texto.
+        y_pos: Posición vertical del botón.
+        width: Ancho del botón. Si es None, se usa un valor proporcional a la ventana.
+        height: Alto del botón. Si es None, se usa un valor proporcional a la ventana.
+
+    Returns:
+        Rect: Rectángulo que representa el botón dibujado.
+    """
     settings = ResolutionSettings()
     width, height = _get_button_dimensions(width, height)
     button_rect = Rect(settings.window_width // 2 - width // 2, y_pos, width, height)
@@ -60,6 +116,16 @@ def draw_button(display_surface, text, font, y_pos, width=None, height=None):
 
 
 def _get_button_dimensions(width, height):
+    """
+    Calcula las dimensiones de un botón basándose en el tamaño de la ventana.
+
+    Args:
+        width: Ancho especificado. Si es None, se calcula automáticamente.
+        height: Alto especificado. Si es None, se calcula automáticamente.
+
+    Returns:
+        tuple: (width, height) con las dimensiones del botón.
+    """
     settings = ResolutionSettings()
     if width is None:
         width = int(settings.window_width * 0.2)
@@ -69,18 +135,41 @@ def _get_button_dimensions(width, height):
 
 
 def _draw_button_text(display_surface, text, rect, font):
+    """
+    Dibuja el texto de un botón centrado en su rectángulo.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        text: Texto a mostrar en el botón.
+        rect: Rectángulo del botón donde se centrará el texto.
+        font: Fuente para renderizar el texto.
+    """
     text_surface = font.render(text, True, "white")
     text_rect = text_surface.get_rect(center=rect.center)
     display_surface.blit(text_surface, text_rect.topleft)
 
 
-def draw_background(
-    display_surface, background=None):
+def draw_background(display_surface, background=None):
+    """
+    Dibuja el fondo del menú en la superficie de visualización.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar el fondo.
+        background: Imagen de fondo opcional. Si es None, se carga la imagen predeterminada.
+    """
     background = ResourceManager.load_image("menu_background.jpeg")
     display_surface.blit(background, (0, 0))
 
 
 def draw_music_volume_bar(display_surface, y_pos, font):
+    """
+    Dibuja una barra de ajuste para el volumen de la música.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        y_pos: Posición vertical de la barra.
+        font: Fuente para renderizar el texto.
+    """
     volume = ResourceManager.get_music_volume()
     _draw_volume_bar(
         display_surface, y_pos, volume, "Música", font, ResourceManager.set_music_volume
@@ -88,6 +177,14 @@ def draw_music_volume_bar(display_surface, y_pos, font):
 
 
 def draw_effects_volume_bar(display_surface, y_pos, font):
+    """
+    Dibuja una barra de ajuste para el volumen de los efectos de sonido.
+
+    Args:
+        display_surface: Superficie de pygame donde dibujar.
+        y_pos: Posición vertical de la barra.
+        font: Fuente para renderizar el texto.
+    """
     volume = ResourceManager.get_effects_volume()
     _draw_volume_bar(
         display_surface,
@@ -100,6 +197,17 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
 
 
 def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
+    """
+     Dibuja una barra de volumen interactiva en la posición vertical especificada.
+
+    Args:
+        display_surface: Superficie donde se dibujará la barra.
+        y_pos: Posición vertical de la barra en la pantalla.
+        volume: Valor actual del volumen (entre 0.0 y 1.0).
+        text: Texto descriptivo para mostrar junto a la barra.
+        font: Fuente utilizada para renderizar el texto.
+        set_volume: Función para establecer el nuevo volumen cuando se modifica.
+    """
     settings = ResolutionSettings()
     center_x = settings.window_width // 2
     bar_width = settings.window_width * 0.2
@@ -116,6 +224,16 @@ def _draw_volume_bar(display_surface, y_pos, volume, text, font, set_volume):
 
 
 def _update_volume_from_mouse(rect, volume, set_volume):
+    """
+    Actualiza el volumen basado en la interacción del ratón con la barra de volumen.
+
+    Args:
+        rect: Rectángulo que define el área de la barra de volumen.
+        set_volume: Función para establecer el volumen en el sistema.
+
+    Returns:
+        float: El valor actualizado del volumen (si hubo cambio) o el valor original.
+    """
     mouse_pressed = pygame.mouse.get_pressed()[0]
     mouse_over_volume_bar = rect.collidepoint(pygame.mouse.get_pos())
 
@@ -131,6 +249,14 @@ def _update_volume_from_mouse(rect, volume, set_volume):
 
 
 def _draw_bar(display_surface, rect, volume):
+    """
+    Dibuja una barra de volumen en la pantalla.
+
+    Args:
+        display_surface: Superficie de pygame donde se dibujará la barra.
+        rect: Objeto Rect que define la posición y dimensiones de la barra.
+        volume: Valor entre 0 y 1 que representa el nivel de volumen a mostrar.
+    """
     settings = ResolutionSettings()
     border_margin = settings.window_width * 0.005
     smaller_rect = Rect(rect.x, rect.y, rect.width - border_margin, rect.height)

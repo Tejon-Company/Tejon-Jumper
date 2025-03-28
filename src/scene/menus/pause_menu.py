@@ -6,6 +6,11 @@ from singletons.game import Game
 
 
 class PauseMenu(Menu):
+    """
+    Gestiona la interfaz y funcionalidades del menú que aparece cuando el juego está pausado,
+    permitiendo al usuario ajustar el volumen de música y efectos, continuar la partida o reiniciarla.
+    """
+
     def __init__(self):
         super().__init__()
 

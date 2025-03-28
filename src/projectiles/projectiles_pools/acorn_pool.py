@@ -6,6 +6,11 @@ import pygame
 
 
 class AcornPool(ProjectilesPool):
+    """
+    Clase que gestiona un grupo de bellotas reutilizables.
+    Permite crear, almacenar y disparar bellotaas desde una posición específica
+    en una dirección determinada.
+    """
     def __init__(self, size, projectile_groups):
         super().__init__(size, projectile_groups)
 

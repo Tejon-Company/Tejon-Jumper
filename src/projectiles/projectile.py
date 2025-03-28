@@ -9,9 +9,13 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Projectile(Sprite, ABC):
-    def __init__(
-        self, pos, surf, direction, groups, sprite_sheet_name, animations
-    ):
+    """
+    Clase abstracta que implementa la funcionalidad básica para los proyectiles que pueden
+    interactuar con el jugador. Maneja la activación, movimiento, animación y colisiones
+    de los proyectiles.
+    """
+
+    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.game = Game()

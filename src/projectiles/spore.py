@@ -2,6 +2,13 @@ from projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
+    """
+    Implementa un proyectil de tipo espora.
+    Las esporas pueden moverse horizontal o verticalmente según la dirección asignada
+    y se desactiva al recorrer cierta distancia.
+    Permite controlar la activación/desactivación del proyectil y actualizar su posición
+    """
+
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.rect = self.image.get_frect(topleft=pos)
@@ -35,9 +42,13 @@ class Spore(Projectile):
 
     def _check_position_exceeds_distance(self, distance_traveled):
         if self._is_moving_horizontally():
-            return self._check_if_position_exceeded(distance_traveled, self.direction.x, self.rect.x)
+            return self._check_if_position_exceeded(
+                distance_traveled, self.direction.x, self.rect.x
+            )
         else:
-            return self._check_if_position_exceeded(distance_traveled, self.direction.y, self.rect.y)
+            return self._check_if_position_exceeded(
+                distance_traveled, self.direction.y, self.rect.y
+            )
 
     def _is_moving_horizontally(self):
         return self.direction.x != 0

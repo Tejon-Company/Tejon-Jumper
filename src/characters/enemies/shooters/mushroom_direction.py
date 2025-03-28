@@ -3,6 +3,10 @@ from enum import Enum
 
 
 class MushroomDirection(Enum):
+    """
+    Enumeración que representa la posición del sombrero de las setas.
+    """
+
     LEFT = (vector(-1, 0), 3)
     RIGHT = (vector(1, 0), 6)
     UP = (vector(0, -1), 0)

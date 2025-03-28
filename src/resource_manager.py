@@ -1,17 +1,22 @@
 import pygame
+import pytmx
 from os.path import join
 from pytmx.util_pygame import load_pygame
 from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class ResourceManager:
+    """
+    Gestiona los recursos del juego como imágenes, sonidos, música, fuentes y mapas.
+    """
+
     _resources = {}
     _effects_volume = 1.0
     _loaded_sounds = []
     _resolution_settings = ResolutionSettings()
 
     @classmethod
-    def load_image(cls, name, colorkey=None):
+    def load_image(cls, name, colorkey=None) -> pygame.Surface:
         if name in cls._resources:
             return cls._resources[name]
 
@@ -26,7 +31,7 @@ class ResourceManager:
             print(f"Error loading image {name}: {e}")
 
     @classmethod
-    def load_sound_effect(cls, name):
+    def load_sound_effect(cls, name) -> pygame.Sound:
         if name in cls._resources:
             return cls._resources[name]
 
@@ -41,7 +46,7 @@ class ResourceManager:
             print(f"Error loading sound {name}: {e}")
 
     @classmethod
-    def load_music(cls, name):
+    def load_music(cls, name) -> str:
         try:
             music_path = join("assets", "sounds", "music", name)
             pygame.mixer.music.load(music_path)
@@ -51,7 +56,7 @@ class ResourceManager:
             print(f"Error loading music {name}: {e}")
 
     @classmethod
-    def load_font(cls, name, size):
+    def load_font(cls, name, size) -> pygame.Sound:
         key = (name, size)
         if key in cls._resources:
             return cls._resources[key]
@@ -65,7 +70,7 @@ class ResourceManager:
             print(f"Error loading font {name}: {e}")
 
     @classmethod
-    def load_sprite_sheet(cls, name):
+    def load_sprite_sheet(cls, name) -> pygame.Surface:
         if name in cls._resources:
             return cls._resources[name]
 
@@ -86,7 +91,7 @@ class ResourceManager:
             print(f"Error loading sprite {name}: {e}")
 
     @classmethod
-    def load_tmx_map(cls, name):
+    def load_tmx_map(cls, name) -> pytmx.TiledMap:
         if name in cls._resources:
             return cls._resources[name]
 
@@ -109,7 +114,7 @@ class ResourceManager:
         pygame.mixer.music.set_volume(volume)
 
     @classmethod
-    def get_music_volume(cls):
+    def get_music_volume(cls) -> float:
         return pygame.mixer.music.get_volume()
 
     @classmethod
@@ -119,7 +124,7 @@ class ResourceManager:
             sound.set_volume(volume)
 
     @classmethod
-    def get_effects_volume(cls):
+    def get_effects_volume(cls) -> float:
         return cls._effects_volume
 
     @classmethod

@@ -9,6 +9,10 @@ from singletons.director import Director
 
 
 class Game(metaclass=SingletonMeta):
+    """
+    Gestiona el estado global del juego, incluyendo la salud del jugador, vidas, monedas y efectos de sonido.
+    """
+
     def __init__(self):
         self.director = Director()
         self.resolution_settings = ResolutionSettings()

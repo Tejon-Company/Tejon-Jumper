@@ -4,6 +4,10 @@ from abc import ABC, abstractmethod
 
 
 class Berry(ABC, Sprite):
+    """
+    Clase abstracta que implementa una baya.
+    """
+
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 

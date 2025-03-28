@@ -5,6 +5,12 @@ from pygame.mixer import music
 
 
 class Scene(ABC):
+    """
+    Clase abstracta que define la estructura base para todas las escenas del juego.
+    Proporciona un marco para gestionar escenas individuales,
+    incluyendo la configuración de música, actualización de lógica y renderizado.
+    """
+
     def __init__(self):
         self.director = Director()
 

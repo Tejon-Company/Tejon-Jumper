@@ -3,6 +3,14 @@ import pygame
 
 
 class Background:
+    """
+    Gestiona el fondo del juego con efecto parallax.
+    Permite cargar y mostrar imágenes de fondo que se mueven a
+    diferentes velocidades según su factor de parallax.
+    También maneja automáticamente la repetición del fondo para crear
+    un efecto continuo.
+    """
+
     def __init__(self, image_path, pos, parallax_factor):
         self.resolution_settings = ResolutionSettings()
         self.image = pygame.image.load(image_path).convert_alpha()

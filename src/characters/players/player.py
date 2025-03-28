@@ -11,6 +11,13 @@ import pygame
 
 
 class Player(Character):
+    """
+    Implementa al personaje controlado por el jugador.
+    Maneja toda la lógica relacionada con el movimiento,
+    animaciones, estados especiales como el modo furia (rage) y
+    la energía del jugador.
+    """
+
     def __init__(self, pos, surf, groups, level_width):
         super().__init__(pos, surf, groups, None)
 

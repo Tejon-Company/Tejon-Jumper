@@ -5,6 +5,11 @@ import pygame
 
 
 class Director(metaclass=SingletonMeta):
+    """
+    Gestiona el juego. Controla su flujo, maneja la pila de escenas,
+    actualiza la pantalla y maneja la resolución del juego.
+    """
+
     def __init__(self):
         self.resolution_settings = ResolutionSettings()
         self.update_display_surface_resolution()
@@ -18,7 +23,7 @@ class Director(metaclass=SingletonMeta):
         self.display_surface = pygame.display.set_mode(
             (
                 self.resolution_settings.window_width,
-                self.resolution_settings.window_height
+                self.resolution_settings.window_height,
             )
         )
 
