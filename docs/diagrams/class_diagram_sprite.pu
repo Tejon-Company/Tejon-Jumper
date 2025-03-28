@@ -3,342 +3,109 @@
 title general class diagram (II)
 
 class Level {
-    - settings : Settings
-    - director : Director
-    - game : Game
-    - current_level : int
-    - is_on_pause : bool
-    - tmx_map : TiledMap
-    - _setup_groups()
-    - _setup_pools()
-    - _setup_camera()
-    - _setup_background(background)
-    - {static}_get_image_files(background_folder)
-    - _setup_tiled_background()
-    - _setup_terrain()
-    - _setup_deco() 
-    - _setup_player()
-    - _setup_enemies()
-    - _setup_boss()
-    - _setup_platform_rects()
-    - _setup_berries()
-    - _setup_environment()
-    + go_to_next_level()
-    + update(delta_time)
-    + events(events_list)
-    + draw(display_surface)
-    - _draw_group(display_surface, group)
+    
 }
 
 class Sprite {
-    - image : Surface
-    - rect : FRect
-    - old_rect : FRect
+    
 }
 
 abstract class Berry {
-    - image : Surface
-    - rect : FRect
-    + update(player: Player) {abstract}
+    
 }
 
 class CoinBerry {
-    - get_coin_sound : Sound
-    + update(game: Game, player: Player)
+    
 }
 
 class EnergyBerry {
-    - original_pos : Vector2
-    - respawn_time : int
-    - hidden : bool 
-    - respawn_duration : int
-    - get_energy_sound : Sound
-    + update(player: Player)
-    - _update_visibility_status()
-    - _check_collision_with_player(player: Player)
-    - _hide()
-    + draw(surface: Surface)
+    
 }
 
 class HealthBerry {
-    - recover_health_sound : Sound
-    + update(game: Game, player: Player)
+    
 }
 
 class RageBerry {
-    + update(player: Player)
+    
 }
 
 abstract class Projectile {
-    - direction : Vector2
-    - game : Game
-    - speed : int
-    - is_activated : bool
-    - sprite_sheet : Surface
-    - animations : dict
-    + update(delta_time, player : Player)
-    + update_sprite()
-    - _setup_animation()
-    - _reset_projectile_if_off_screen() {abstract}
-    - _move(delta_time)  {abstract}
-    - _process_player_collision(player : Player)
-    - _deactivate_projectile() {abstract}
-    + change_position(new_pos_x, new_pos_y) {abstract}
+    
 }
 
 class Spore {
-    - rect : FRect
-    - speed : int
-    - max_distance : int
-    - _move(delta_time)
-    - _reset_projectile_if_off_screen()
-    - _is_projectile_off_screen() : bool
-    - _calculate_travel_distance() : int
-    - _calculate_distance(direction, initial_pos) : int
-    - _check_position_exceeds_distance(distance_traveled) : bool
-    - _is_moving_horizontally() : bool
-    - _check_if_position_exceeded(distance_traveled, direction, rect) : bool
-    - _deactivate_projectile()
-    + change_position(new_pos_x, new_pos_y)
-    + change_direction(new_direction)
+    
 }
 
 class Acorn{
-    - frect : FRect
-    - gravity : int
-    - speed : int
-    - fall : int
-    + set_facing_right(is_facing_right)
-    - _move(delta_time)
-    - _reset_projectile_if_off_screen()
-    - _deactivate_projectile()
-    + change_position(new_pos_x, new_pos_y)
+    
 }
 
 abstract class ProjectilesPool {
-    - pool : List
-    - size : int
-    - projectile_groups : Group
-    - game : Game
-    - _create_pool() {abstract}
-    + shoot(pos_x, pos_y, direction) {abstract}
+    
 }
 
 class AcornPool {
-    - _create_pool()
-    + shoot(pos_x, pos_y, is_facing_right, direction)
+    
 }
 
 class SporePool {
-    - _create_pool()
-    + shoot(pos_x, pos_y, direction)
+    
 }
 
 abstract class Character {
-    - platform_rects : List
-    + update(delta_time) {abstract}
+    
 }
 
 class Player {
-    - rect : FRect
-    - old_rect : FRect
-    - normal_sprite_sheet : Surface
-    - rage_sprite_sheet : Surface
-    - current_sprite_sheet : Surface
-    - energy : int
-    - max_energy : int
-    - energy_depletion_rate : int
-    - platform_rects : list
-    - direction : Vector2
-    - normal_speed : int
-    - rage_speed : int
-    - current_speed : int
-    - gravity : int
-    - fall : int
-    - is_jumping : bool
-    - jump_height : int
-    - last_time_in_rage : int
-    - on_surface : bool
-    - is_sprinting : bool
-    - is_in_rage : bool
-    - activate_rage_sound : Sound
-    - deactivate_rage_sound : Sound
-    - _set_up_animation()
-    + set_platform_rects(platform_rects)
-    + update(delta_time, environment_rects)
-    - _update_energy(delta_time)
-    - _update_animation(delta_time)
-    - _determine_current_animation()
-    - _reset_animation()
-    + update_sprite()
-    - _input()
-    - _move(delta_time)
-    - _move_horizontally(delta_time)
-    - _move_vertically(delta_time)
-    + handle_collisionn_with_rects(collision_handler)
-    - _handle_horizontal_collision(platform_rect)
-    - _handle_vertical_collision(platform_rect)
-    - _detect_platform_contact()
-    + recover_energy()
-    + activate_rage()
-    - _update_rage_state()
-    - _deactivate_rage()
+    
 }
 
 abstract class Enemy {
-    - groups : Group
-    - player : Player
-    - sprite_sheet : Surface
-    - animations : dict
-    - defeat_enemy_sound : Sound
-    - game : Game
-    - should_receive_damage : bool
-    + update(delta_time)
-    - _check_should_receive_damage()
-    - _is_player_colliding_from_above(): bool
-    - _process_player_collision() <<final>>
-    - _defeat()
-    - _deal_damage_to_player()
-    - _adjust_player_position()
-    - _adjust_player_position_horizontally()
-    - _adjust_player_position_vertically()
+    
 }
 
 abstract class MovingEnemy {
-    - direction : Vector2
-    - facing_right : bool
-    + update(delta_time, environment_rects)
-    + update_sprite()
-    - _move(delta_time)
-    - _about_to_fall() : bool
-    - _will_hit_wall() : bool
-    - _detect_platform_contact()
+    
 }
 
 class Hedgehog {
-    - rect : FRect
-    - speed : int
-    - _check_should_receive_damage()
+    
 }
 
 class Fox {
-    - rect : FRect
-    - speed : int
+    
 }
 
 class Bat {
-    - rect : FRect
-    - direction: Vector2
-    - x_speed : int
-    - y_speed : int
-    - top_pos : int
-    - bottom_pos : int
-    - left_limit : int
-    - right_limit : int
-    + update(delta_time, environment_rects)
-    - _move(delta_time)
-    - _check_path()
+    
 }
 
 class Bear {
-    - rect : FRect
-    - speed : int
-    - gravity : int 
-    - fall : int 
-    - is_jumping : bool
-    - jump_height : int
-    - on_surface : bool
-    - facing_right : bool
-    - health_points : int
-    - last_damage_time_ms : int 
-    - _setup_animation()
-    + update(delta_time, environment_rects)
-    - _check_should_receive_damage()
-    - _determine_current_animation()
-    + update_sprite()
-    - _move(delta_time)
-    - _move_horizontally(delta_time)
-    - _move_vertically(delta_time)
-    - _handle_collision_with_rects()
-    - _handle_vertical_collision(platform_rect)
-    - _deal_damage_to_player()
-    - _defeat()
+    
 }
 
 abstract class Shooter {
-    - shoot_cooldown : int
-    - pos : int
-    - last_shot : int
-    - player : Player
-    - projectiles_pool : ProjectilesPool
-    - is_shooting : bool
-    - shooting_timer : int
-    - shooting_duration : int
-    + update(delta_time)
-    - _shoot() 
-    - _is_player_near() : bool
-    - _update_animation_frame(delta_time) {abstract}
-    + update_sprite()
+    
 }
 
 class Squirrel {
-    - rect : FRect
-    - _update_animation_frame(delta_time)
-    + update(delta_time)
-    - _update_direction()
-    - _shoot()
+    
 }
 
 class Mushroom {
-    - direction : int
-    - shoot_cooldown : int
-    - rect : FRect
-    - pre_shoot_duration : int
-    - shooting_duration : int
-    - current_state : MushroomState
-    - state_timer : int
-    + update(delta_time)
-    - _shoot()
-    - _update_animation_frame(delta_time)
-    - _handle_preparing_state(delta_ms)
-    - _handle_shooting_state(delta_ms)
+    
 }
 
 enum MushroomDirection {
-    LEFT 
-    RIGHT 
-    UP 
-    DOWN
-    + {static} obtain_direction(orientation) : MushroomDirection
+    
 }
 
 enum MushroomState {
-    IDLE
-    PREPARING
-    SHOOTING
+    
 }
 
-class ResourceManager {
-    - resources : dict
-    - effects_volume : float
-    - loaded_sounds : list
-    + {static} load_image(name, colorkey) : Surface
-    + {static} load_sound_effect(name) : Sound
-    + {static} load_music(name) : string
-    + {static} load_font(name, size) : Font
-    + {static} load_sprite_sheet(name) : Surface
-    + {static} load_tmx_map(name) : TiledMap
-    + {static} set_volume_music(volume)
-    + {static} get_music_volume() : float
-    + {static} set_effects_volume(volume)
-    + {static} get_effects_volume() : float
-    + {static} clear_resources()
-}
-
-Level --> Player 
-Level --> Bear
-Level --> AcornPool
-Level --> SporePool
 Level --> Sprite
 
 Sprite <|-- Berry
@@ -350,25 +117,19 @@ Berry <|-- EnergyBerry
 Berry <|-- HealthBerry
 Berry <|-- RageBerry
 
-CoinBerry --> ResourceManager
-EnergyBerry --> ResourceManager
-HealthBerry --> ResourceManager
-
-Projectile --> ResourceManager
-Projectile <|-- Spore
-Projectile <|-- Acorn
 
 ProjectilesPool <|-- SporePool
 ProjectilesPool <|-- AcornPool
+
+
+Projectile <|-- Spore
+Projectile <|-- Acorn
 
 SporePool o-- Spore
 AcornPool o-- Acorn
 
 Character <|-- Player
 Character <|-- Enemy
-
-Player --> ResourceManager
-Player --> Berry
 
 Enemy <|-- MovingEnemy
 Enemy <|-- Shooter

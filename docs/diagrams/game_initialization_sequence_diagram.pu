@@ -9,13 +9,14 @@ participant MainMenu
 participant Level
 participant Game
 
+activate Main
 User -> Main: Executes the program
 Main -> Director: new()
 activate Director
 Main -> Director: push_scene(MainMenu)
+Main -> Director: run()
 Director -> MainMenu: new()
 activate MainMenu
-Main -> Director: run()
 Director -> MainMenu: loop()
 MainMenu --> Director: Wait for event
 User -> MainMenu: Press "Play"
@@ -25,5 +26,11 @@ Director -> Level: new()
 activate Level
 Level -> Game: new()
 activate Game
-
+User -> Level : Press "QUIT"
+Level -> Director: exit_program()
+deactivate Game
+deactivate Level
+Director -> Main: quit()
+deactivate Director
+deactivate Main
 @enduml

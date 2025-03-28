@@ -8,13 +8,14 @@ participant Director
 participant MainMenu as "Main Menu"
 participant SettingsMenu as "Settings Menu"
 
+activate Main
 User -> Main: Executes the program
 Main -> Director: new()
 activate Director
 Main -> Director: push_scene(MainMenu)
+Main -> Director: run()
 Director -> MainMenu: new()
 activate MainMenu
-Main -> Director: run()
 Director -> MainMenu: loop()
 MainMenu --> Director: Wait for event
 User -> MainMenu: Press "Settings"
@@ -26,5 +27,6 @@ User -> SettingsMenu: Press "Return"
 SettingsMenu -> Director: pop_scene()
 deactivate SettingsMenu
 Director -> MainMenu: stack.pop()
+
 
 @enduml

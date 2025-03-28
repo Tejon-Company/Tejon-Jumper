@@ -3,268 +3,91 @@
 title general class diagram (I)
 
 class SingletonMeta {
-    - _instances: dict
-    + __call__(cls, *args, **kwargs)
+    
 }
 
 class Director {
-    - settings : Settings
-    - display_surface : Surface
-    - stack : list
-    - exit_scene : bool
-    - clock : Clock
-    - _loop(scene)
-    + run()
-    + pop_scene() : Scene
-    + exit_program()
-    + change_scene(scene)
-    + push_scene(scene)
+    
 }
 
 class Settings {
-    + window_width : int
-    + window_height : int
-    + tile_size : int
-    + animation_speed : int
-    + parallax_factor : list
-    + difficulty : Difficulty
-    + levels_config : dict
-    + change_difficulty()
-    + change_resolution()
+    
 }
 
 enum Difficulty {
-    + EASY : int
-    + HIGH : int 
+    
 }
 
 class Game {
-    - director : Director
-    - remaining_lives : int
-    - max_health_points : int 
-    - health_points : int
-    - player : Player
-    - coins : int
-    - last_damage_time_ms : int
-    - last_health_time_ms : int
-    - settings : Settings
-    - _setup_sound_effects()
-    - _handle_dead()
-    - _restart_level()
-    + next_level()
-    + receive_damage(is_collision_on_left, is_collision_on_right)
-    + add_coin()
-    + heal()
-    - _reload_game()
+    
 }
 
 abstract class Scene {
-    + director
-    - {static} _setup_music(music_name)
-    + update()
-    + events(events_list) {abstract}
-    + draw(display_surface) {abstract}
+    
 }
 
 class Level {
-    - settings : Settings
-    - director : Director
-    - game : Game
-    - current_level : int
-    - is_on_pause : bool
-    - tmx_map : TiledMap
-    - _setup_groups()
-    - _setup_pools()
-    - _setup_camera()
-    - _setup_background(background)
-    - {static}_get_image_files(background_folder)
-    - _setup_tiled_background()
-    - _setup_terrain()
-    - _setup_deco() 
-    - _setup_player()
-    - _setup_enemies()
-    - _setup_boss()
-    - _setup_platform_rects()
-    - _setup_berries()
-    - _setup_environment()
-    + go_to_next_level()
-    + update(delta_time)
-    + events(events_list)
-    + draw(display_surface)
-    - _draw_group(display_surface, group)
+    
 }
 
 class GameOver {
-    - settings : Settings
-    - display_surface : Surface
-    + events(events_list)
-    + draw(display_surface)
+   
 }
 
 class Camera {
-    - settings : Settings
-    - camera : Rect
-    - width : int
-    + apply(entity) : Rect
-    + update(target)
-    + draw_background(backgrounds, surface)
+    
 }
 
 class Background {
-    - settings : Settings
-    - image : Surface
-    - rect : Rect
-    - parallax_factor : int
-    - offset_x : int
-    + apply_parallax(camera_x)
-    + draw(surface)
+    
 }
 
 abstract class Menu {
-    - click_button_sound : Sound
-    + events(events_list)
-    + _mouse_button_down(event) {abstract}
+    
 }
 
 class MainMenu {
-    - settings : Settings
-    - background: Surface
-    - title_font: Font
-    - button_font: Font
-    + _mouse_button_down(event)
-    + draw(display_surface)
-    + _draw_title(display_surface)
-    + _create_title_text() Tuple[Surface, Rect]
-    + _create_title_background(text_rect) Tuple[Surface, Rect]
-    + _draw_buttons(display_surface)
+    
 }
 
 class PauseMenu {
-    - settings : Settings
-    - music_bar_y : float 
-    - effects_bar_y : float
-    - continue_button_y : float
-    - restart_button_y : float
-    - font : Font
-    - _mouse_button_down(event)
-    + draw(display_surface)
-    + _draw_overlay(display_surface)
-    + _draw_buttons(display_surface)
+    
 }
 
 class SettingsMenu {
-    - background : Surface
-    - settings: Settings
-    - music_bar_y : float
-    - effects_bar_y : float
-    - difficulty_btn_y : float
-    - resolution_btn_y : float
-    - return_btn_y : float
-    - difficulties : list
-    - current_difficulty : int
-    - resolutions : list
-    - current_resolution : int
-    - font : Font
-    - _mouse_button_down(event)
-    + draw(display_surface)
-    + _draw_buttons(display_surface)
+    
+}
+
+class VictoryMenu {
+
 }
 
 class HUD {
-    - display_surface : Surface
-    - sprite_size : int
-    - font : Font
-    - font_size : int
-    - player_icon : Surface
-    - health_icon : Surface
-    - coin_icon : Surface
-    - energy_icon : Surface
-    - bear_health_icon : Surface
-    + {static} initialize(sprite_size, font_size)
-    - {static} _setup_health_icon()
-    - {static} _setup_coin_icon()
-    - {static} _setup_energy_icon()
-    - {static} _setup_bear_health_icon()
-    + {static} draw_hud(display_surface, remaining_health_points, remaining_lives, coind, energy, bear_health_points)
-    - {static} _draw_icon_with_counter(display_surface, icon, count, z, y)
-    - {static} _draw_health_icons(display_surface, health_points, icon, start_x, start_y)
-    - {static} _draw_hearts(display_surface, remaining_health_points)
-    - {static} _draw_energy_bar(display_surface, energy)
-    - {static} _draw_lifes_counter(display_surface, remaining_lives)
-    - {static} _draw_coins_counter(display_surface, coins)
-    - {static} _draw_bear_hearts(display_surface, bear_health_points)
-}
-
-class ResourceManager {
-    - resources : dict
-    - effects_volume : float
-    - loaded_sounds : list
-    + {static} load_image(name, colorkey) : Surface
-    + {static} load_sound_effect(name) : Sound
-    + {static} load_music(name) : string
-    + {static} load_font(name, size) : Font
-    + {static} load_sprite_sheet(name) : Surface
-    + {static} load_tmx_map(name) : TiledMap
-    + {static} set_volume_music(volume)
-    + {static} get_music_volume() : float
-    + {static} set_effects_volume(volume)
-    + {static} get_effects_volume() : float
-    + {static} clear_resources()
+    
 }
 
 SingletonMeta <|.. Director
 SingletonMeta <|.. Settings
 SingletonMeta <|.. Game
 
-Director --> ResourceManager
-Director --> Settings
 Director <--> Scene
 
 Settings --> Difficulty
 
-Game --> Director
-Game --> GameOver
-Game --> ResourceManager
-Game --> HUD
-Game --> Settings
 Game <--> Level
 
 Scene <|-- Level
 Scene <|-- GameOver
 Scene <|-- Menu
-Scene --> ResourceManager
 
-Level --> Settings
 Level --> Camera
 Level --> Background
 Level --> HUD
-Level --> ResourceManager
 Level --> PauseMenu
-
-GameOver --> Settings
 
 Menu <|-- MainMenu
 Menu <|-- PauseMenu
 Menu <|-- SettingsMenu
-Menu --> ResourceManager
-
-MainMenu --> ResourceManager
-MainMenu --> Settings
-MainMenu --> SettingsMenu
-MainMenu --> Level
-MainMenu --> Scene
-
-PauseMenu --> ResourceManager
-PauseMenu --> Settings
-
-SettingsMenu --> ResourceManager
-SettingsMenu --> Settings
-
-HUD --> ResourceManager
-HUD --> Settings
-
-Camera --> Settings
-
-Background --> Settings
+Menu <|-- VictoryMenu
 
 @enduml
