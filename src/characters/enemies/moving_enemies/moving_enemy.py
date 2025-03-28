@@ -65,7 +65,7 @@ class MovingEnemy(Enemy, ABC):
         self.image.set_colorkey(color_key)
 
     def _move(self, delta_time):
-        self.rect.x += self.direction.x * self.ratio * self.speed * delta_time
+        self.rect.x += self.direction.x * self._ratio * self.speed * delta_time
         should_change_direction = self._about_to_fall() or self._will_hit_wall()
 
         if should_change_direction:
@@ -76,7 +76,7 @@ class MovingEnemy(Enemy, ABC):
         floor_rect_left = pygame.FRect(self.rect.bottomleft, (-1, 1))
 
         def check_floor_collision(rect):
-            return rect.collidelist(self.platform_rects) < 0
+            return rect.collidelist(self._platform_rects) < 0
 
         about_to_fall_right = self.direction.x > 0 and check_floor_collision(
             floor_rect_right
@@ -99,11 +99,11 @@ class MovingEnemy(Enemy, ABC):
         )
 
         hit_wall_right = self.direction.x > 0 and (
-            wall_rect_right.collidelist(self.platform_rects) >= 0
+            wall_rect_right.collidelist(self._platform_rects) >= 0
             or wall_rect_right.collidelist(self.environment_rects) >= 0
         )
         hit_wall_left = self.direction.x < 0 and (
-            wall_rect_left.collidelist(self.platform_rects) >= 0
+            wall_rect_left.collidelist(self._platform_rects) >= 0
             or wall_rect_left.collidelist(self.environment_rects) >= 0
         )
 
@@ -111,5 +111,5 @@ class MovingEnemy(Enemy, ABC):
 
     def _detect_platform_contact(self):
         self.on_surface = is_on_surface(
-            self.rect, self.platform_rects, self.environment_rects
+            self.rect, self._platform_rects, self.environment_rects
         )

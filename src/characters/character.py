@@ -13,11 +13,11 @@ class Character(ABC, Sprite):
     def __init__(self, pos, surf, groups, platform_rects):
         super().__init__(pos, surf, groups)
 
-        self.resolution_settings = ResolutionSettings()
+        self._resolution_settings = ResolutionSettings()
 
-        self.ratio = self.resolution_settings.tile_size / 64
+        self._ratio = self._resolution_settings.tile_size / 64
 
-        self.platform_rects = platform_rects
+        self._platform_rects = platform_rects
 
     @abstractmethod
     def update(self, delta_time):

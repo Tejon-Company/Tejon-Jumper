@@ -38,7 +38,7 @@ class Player(Character):
         self.max_energy = 100
         self.energy_depletion_rate = 30
 
-        self.platform_rects = self.platform_rects
+        self._platform_rects = self._platform_rects
 
         self.direction = vector(0, 0)
         self.normal_speed = 300
@@ -75,7 +75,7 @@ class Player(Character):
         self.facing_right = True
 
     def set_platform_rects(self, platform_rects):
-        self.platform_rects = platform_rects
+        self._platform_rects = platform_rects
 
     def update(self, delta_time, environment_rects):
         self.old_rect = self.rect.copy()
@@ -154,7 +154,7 @@ class Player(Character):
     def _get_next_pos(self, delta_time, sprint_multiplier):
         next_x_pos = self.rect.x + (
             self.direction.x
-            * self.ratio
+            * self._ratio
             * self.current_speed
             * delta_time
             * sprint_multiplier
@@ -177,7 +177,7 @@ class Player(Character):
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * self.ratio * delta_time
+        self.rect.y += self.fall * self._ratio * delta_time
         self.fall += self.gravity / 2 * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 
@@ -193,7 +193,7 @@ class Player(Character):
             self.game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):
-        for rect in self.platform_rects + self.environment_rects:
+        for rect in self._platform_rects + self.environment_rects:
             if not rect.colliderect(self.rect):
                 continue
 
@@ -222,7 +222,7 @@ class Player(Character):
 
     def _detect_platform_contact(self):
         self.on_surface = is_on_surface(
-            self.rect, self.platform_rects, self.environment_rects
+            self.rect, self._platform_rects, self.environment_rects
         )
 
     def recover_energy(self):
