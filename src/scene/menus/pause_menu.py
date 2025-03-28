@@ -32,9 +32,7 @@ class PauseMenu(Menu):
         self.click_button_sound.play()
         game = Game()
         game.reload_game()
-        from scene.level import Level
-
-        self.director.push_scene(Level(1))
+        self.director.pop_scene()
 
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self.continue_button, pos):
