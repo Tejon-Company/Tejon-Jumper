@@ -27,14 +27,14 @@ class Shooter(Enemy, ABC):
         projectiles_pool=ProjectilesPool,
     ):
         super().__init__(pos, surf, groups, player, None, sprite_sheet_name, animations)
-        self.shoot_cooldown = 3000
-        self.pos = pos
-        self.last_shot = 0
-        self.player = player
-        self.projectiles_pool = projectiles_pool
-        self.is_shooting = False
-        self.shooting_timer = 0
-        self.shooting_duration = 500
+        self._shoot_cooldown = 3000
+        self._pos = pos
+        self._last_shot = 0
+        self._player = player
+        self._projectiles_pool = projectiles_pool
+        self._is_shooting = False
+        self._shooting_timer = 0
+        self._shooting_duration = 500
         set_animation_parameters(self)
 
     def update(self, delta_time):
@@ -45,16 +45,16 @@ class Shooter(Enemy, ABC):
 
     def _shoot(self):
         current_time = pygame.time.get_ticks()
-        cooldown_passed = current_time - self.last_shot >= self.shoot_cooldown
+        cooldown_passed = current_time - self._last_shot >= self._shoot_cooldown
         is_shooting = cooldown_passed and self._is_player_near()
 
         if is_shooting:
-            self.is_shooting = True
-            self.projectiles_pool.shoot(self.pos[0], self.pos[1])
-            self.last_shot = current_time
+            self._is_shooting = True
+            self._projectiles_pool.shoot(self._pos[0], self._pos[1])
+            self._last_shot = current_time
 
     def _is_player_near(self):
-        player_pos = vector(self.player.rect.center)
+        player_pos = vector(self._player.rect.center)
         projectile_pos = vector(self.rect.center)
 
         return projectile_pos.distance_to(player_pos) < 500
@@ -64,5 +64,5 @@ class Shooter(Enemy, ABC):
         pass
 
     def update_sprite(self):
-        frame_rect = self.animations[self.animation_frame]
-        self.image = self.sprite_sheet.subsurface(frame_rect)
+        frame_rect = self._animations[self.animation_frame]
+        self.image = self._sprite_sheet.subsurface(frame_rect)

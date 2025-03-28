@@ -29,10 +29,10 @@ class Hedgehog(MovingEnemy):
 
         self.rect = self.image.get_frect(topleft=pos)
 
-        self.speed = 50
+        self._speed = 50
 
     def _check_should_receive_damage(self):
-        is_below = is_below_collision(self.player.rect, self.player.old_rect, self.rect)
-        self.should_receive_damage = self.player.is_in_rage or (
-            self.player.is_sprinting and not is_below
+        is_below = is_below_collision(self._player.rect, self._player.old_rect, self.rect)
+        self._should_receive_damage = self._player.is_in_rage or (
+            self._player.is_sprinting and not is_below
         )

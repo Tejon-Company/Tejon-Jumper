@@ -36,7 +36,7 @@ class MainMenu(Menu):
 
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self._play_button, pos):
-            first_level = Level(1)
+            first_level = Level(3)
             self._director.change_scene(first_level)
 
         elif check_if_button_was_clicked(self._settings_button, pos):

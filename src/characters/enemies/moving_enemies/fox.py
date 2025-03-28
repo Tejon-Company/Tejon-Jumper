@@ -28,4 +28,4 @@ class Fox(MovingEnemy):
 
         self.rect = self.image.get_frect(topleft=pos)
 
-        self.speed = 75
+        self._speed = 75
