@@ -39,7 +39,7 @@ class Player(Character):
         self.gravity = 1600
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 500
+        self.jump_height = 750
         self.last_time_in_rage = None
 
         self.on_surface = False
