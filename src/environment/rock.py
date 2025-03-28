@@ -12,7 +12,7 @@ class Rock(EnvironmentElement):
 
     def update(self):
         expanded_rect = self.rect.inflate(1, 1)
-        is_colliding = expanded_rect.colliderect(self.player.rect)
+        is_colliding = expanded_rect.colliderect(self._player.rect)
 
-        if self.player.is_sprinting and is_colliding:
+        if self._player.is_sprinting and is_colliding:
             self.kill()
