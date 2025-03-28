@@ -18,12 +18,12 @@ Director -> MainMenu: new()
 activate MainMenu
 Director -> MainMenu: loop()
 MainMenu --> Director: Wait for event
-User -> MainMenu: Press "Settings"
+User -> MainMenu: Press "Ajustes"
 MainMenu -> Director: push_scene(SettingsMenu)
 Director -> SettingsMenu: new()
 activate SettingsMenu
 SettingsMenu --> Director: Wait for event
-User -> SettingsMenu: Press "Return"
+User -> SettingsMenu: Press "Volver"
 SettingsMenu -> Director: pop_scene()
 deactivate SettingsMenu
 Director -> MainMenu: stack.pop()

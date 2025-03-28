@@ -3,15 +3,31 @@
 title Main flow of the game 
 
 actor User
+participant Main
 participant Director
+participant MainMenu
 participant Level
 participant Game
 participant HUD
 participant GameOver
+participant VictoryMenu
 
+activate Main
+User -> Main: Executes the program
+Main -> Director: new()
 activate Director
-Director -> Level: new(current_level)
+Main -> Director: push_scene(MainMenu)
+Main -> Director: run()
+Director -> MainMenu: new()
+activate MainMenu
+Director -> MainMenu: loop()
+MainMenu --> Director: Wait for event
+User -> MainMenu: Press "Juegar"
+MainMenu -> Director: change_scene(first_level)
+deactivate MainMenu
+Director -> Level: new()
 activate Level
+Director -> Level: loop()
 Level -> Game : new()
 activate Game
 Game -> HUD : initialize(tile_size, font_size)
@@ -21,23 +37,72 @@ deactivate HUD
 
 alt Player loses all lives
     Game -> Director : push_scene(GameOver)
+    deactivate Game
+    deactivate Level
     Director -> GameOver : new()
     activate GameOver
+    Director -> GameOver : loop()
     User -> GameOver : Press "Enter"
     GameOver -> Director : change_scene(first_level)
     deactivate GameOver
     Director -> Level : stack.append(Level)
+    activate Level
+    Director -> Level : loop()
+    Level -> Game : new()
+    activate Game
 end
 
 alt Player completes level
     Level -> Director : go_to_next_level()
+    deactivate Game
+    deactivate Level
     Director -> Level : new(next_level)
+    activate Level
+    Director -> Level : loop()
+    Level -> Game : new()
+    activate Game
 end
 
 alt Player restarts level
     Game -> Director : pop_scene()
     Game -> Director : change_scene(new_scene)
+    deactivate Game
+    deactivate Level
     Director -> Level : new(current_level)
+    activate Level
+    Director -> Level : loop()
+    Level -> Game : new()
+    activate Game
+end
+
+alt Player wins 
+    Level -> Director : change_scene(VictoryMenu)
+    deactivate Level
+    deactivate Game
+    Director -> VictoryMenu : new()
+    activate VictoryMenu
+    Director -> VictoryMenu : loop()
+    VictoryMenu --> Director : Wait for event
+
+    alt Player presses "Menu Principal"
+        User -> VictoryMenu : Press "Menu principal"
+        VictoryMenu -> Director : change_scene(MainMenu)
+        deactivate VictoryMenu
+        Director -> MainMenu : new()
+        activate MainMenu
+        Director -> MainMenu : loop()
+        deactivate MainMenu
+
+    else Player presses "Cerrar el juego"
+        activate VictoryMenu
+        User -> VictoryMenu : Press "Cerrar el juego"
+        VictoryMenu -> Director : exit_program()
+        deactivate VictoryMenu
+        Director -> Main : quit()
+        deactivate Director
+        Main -> User : Close the game
+        deactivate Main
+    end 
 end
 
 @enduml

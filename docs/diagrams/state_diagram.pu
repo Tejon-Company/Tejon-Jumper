@@ -1,0 +1,28 @@
+@startuml State diagram for scenes
+
+title State diagram of scenes
+
+[*] --> MainMenu : Ejecuta el programa
+MainMenu --> Level1 : Jugar
+MainMenu --> SettingsMenu : Ajustes
+SettingsMenu --> MainMenu : Volver
+Level1 --> Level2 : Pasa el nivel
+Level1 --> Level1 : Pierde una vida
+Level1 --> GameOver : Pierde todas las vidas
+Level1 --> PauseMenu : Presiona "P"
+PauseMenu --> Level1 : Reiniciar partida
+PauseMenu : Si se presiona continuar se sigue en el mismo nivel
+Level2 --> Level3 : Pasa el nivel
+Level2 --> Level2 : Pierde una vida
+Level2 --> GameOver : Pierde todas las vidas
+Level2 --> PauseMenu : Presiona "P"
+Level3 --> VictoryMenu : Pasa el nivel
+Level3 --> Level3 : Pierde una vida
+Level3 --> GameOver : Pierde todas las vidas
+Level3 --> PauseMenu : Presiona "P"
+VictoryMenu --> MainMenu : Menu principal
+VictoryMenu --> [*] : Cerrar el juego
+GameOver --> Level1 : Presiona "Enter"
+GameOver --> [*] : Cerrar el juego
+
+@enduml
