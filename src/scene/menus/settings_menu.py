@@ -13,64 +13,64 @@ class SettingsMenu(Menu):
 
     def __init__(self):
         super().__init__()
-        self.background = ResourceManager.load_image("menu_background.jpeg")
+        self._background = ResourceManager.load_image("menu_background.jpeg")
 
-        self.resolution_settings = ResolutionSettings()
-        self.difficulty_settings = DifficultySettings()
+        self._resolution_settings = ResolutionSettings()
+        self._difficulty_settings = DifficultySettings()
 
-        self.music_bar_y = self.resolution_settings.window_height * 0.35
-        self.effects_bar_y = self.resolution_settings.window_height * 0.45
+        self._music_bar_y = self._resolution_settings.window_height * 0.35
+        self._effects_bar_y = self._resolution_settings.window_height * 0.45
 
-        self.difficulty_btn_y = self.resolution_settings.window_height * 0.55
-        self.resolution_btn_y = self.resolution_settings.window_height * 0.65
-        self.return_btn_y = self.resolution_settings.window_height * 0.75
+        self._difficulty_btn_y = self._resolution_settings.window_height * 0.55
+        self._resolution_btn_y = self._resolution_settings.window_height * 0.65
+        self._return_btn_y = self._resolution_settings.window_height * 0.75
 
-        font_size = int(self.resolution_settings.tile_size * 0.7)
-        self.font = ResourceManager.load_font("Timetwist-Regular.ttf", font_size)
+        font_size = int(self._resolution_settings.tile_size * 0.7)
+        self._font = ResourceManager.load_font("Timetwist-Regular.ttf", font_size)
 
     def _mouse_button_down(self, pos):
-        if check_if_button_was_clicked(self.return_button, pos):
+        if check_if_button_was_clicked(self._return_button, pos):
             self._director.change_scene(SettingsMenu())
 
-        elif check_if_button_was_clicked(self.resolution_button, pos):
+        elif check_if_button_was_clicked(self._resolution_button, pos):
             self._director.update_display_surface_resolution()
-            self.resolution_settings.update_resolution()
+            self._resolution_settings.update_resolution()
             from scene.menus.main_menu import MainMenu
 
             self._director.change_scene(MainMenu())
 
-        elif check_if_button_was_clicked(self.difficulty_button, pos):
-            self.difficulty_settings.update_difficulty()
+        elif check_if_button_was_clicked(self._difficulty_button, pos):
+            self._difficulty_settings.update_difficulty()
 
     def draw(self, display_surface):
-        draw_background(display_surface, self.background)
-        self.display_surface = display_surface
+        draw_background(display_surface, self._background)
+        self._display_surface = display_surface
 
-        draw_music_volume_bar(display_surface, self.music_bar_y, self.font)
-        draw_effects_volume_bar(display_surface, self.effects_bar_y, self.font)
+        draw_music_volume_bar(display_surface, self._music_bar_y, self._font)
+        draw_effects_volume_bar(display_surface, self._effects_bar_y, self._font)
 
         self._draw_buttons(display_surface)
 
     def _draw_buttons(self, display_surface):
-        self.difficulty_button = draw_button_with_label(
+        self._difficulty_button = draw_button_with_label(
             display_surface,
-            self.difficulty_settings.name,
+            self._difficulty_settings.name,
             "Dificultad",
-            self.font,
-            self.difficulty_btn_y + self.resolution_settings.window_height * 0.02,
+            self._font,
+            self._difficulty_btn_y + self._resolution_settings.window_height * 0.02,
         )
 
-        self.resolution_button = draw_button_with_label(
+        self._resolution_button = draw_button_with_label(
             display_surface,
-            f"{self.resolution_settings.window_width}x{self.resolution_settings.window_height}",
+            f"{self._resolution_settings.window_width}x{self._resolution_settings.window_height}",
             "Resolución",
-            self.font,
-            self.resolution_btn_y,
+            self._font,
+            self._resolution_btn_y,
         )
 
-        self.return_button = draw_button(
+        self._return_button = draw_button(
             display_surface,
             "Volver",
-            self.font,
-            self.return_btn_y,
+            self._font,
+            self._return_btn_y,
         )

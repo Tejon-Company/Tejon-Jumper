@@ -15,7 +15,7 @@ class Menu(Scene, ABC):
 
     def __init__(self):
         super().__init__()
-        self.click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
+        self._click_button_sound = ResourceManager.load_sound_effect("click_button.ogg")
 
     def events(self, events_list):
         for event in events_list:
