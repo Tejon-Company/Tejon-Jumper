@@ -12,59 +12,59 @@ class Director(metaclass=SingletonMeta):
     """
 
     def __init__(self):
-        self.resolution_settings = ResolutionSettings()
+        self._resolution_settings = ResolutionSettings()
         self.update_display_surface_resolution()
         pygame.display.set_caption("Tejón Jumper")
 
-        self.stack = []
-        self.exit_scene = False
-        self.clock = pygame.time.Clock()
+        self._stack = []
+        self._exit_scene = False
+        self._clock = pygame.time.Clock()
 
     def update_display_surface_resolution(self):
-        self.display_surface = pygame.display.set_mode(
+        self._display_surface = pygame.display.set_mode(
             (
-                self.resolution_settings.window_width,
-                self.resolution_settings.window_height,
+                self._resolution_settings.window_width,
+                self._resolution_settings.window_height,
             )
         )
 
     def _loop(self, scene):
-        self.exit_scene = False
+        self._exit_scene = False
         pygame.event.clear()
 
-        while not self.exit_scene:
-            delta_time = self.clock.tick(60) / 1000
+        while not self._exit_scene:
+            delta_time = self._clock.tick(60) / 1000
             scene.events(pygame.event.get())
             scene.update(
                 delta_time,
             )
-            scene.draw(self.display_surface)
+            scene.draw(self._display_surface)
 
             pygame.display.update()
             pygame.display.flip()
 
     def run(self):
-        while len(self.stack) > 0:
-            scene = self.stack[-1]
+        while len(self._stack) > 0:
+            scene = self._stack[-1]
             self._loop(scene)
 
     def pop_scene(self):
         ResourceManager.clear_resources()
-        self.exit_scene = True
-        if len(self.stack) > 0:
-            current_scene = self.stack.pop()
+        self._exit_scene = True
+        if len(self._stack) > 0:
+            current_scene = self._stack.pop()
             return current_scene
 
     def exit_program(self):
         ResourceManager.clear_resources()
-        self.stack = []
-        self.exit_scene = True
+        self._stack = []
+        self._exit_scene = True
 
     def change_scene(self, scene):
         ResourceManager.clear_resources()
         self.pop_scene()
-        self.stack.append(scene)
+        self._stack.append(scene)
 
     def push_scene(self, scene):
-        self.exit_scene = True
-        self.stack.append(scene)
+        self._exit_scene = True
+        self._stack.append(scene)

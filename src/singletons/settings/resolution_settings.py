@@ -13,10 +13,10 @@ class ResolutionSettings(metaclass=SingletonMeta):
 
     @dataclass(frozen=True)
     class _Resolution:
-        name: str
-        window_width: int
-        window_height: int
-        tile_size: int
+        _name: str
+        _window_width: int
+        _window_height: int
+        _tile_size: int
 
     def __init__(self):
         self._resolutions = (
@@ -27,19 +27,19 @@ class ResolutionSettings(metaclass=SingletonMeta):
 
     @property
     def name(self) -> str:
-        return self._resolutions[self._current].name
+        return self._resolutions[self._current]._name
 
     @property
     def window_width(self) -> int:
-        return self._resolutions[self._current].window_width
+        return self._resolutions[self._current]._window_width
 
     @property
     def window_height(self) -> int:
-        return self._resolutions[self._current].window_height
+        return self._resolutions[self._current]._window_height
 
     @property
     def tile_size(self) -> int:
-        return self._resolutions[self._current].tile_size
+        return self._resolutions[self._current]._tile_size
 
     def update_resolution(self):
         self._current = (self._current + 1) % len(self._resolutions)
