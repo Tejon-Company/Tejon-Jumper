@@ -14,35 +14,35 @@ class EnergyBerry(Berry):
 
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
-        self.original_pos = pygame.Vector2(pos)
-        self.respawn_time = None
-        self.hidden = False
-        self.respawn_duration = 20000
-        self.get_energy_sound = ResourceManager.load_sound_effect("get_energy.ogg")
+        self._original_pos = pygame.Vector2(pos)
+        self._respawn_time = None
+        self._hidden = False
+        self._respawn_duration = 20000
+        self._get_energy_sound = ResourceManager.load_sound_effect("get_energy.ogg")
 
     def update(self, player: Player):
         self._update_visibility_status()
         self._check_collision_with_player(player)
 
     def _update_visibility_status(self):
-        if not self.hidden or pygame.time.get_ticks() < self.respawn_time:
+        if not self._hidden or pygame.time.get_ticks() < self._respawn_time:
             return
 
-        self.hidden = False
-        self.respawn_time = None
-        self.rect.topleft = self.original_pos
+        self._hidden = False
+        self._respawn_time = None
+        self.rect.topleft = self._original_pos
 
     def _check_collision_with_player(self, player: Player):
-        if not self.hidden and self.rect.colliderect(player.rect):
+        if not self._hidden and self.rect.colliderect(player.rect):
             player.recover_energy()
-            self.get_energy_sound.play()
+            self._get_energy_sound.play()
             self._hide()
 
     def _hide(self):
-        self.hidden = True
-        self.respawn_time = pygame.time.get_ticks() + self.respawn_duration
+        self._hidden = True
+        self._respawn_time = pygame.time.get_ticks() + self._respawn_duration
         self.rect.topleft = (-100, -100)
 
     def draw(self, surface):
-        if not self.hidden:
+        if not self._hidden:
             surface.blit(self.image, self.rect)

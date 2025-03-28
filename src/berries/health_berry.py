@@ -11,15 +11,15 @@ class HealthBerry(Berry):
 
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
-        self.recover_health_sound = ResourceManager.load_sound_effect(
+        self._recover_health_sound = ResourceManager.load_sound_effect(
             "recover_health.ogg"
         )
-        self.game = Game()
+        self._game = Game()
 
     def update(self, player: Player):
         if not self.rect.colliderect(player.rect):
             return
 
-        self.recover_health_sound.play()
-        self.game.heal()
+        self._recover_health_sound.play()
+        self._game.heal()
         self.kill()
