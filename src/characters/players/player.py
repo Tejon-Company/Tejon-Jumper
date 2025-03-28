@@ -23,34 +23,34 @@ class Player(Character):
         super().__init__(pos, surf, groups, None)
 
         self._setup_animation()
-        self.game = Game()
-        self.resolution_settings = ResolutionSettings()
-        self.level_width = level_width
+        self._game = Game()
+        self._resolution_settings = ResolutionSettings()
+        self._level_width = level_width
 
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
-        self.normal_sprite_sheet = ResourceManager.load_sprite_sheet("badger.png")
-        self.rage_sprite_sheet = ResourceManager.load_sprite_sheet("rage_badger.png")
-        self.current_sprite_sheet = self.normal_sprite_sheet
+        self._normal_sprite_sheet = ResourceManager.load_sprite_sheet("badger.png")
+        self._rage_sprite_sheet = ResourceManager.load_sprite_sheet("rage_badger.png")
+        self._current_sprite_sheet = self._normal_sprite_sheet
 
         self.energy = 100
-        self.max_energy = 100
-        self.energy_depletion_rate = 30
+        self._max_energy = 100
+        self._energy_depletion_rate = 30
 
         self._platform_rects = self._platform_rects
 
-        self.direction = vector(0, 0)
-        self.normal_speed = 300
-        self.rage_speed = 350
-        self.current_speed = self.normal_speed
-        self.gravity = 1600
-        self.fall = 0
-        self.is_jumping = False
-        self.jump_height = 500
-        self.last_time_in_rage = None
+        self._direction = vector(0, 0)
+        self._normal_speed = 300
+        self._rage_speed = 350
+        self._current_speed = self._normal_speed
+        self._gravity = 1600
+        self._fall = 0
+        self._is_jumping = False
+        self._jump_height = 500
+        self._last_time_in_rage = None
 
-        self.on_surface = False
+        self._on_surface = False
         self.is_sprinting = False
         self.is_in_rage = False
 
@@ -64,15 +64,15 @@ class Player(Character):
     def _setup_animation(self):
         set_animation_parameters(self)
 
-        self.animations = {
+        self._animations = {
             "idle": create_animation_rects(0, 1),
             "run": create_animation_rects(1, 12),
             "jump": create_animation_rects(4, 1),
             "roll": create_animation_rects(13, 8),
         }
 
-        self.current_animation = "idle"
-        self.facing_right = True
+        self._current_animation = "idle"
+        self._facing_right = True
 
     def set_platform_rects(self, platform_rects):
         self._platform_rects = platform_rects
@@ -80,7 +80,7 @@ class Player(Character):
     def update(self, delta_time, environment_rects):
         self.old_rect = self.rect.copy()
 
-        self.environment_rects = environment_rects
+        self._environment_rects = environment_rects
 
         self._input()
         self._move(delta_time)
@@ -94,53 +94,53 @@ class Player(Character):
             self.recover_energy()
 
         elif self.is_sprinting and self.energy > 0:
-            self.energy -= self.energy_depletion_rate * delta_time
+            self.energy -= self._energy_depletion_rate * delta_time
             self.energy = max(0, self.energy)
 
     def _update_animation(self, delta_time):
         self._determine_current_animation()
 
-        update_animation(delta_time, self, self.animations[self.current_animation])
+        update_animation(delta_time, self, self._animations[self._current_animation])
 
     def _determine_current_animation(self):
         if self.is_sprinting:
-            self.current_animation = "roll"
-        elif not self.on_surface:
-            self.current_animation = "jump"
-        elif abs(self.direction.x) > 0:
-            self.current_animation = "run"
+            self._current_animation = "roll"
+        elif not self._on_surface:
+            self._current_animation = "jump"
+        elif abs(self._direction.x) > 0:
+            self._current_animation = "run"
         else:
-            self.current_animation = "idle"
+            self._current_animation = "idle"
 
-        if self.direction.x != 0:
-            self.facing_right = self.direction.x > 0
+        if self._direction.x != 0:
+            self._facing_right = self._direction.x > 0
 
     def update_sprite(self):
-        frame_rect = self.animations[self.current_animation][self.animation_frame]
-        self.image = self.current_sprite_sheet.subsurface(frame_rect)
+        frame_rect = self._animations[self._current_animation][self.animation_frame]
+        self.image = self._current_sprite_sheet.subsurface(frame_rect)
 
-        if not self.facing_right:
+        if not self._facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
 
     def _input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
-            self.direction.x = 1
+            self._direction.x = 1
         elif keys[pygame.K_LEFT]:
-            self.direction.x = -1
+            self._direction.x = -1
         else:
-            self.direction.x = 0
+            self._direction.x = 0
 
         if keys[pygame.K_SPACE] or keys[pygame.K_UP]:
-            self.direction.y = -1
-            self.is_jumping = True
+            self._direction.y = -1
+            self._is_jumping = True
 
         self.is_sprinting = self.energy > 0 and (
             keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
         )
 
-        self.direction = normalize_direction(self.direction)
+        self._direction = normalize_direction(self._direction)
 
     def _move(self, delta_time):
         self._move_horizontally(delta_time)
@@ -153,9 +153,9 @@ class Player(Character):
 
     def _get_next_pos(self, delta_time, sprint_multiplier):
         next_x_pos = self.rect.x + (
-            self.direction.x
+            self._direction.x
             * self._ratio
-            * self.current_speed
+            * self._current_speed
             * delta_time
             * sprint_multiplier
         )
@@ -169,31 +169,31 @@ class Player(Character):
         return next_x_pos
 
     def _get_boundaries(self):
-        tile_size = self.resolution_settings.tile_size
+        tile_size = self._resolution_settings.tile_size
 
         left_boundary = 0
-        right_boundary = self.level_width * tile_size - tile_size * 2
+        right_boundary = self._level_width * tile_size - tile_size * 2
 
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * self._ratio * delta_time
-        self.fall += self.gravity / 2 * delta_time
+        self.rect.y += self._fall * self._ratio * delta_time
+        self._fall += self._gravity / 2 * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 
-        if self.on_surface:
-            self.fall = -self.jump_height if self.is_jumping else 0
-            self.direction.y = 0
+        if self._on_surface:
+            self._fall = -self._jump_height if self._is_jumping else 0
+            self._direction.y = 0
 
-        if self.is_jumping:
-            self.direction = normalize_direction(self.direction)
-            self.is_jumping = False
+        if self._is_jumping:
+            self._direction = normalize_direction(self._direction)
+            self._is_jumping = False
 
-        if self.rect.bottom > self.resolution_settings.window_height:
-            self.game.handle_dead()
+        if self.rect.bottom > self._resolution_settings.window_height:
+            self._game.handle_dead()
 
     def handle_collisions_with_rects(self, collision_handler=None):
-        for rect in self._platform_rects + self.environment_rects:
+        for rect in self._platform_rects + self._environment_rects:
             if not rect.colliderect(self.rect):
                 continue
 
@@ -217,26 +217,26 @@ class Player(Character):
         if is_above_collision(self.rect, self.old_rect, platform_rect):
             self.rect.top = platform_rect.bottom
 
-        self.fall = 0
-        self.direction.y = 0
+        self._fall = 0
+        self._direction.y = 0
 
     def _detect_platform_contact(self):
-        self.on_surface = is_on_surface(
-            self.rect, self._platform_rects, self.environment_rects
+        self._on_surface = is_on_surface(
+            self.rect, self._platform_rects, self._environment_rects
         )
 
     def recover_energy(self):
-        self.energy = self.max_energy
+        self.energy = self._max_energy
 
     def activate_rage(self):
         self.activate_rage_sound.play()
         self.is_in_rage = True
-        self.current_sprite_sheet = self.rage_sprite_sheet
-        self.current_speed = self.rage_speed
+        self._current_sprite_sheet = self._rage_sprite_sheet
+        self._current_speed = self._rage_speed
 
     def _update_rage_state(self):
-        has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=15000
+        has_rage_finished, self._last_time_in_rage = check_cooldown(
+            self._last_time_in_rage, cooldown=15000
         )
 
         if self.is_in_rage and has_rage_finished:
@@ -245,5 +245,5 @@ class Player(Character):
     def _deactivate_rage(self):
         self.deactivate_rage_sound.play()
         self.is_in_rage = False
-        self.current_sprite_sheet = self.normal_sprite_sheet
-        self.current_speed = self.normal_speed
+        self._current_sprite_sheet = self._normal_sprite_sheet
+        self._current_speed = self._normal_speed
