@@ -16,11 +16,11 @@ class Acorn(Projectile):
 
     def _move(self, delta_time):
         if self._is_facing_right:
-            self.rect.x -= self.direction.x * self.ratio * self.speed * delta_time
+            self.rect.x -= self.direction.x * self._ratio * self.speed * delta_time
         else:
-            self.rect.x += self.direction.x * self.ratio * self.speed * delta_time
+            self.rect.x += self.direction.x * self._ratio * self.speed * delta_time
 
-        self.rect.y += self.fall * self.ratio * delta_time
+        self.rect.y += self.fall * self._ratio * delta_time
         self.fall += self.gravity * delta_time
 
     def _reset_projectile_if_off_screen(self):

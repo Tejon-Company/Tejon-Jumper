@@ -146,7 +146,7 @@ class Player(Character):
     def _get_next_pos(self, delta_time, sprint_multiplier):
         next_x_pos = self.rect.x + (
             self.direction.x
-            * self.ratio
+            * self._ratio
             * self.current_speed
             * delta_time
             * sprint_multiplier
@@ -169,7 +169,7 @@ class Player(Character):
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * self.ratio * delta_time
+        self.rect.y += self.fall * self._ratio * delta_time
         self.fall += self.gravity * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 

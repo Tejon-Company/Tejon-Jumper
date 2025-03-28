@@ -110,7 +110,7 @@ class Bear(MovingEnemy):
         self._move_vertically(delta_time)
 
     def _move_horizontally(self, delta_time):
-        self.rect.x += self.direction.x * self.ratio * self.speed * delta_time
+        self.rect.x += self.direction.x * self._ratio * self.speed * delta_time
 
         if self._will_hit_wall():
             self.direction.x *= -1
@@ -118,8 +118,8 @@ class Bear(MovingEnemy):
         self.facing_right = self.direction.x > 0
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * self.ratio * delta_time
-        self.fall += self.gravity * delta_time * self.ratio
+        self.rect.y += self.fall * self._ratio * delta_time
+        self.fall += self.gravity * delta_time * self._ratio
 
         self._handle_collisions_with_rects()
 

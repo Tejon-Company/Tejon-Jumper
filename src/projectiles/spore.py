@@ -6,13 +6,13 @@ class Spore(Projectile):
         super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.rect = self.image.get_frect(topleft=pos)
         self.speed = 140
-        self.max_distance = 250 * self.ratio
+        self.max_distance = 250 * self._ratio
 
     def _move(self, delta_time):
         if self.direction[0] != 0:
-            self.rect.x += self.direction.x * self.ratio * self.speed * delta_time
+            self.rect.x += self.direction.x * self._ratio * self.speed * delta_time
         else:
-            self.rect.y += self.direction.y * self.ratio * self.speed * delta_time
+            self.rect.y += self.direction.y * self._ratio * self.speed * delta_time
 
     def _reset_projectile_if_off_screen(self):
         if self._is_projectile_off_screen():
