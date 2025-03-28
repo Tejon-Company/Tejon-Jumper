@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="232">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="121" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="235">
  <tileset firstgid="1" source="../patterns/platforms_and_deco.tsx"/>
  <tileset firstgid="769" source="../patterns/all_characters.tsx"/>
  <tileset firstgid="792" source="../../../full_hd/tiled/patterns/all_entities.tsx"/>
@@ -21,7 +21,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,784,785,785,785,785,786,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,534,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,784,785,785,785,785,786,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,784,785,785,785,785,786,0,0,0,0,0,0,0,0,0,0,0,789,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,789,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,182,0,0,189,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 534,0,534,0,0,0,0,0,0,534,534,534,534,0,0,0,0,0,534,534,0,0,0,0,0,0,0,0,0,0,534,0,0,0,0,534,0,534,534,534,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,789,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -55,22 +55,18 @@
   <object id="196" name="coin_berry" gid="780" x="2338.67" y="639.333" width="32" height="32"/>
   <object id="197" name="coin_berry" gid="780" x="2402.5" y="639.5" width="32" height="32"/>
   <object id="198" name="coin_berry" gid="780" x="2272" y="640" width="32" height="32"/>
-  <object id="200" name="energy_berry" gid="779" x="2179.33" y="638.667" width="32" height="32"/>
-  <object id="203" name="coin_berry" gid="780" x="2720" y="602" width="32" height="32"/>
-  <object id="204" name="coin_berry" gid="780" x="2761" y="565" width="32" height="32"/>
-  <object id="205" name="coin_berry" gid="780" x="2876" y="536" width="32" height="32"/>
-  <object id="206" name="coin_berry" gid="780" x="2931" y="498" width="32" height="32"/>
-  <object id="207" name="coin_berry" gid="780" x="2987" y="476" width="32" height="32"/>
-  <object id="208" name="coin_berry" gid="780" x="2916" y="572" width="32" height="32"/>
-  <object id="209" name="coin_berry" gid="780" x="3028.5" y="597.5" width="32" height="32"/>
-  <object id="210" name="coin_berry" gid="780" x="3083.5" y="595.5" width="32" height="32"/>
+  <object id="205" name="coin_berry" gid="780" x="2881" y="546" width="32" height="32"/>
+  <object id="206" name="coin_berry" gid="780" x="2929" y="507" width="32" height="32"/>
+  <object id="207" name="coin_berry" gid="780" x="2992" y="480" width="32" height="32"/>
+  <object id="209" name="coin_berry" gid="780" x="2959.5" y="572.5" width="32" height="32"/>
+  <object id="210" name="coin_berry" gid="780" x="3151.5" y="573.5" width="32" height="32"/>
   <object id="211" name="coin_berry" gid="780" x="3118" y="477.5" width="32" height="32"/>
-  <object id="212" name="coin_berry" gid="780" x="3180" y="494.5" width="32" height="32"/>
-  <object id="213" name="coin_berry" gid="780" x="3213" y="567.5" width="32" height="32"/>
-  <object id="214" name="coin_berry" gid="780" x="3228" y="509.5" width="32" height="32"/>
-  <object id="215" name="coin_berry" gid="780" x="3353.33" y="558.667" width="32" height="32"/>
-  <object id="216" name="coin_berry" gid="780" x="3403.33" y="596" width="32" height="32"/>
-  <object id="231" name="energy_berry" gid="779" x="2688" y="602" width="32" height="32"/>
+  <object id="212" name="coin_berry" gid="780" x="3185" y="507.5" width="32" height="32"/>
+  <object id="214" name="coin_berry" gid="780" x="3232" y="544.5" width="32" height="32"/>
+  <object id="231" name="energy_berry" gid="779" x="2673" y="630" width="32" height="32"/>
+  <object id="232" name="coin_berry" gid="780" x="2175.33" y="641.333" width="32" height="32"/>
+  <object id="233" name="coin_berry" gid="780" x="2128" y="641.333" width="32" height="32"/>
+  <object id="234" name="coin_berry" gid="780" x="2225.33" y="641.333" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="Environment">
   <object id="145" name="Rock" gid="781" x="1824" y="576" width="32" height="32"/>
@@ -127,8 +123,8 @@
   <object id="181" name="Squirrel" gid="773" x="2812.67" y="544" width="32" height="32"/>
   <object id="183" name="Squirrel" gid="773" x="3053.67" y="480.667" width="32" height="32"/>
   <object id="186" name="Squirrel" gid="773" x="3278.67" y="544" width="32" height="32"/>
-  <object id="201" name="Hedgehog" gid="772" x="2127" y="640" width="32" height="32"/>
-  <object id="202" name="Hedgehog" gid="772" x="2229" y="640" width="32" height="32"/>
+  <object id="201" name="Fox" gid="772" x="2127" y="640" width="32" height="32"/>
+  <object id="202" name="Fox" gid="772" x="2229" y="640" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Player">
   <object id="220" name="Player" gid="769" x="127.25" y="639.25" width="32" height="32"/>

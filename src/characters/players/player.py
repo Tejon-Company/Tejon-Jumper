@@ -36,10 +36,10 @@ class Player(Character):
         self.normal_speed = 300
         self.rage_speed = 350
         self.current_speed = self.normal_speed
-        self.gravity = 1600
+        self.gravity = 900
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 550
+        self.jump_height = 580
         self.last_time_in_rage = None
 
         self.on_surface = False
@@ -170,7 +170,7 @@ class Player(Character):
 
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * self.ratio * delta_time
-        self.fall += self.gravity / 2 * delta_time
+        self.fall += self.gravity * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 
         if self.on_surface:
@@ -234,7 +234,7 @@ class Player(Character):
             self.last_time_in_rage = pygame.time.get_ticks()
 
         rage_elapsed = pygame.time.get_ticks() - self.last_time_in_rage
-        has_rage_finished = rage_elapsed >= 15000
+        has_rage_finished = rage_elapsed >= 10000
 
         if self.is_in_rage and has_rage_finished:
             self._deactivate_rage()

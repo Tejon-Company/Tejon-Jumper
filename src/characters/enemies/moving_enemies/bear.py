@@ -40,11 +40,11 @@ class Bear(MovingEnemy):
         self.rect = self.image.get_frect(topleft=pos)
         self.rect.width = self.resolution_settings.tile_size * 2
 
-        self.speed = 100
+        self.speed = 190
         self.gravity = 1000
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 250
+        self.jump_height = 320
 
         self.on_surface = True
 
@@ -119,7 +119,7 @@ class Bear(MovingEnemy):
 
     def _move_vertically(self, delta_time):
         self.rect.y += self.fall * self.ratio * delta_time
-        self.fall += (self.gravity / 2 * delta_time) * self.ratio
+        self.fall += self.gravity * delta_time * self.ratio
 
         self._handle_collisions_with_rects()
 

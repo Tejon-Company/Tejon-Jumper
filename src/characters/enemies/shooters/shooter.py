@@ -48,7 +48,7 @@ class Shooter(Enemy, ABC):
         player_pos = vector(self.player.rect.center)
         projectile_pos = vector(self.rect.center)
 
-        return projectile_pos.distance_to(player_pos) < 500
+        return projectile_pos.distance_to(player_pos) < 500 * self.ratio
 
     @abstractmethod
     def _update_animation_frame(self, delta_time):
