@@ -19,13 +19,13 @@ class Projectile(Sprite, ABC):
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups)
         self.direction = direction
-        self.game = Game()
-        self.resolution_settings = ResolutionSettings()
-        self.ratio = self.resolution_settings.tile_size / 64
-        self.speed = None
+        self._game = Game()
+        self._resolution_settings = ResolutionSettings()
+        self._ratio = self._resolution_settings.tile_size / 64
+        self._speed = None
         self.is_activated = False
-        self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
-        self.animations = animations
+        self._sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
+        self._animations = animations
         set_animation_parameters(self)
 
     def update(self, delta_time, player):
@@ -35,12 +35,12 @@ class Projectile(Sprite, ABC):
         self._reset_projectile_if_off_screen()
         self.old_rect = self.rect.copy()
         self._move(delta_time)
-        update_animation(delta_time, self, self.animations)
+        update_animation(delta_time, self, self._animations)
         self._process_player_collision(player)
 
     def update_sprite(self):
-        frame_rect = self.animations[self.animation_frame]
-        self.image = self.sprite_sheet.subsurface(frame_rect)
+        frame_rect = self._animations[self.animation_frame]
+        self.image = self._sprite_sheet.subsurface(frame_rect)
 
     @abstractmethod
     def _reset_projectile_if_off_screen(self):
@@ -62,7 +62,7 @@ class Projectile(Sprite, ABC):
         is_player_colliding_from_left = player.rect.centerx > self.rect.centerx
         is_player_colliding_from_right = player.rect.centerx < self.rect.centerx
 
-        self.game.receive_damage(
+        self._game.receive_damage(
             is_player_colliding_from_left, is_player_colliding_from_right
         )
 
