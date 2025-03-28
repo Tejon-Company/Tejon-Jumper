@@ -10,7 +10,7 @@ class Character(ABC, Sprite):
 
         self.resolution_settings = ResolutionSettings()
 
-        self.ratio = self.resolution_settings.tile_size / 64
+        self._ratio = self.resolution_settings.tile_size / 64
 
         self.platform_rects = platform_rects
 

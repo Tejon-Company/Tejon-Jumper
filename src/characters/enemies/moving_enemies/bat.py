@@ -38,8 +38,8 @@ class Bat(MovingEnemy):
         update_animation(delta_time, self, self.animations)
 
     def _move(self, delta_time):
-        self.rect.x += self.direction.x * self.ratio * self.x_speed * delta_time
-        self.rect.y += self.direction.y * self.ratio * self.y_speed * delta_time
+        self.rect.x += self.direction.x * self._ratio * self.x_speed * delta_time
+        self.rect.y += self.direction.y * self._ratio * self.y_speed * delta_time
 
     def _check_path(self):
         above_top_position = self.rect.y < self.top_pos

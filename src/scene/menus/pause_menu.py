@@ -26,20 +26,18 @@ class PauseMenu(Menu):
         keys = pygame.key.get_just_released()
 
         if keys[pygame.K_p]:
-            self._exit_pause()
-
-    def _exit_pause(self):
-        self.click_button_sound.play()
-        game = Game()
-        game.reload_game()
-        self.director.pop_scene()
+            self.director.pop_scene()
 
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self.continue_button, pos):
             self.director.pop_scene()
 
         elif check_if_button_was_clicked(self.restart_button, pos):
-            self._exit_pause()
+            game = Game()
+            game.reload_game()
+            from scene.level import Level
+
+            self.director.change_scene(Level(1))
 
     def draw(self, display_surface):
         draw_music_volume_bar(display_surface, self.music_bar_y, self.font)

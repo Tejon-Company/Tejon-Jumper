@@ -36,7 +36,7 @@ class Player(Character):
         self.normal_speed = 300
         self.rage_speed = 350
         self.current_speed = self.normal_speed
-        self.gravity = 1600
+        self.gravity = 900
         self.fall = 0
         self.is_jumping = False
         self.jump_height = 610
@@ -146,7 +146,7 @@ class Player(Character):
     def _get_next_pos(self, delta_time, sprint_multiplier):
         next_x_pos = self.rect.x + (
             self.direction.x
-            * self.ratio
+            * self._ratio
             * self.current_speed
             * delta_time
             * sprint_multiplier
@@ -169,8 +169,8 @@ class Player(Character):
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
-        self.rect.y += self.fall * self.ratio * delta_time
-        self.fall += self.gravity / 2 * delta_time
+        self.rect.y += self.fall * self._ratio * delta_time
+        self.fall += self.gravity * delta_time
         self.handle_collisions_with_rects(self._handle_vertical_collision)
 
         if self.on_surface:
@@ -227,9 +227,14 @@ class Player(Character):
         self.current_speed = self.rage_speed
 
     def _update_rage_state(self):
-        has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=15000
-        )
+        if not self.is_in_rage:
+            return
+
+        if self.last_time_in_rage is None:
+            self.last_time_in_rage = pygame.time.get_ticks()
+
+        rage_elapsed = pygame.time.get_ticks() - self.last_time_in_rage
+        has_rage_finished = rage_elapsed >= 10000
 
         if self.is_in_rage and has_rage_finished:
             self._deactivate_rage()

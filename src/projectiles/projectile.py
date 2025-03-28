@@ -16,7 +16,7 @@ class Projectile(Sprite, ABC):
         self.direction = direction
         self.game = Game()
         self.resolution_settings = ResolutionSettings()
-        self.ratio = self.resolution_settings.tile_size / 64
+        self._ratio = self.resolution_settings.tile_size / 64
         self.speed = None
         self.is_activated = False
         self.sprite_sheet = ResourceManager.load_sprite_sheet(sprite_sheet_name)
