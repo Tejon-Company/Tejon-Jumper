@@ -30,14 +30,14 @@ class SettingsMenu(Menu):
 
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self.return_button, pos):
-            self.director.change_scene(SettingsMenu())
+            self._director.change_scene(SettingsMenu())
 
         elif check_if_button_was_clicked(self.resolution_button, pos):
-            self.director.update_display_surface_resolution()
+            self._director.update_display_surface_resolution()
             self.resolution_settings.update_resolution()
             from scene.menus.main_menu import MainMenu
 
-            self.director.change_scene(MainMenu())
+            self._director.change_scene(MainMenu())
 
         elif check_if_button_was_clicked(self.difficulty_button, pos):
             self.difficulty_settings.update_difficulty()

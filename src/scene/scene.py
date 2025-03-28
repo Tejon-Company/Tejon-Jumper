@@ -14,7 +14,7 @@ class Scene(ABC):
     """
 
     def __init__(self):
-        self.director = Director()
+        self._director = Director()
 
     @staticmethod
     def _setup_music(music_name):

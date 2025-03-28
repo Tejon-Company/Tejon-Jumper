@@ -37,10 +37,10 @@ class MainMenu(Menu):
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self.play_button, pos):
             first_level = Level(1)
-            self.director.change_scene(first_level)
+            self._director.change_scene(first_level)
 
         elif check_if_button_was_clicked(self.settings_button, pos):
-            self.director.push_scene(SettingsMenu())
+            self._director.push_scene(SettingsMenu())
 
     def draw(self, display_surface):
         draw_background(display_surface)

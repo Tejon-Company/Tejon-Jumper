@@ -30,10 +30,10 @@ class VictoryMenu(Menu):
         if check_if_button_was_clicked(self.main_menu_button, pos):
             from scene.menus.main_menu import MainMenu
 
-            self.director.change_scene(MainMenu())
+            self._director.change_scene(MainMenu())
 
         elif check_if_button_was_clicked(self.quit_button, pos):
-            self.director.exit_program()
+            self._director.exit_program()
 
     def draw(self, display_surface):
         draw_background(display_surface, self.background)
