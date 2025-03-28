@@ -3,7 +3,7 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 def create_animation_rects(
     frame_start_x, number_of_frames, sprite_width=None, sprite_height=None
-):
+) -> list:
     """
     Crea una lista de rectángulos para animación basados en coordenadas de sprite.
     Args:
@@ -12,7 +12,7 @@ def create_animation_rects(
         sprite_width: Ancho de cada sprite. Por defecto usa el tamaño de tile de las configuraciones.
         sprite_height: Alto de cada sprite. Por defecto usa el tamaño de tile de las configuraciones.
     Returns:
-        list: Lista de tuplas (x, y, ancho, alto) representando los rectángulos de cada frame.
+        Lista de tuplas (x, y, ancho, alto) representando los rectángulos de cada frame.
     """
     resolution_settings = ResolutionSettings()
     sprite_width = sprite_width or resolution_settings.tile_size

@@ -1,7 +1,7 @@
 from pygame.time import get_ticks
 
 
-def check_cooldown(last_time_ms, cooldown=2000):
+def check_cooldown(last_time_ms, cooldown=2000) -> tuple:
     """
     Comprueba si ha pasado el tiempo de espera (cooldown) desde la última activación.
     Args:

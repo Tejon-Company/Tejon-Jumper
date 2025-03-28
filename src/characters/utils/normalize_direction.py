@@ -1,7 +1,7 @@
 from pygame.math import Vector2 as vector
 
 
-def normalize_direction(direction):
+def normalize_direction(direction) -> tuple:
     """
     Normaliza el vector de dirección para movimientos diagonales hacia arriba.
     Args:
@@ -9,9 +9,9 @@ def normalize_direction(direction):
             donde x representa el movimiento horizontal (-1: izquierda, 1: derecha)
             y donde y representa el movimiento vertical (-1: arriba, 1: abajo)
     Returns:
-        tuple: La dirección normalizada. Si el movimiento es diagonal hacia arriba,
-               se ajustan los componentes para mantener un vector unitario (aproximadamente 0.707 en cada componente).
-               En otro caso, se devuelve la dirección original.
+        La dirección normalizada. Si el movimiento es diagonal hacia arriba,
+        se ajustan los componentes para mantener un vector unitario (aproximadamente 0.707 en cada componente).
+        En otro caso, se devuelve la dirección original.
     """
 
     x, y = direction

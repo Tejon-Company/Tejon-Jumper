@@ -1,7 +1,7 @@
 from pygame.rect import Rect
 
 
-def is_right_collision(character_rect, character_old_rect, rect):
+def is_right_collision(character_rect, character_old_rect, rect) -> bool:
     """
     Determina si el personaje está colisionando con un objeto desde la derecha.
     Args:
@@ -9,7 +9,7 @@ def is_right_collision(character_rect, character_old_rect, rect):
         character_old_rect: Rectángulo previo del personaje.
         rect: Rectángulo del objeto con el que se comprueba la colisión.
     Returns:
-        bool: True si el personaje está colisionando desde la derecha, False en caso contrario.
+        True si el personaje está colisionando desde la derecha, False en caso contrario.
     """
 
     approaching_from_left = character_rect.right >= rect.left
@@ -17,7 +17,7 @@ def is_right_collision(character_rect, character_old_rect, rect):
     return approaching_from_left and character_was_on_left
 
 
-def is_left_collision(character_rect, character_old_rect, rect):
+def is_left_collision(character_rect, character_old_rect, rect) -> bool:
     """
     Comprueba si hay una colisión por el lado izquierdo de un rectángulo.
     Args:
@@ -25,7 +25,7 @@ def is_left_collision(character_rect, character_old_rect, rect):
         character_old_rect: Rectángulo anterior del personaje.
         rect: Rectángulo con el que se comprueba la colisión.
     Returns:
-        bool: True si hay una colisión desde el lado izquierdo, False en caso contrario.
+        True si hay una colisión desde el lado izquierdo, False en caso contrario.
     """
 
     approaching_from_right = character_rect.left <= rect.right
@@ -33,7 +33,7 @@ def is_left_collision(character_rect, character_old_rect, rect):
     return approaching_from_right and character_was_on_right
 
 
-def is_below_collision(character_rect, character_old_rect, rect):
+def is_below_collision(character_rect, character_old_rect, rect) -> bool:
     """
     Determina si el personaje está colisionando con un objeto desde arriba.
     Args:
@@ -41,7 +41,7 @@ def is_below_collision(character_rect, character_old_rect, rect):
         character_old_rect: Rectángulo anterior del personaje.
         rect: Rectángulo del objeto con el que se comprueba la colisión.
     Returns:
-        bool: True si el personaje está colisionando desde arriba, False en caso contrario.
+        True si el personaje está colisionando desde arriba, False en caso contrario.
     """
 
     approaching_from_top = character_rect.bottom >= rect.top
@@ -49,7 +49,7 @@ def is_below_collision(character_rect, character_old_rect, rect):
     return approaching_from_top and was_above
 
 
-def is_above_collision(character_rect, character_old_rect, rect):
+def is_above_collision(character_rect, character_old_rect, rect) -> bool:
     """
     Detecta si hubo una colisión desde arriba.
     Args:
@@ -57,7 +57,7 @@ def is_above_collision(character_rect, character_old_rect, rect):
         character_old_rect: Rectángulo anterior del personaje.
         rect: Rectángulo con el que se comprueba la colisión.
     Returns:
-        bool: True si el personaje colisionó con el objeto desde arriba, False en caso contrario.
+        True si el personaje colisionó con el objeto desde arriba, False en caso contrario.
     """
 
     approaching_from_bottom = character_rect.top <= rect.bottom
@@ -65,7 +65,7 @@ def is_above_collision(character_rect, character_old_rect, rect):
     return approaching_from_bottom and was_below
 
 
-def is_on_surface(character_rect, platform_rects, environment_rects):
+def is_on_surface(character_rect, platform_rects, environment_rects) -> bool:
     """
     Determina si un personaje está sobre una superficie (plataforma o elemento del entorno).
     Args:
@@ -73,7 +73,7 @@ def is_on_surface(character_rect, platform_rects, environment_rects):
         platform_rects: Lista de rectángulos que representan las plataformas.
         environment_rects: Lista de rectángulos que representan elementos del entorno.
     Returns:
-        bool: True si el personaje está sobre una superficie, False en caso contrario.
+        True si el personaje está sobre una superficie, False en caso contrario.
     """
 
     rect_height = 1
