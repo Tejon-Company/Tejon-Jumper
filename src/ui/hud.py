@@ -156,7 +156,7 @@ class HUD:
         coin_icon_x = (
             display_surface.get_width()
             - cls.coin_icon.get_width()
-            - cls.resolution_settings.tile_size
+            - int(cls.resolution_settings.tile_size * 1.5)
         )
         cls._draw_icon_with_counter(
             display_surface, cls.coin_icon, coins, coin_icon_x, 10

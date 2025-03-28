@@ -39,7 +39,7 @@ class Player(Character):
         self.gravity = 1600
         self.fall = 0
         self.is_jumping = False
-        self.jump_height = 750
+        self.jump_height = 550
         self.last_time_in_rage = None
 
         self.on_surface = False
@@ -227,9 +227,14 @@ class Player(Character):
         self.current_speed = self.rage_speed
 
     def _update_rage_state(self):
-        has_rage_finished, self.last_time_in_rage = check_cooldown(
-            self.last_time_in_rage, cooldown=15000
-        )
+        if not self.is_in_rage:
+            return
+
+        if self.last_time_in_rage is None:
+            self.last_time_in_rage = pygame.time.get_ticks()
+
+        rage_elapsed = pygame.time.get_ticks() - self.last_time_in_rage
+        has_rage_finished = rage_elapsed >= 15000
 
         if self.is_in_rage and has_rage_finished:
             self._deactivate_rage()
