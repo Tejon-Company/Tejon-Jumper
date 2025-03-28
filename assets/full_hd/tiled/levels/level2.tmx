@@ -135,7 +135,7 @@
   <object id="70" name="Fox" gid="770" x="4077.33" y="911.667" width="48" height="48"/>
  </objectgroup>
  <objectgroup id="6" name="Player">
-  <object id="42" name="Player" gid="769" x="180.667" y="954.5" width="48" height="48"/>
+  <object id="42" name="Player" gid="769" x="191.667" y="958.5" width="48" height="48"/>
  </objectgroup>
  <objectgroup id="7" name="Environment">
   <object id="43" name="Rock" gid="781" x="2593.66" y="865" width="48" height="48"/>
@@ -158,6 +158,6 @@
   <object id="61" name="Rock" gid="781" x="2641.49" y="862.334" width="48" height="48"/>
   <object id="62" name="Rock" gid="781" x="2642.17" y="909.668" width="48" height="48"/>
   <object id="63" name="Rock" gid="781" x="2641.49" y="958.334" width="48" height="48"/>
-  <object id="64" name="Flag" gid="790" x="7102" y="912" width="48" height="48"/>
+  <object id="64" name="Flag" gid="790" x="7103.03" y="912.375" width="48" height="48"/>
  </objectgroup>
 </map>
