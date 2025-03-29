@@ -97,6 +97,13 @@ class Bear(MovingEnemy):
 
         self.facing_right = self.direction.x > 0
 
+    def update_sprite(self):
+        frame_rect = self.animations[self.current_animation][self.animation_frame]
+        self.image = self.sprite_sheet.subsurface(frame_rect)
+
+        if not self.facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
+
     def _check_should_receive_damage(self):
         self.should_receive_damage = self._is_player_colliding_from_above()
 
@@ -107,13 +114,6 @@ class Bear(MovingEnemy):
             self.current_animation = "run"
 
         self.facing_right = self.direction.x > 0
-
-    def update_sprite(self):
-        frame_rect = self.animations[self.current_animation][self.animation_frame]
-        self.image = self.sprite_sheet.subsurface(frame_rect)
-
-        if not self.facing_right:
-            self.image = pygame.transform.flip(self.image, True, False)
 
     def _move(self, delta_time):
         self._move_horizontally(delta_time)
