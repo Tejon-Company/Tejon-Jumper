@@ -1,10 +1,17 @@
-from singletons.game import Game
-from singletons.settings.resolution_settings import ResolutionSettings
 from abc import ABC, abstractmethod
 from typing import Optional
 
+from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
+
 
 class ProjectilesPool(ABC):
+    """
+    Gestiona un conjunto de proyectiles reutilizables para optimizar el
+    rendimiento del juego, evitando la creación y destrucción constante
+    de objetos.
+    """
+
     def __init__(self, size, projectile_groups):
         self.resolution_settings = ResolutionSettings()
         self.pool = list()

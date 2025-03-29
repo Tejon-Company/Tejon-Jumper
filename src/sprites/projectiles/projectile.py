@@ -1,17 +1,25 @@
 from abc import ABC, abstractmethod
-from sprites.sprite import Sprite
+
 from pygame.sprite import collide_rect
-from sprites.sprite import Sprite
-from sprites.characters.utils.animation_utils import update_animation, set_animation_parameters
+
 from resource_manager import ResourceManager
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
+from sprites.characters.utils.animation_utils import (
+    set_animation_parameters,
+    update_animation,
+)
+from sprites.sprite import Sprite
 
 
 class Projectile(Sprite, ABC):
-    def __init__(
-        self, pos, surf, direction, groups, sprite_sheet_name, animations
-    ):
+    """
+    Clase abstracta que implementa la funcionalidad básica para los
+    proyectiles que pueden interactuar con el jugador. Maneja la
+    activación, movimiento, animación y colisiones de los proyectiles.
+    """
+
+    def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups)
         self.direction = direction
         self.game = Game()

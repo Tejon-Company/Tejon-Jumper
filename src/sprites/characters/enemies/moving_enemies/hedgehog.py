@@ -3,6 +3,12 @@ from sprites.characters.utils.collision_utils import is_below_collision
 
 
 class Hedgehog(MovingEnemy):
+    """
+    Implementa a un erizo enemigo que puede moverse de un lado a otro.
+    Además, define la lógica necesaria para que el jugador reciba daño
+    al saltar sobre el erizo (si el jugador no está rodando).
+    """
+
     def __init__(
         self,
         pos,

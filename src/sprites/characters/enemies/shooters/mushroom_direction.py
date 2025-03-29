@@ -1,8 +1,13 @@
-from pygame.math import Vector2 as vector
 from enum import Enum
+
+from pygame.math import Vector2 as vector
 
 
 class MushroomDirection(Enum):
+    """
+    Enumeración que representa la dirección a la que apuntan las setas.
+    """
+
     LEFT = (vector(-1, 0), 3)
     RIGHT = (vector(1, 0), 6)
     UP = (vector(0, -1), 0)

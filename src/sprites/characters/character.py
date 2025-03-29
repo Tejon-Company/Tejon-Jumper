@@ -1,10 +1,16 @@
 from abc import ABC, abstractmethod
 
-from sprites.sprite import Sprite
 from singletons.settings.resolution_settings import ResolutionSettings
+from sprites.sprite import Sprite
 
 
 class Character(ABC, Sprite):
+    """
+    Clase abstracta base para todos los personajes del juego,
+    proporcionando la funcionalidad común como la posición, superficie y
+    detección de plataformas.
+    """
+
     def __init__(self, pos, surf, groups, platform_rects):
         super().__init__(pos, surf, groups)
 

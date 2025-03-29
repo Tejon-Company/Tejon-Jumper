@@ -1,9 +1,27 @@
+import pygame
+
 from resource_manager import ResourceManager
 from singletons.settings.resolution_settings import ResolutionSettings
-import pygame
 
 
 class HUD:
+    """
+    Gestiona la interfaz gráfica de usuario que muestra información
+    relevante durante el juego, como la salud del jugador, vidas
+    restantes, monedas recolectadas, energía y salud del oso. Dibuja
+    los siguientes elementos en la pantalla:
+
+    - Corazones que representan la salud del jugador
+
+    - Barra de energía
+
+    - Contador de vidas
+
+    - Contador de monedas
+
+    - Corazones que representan la salud del oso
+    """
+
     display_surface = None
     sprite_size = None
     font = None
@@ -17,7 +35,7 @@ class HUD:
     @classmethod
     def initialize(cls):
         cls.resolution_settings = ResolutionSettings()
-        cls.font_size = int(cls.resolution_settings.tile_size * .7)
+        cls.font_size = int(cls.resolution_settings.tile_size * 0.7)
         cls.font = ResourceManager.load_font("Beta54.ttf", cls.font_size)
 
         cls.player_icon = ResourceManager.load_image("badger_icon.png")

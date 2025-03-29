@@ -1,20 +1,32 @@
-from resource_manager import ResourceManager
-from scene.ui.menus.settings_menu import SettingsMenu
 import pygame
-from scene.ui.menus.menu_utils import (
-    draw_button,
-    draw_background,
-    check_if_button_was_clicked,
-)
-from scene.ui.menus.menu import Menu
+
+from resource_manager import ResourceManager
 from scene.level import Level
 from scene.scene import Scene
+from scene.ui.menus.menu import Menu
+from scene.ui.menus.menu_utils import (
+    check_if_button_was_clicked,
+    draw_background,
+    draw_button,
+)
+from scene.ui.menus.settings_menu import SettingsMenu
 from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class MainMenu(Menu):
+    """
+    Gestiona la interfaz del menú principal, incluyendo el título del
+    juego y los botones para jugar o acceder a los ajustes. Maneja
+    también las interacciones del usuario con estos elementos y la
+    navegación hacia otras escenas del juego.
+    """
+
     def __init__(self):
         super().__init__()
+
+        pygame.mixer.pre_init()
+        pygame.mixer.init()
+
         self.resolution_settings = ResolutionSettings()
 
         title_font_size = self.resolution_settings.tile_size * 2

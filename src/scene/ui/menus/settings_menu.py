@@ -1,10 +1,17 @@
 from scene.ui.menus.menu import Menu
 from scene.ui.menus.menu_utils import *
-from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.settings.difficulty_settings import DifficultySettings
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class SettingsMenu(Menu):
+    """
+    Responsable de mostrar y gestionar las opciones de configuración
+    como el volumen de la música y efectos, la dificultad del juego y la
+    resolución de pantalla. Permite al usuario modificar estos ajustes y
+    volver al menú principal.
+    """
+
     def __init__(self):
         super().__init__()
         self.background = ResourceManager.load_image("menu_background.jpeg")

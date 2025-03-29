@@ -1,11 +1,17 @@
 from scene.ui.menus.menu import Menu
 from scene.ui.menus.menu_utils import *
-from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.director import Director
 from singletons.game import Game
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class PauseMenu(Menu):
+    """
+    Gestiona la interfaz y funcionalidades del menú que aparece cuando
+    el juego está pausado, permitiendo al usuario ajustar el volumen de
+    música y efectos, continuar la partida o reiniciarla.
+    """
+
     def __init__(self):
         super().__init__()
 

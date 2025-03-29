@@ -1,11 +1,19 @@
-from sprites.projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
-from sprites.projectiles.acorn import Acorn
-from sprites.characters.utils.animation_utils import create_animation_rects
 from typing import Optional
+
 import pygame
+
+from sprites.characters.utils.animation_utils import create_animation_rects
+from sprites.projectiles.acorn import Acorn
+from sprites.projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 
 
 class AcornPool(ProjectilesPool):
+    """
+    Clase que gestiona un grupo de bellotas reutilizables. Permite
+    crear, almacenar y disparar bellotaas desde una posición específica
+    en una dirección determinada.
+    """
+
     def __init__(self, size, projectile_groups):
         super().__init__(size, projectile_groups)
 

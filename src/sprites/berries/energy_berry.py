@@ -1,10 +1,17 @@
-from sprites.characters.players.player import Player
-from sprites.berries.berry import Berry
-from resource_manager import ResourceManager
 import pygame
+
+from resource_manager import ResourceManager
+from sprites.berries.berry import Berry
+from sprites.characters.players.player import Player
 
 
 class EnergyBerry(Berry):
+    """
+    Implementa una baya que al ser recogida por el jugador le permite
+    recuperar energía. La baya desaparece temporalmente después de ser
+    recogida y reaparece después de un tiempo determinado.
+    """
+
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
         self.original_pos = pygame.Vector2(pos)

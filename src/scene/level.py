@@ -14,7 +14,7 @@ from scene.ui.menus.victory_menu import VictoryMenu
 from singletons.director import Director
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
-from sprites.berries.berrie_factory import berry_factory
+from sprites.berries.berry_factory import berry_factory
 from sprites.characters.enemies.enemy_factory import enemy_factory
 from sprites.characters.enemies.moving_enemies.bear import Bear
 from sprites.characters.players.player import Player
@@ -25,6 +25,11 @@ from sprites.sprite import Sprite
 
 
 class Level(Scene):
+    """
+    Implementa un nivel del juego. Gestiona la carga y configuración de
+    un nivel específico.
+    """
+
     _levels_config = {
         1: {
             "background": "background1",

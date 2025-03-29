@@ -1,10 +1,15 @@
-from scene.ui.menus.menu_utils import *
 from scene.ui.menus.menu import Menu
+from scene.ui.menus.menu_utils import *
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class VictoryMenu(Menu):
+    """
+    Muestra una pantalla de victoria o finalización del juego.
+    Proporciona botones para volver al menú principal o salir del juego.
+    """
+
     def __init__(self, boss_has_been_defeated):
         super().__init__()
 

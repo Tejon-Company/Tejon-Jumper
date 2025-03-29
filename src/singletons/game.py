@@ -1,14 +1,19 @@
-from singletons.settings.resolution_settings import ResolutionSettings
-from singletons.settings.difficulty_settings import DifficultySettings
-from scene.game_over import GameOver
 from resource_manager import ResourceManager
+from scene.game_over import GameOver
 from scene.ui.hud import HUD
-from sprites.characters.utils.check_cooldown import check_cooldown
-from singletons.singleton_meta import SingletonMeta
 from singletons.director import Director
+from singletons.settings.difficulty_settings import DifficultySettings
+from singletons.settings.resolution_settings import ResolutionSettings
+from singletons.singleton_meta import SingletonMeta
+from sprites.characters.utils.check_cooldown import check_cooldown
 
 
 class Game(metaclass=SingletonMeta):
+    """
+    Gestiona el estado global del juego, incluyendo la salud del
+    jugador, vidas, monedas y efectos de sonido.
+    """
+
     def __init__(self):
         self.director = Director()
         self.resolution_settings = ResolutionSettings()

@@ -2,6 +2,13 @@ from sprites.projectiles.projectile import Projectile
 
 
 class Spore(Projectile):
+    """
+    Implementa un proyectil de tipo espora. Las esporas pueden moverse
+    horizontal o verticalmente según la dirección asignada y se
+    desactiva al recorrer cierta distancia. Permite controlar la
+    activación/desactivación del proyectil y actualizar su posición
+    """
+
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):
         super().__init__(pos, surf, direction, groups, sprite_sheet_name, animations)
         self.rect = self.image.get_frect(topleft=pos)

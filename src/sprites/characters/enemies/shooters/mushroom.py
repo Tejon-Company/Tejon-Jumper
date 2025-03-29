@@ -1,10 +1,18 @@
 from enum import Enum, auto
+
+import pygame
+
 from sprites.characters.enemies.shooters.shooter import Shooter
 from sprites.projectiles.projectiles_pools.spore_pool import SporePool
-import pygame
 
 
 class Mushroom(Shooter):
+    """
+    Implementa a un enemigo seta que puede detectar al jugador y
+    disparar proyectiles en forma de esporas. Tiene tres estados:
+    inactivo, preparándose para disparar y disparando.
+    """
+
     class MushroomState(Enum):
         IDLE = auto()
         PREPARING = auto()
@@ -76,7 +84,11 @@ class Mushroom(Shooter):
         is_shooting_ready = self.state_timer >= self.shooting_duration
 
         if is_shooting_ready:
-            self.projectiles_pool.shoot(self.pos[0], self.pos[1], self.direction, )
+            self.projectiles_pool.shoot(
+                self.pos[0],
+                self.pos[1],
+                self.direction,
+            )
             self.current_state = self.MushroomState.IDLE
             self.state_timer = 0
         else:

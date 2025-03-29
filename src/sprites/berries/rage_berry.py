@@ -3,6 +3,11 @@ from sprites.characters.players.player import Player
 
 
 class RageBerry(Berry):
+    """
+    Implementa una baya que activa el estado de rabia en el jugador
+    cuando este colisiona con ella.
+    """
+
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
 

@@ -2,6 +2,21 @@ from pygame.math import Vector2 as vector
 
 
 def normalize_direction(direction):
+    """
+    Normaliza el vector de dirección para movimientos diagonales hacia
+    arriba. Args:
+        direction: Un par ordenado (x, y) que representa la dirección de
+        movimiento.
+            donde x representa el movimiento horizontal (-1: izquierda,
+            1: derecha) y donde y representa el movimiento vertical (-1:
+            arriba, 1: abajo)
+    Returns:
+        La dirección normalizada. Si el movimiento es diagonal hacia
+        arriba, se ajustan los componentes para mantener un vector
+        unitario (aproximadamente 0.707 en cada componente). En otro
+        caso, se devuelve la dirección original.
+    """
+
     x, y = direction
     diagonal_value = 0.707107
 

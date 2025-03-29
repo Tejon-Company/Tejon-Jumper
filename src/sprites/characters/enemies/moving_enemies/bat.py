@@ -1,10 +1,17 @@
+from pygame.math import Vector2 as vector
+
+from singletons.settings.resolution_settings import ResolutionSettings
 from sprites.characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from sprites.characters.utils.animation_utils import update_animation
-from singletons.settings.resolution_settings import ResolutionSettings
-from pygame.math import Vector2 as vector
 
 
 class Bat(MovingEnemy):
+    """
+    Implementa un enemigo murciélago en el juego. Se mueve diagonalmente
+    dentro de un área definida por límites superior e inferior, y cambia
+    de dirección cuando alcanza dichos límites.
+    """
+
     def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations):
         super().__init__(pos, surf, groups, player, None, sprite_sheet_name, animations)
 

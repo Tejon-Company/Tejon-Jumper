@@ -2,6 +2,10 @@ from sprites.characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 
 
 class Fox(MovingEnemy):
+    """
+    Implementa a un zorro enemigo que puede moverse de un lado a otro.
+    """
+
     def __init__(
         self,
         pos,
