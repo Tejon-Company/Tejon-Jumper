@@ -1,4 +1,4 @@
-from characters.sprite import Sprite
+from sprites.sprite import Sprite
 from abc import ABC
 
 

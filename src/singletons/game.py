@@ -2,8 +2,8 @@ from singletons.settings.resolution_settings import ResolutionSettings
 from singletons.settings.difficulty_settings import DifficultySettings
 from scene.game_over import GameOver
 from resource_manager import ResourceManager
-from ui.hud import HUD
-from characters.utils.check_cooldown import check_cooldown
+from scene.ui.hud import HUD
+from sprites.characters.utils.check_cooldown import check_cooldown
 from singletons.singleton_meta import SingletonMeta
 from singletons.director import Director
 
