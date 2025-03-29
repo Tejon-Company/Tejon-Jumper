@@ -28,11 +28,11 @@ Para más detalles sobre este proyecto, se puede consultar la memoria, disponibl
 
 Una vez cumplimos con los requisitos previos, se deben instalar las dependencias del juego, para lo que se facilita el fichero [requirements.txt](requirements.txt)
 
-Sin embargo, antes de instalar las dependencias, se recomienda crear un entorno virtual. Este paso es recomendable para evitar posibles conflictos con otros paquetes ya instalados en nuestra máquina.
+>[!TIP]
+>
+>A pesar de no ser estrictamente necesario, antes de instalar las dependencias, se recomienda crear un entorno virtual. Este paso es recomendable para evitar posibles conflictos con otros paquetes ya instalados en nuestra máquina.
 
-Para crear el entorno virtual:
-
-`python -m venv venv`
+Para crear el entorno virtual: `python -m venv venv`
 
 Para activar el entorno virtual:
 
@@ -44,9 +44,7 @@ Para instalar las dependencias de forma automática: `pip install -r requirement
 
 #### Ejecución del juego 🎮
 
-Para ejecutar el juego, basta con situarse en la carpeta del proyecto y ejecutar el archivo principal con el siguiente comando:
-
-`python src/main.py`
+Para ejecutar el juego, basta con situarse en la carpeta del proyecto y ejecutar el archivo principal con el siguiente comando: `python src/main.py`
 
 > [!NOTE]
 >
