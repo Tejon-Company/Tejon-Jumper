@@ -4,10 +4,11 @@ from dataclasses import dataclass
 
 class ResolutionSettings(metaclass=SingletonMeta):
     """
-    Gestiona la configuración de resolución para el juego.
-    Permite alternar entre diferentes resoluciones predefinidas (HD, Full HD)
-    y proporciona acceso a los parámetros relevantes de la resolución actual como
-    nombre, ancho y alto de ventana, y tamaño de los sprites.
+    Gestiona la configuración de resolución para el juego. Permite
+    alternar entre diferentes resoluciones predefinidas (HD, Full HD) y
+    proporciona acceso a los parámetros relevantes de la resolución
+    actual como nombre, ancho y alto de ventana, y tamaño de los
+    sprites.
     """
 
     @dataclass(frozen=True)

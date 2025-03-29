@@ -8,9 +8,10 @@ from singletons.director import Director
 
 class Scene(ABC):
     """
-    Clase abstracta que define la estructura base para todas las escenas del juego.
-    Proporciona un marco para gestionar escenas individuales,
-    incluyendo la configuración de música, actualización de lógica y renderizado.
+    Clase abstracta que define la estructura base para todas las escenas
+    del juego. Proporciona un marco para gestionar escenas individuales,
+    incluyendo la configuración de música, actualización de lógica y
+    renderizado.
     """
 
     def __init__(self):

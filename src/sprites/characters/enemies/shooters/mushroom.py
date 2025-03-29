@@ -8,8 +8,9 @@ from sprites.projectiles.projectiles_pools.spore_pool import SporePool
 
 class Mushroom(Shooter):
     """
-    Implementa a un enemigo seta que puede detectar al jugador y disparar proyectiles
-    en forma de esporas. Tiene tres estados: inactivo, preparándose para disparar y disparando.
+    Implementa a un enemigo seta que puede detectar al jugador y
+    disparar proyectiles en forma de esporas. Tiene tres estados:
+    inactivo, preparándose para disparar y disparando.
     """
 
     class MushroomState(Enum):

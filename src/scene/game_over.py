@@ -6,9 +6,10 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 class GameOver(Scene):
     """
-    Maneja la visualización de una pantalla de fin de juego cuando el jugador pierde,
-    mostrando un mensaje de "Game Over" y una instrucción para reiniciar el juego.
-    Procesa eventos para permitir al jugador salir del juego o reiniciarlo presionando Enter.
+    Maneja la visualización de una pantalla de fin de juego cuando el
+    jugador pierde, mostrando un mensaje de "Game Over" y una
+    instrucción para reiniciar el juego. Procesa eventos para permitir
+    al jugador salir del juego o reiniciarlo presionando Enter.
     """
 
     def __init__(self):

@@ -14,9 +14,9 @@ from sprites.sprite import Sprite
 
 class Projectile(Sprite, ABC):
     """
-    Clase abstracta que implementa la funcionalidad básica para los proyectiles que pueden
-    interactuar con el jugador. Maneja la activación, movimiento, animación y colisiones
-    de los proyectiles.
+    Clase abstracta que implementa la funcionalidad básica para los
+    proyectiles que pueden interactuar con el jugador. Maneja la
+    activación, movimiento, animación y colisiones de los proyectiles.
     """
 
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):

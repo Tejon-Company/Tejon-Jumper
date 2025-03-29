@@ -14,9 +14,9 @@ from sprites.characters.utils.collision_utils import is_on_surface
 
 class MovingEnemy(Enemy, ABC):
     """
-    Clase abstracta que implementa un enemigo con movimiento.
-    Implementa el comportamiento básico del movimiento horizontal
-    del enemigo y la detección de colisiones con el entorno.
+    Clase abstracta que implementa un enemigo con movimiento. Implementa
+    el comportamiento básico del movimiento horizontal del enemigo y la
+    detección de colisiones con el entorno.
     """
 
     def __init__(

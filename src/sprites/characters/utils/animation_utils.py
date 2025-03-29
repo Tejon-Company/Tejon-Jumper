@@ -5,14 +5,16 @@ def create_animation_rects(
     frame_start_x, number_of_frames, sprite_width=None, sprite_height=None
 ):
     """
-    Crea una lista de rectángulos para animación basados en coordenadas de sprite.
-    Args:
+    Crea una lista de rectángulos para animación basados en coordenadas
+    de sprite. Args:
         frame_start_x: Índice inicial del frame en la fila de sprites.
-        number_of_frames: Cantidad de frames a crear.
-        sprite_width: Ancho de cada sprite. Por defecto usa el tamaño de tile de las configuraciones.
-        sprite_height: Alto de cada sprite. Por defecto usa el tamaño de tile de las configuraciones.
+        number_of_frames: Cantidad de frames a crear. sprite_width:
+        Ancho de cada sprite. Por defecto usa el tamaño de tile de las
+        configuraciones. sprite_height: Alto de cada sprite. Por defecto
+        usa el tamaño de tile de las configuraciones.
     Returns:
-        Lista de tuplas (x, y, ancho, alto) representando los rectángulos de cada frame.
+        Lista de tuplas (x, y, ancho, alto) representando los
+        rectángulos de cada frame.
     """
 
     resolution_settings = ResolutionSettings()

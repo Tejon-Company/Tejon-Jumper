@@ -6,13 +6,19 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 class HUD:
     """
-    Gestiona la interfaz gráfica de usuario que muestra información relevante durante el juego,
-    como la salud del jugador, vidas restantes, monedas recolectadas, energía y salud del oso.
-    Dibuja varios elementos en la pantalla:
+    Gestiona la interfaz gráfica de usuario que muestra información
+    relevante durante el juego, como la salud del jugador, vidas
+    restantes, monedas recolectadas, energía y salud del oso. Dibuja
+    varios elementos en la pantalla:
+
     - Corazones que representan la salud del jugador
+
     - Barra de energía
+
     - Contador de vidas
+
     - Contador de monedas
+
     - Corazones que representan la salud del oso
     """
 

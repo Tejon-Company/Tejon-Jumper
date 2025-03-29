@@ -15,9 +15,10 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 class MainMenu(Menu):
     """
-    Gestiona la interfaz del menú principal, incluyendo el título del juego y
-    los botones para jugar o acceder a los ajustes. Maneja también las interacciones
-    del usuario con estos elementos y la navegación hacia otras escenas del juego.
+    Gestiona la interfaz del menú principal, incluyendo el título del
+    juego y los botones para jugar o acceder a los ajustes. Maneja
+    también las interacciones del usuario con estos elementos y la
+    navegación hacia otras escenas del juego.
     """
 
     def __init__(self):

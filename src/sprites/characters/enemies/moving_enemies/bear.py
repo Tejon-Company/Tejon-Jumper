@@ -15,10 +15,10 @@ from sprites.characters.utils.normalize_direction import normalize_direction
 
 class Bear(MovingEnemy):
     """
-    Implementa un enemigo tipo oso en el juego.
-    Este enemigo se mueve horizontalmente en las plataformas y puede saltar. Tiene puntos de salud
-    que se reducen cuando recibe daño del jugador.
-    A medida que recibe daño, aumenta su velocidad.
+    Implementa un enemigo tipo oso en el juego. Este enemigo se mueve
+    horizontalmente en las plataformas y puede saltar. Tiene puntos de
+    salud que se reducen cuando recibe daño del jugador. A medida que
+    recibe daño, aumenta su velocidad.
     """
 
     def __init__(

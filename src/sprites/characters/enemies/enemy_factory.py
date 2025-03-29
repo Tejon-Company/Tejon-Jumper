@@ -10,17 +10,18 @@ from sprites.characters.utils.animation_utils import create_animation_rects
 
 def enemy_factory(enemy, groups, platform_rects, spore_pool, acorn_pool, player):
     """
-    Crea un enemigo específico según su tipo, añadiéndolo a los grupos correspondientes.
-    Args:
+    Crea un enemigo específico según su tipo, añadiéndolo a los grupos
+    correspondientes. Args:
         enemy: Objeto enemigo a crear con su posición, imagen y nombre.
-        groups: Diccionario con los diferentes grupos de sprites para añadir al enemigo.
-        platform_rects: Lista de rectángulos de plataformas para la colisión.
-        spore_pool: Pool de proyectiles de esporas para el enemigo Mushroom.
-        acorn_pool: Pool de proyectiles de bellotas para el enemigo Squirrel.
-        player: Referencia al jugador para seguimiento y comportamiento.
+        groups: Diccionario con los diferentes grupos de sprites para
+        añadir al enemigo. platform_rects: Lista de rectángulos de
+        plataformas para la colisión. spore_pool: Pool de proyectiles de
+        esporas para el enemigo Mushroom. acorn_pool: Pool de
+        proyectiles de bellotas para el enemigo Squirrel. player:
+        Referencia al jugador para seguimiento y comportamiento.
     Raises:
-        KeyError: Si un enemigo Mushroom no tiene definida su orientación.
-        ValueError: Si el tipo de enemigo no es válido.
+        KeyError: Si un enemigo Mushroom no tiene definida su
+        orientación. ValueError: Si el tipo de enemigo no es válido.
     """
 
     resolution_settings = ResolutionSettings()

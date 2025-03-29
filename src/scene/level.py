@@ -26,15 +26,15 @@ from sprites.sprite import Sprite
 
 class Level(Scene):
     """
-    Implementa un nivel del juego.
-    Gestiona la carga y configuración de un nivel específico, incluyendo:
-    - Configuración de fondos, música, mapas y elementos del nivel
-    - Inicialización de grupos de sprites (plataformas, personajes, proyectiles, etc.)
-    - Carga de los elementos del mapa TMX (terreno, decoraciones, enemigos)
-    - Creación del jugador, enemigos, jefes y elementos del entorno
-    - Gestión de la cámara y actualización de los elementos del juego
-    - Manejo de eventos y transiciones entre niveles
-    - Renderizado de todos los elementos en pantalla
+    Implementa un nivel del juego. Gestiona la carga y configuración de
+    un nivel específico, incluyendo: - Configuración de fondos, música,
+    mapas y elementos del nivel - Inicialización de grupos de sprites
+    (plataformas, personajes, proyectiles, etc.) - Carga de los
+    elementos del mapa TMX (terreno, decoraciones, enemigos) - Creación
+    del jugador, enemigos, jefes y elementos del entorno - Gestión de la
+    cámara y actualización de los elementos del juego - Manejo de
+    eventos y transiciones entre niveles - Renderizado de todos los
+    elementos en pantalla
     """
 
     _levels_config = {

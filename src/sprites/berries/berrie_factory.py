@@ -6,14 +6,17 @@ from sprites.berries.rage_berry import RageBerry
 
 def berry_factory(berry, groups) -> None:
     """
-    Factoría que crea diferentes tipos de bayas según el nombre proporcionado y los añade a los grupos especificados.
-    Args:
-        berry: Objeto berry que contiene la información necesaria para crear la baya (nombre, posición, imagen).
-        groups: Grupos de sprites a los que se añadirá la baya creada.
+    Factoría que crea diferentes tipos de bayas según el nombre
+    proporcionado y los añade a los grupos especificados. Args:
+        berry: Objeto berry que contiene la información necesaria para
+        crear la baya (nombre, posición, imagen). groups: Grupos de
+        sprites a los que se añadirá la baya creada.
     Returns:
-        None, pero crea y añade la baya correspondiente a los grupos especificados.
+        None, pero crea y añade la baya correspondiente a los grupos
+        especificados.
     Raises:
-        ValueError: Si el nombre de la baya no corresponde a ninguno de los tipos válidos.
+        ValueError: Si el nombre de la baya no corresponde a ninguno de
+        los tipos válidos.
     """
     match berry.name:
         case "health_berry":

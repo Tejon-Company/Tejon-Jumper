@@ -10,9 +10,9 @@ from sprites.projectiles.projectiles_pools.projectiles_pool import ProjectilesPo
 
 class Shooter(Enemy, ABC):
     """
-    Clase abstracta para enemigos que disparan al jugador.
-    Implementa la capacidad de disparar proyectiles cuando el jugador está cerca,
-    un sistema de enfriamiento entre disparos y gestión de animaciones para
+    Clase abstracta para enemigos que disparan al jugador. Implementa la
+    capacidad de disparar proyectiles cuando el jugador está cerca, un
+    sistema de enfriamiento entre disparos y gestión de animaciones para
     representar visualmente la acción de disparar.
     """
 

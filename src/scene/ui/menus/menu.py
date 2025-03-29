@@ -8,9 +8,9 @@ from scene.scene import Scene
 
 class Menu(Scene, ABC):
     """
-    Clase abstracta que implementa un menú en el juego.
-    Proporciona una estructura base para todos los menús del juego,
-    gestionando eventos de entrada como clics de ratón y salida del programa.
+    Clase abstracta que implementa un menú en el juego. Proporciona una
+    estructura base para todos los menús del juego, gestionando eventos
+    de entrada como clics de ratón y salida del programa.
     """
 
     def __init__(self):

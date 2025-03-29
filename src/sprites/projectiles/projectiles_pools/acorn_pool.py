@@ -9,8 +9,8 @@ from sprites.projectiles.projectiles_pools.projectiles_pool import ProjectilesPo
 
 class AcornPool(ProjectilesPool):
     """
-    Clase que gestiona un grupo de bellotas reutilizables.
-    Permite crear, almacenar y disparar bellotaas desde una posición específica
+    Clase que gestiona un grupo de bellotas reutilizables. Permite
+    crear, almacenar y disparar bellotaas desde una posición específica
     en una dirección determinada.
     """
 

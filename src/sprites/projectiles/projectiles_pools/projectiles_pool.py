@@ -7,8 +7,9 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 class ProjectilesPool(ABC):
     """
-    Gestiona un conjunto de proyectiles reutilizables para optimizar
-    el rendimiento del juego, evitando la creación y destrucción constante de objetos.
+    Gestiona un conjunto de proyectiles reutilizables para optimizar el
+    rendimiento del juego, evitando la creación y destrucción constante
+    de objetos.
     """
 
     def __init__(self, size, projectile_groups):

@@ -6,8 +6,9 @@ from sprites.sprite import Sprite
 
 class Character(ABC, Sprite):
     """
-    Clase abstracta base para todos los personajes del juego, proporcionando
-    la funcionalidad común como la posición, superficie y detección de plataformas.
+    Clase abstracta base para todos los personajes del juego,
+    proporcionando la funcionalidad común como la posición, superficie y
+    detección de plataformas.
     """
 
     def __init__(self, pos, surf, groups, platform_rects):

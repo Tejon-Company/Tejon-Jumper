@@ -8,7 +8,8 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 class ResourceManager:
     """
-    Gestiona los recursos del juego como imágenes, sonidos, música, fuentes y mapas.
+    Gestiona los recursos del juego como imágenes, sonidos, música,
+    fuentes y mapas.
     """
 
     _resources = {}

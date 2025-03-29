@@ -10,9 +10,9 @@ from sprites.characters.character import Character
 
 class Enemy(Character, ABC):
     """
-    Clase abstracta que implementa a un enemigo en el juego.
-    Define el comportamiento básico de los enemigos, incluyendo la
-    detección de colisiones con el jugador, la gestión de daño y su derrota.
+    Clase abstracta que implementa a un enemigo en el juego. Define el
+    comportamiento básico de los enemigos, incluyendo la detección de
+    colisiones con el jugador, la gestión de daño y su derrota.
     """
 
     def __init__(

@@ -11,8 +11,8 @@ def check_if_button_was_clicked(button, pos):
     Comprueba si un botón fue clickeado y reproduce un sonido si es así.
 
     Args:
-        button: Objeto Rect que representa el botón.
-        pos: Tupla (x, y) con la posición del clic.
+        button: Objeto Rect que representa el botón. pos: Tupla (x, y)
+        con la posición del clic.
 
     Returns:
         bool: True si el botón fue clickeado, False en caso contrario.

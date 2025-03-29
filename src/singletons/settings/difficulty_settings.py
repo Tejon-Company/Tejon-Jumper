@@ -4,9 +4,10 @@ from dataclasses import dataclass
 
 class DifficultySettings(metaclass=SingletonMeta):
     """
-    Gestiona las configuraciones de dificultad del juego.
-    Permite definir y alternar entre diferentes niveles de dificultad,
-    afectando parámetros como la salud y vidas del jugador, así como la salud del enemigo final.
+    Gestiona las configuraciones de dificultad del juego. Permite
+    definir y alternar entre diferentes niveles de dificultad, afectando
+    parámetros como la salud y vidas del jugador, así como la salud del
+    enemigo final.
     """
 
     @dataclass(frozen=True)

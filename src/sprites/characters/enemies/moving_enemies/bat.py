@@ -7,10 +7,11 @@ from sprites.characters.utils.animation_utils import update_animation
 
 class Bat(MovingEnemy):
     """
-    Implementa un enemigo murciélago en el juego.
-    Se mueve diagonalmente dentro de un área definida por límites superior e inferior,
-    y cambia de dirección cuando alcanza dichos límites. El murciélago oscila entre una posición
-    superior e inferior establecidas durante su inicialización.
+    Implementa un enemigo murciélago en el juego. Se mueve diagonalmente
+    dentro de un área definida por límites superior e inferior, y cambia
+    de dirección cuando alcanza dichos límites. El murciélago oscila
+    entre una posición superior e inferior establecidas durante su
+    inicialización.
     """
 
     def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations):

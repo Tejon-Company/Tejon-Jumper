@@ -10,7 +10,8 @@ from sprites.characters.utils.check_cooldown import check_cooldown
 
 class Game(metaclass=SingletonMeta):
     """
-    Gestiona el estado global del juego, incluyendo la salud del jugador, vidas, monedas y efectos de sonido.
+    Gestiona el estado global del juego, incluyendo la salud del
+    jugador, vidas, monedas y efectos de sonido.
     """
 
     def __init__(self):

@@ -6,8 +6,9 @@ from sprites.projectiles.projectiles_pools.acorn_pool import AcornPool
 
 class Squirrel(Shooter):
     """
-    Implementa una ardilla enemiga que dispara bellotas al jugador cuando está cerca.
-    Se define el comportamiento de disparo y animación.
+    Implementa una ardilla enemiga que dispara bellotas al jugador
+    cuando está cerca. Se define el comportamiento de disparo y
+    animación.
     """
 
     def __init__(

@@ -6,7 +6,8 @@ from sprites.characters.players.player import Player
 
 class HealthBerry(Berry):
     """
-    Implementa una baya que proporciona salud al jugador cuando la recoge.
+    Implementa una baya que proporciona salud al jugador cuando la
+    recoge.
     """
 
     def __init__(self, pos, surf, groups):

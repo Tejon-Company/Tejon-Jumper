@@ -4,10 +4,11 @@ from sprites.projectiles.projectile import Projectile
 
 class Acorn(Projectile):
     """
-    Implementa un proyectil de tipo bellota.
-    Maneja el comportamiento específico de las bellotas,
-    incluyendo su movimiento parabólico afectado por la gravedad y su dirección de lanzamiento.
-    Permite controlar la activación/desactivación del proyectil y actualizar su posición.
+    Implementa un proyectil de tipo bellota. Maneja el comportamiento
+    específico de las bellotas, incluyendo su movimiento parabólico
+    afectado por la gravedad y su dirección de lanzamiento. Permite
+    controlar la activación/desactivación del proyectil y actualizar su
+    posición.
     """
 
     def __init__(self, pos, surf, direction, groups, sprite_sheet_name, animations):

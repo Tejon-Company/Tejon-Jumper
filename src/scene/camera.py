@@ -5,10 +5,14 @@ from singletons.settings.resolution_settings import ResolutionSettings
 
 class Camera:
     """
-    Implementa la cámara que sigue al jugador en el juego. Controla qué parte del mundo de juego
-    es visible en la pantalla en un momento dado.
-    La cámara sigue al objetivo (generalmente el jugador) con una interpolación suave,
-    y aplica un desplazamiento a todas las entidades del juego para crear la ilusión de movimiento.
+    Implementa la cámara que sigue al jugador en el juego. Controla qué
+    parte del mundo de juego es visible en la pantalla en un momento
+    dado.
+
+    La cámara sigue al jugador con una interpolación suave y aplica un
+    desplazamiento a todas las entidades del juego para crear la ilusión
+    de movimiento.
+
     También maneja el dibujo de fondos con efecto parallax.
     """
 

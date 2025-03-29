@@ -7,8 +7,9 @@ from singletons.settings.resolution_settings import ResolutionSettings
 class SettingsMenu(Menu):
     """
     Responsable de mostrar y gestionar las opciones de configuración
-    como el volumen de la música y efectos, la dificultad del juego y la resolución
-    de pantalla. Permite al usuario modificar estos ajustes y volver al menú principal.
+    como el volumen de la música y efectos, la dificultad del juego y la
+    resolución de pantalla. Permite al usuario modificar estos ajustes y
+    volver al menú principal.
     """
 
     def __init__(self):
