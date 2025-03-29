@@ -4,24 +4,24 @@ from os.path import join
 import pygame
 from pygame.sprite import Group
 
-from berries.berrie_factory import berry_factory
-from characters.enemies.enemy_factory import enemy_factory
-from characters.enemies.moving_enemies.bear import Bear
-from characters.players.player import Player
-from characters.sprite import Sprite
 from environment.environment_factory import environment_factory
-from projectiles.projectiles_pools.acorn_pool import AcornPool
-from projectiles.projectiles_pools.spore_pool import SporePool
 from resource_manager import ResourceManager
 from scene.background import Background
 from scene.camera import Camera
-from scene.menus.pause_menu import PauseMenu
-from scene.menus.victory_menu import VictoryMenu
 from scene.scene import Scene
+from scene.ui.hud import HUD
+from scene.ui.menus.pause_menu import PauseMenu
+from scene.ui.menus.victory_menu import VictoryMenu
 from singletons.director import Director
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
-from ui.hud import HUD
+from sprites.berries.berrie_factory import berry_factory
+from sprites.characters.enemies.enemy_factory import enemy_factory
+from sprites.characters.enemies.moving_enemies.bear import Bear
+from sprites.characters.players.player import Player
+from sprites.projectiles.projectiles_pools.acorn_pool import AcornPool
+from sprites.projectiles.projectiles_pools.spore_pool import SporePool
+from sprites.sprite import Sprite
 
 
 class Level(Scene):
