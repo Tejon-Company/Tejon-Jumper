@@ -9,7 +9,10 @@ from sprites.characters.utils.animation_utils import (
     update_animation,
 )
 from sprites.characters.utils.check_cooldown import check_cooldown
-from sprites.characters.utils.collision_utils import is_below_collision
+from sprites.characters.utils.collision_utils import (
+    is_below_collision,
+    is_above_collision,
+)
 from sprites.characters.utils.normalize_direction import normalize_direction
 
 
@@ -145,6 +148,9 @@ class Bear(MovingEnemy):
     def _handle_vertical_collision(self, platform_rect):
         if is_below_collision(self.rect, self.old_rect, platform_rect):
             self.rect.bottom = platform_rect.top
+
+        if is_above_collision(self.rect, self.old_rect, platform_rect):
+            self.rect.top = platform_rect.bottom
 
         self.fall = 0
         self.direction.y = 0
