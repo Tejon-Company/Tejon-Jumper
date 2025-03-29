@@ -44,16 +44,6 @@ class Squirrel(Shooter):
         self.animation_frame = 1 if self.is_shooting else 0
         self._is_facing_right = False
 
-    def update(self, delta_time):
-        super().update(delta_time)
-        self._update_direction()
-
-    def _update_direction(self):
-        self._is_facing_right = self.player.rect.x > self.rect.x
-
-        if self._is_facing_right:
-            self.image = pygame.transform.flip(self.image, True, False)
-
     def _shoot(self):
         current_time = pygame.time.get_ticks()
         cooldown_passed = current_time - self.last_shot >= self.shoot_cooldown
