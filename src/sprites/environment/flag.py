@@ -1,4 +1,4 @@
-from environment.environment_element import EnvironmentElement
+from sprites.environment.environment_element import EnvironmentElement
 
 
 class Flag(EnvironmentElement):
