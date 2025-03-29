@@ -22,6 +22,10 @@ class MainMenu(Menu):
 
     def __init__(self):
         super().__init__()
+
+        pygame.mixer.pre_init()
+        pygame.mixer.init()
+
         self.resolution_settings = ResolutionSettings()
 
         title_font_size = self.resolution_settings.tile_size * 2
