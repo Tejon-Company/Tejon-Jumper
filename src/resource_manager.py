@@ -1,10 +1,16 @@
-import pygame
 from os.path import join
+
+import pygame
 from pytmx.util_pygame import load_pygame
+
 from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class ResourceManager:
+    """
+    Gestiona los recursos del juego como imágenes, sonidos, música, fuentes y mapas.
+    """
+
     _resources = {}
     _effects_volume = 1.0
     _loaded_sounds = []

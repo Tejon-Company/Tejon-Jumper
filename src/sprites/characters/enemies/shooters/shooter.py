@@ -1,12 +1,21 @@
-from sprites.characters.enemies.enemy import Enemy
-from sprites.projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
-from sprites.characters.utils.animation_utils import set_animation_parameters
 from abc import ABC, abstractmethod
-from pygame.math import Vector2 as vector
+
 import pygame
+from pygame.math import Vector2 as vector
+
+from sprites.characters.enemies.enemy import Enemy
+from sprites.characters.utils.animation_utils import set_animation_parameters
+from sprites.projectiles.projectiles_pools.projectiles_pool import ProjectilesPool
 
 
 class Shooter(Enemy, ABC):
+    """
+    Clase abstracta para enemigos que disparan al jugador.
+    Implementa la capacidad de disparar proyectiles cuando el jugador está cerca,
+    un sistema de enfriamiento entre disparos y gestión de animaciones para
+    representar visualmente la acción de disparar.
+    """
+
     def __init__(
         self,
         pos,

@@ -3,12 +3,18 @@ from typing import final
 
 from pygame.sprite import collide_rect
 
-from sprites.characters.character import Character
 from resource_manager import ResourceManager
 from singletons.game import Game
+from sprites.characters.character import Character
 
 
 class Enemy(Character, ABC):
+    """
+    Clase abstracta que implementa a un enemigo en el juego.
+    Define el comportamiento básico de los enemigos, incluyendo la
+    detección de colisiones con el jugador, la gestión de daño y su derrota.
+    """
+
     def __init__(
         self,
         pos,

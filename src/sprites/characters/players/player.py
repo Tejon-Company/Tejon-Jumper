@@ -1,16 +1,24 @@
-from sprites.characters.utils.check_cooldown import check_cooldown
-from sprites.characters.utils.normalize_direction import normalize_direction
-from sprites.characters.utils.collision_utils import *
-from sprites.characters.utils.animation_utils import *
-from sprites.characters.character import Character
+import pygame
+from pygame.math import Vector2 as vector
+
 from resource_manager import ResourceManager
 from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
-from pygame.math import Vector2 as vector
-import pygame
+from sprites.characters.character import Character
+from sprites.characters.utils.animation_utils import *
+from sprites.characters.utils.check_cooldown import check_cooldown
+from sprites.characters.utils.collision_utils import *
+from sprites.characters.utils.normalize_direction import normalize_direction
 
 
 class Player(Character):
+    """
+    Implementa al personaje controlado por el jugador.
+    Maneja toda la lógica relacionada con el movimiento,
+    animaciones, estados especiales como el modo furia (rage) y
+    la energía del jugador.
+    """
+
     def __init__(self, pos, surf, groups, level_width):
         super().__init__(pos, surf, groups, None)
 

@@ -1,9 +1,15 @@
+import pygame
+
 from sprites.characters.enemies.shooters.shooter import Shooter
 from sprites.projectiles.projectiles_pools.acorn_pool import AcornPool
-import pygame
 
 
 class Squirrel(Shooter):
+    """
+    Implementa una ardilla enemiga que dispara bellotas al jugador cuando está cerca.
+    Se define el comportamiento de disparo y animación.
+    """
+
     def __init__(
         self,
         pos,

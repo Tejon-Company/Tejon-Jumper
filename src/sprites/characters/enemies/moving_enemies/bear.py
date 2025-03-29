@@ -1,5 +1,7 @@
 import pygame
 
+from singletons.settings.difficulty_settings import DifficultySettings
+from singletons.settings.resolution_settings import ResolutionSettings
 from sprites.characters.enemies.moving_enemies.moving_enemy import MovingEnemy
 from sprites.characters.utils.animation_utils import (
     create_animation_rects,
@@ -9,11 +11,16 @@ from sprites.characters.utils.animation_utils import (
 from sprites.characters.utils.check_cooldown import check_cooldown
 from sprites.characters.utils.collision_utils import is_below_collision
 from sprites.characters.utils.normalize_direction import normalize_direction
-from singletons.settings.difficulty_settings import DifficultySettings
-from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class Bear(MovingEnemy):
+    """
+    Implementa un enemigo tipo oso en el juego.
+    Este enemigo se mueve horizontalmente en las plataformas y puede saltar. Tiene puntos de salud
+    que se reducen cuando recibe daño del jugador.
+    A medida que recibe daño, aumenta su velocidad.
+    """
+
     def __init__(
         self,
         pos,

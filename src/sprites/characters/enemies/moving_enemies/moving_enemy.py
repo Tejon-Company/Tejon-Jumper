@@ -2,16 +2,23 @@ from abc import ABC
 from random import choice
 
 import pygame
+from pygame.math import Vector2 as vector
+
 from sprites.characters.enemies.enemy import Enemy
 from sprites.characters.utils.animation_utils import (
     set_animation_parameters,
     update_animation,
 )
 from sprites.characters.utils.collision_utils import is_on_surface
-from pygame.math import Vector2 as vector
 
 
 class MovingEnemy(Enemy, ABC):
+    """
+    Clase abstracta que implementa un enemigo con movimiento.
+    Implementa el comportamiento básico del movimiento horizontal
+    del enemigo y la detección de colisiones con el entorno.
+    """
+
     def __init__(
         self,
         pos,
