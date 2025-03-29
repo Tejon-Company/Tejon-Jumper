@@ -61,7 +61,7 @@ class HUD:
 
         coin_icon = coin_icon_image.subsurface(
             (
-                ((cls.resolution_settings.tile_size * 3) + 2),
+                ((cls.resolution_settings.tile_size * 3) + 3),
                 0,
                 cls.resolution_settings.tile_size,
                 cls.resolution_settings.tile_size,
@@ -76,7 +76,7 @@ class HUD:
 
         energy_icon = energy_icon_image.subsurface(
             (
-                ((cls.resolution_settings.tile_size * 2) + 1),
+                ((cls.resolution_settings.tile_size * 2) + 2),
                 0,
                 cls.resolution_settings.tile_size,
                 cls.resolution_settings.tile_size,

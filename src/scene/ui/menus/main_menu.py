@@ -3,6 +3,7 @@ import pygame
 from resource_manager import ResourceManager
 from scene.level import Level
 from scene.scene import Scene
+from scene.ui.hud import HUD
 from scene.ui.menus.menu import Menu
 from scene.ui.menus.menu_utils import (
     check_if_button_was_clicked,
@@ -38,6 +39,7 @@ class MainMenu(Menu):
         )
 
         Scene._setup_music("main_menu_music.ogg")
+        HUD.initialize()
 
     def _mouse_button_down(self, pos):
         if check_if_button_was_clicked(self.play_button, pos):
