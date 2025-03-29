@@ -4,7 +4,6 @@ from os.path import join
 import pygame
 from pygame.sprite import Group
 
-from environment.environment_factory import environment_factory
 from resource_manager import ResourceManager
 from scene.background import Background
 from scene.camera import Camera
@@ -19,6 +18,7 @@ from sprites.berries.berrie_factory import berry_factory
 from sprites.characters.enemies.enemy_factory import enemy_factory
 from sprites.characters.enemies.moving_enemies.bear import Bear
 from sprites.characters.players.player import Player
+from sprites.environment.environment_factory import environment_factory
 from sprites.projectiles.projectiles_pools.acorn_pool import AcornPool
 from sprites.projectiles.projectiles_pools.spore_pool import SporePool
 from sprites.sprite import Sprite

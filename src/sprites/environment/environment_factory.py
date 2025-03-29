@@ -1,5 +1,5 @@
-from environment.rock import Rock
-from environment.flag import Flag
+from sprites.environment.rock import Rock
+from sprites.environment.flag import Flag
 
 
 def environment_factory(enviroment_element, groups, player, level):
