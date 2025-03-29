@@ -33,10 +33,9 @@ def draw_button_with_label(display_surface, button_text, label_text, font, y_pos
 
     Args:
         display_surface: Superficie de pygame donde dibujar.
-        button_text: Texto que se mostrará en el botón.
-        label_text: Texto que se mostrará en la etiqueta.
-        font: Fuente para renderizar los textos.
-        y_pos: Posición vertical del botón.
+        button_text: Texto que se mostrará en el botón. label_text:
+        Texto que se mostrará en la etiqueta. font: Fuente para
+        renderizar los textos. y_pos: Posición vertical del botón.
 
     Returns:
         Rect: Rectángulo que representa el botón dibujado.
@@ -61,11 +60,10 @@ def display_label(display_surface, text, x, y, font):
     Muestra una etiqueta de texto con fondo en la pantalla.
 
     Args:
-        display_surface: Superficie de pygame donde dibujar.
-        text: Texto a mostrar en la etiqueta.
-        x: Posición horizontal de la etiqueta.
-        y: Posición vertical de la etiqueta.
-        font: Fuente para renderizar el texto.
+        display_surface: Superficie de pygame donde dibujar. text: Texto
+        a mostrar en la etiqueta. x: Posición horizontal de la etiqueta.
+        y: Posición vertical de la etiqueta. font: Fuente para
+        renderizar el texto.
     """
 
     padding = 4
@@ -91,12 +89,12 @@ def draw_button(display_surface, text, font, y_pos, width=None, height=None):
     Dibuja un botón en la pantalla.
 
     Args:
-        display_surface: Superficie de pygame donde dibujar.
-        text: Texto a mostrar en el botón.
-        font: Fuente para renderizar el texto.
-        y_pos: Posición vertical del botón.
-        width: Ancho del botón. Si es None, se usa un valor proporcional a la ventana.
-        height: Alto del botón. Si es None, se usa un valor proporcional a la ventana.
+        display_surface: Superficie de pygame donde dibujar. text: Texto
+        a mostrar en el botón. font: Fuente para renderizar el texto.
+        y_pos: Posición vertical del botón. width: Ancho del botón. Si
+        es None, se usa un valor proporcional a la ventana. height: Alto
+        del botón. Si es None, se usa un valor proporcional a la
+        ventana.
 
     Returns:
         Rect: Rectángulo que representa el botón dibujado.
@@ -132,7 +130,8 @@ def draw_background(display_surface, background=None):
 
     Args:
         display_surface: Superficie de pygame donde dibujar el fondo.
-        background: Imagen de fondo opcional. Si es None, se carga la imagen predeterminada.
+        background: Imagen de fondo opcional. Si es None, se carga la
+        imagen predeterminada.
     """
 
     background = ResourceManager.load_image("menu_background.jpeg")
@@ -144,9 +143,9 @@ def draw_music_volume_bar(display_surface, y_pos, font):
     Dibuja una barra de ajuste para el volumen de la música.
 
     Args:
-        display_surface: Superficie de pygame donde dibujar.
-        y_pos: Posición vertical de la barra.
-        font: Fuente para renderizar el texto.
+        display_surface: Superficie de pygame donde dibujar. y_pos:
+        Posición vertical de la barra. font: Fuente para renderizar el
+        texto.
     """
 
     volume = ResourceManager.get_music_volume()
@@ -160,9 +159,9 @@ def draw_effects_volume_bar(display_surface, y_pos, font):
     Dibuja una barra de ajuste para el volumen de los efectos de sonido.
 
     Args:
-        display_surface: Superficie de pygame donde dibujar.
-        y_pos: Posición vertical de la barra.
-        font: Fuente para renderizar el texto.
+        display_surface: Superficie de pygame donde dibujar. y_pos:
+        Posición vertical de la barra. font: Fuente para renderizar el
+        texto.
     """
 
     volume = ResourceManager.get_effects_volume()

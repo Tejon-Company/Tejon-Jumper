@@ -6,12 +6,15 @@ def create_animation_rects(
 ):
     """
     Crea una lista de rectángulos para animación basados en coordenadas
-    de sprite. Args:
+    de sprite.
+
+    Args:
         frame_start_x: Índice inicial del frame en la fila de sprites.
         number_of_frames: Cantidad de frames a crear. sprite_width:
         Ancho de cada sprite. Por defecto usa el tamaño de tile de las
         configuraciones. sprite_height: Alto de cada sprite. Por defecto
         usa el tamaño de tile de las configuraciones.
+
     Returns:
         Lista de tuplas (x, y, ancho, alto) representando los
         rectángulos de cada frame.
@@ -37,9 +40,12 @@ def create_animation_rects(
 def set_animation_parameters(entity):
     """
     Establece parámetros de animación iniciales para una entidad.
+
     Args:
-        entity: La entidad a la que se le configurarán los parámetros de animación.
-                Debe tener los atributos animation_frame, animation_speed y animation_time.
+        entity: La entidad a la que se le configurarán los parámetros de
+        animación.
+                Debe tener los atributos animation_frame,
+                animation_speed y animation_time.
     """
 
     entity.animation_frame = 0
@@ -50,10 +56,12 @@ def set_animation_parameters(entity):
 def update_animation(delta_time, entity, animations):
     """
     Actualiza la animación de una entidad según el tiempo transcurrido.
+
     Args:
-        delta_time: Tiempo transcurrido desde el último frame.
-        entity: Entidad cuya animación debe ser actualizada.
-        animations: Diccionario que contiene las animaciones disponibles para la entidad.
+        delta_time: Tiempo transcurrido desde el último frame. entity:
+        Entidad cuya animación debe ser actualizada. animations:
+        Diccionario que contiene las animaciones disponibles para la
+        entidad.
     """
 
     _update_animation_frame(delta_time, entity, animations)

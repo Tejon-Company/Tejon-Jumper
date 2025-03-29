@@ -4,16 +4,16 @@ from sprites.berries.energy_berry import EnergyBerry
 from sprites.berries.rage_berry import RageBerry
 
 
-def berry_factory(berry, groups) -> None:
+def berry_factory(berry, groups):
     """
     Factoría que crea diferentes tipos de bayas según el nombre
-    proporcionado y los añade a los grupos especificados. Args:
+    proporcionado y los añade a los grupos especificados.
+
+    Args:
         berry: Objeto berry que contiene la información necesaria para
         crear la baya (nombre, posición, imagen). groups: Grupos de
         sprites a los que se añadirá la baya creada.
-    Returns:
-        None, pero crea y añade la baya correspondiente a los grupos
-        especificados.
+
     Raises:
         ValueError: Si el nombre de la baya no corresponde a ninguno de
         los tipos válidos.

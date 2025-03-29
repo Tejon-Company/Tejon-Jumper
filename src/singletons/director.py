@@ -8,7 +8,7 @@ from singletons.singleton_meta import SingletonMeta
 class Director(metaclass=SingletonMeta):
     """
     Gestiona el juego. Controla su flujo, maneja la pila de escenas,
-    actualiza la pantalla y maneja la resolución del juego.
+    actualiza la pantalla y maneja el tamaño de ventana del juego.
     """
 
     def __init__(self):

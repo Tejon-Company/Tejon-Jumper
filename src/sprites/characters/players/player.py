@@ -15,7 +15,8 @@ class Player(Character):
     """
     Implementa al personaje controlado por el jugador. Maneja toda la
     lógica relacionada con el movimiento, animaciones, estados
-    especiales como el modo furia (rage) y la energía del jugador.
+    especiales como el modo furia (rage), la energía del jugador y las
+    colisioines con las plataformas.
     """
 
     def __init__(self, pos, surf, groups, level_width):

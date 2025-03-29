@@ -5,7 +5,7 @@ from pygame.math import Vector2 as vector
 
 class MushroomDirection(Enum):
     """
-    Enumeración que representa la posición del sombrero de las setas.
+    Enumeración que representa la dirección a la que apuntan las setas.
     """
 
     LEFT = (vector(-1, 0), 3)

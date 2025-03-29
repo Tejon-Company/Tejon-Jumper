@@ -9,7 +9,7 @@ class HUD:
     Gestiona la interfaz gráfica de usuario que muestra información
     relevante durante el juego, como la salud del jugador, vidas
     restantes, monedas recolectadas, energía y salud del oso. Dibuja
-    varios elementos en la pantalla:
+    los siguientes elementos en la pantalla:
 
     - Corazones que representan la salud del jugador
 

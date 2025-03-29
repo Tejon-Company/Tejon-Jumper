@@ -9,9 +9,7 @@ class Bat(MovingEnemy):
     """
     Implementa un enemigo murciélago en el juego. Se mueve diagonalmente
     dentro de un área definida por límites superior e inferior, y cambia
-    de dirección cuando alcanza dichos límites. El murciélago oscila
-    entre una posición superior e inferior establecidas durante su
-    inicialización.
+    de dirección cuando alcanza dichos límites.
     """
 
     def __init__(self, pos, surf, groups, player, sprite_sheet_name, animations):
