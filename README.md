@@ -54,9 +54,6 @@ Para ejecutar el juego, basta con situarse en la carpeta del proyecto y ejecutar
 >
 > Además, la resolución en 1880x1030 puede mostrarse de forma incorrecta si el usuario tiene activado el escalado en los ajustes de pantalla de su ordenador, por lo que si es el caso, se recomienda, o bien jugar en la otra resolución, o bien desactivar el escalado.
 
-ResolutionSettings._Resolution("hd", 1280, 720, 32),
-ResolutionSettings._Resolution("full_hd", 1880, 1030, 48),
-
 ### Controles 🕹️🎮
 
 - **Mover al tejón**. Flechas izquierda y derecha.
