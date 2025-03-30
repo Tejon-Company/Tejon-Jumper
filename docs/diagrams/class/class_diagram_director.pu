@@ -7,18 +7,15 @@ class SingletonMeta {
 }
 
 class Director {
-    - _loop(scene)
-    + pop_scene()
-    + push_scene(scene)
+
 }
 
 class ResolutionSettings {
-    + update_resolution()
     
 }
 
 class DifficultySettings {
-    + update_difficulty()
+
 }
 
 class Game {
@@ -26,13 +23,11 @@ class Game {
 }
 
 abstract class Scene {
-    + events(event_list) {abstract}
-    + draw(display_surface) {abstract}
+
 }
 
 class Level {
-    + update(delta_time)
-    + go_to_next_level()
+
 }
 
 class GameOver {
@@ -44,7 +39,7 @@ class Camera {
 }
 
 class Background {
-    + apply_parallax(camera_x)
+
 }
 
 abstract class Menu {
