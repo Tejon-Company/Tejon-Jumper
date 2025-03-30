@@ -1,0 +1,152 @@
+@startuml Component Diagram 
+
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+!include <azure/AzureCommon>
+
+title Component Diagram
+
+scale 1
+scale 1500 width 
+scale 1000 height  
+skinparam dpi 150
+
+Person(user, "User", "wants to play the game")
+
+System_Boundary(TJ, "Tejon Jumper System") {
+    Component(main, "Main", "Contains the main.py file")
+
+    Component(singletons, "Singletons") <<folder>> {
+        Component(singleton, "Singleton")
+        Component(director, "Director", "Manages the scenes")
+        Component(settings, "Settings") <<folder>> {
+            Component(difficultySettings, "Difficulty Settings", "Manages the difficulty settings")
+            Component(resolutionSettings, "Resolution Settings", "Manages the resolution settings")
+        }
+        Component(game, "Game", "Manages the game")
+    }
+
+    Component(scenes, "Scene") <<folder>> {
+        Component(scene, "Scene", "Abstract class for all the scenes")
+        Component(level, "Level", "Manages the level")
+        Component(gameOver, "Game Over", "Manages the game over scene")
+        Component(camera, "Camera", "Manages the camera")
+        Component(background, "Background", "Manages the background")
+        Component(UI, "UI") <<folder>> {
+            Component(HUD, "HUD", "Manages the HUD")
+            Component(menus, "Menus") <<folder>> {
+            Component(menu, "Menu", "Abstract class for all the menus")
+            Component(mainMenu, "Main Menu", "Manages the main menu")
+            Component(pauseMenu, "Pause Menu", "Manages the pause menu")
+            Component(settingsMenu, "Settings Menu", "Manages the settings menu")
+            Component(victoryMenu, "Victory Menu", "Manages the victory menu")
+            Component(menuUtils, "Menu Utils", "Contains common methods for all the menus")
+            }
+        }   
+    }
+    
+    Component(sprites, "Sprites") <<folder>> {
+        Component(sprite, "Sprite")
+        Component(berries, "Berries") <<folder>> {
+        Component(berryFactory, "Berry Factory", "Factory for the berries")
+        Component(berry, "Berry", "Abstract class for all the berries")
+        Component(coinBerry, "Coin Berry", "Manages the coin berry")
+        Component(energyBerry, "Energy Berry", "Manages the energy berry")
+        Component(healthBerry, "Health Berry", "Manages the health berry")
+        Component(rageBerry, "Rage Berry", "Manages the rage berry")
+        }
+
+        Component(characters, "Characters") <<folder>> {
+            Component(character, "Character", "Abstract class for all the characters in the game")
+            Component(utils, "Utils", "Contains classes and methods for all characters") <<folder>> {
+
+            }
+            Component(player, "Players") <<folder>> {
+                Component(playerCharacter, "Player Character", "Manages the player character")
+            }
+            Component(enemies, "Enemies") <<folder>> {
+                Component(enemyFactory, "Enemy Factory", "Factory for the enemies")
+                Component(enemy, "Enemy", "Abstract class for all the enemies")
+                Component(movingEnemies, "Moving Enemies") <<folder>> {
+                    Component(movingEnemy, "Moving Enemy", "Abstract class for all the moving enemies")
+                    Component(bat, "Bat", "Manages the bat enemy")
+                    Component(bear, "Bear", "Manages the bear enemy")
+                    Component(fox, "Fox", "Manages the fox enemy")
+                    Component(hedgehog, "Hedgehog", "Manages the hedgehog enemy")
+                }
+                Component(shooters, "Shooters") <<folder>> {
+                    Component(shooter, "Shooter", "Abstract class for all the shooters")
+                    Component(mushroom, "Mushroom", "Manages the mushroom shooter")
+                    Component(squirrel, "Squirrel", "Manages the squirrel shooter")
+                }
+            }
+        }
+
+        Component(environment, "Environment") <<folder>> {
+            Component(environmentElement, "Environment Element", "Abstract class for all the environment elements")
+            Component(environmentFactory, "Environment Factory", "Factory for the environment elements")
+            Component(flag, "Flag", "Manages the flag")
+            Component(rock, "Rock", "Manages the rock")
+        }
+
+        Component(Projectiles, "Projectiles") <<folder>> {
+            Component(projectile, "Projectile", "Abstract class for all the projectiles")
+            Component(acorn, "Acorn", "Manages the acorn projectile")
+            Component(spore, "Spore", "Manages the spore projectile")
+            Component(projectilesPool, "Projectiles Pool", "Manages the pool of projectiles") <<folder>> {
+                Component(projectilePool, "Projectile Pool", "Abstract class for all the projectile pools")
+                Component(acornPool, "Acorn Pool", "Manages the pool of acorns")
+                Component(sporePool, "Spore Pool", "Manages the pool of spores")
+            }
+        }
+    }
+}
+
+Rel(user, main, "Executes the game")
+
+singleton <|.. director
+singleton <|.. settings
+singleton <|.. game
+scene <|-- level
+scene <|-- gameOver
+scene <|-- menu
+menu <|-- mainMenu
+menu <|-- pauseMenu
+menu <|-- settingsMenu
+menu <|-- victoryMenu
+sprite <|-- berries
+sprite <|-- characters
+sprite <|-- Projectiles
+berry <|-- coinBerry
+berry <|-- energyBerry
+berry <|-- healthBerry
+berry <|-- rageBerry
+projectilePool <|-- sporePool
+projectilePool <|-- acornPool
+projectile <|-- spore
+projectile <|-- acorn
+character <|-- player
+character <|-- enemies
+enemy <|-- movingEnemies
+enemy <|-- shooters
+movingEnemy <|-- bat
+movingEnemy <|-- bear
+movingEnemy <|-- fox
+movingEnemy <|-- hedgehog
+shooter <|-- squirrel
+shooter <|-- mushroom
+sporePool o-- spore
+acornPool o-- acorn
+director <--> scene
+game <--> level
+level --> camera
+level --> background
+level --> UI
+level --> sprites
+shooters --> Projectiles
+main --> singletons
+
+environmentElement <|-- flag
+environmentElement <|-- rock
+
+@enduml

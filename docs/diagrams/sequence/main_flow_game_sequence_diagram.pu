@@ -22,7 +22,7 @@ Director -> MainMenu: new()
 activate MainMenu
 Director -> MainMenu: loop()
 MainMenu --> Director: Wait for event
-User -> MainMenu: Press "Juegar"
+User -> MainMenu: Press "Jugar"
 MainMenu -> Director: change_scene(first_level)
 deactivate MainMenu
 Director -> Level: new()

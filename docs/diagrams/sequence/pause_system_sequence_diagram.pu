@@ -24,7 +24,7 @@ PauseMenu -> PauseMenu : draw()
 alt [Press continue]
     PauseMenu -> Director : pop_scene()
     deactivate PauseMenu
-    Director -> Level : stack.pop()
+    Director -> Level : loop()
     activate Level
     deactivate Level
     

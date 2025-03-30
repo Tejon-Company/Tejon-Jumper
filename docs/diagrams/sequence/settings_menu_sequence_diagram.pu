@@ -26,7 +26,7 @@ SettingsMenu --> Director: Wait for event
 User -> SettingsMenu: Press "Volver"
 SettingsMenu -> Director: pop_scene()
 deactivate SettingsMenu
-Director -> MainMenu: stack.pop()
+Director -> MainMenu: loop()
 
 
 @enduml

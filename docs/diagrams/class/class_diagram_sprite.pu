@@ -3,7 +3,8 @@
 title general class diagram (II)
 
 class Level {
-    
+    + update(delta_time)
+    + go_to_next_level()
 }
 
 class Sprite {
@@ -11,7 +12,7 @@ class Sprite {
 }
 
 abstract class Berry {
-    
+    + update(player) {abstract}
 }
 
 class CoinBerry {
@@ -31,7 +32,8 @@ class RageBerry {
 }
 
 abstract class Projectile {
-    
+    - _move(delta_time) {abstract}
+    - _deactive_projectile() {abstract}
 }
 
 class Spore {
@@ -43,7 +45,8 @@ class Acorn{
 }
 
 abstract class ProjectilesPool {
-    
+    - _create_pool() {abstract}
+    + shoot(pos_x, pos_y, direction) {abstract}
 }
 
 class AcornPool {
@@ -55,7 +58,7 @@ class SporePool {
 }
 
 abstract class Character {
-    
+    + update(delta_time) {abstract}
 }
 
 class Player {
@@ -63,11 +66,12 @@ class Player {
 }
 
 abstract class Enemy {
-    
+    - _defeat()
+    - _deal_damage_to_player()
 }
 
 abstract class MovingEnemy {
-    
+    - _move(delta_time)
 }
 
 class Hedgehog {
@@ -87,7 +91,7 @@ class Bear {
 }
 
 abstract class Shooter {
-    
+    - _shoot() {abstract}
 }
 
 class Squirrel {
@@ -133,7 +137,6 @@ Character <|-- Enemy
 
 Enemy <|-- MovingEnemy
 Enemy <|-- Shooter
-Enemy --> ResourceManager
 
 MovingEnemy <|-- Hedgehog
 MovingEnemy <|-- Fox
