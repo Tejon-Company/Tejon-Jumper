@@ -48,9 +48,6 @@ class Mushroom(Shooter):
         self.current_state = self.MushroomState.IDLE
         self.state_timer = 0
 
-    def update(self, delta_time):
-        super().update(delta_time)
-
     def _shoot(self):
         current_time = pygame.time.get_ticks()
         had_cooldown_passed = current_time - self.last_shot >= self.shoot_cooldown

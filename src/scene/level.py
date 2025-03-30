@@ -63,6 +63,7 @@ class Level(Scene):
         self.resolution_settings = ResolutionSettings()
         self.director = Director()
         self.game = Game()
+        self.hud = HUD()
         self.current_level = current_level
 
         self.is_on_pause = False
@@ -269,7 +270,7 @@ class Level(Scene):
 
         self._draw_group(display_surface, "berries")
 
-        HUD.draw_hud(
+        self.hud.draw_hud(
             display_surface,
             self.game.health_points,
             self.game.remaining_lives,

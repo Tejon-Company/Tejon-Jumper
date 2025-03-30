@@ -41,17 +41,11 @@ class Shooter(Enemy, ABC):
         super().update(delta_time)
         self._shoot()
         self._update_animation_frame(delta_time)
-        self.update_sprite()
+        self._update_sprite()
 
+    @abstractmethod
     def _shoot(self):
-        current_time = pygame.time.get_ticks()
-        cooldown_passed = current_time - self.last_shot >= self.shoot_cooldown
-        is_shooting = cooldown_passed and self._is_player_near()
-
-        if is_shooting:
-            self.is_shooting = True
-            self.projectiles_pool.shoot(self.pos[0], self.pos[1])
-            self.last_shot = current_time
+        pass
 
     def _is_player_near(self):
         player_pos = vector(self.player.rect.center)
@@ -63,6 +57,6 @@ class Shooter(Enemy, ABC):
     def _update_animation_frame(self, delta_time):
         pass
 
-    def update_sprite(self):
+    def _update_sprite(self):
         frame_rect = self.animations[self.animation_frame]
         self.image = self.sprite_sheet.subsurface(frame_rect)

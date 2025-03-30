@@ -33,6 +33,16 @@ class Squirrel(Shooter):
         self.rect = self.image.get_frect(topleft=pos)
         self._is_facing_right = False
 
+    def update(self, delta_time):
+        super().update(delta_time)
+        self._update_direction()
+
+    def _update_direction(self):
+        self._is_facing_right = self.player.rect.x > self.rect.x
+
+        if self._is_facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
+
     def _update_animation_frame(self, delta_time):
         if self.is_shooting:
             self.shooting_timer += delta_time * 1000
@@ -43,16 +53,6 @@ class Squirrel(Shooter):
 
         self.animation_frame = 1 if self.is_shooting else 0
         self._is_facing_right = False
-
-    def update(self, delta_time):
-        super().update(delta_time)
-        self._update_direction()
-
-    def _update_direction(self):
-        self._is_facing_right = self.player.rect.x > self.rect.x
-
-        if self._is_facing_right:
-            self.image = pygame.transform.flip(self.image, True, False)
 
     def _shoot(self):
         current_time = pygame.time.get_ticks()

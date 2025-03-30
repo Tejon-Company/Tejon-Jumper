@@ -1,6 +1,5 @@
 from resource_manager import ResourceManager
 from scene.game_over import GameOver
-from scene.ui.hud import HUD
 from singletons.director import Director
 from singletons.settings.difficulty_settings import DifficultySettings
 from singletons.settings.resolution_settings import ResolutionSettings
@@ -29,7 +28,6 @@ class Game(metaclass=SingletonMeta):
         self.last_health_time_ms = None
 
         self._setup_sound_effects()
-        HUD.initialize()
 
     def _setup_sound_effects(self):
         self.game_over_sound = ResourceManager.load_sound_effect("game_over.ogg")

@@ -6,7 +6,6 @@ from singletons.game import Game
 from singletons.settings.resolution_settings import ResolutionSettings
 from sprites.characters.character import Character
 from sprites.characters.utils.animation_utils import *
-from sprites.characters.utils.check_cooldown import check_cooldown
 from sprites.characters.utils.collision_utils import *
 from sprites.characters.utils.normalize_direction import normalize_direction
 
@@ -79,48 +78,13 @@ class Player(Character):
 
     def update(self, delta_time, environment_rects):
         self.old_rect = self.rect.copy()
-
         self.environment_rects = environment_rects
-
         self._input()
         self._move(delta_time)
         self._detect_platform_contact()
         self._update_energy(delta_time)
         self._update_animation(delta_time)
         self._update_rage_state()
-
-    def _update_energy(self, delta_time):
-        if self.is_in_rage:
-            self.recover_energy()
-
-        elif self.is_sprinting and self.energy > 0:
-            self.energy -= self.energy_depletion_rate * delta_time
-            self.energy = max(0, self.energy)
-
-    def _update_animation(self, delta_time):
-        self._determine_current_animation()
-
-        update_animation(delta_time, self, self.animations[self.current_animation])
-
-    def _determine_current_animation(self):
-        if self.is_sprinting:
-            self.current_animation = "roll"
-        elif not self.on_surface:
-            self.current_animation = "jump"
-        elif abs(self.direction.x) > 0:
-            self.current_animation = "run"
-        else:
-            self.current_animation = "idle"
-
-        if self.direction.x != 0:
-            self.facing_right = self.direction.x > 0
-
-    def update_sprite(self):
-        frame_rect = self.animations[self.current_animation][self.animation_frame]
-        self.image = self.current_sprite_sheet.subsurface(frame_rect)
-
-        if not self.facing_right:
-            self.image = pygame.transform.flip(self.image, True, False)
 
     def _input(self):
         keys = pygame.key.get_pressed()
@@ -170,10 +134,8 @@ class Player(Character):
 
     def _get_boundaries(self):
         tile_size = self.resolution_settings.tile_size
-
         left_boundary = 0
         right_boundary = self.level_width * tile_size - tile_size * 2
-
         return left_boundary, right_boundary
 
     def _move_vertically(self, delta_time):
@@ -224,6 +186,36 @@ class Player(Character):
         self.on_surface = is_on_surface(
             self.rect, self.platform_rects, self.environment_rects
         )
+
+    def _update_energy(self, delta_time):
+        if self.is_in_rage:
+            self.recover_energy()
+        elif self.is_sprinting and self.energy > 0:
+            self.energy -= self.energy_depletion_rate * delta_time
+            self.energy = max(0, self.energy)
+
+    def _update_animation(self, delta_time):
+        self._determine_current_animation()
+        update_animation(delta_time, self, self.animations[self.current_animation])
+
+    def _determine_current_animation(self):
+        if self.is_sprinting:
+            self.current_animation = "roll"
+        elif not self.on_surface:
+            self.current_animation = "jump"
+        elif abs(self.direction.x) > 0:
+            self.current_animation = "run"
+        else:
+            self.current_animation = "idle"
+
+        if self.direction.x != 0:
+            self.facing_right = self.direction.x > 0
+
+    def update_sprite(self):
+        frame_rect = self.animations[self.current_animation][self.animation_frame]
+        self.image = self.current_sprite_sheet.subsurface(frame_rect)
+        if not self.facing_right:
+            self.image = pygame.transform.flip(self.image, True, False)
 
     def recover_energy(self):
         self.energy = self.max_energy
