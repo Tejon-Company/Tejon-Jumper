@@ -1,0 +1,166 @@
+@startuml Class Diagram Sprite
+
+title general class diagram (II)
+
+class Level {
+
+}
+
+class Sprite {
+    
+}
+
+abstract class Berry {
+
+}
+
+class CoinBerry {
+    
+}
+
+class EnergyBerry {
+    
+}
+
+class HealthBerry {
+    
+}
+
+class RageBerry {
+    
+}
+
+abstract class Projectile {
+
+}
+
+class Spore {
+    
+}
+
+class Acorn{
+    
+}
+
+abstract class ProjectilesPool {
+
+}
+
+class AcornPool {
+    
+}
+
+class SporePool {
+    
+}
+
+abstract class Character {
+
+}
+
+class Player {
+    
+}
+
+abstract class Enemy {
+
+}
+
+abstract class MovingEnemy {
+
+}
+
+class Hedgehog {
+    
+}
+
+class Fox {
+    
+}
+
+class Bat {
+    
+}
+
+class Bear {
+    
+}
+
+abstract class Shooter {
+
+}
+
+class Squirrel {
+    
+}
+
+class Mushroom {
+    
+}
+
+enum MushroomDirection {
+    
+}
+
+enum MushroomState {
+    
+}
+
+abstract class EnviromentElement {
+
+}
+
+class Flag {
+
+}
+
+class Rock {
+
+}
+
+Level --> Sprite
+
+Sprite <|-d- Berry
+Sprite <|-d- Character
+Sprite <|-d- Projectile
+Sprite <|-d- EnviromentElement
+
+Berry <|-d- CoinBerry
+Berry <|-d- EnergyBerry
+Berry <|-d- HealthBerry
+Berry <|-d- RageBerry
+
+
+ProjectilesPool <|-d- SporePool
+ProjectilesPool <|-d- AcornPool
+
+
+Projectile <|-d- Spore
+Projectile <|-d- Acorn
+
+SporePool o-- Spore
+AcornPool o-- Acorn
+
+Character <|-d- Player
+Character <|-d- Enemy
+
+Enemy <|-d- MovingEnemy
+Enemy <|-d- Shooter
+
+MovingEnemy <|-d- Hedgehog
+MovingEnemy <|-d- Fox
+MovingEnemy <|-d- Bat
+MovingEnemy <|-d- Bear
+
+Shooter <|-d- Squirrel
+Shooter <|-d- Mushroom
+Shooter --> ProjectilesPool
+Squirrel --> AcornPool
+Mushroom --> MushroomDirection
+Mushroom --> MushroomState
+Mushroom --> SporePool
+
+EnviromentElement <|-d- Flag
+EnviromentElement <|-d- Rock
+
+@enduml
