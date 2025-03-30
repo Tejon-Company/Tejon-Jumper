@@ -1,0 +1,33 @@
+@startuml Settings Menu Sequence Diagram
+
+title Settings Menu
+
+actor User
+participant Main
+participant Director
+participant MainMenu as "Main Menu"
+participant SettingsMenu as "Settings Menu"
+
+activate Main
+User -> Main: Executes the program
+Main -> Director: new()
+activate Director
+Main -> Director: push_scene(MainMenu)
+Main -> Director: run()
+Director -> MainMenu: new()
+activate MainMenu
+Director -> MainMenu: loop()
+MainMenu --> Director: Wait for event
+User -> MainMenu: Press "Ajustes"
+MainMenu -> Director: push_scene(SettingsMenu)
+Director -> SettingsMenu: new()
+activate SettingsMenu
+Director -> SettingsMenu : loop()
+SettingsMenu --> Director: Wait for event
+User -> SettingsMenu: Press "Volver"
+SettingsMenu -> Director: change_scene()
+deactivate SettingsMenu
+Director -> MainMenu: loop()
+
+
+@enduml

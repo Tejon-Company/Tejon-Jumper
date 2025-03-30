@@ -1,0 +1,97 @@
+@startuml Class Diagram 1
+
+title general class diagram (I)
+
+class SingletonMeta {
+    
+}
+
+class Director {
+    - _loop(scene)
+    + pop_scene()
+    + push_scene(scene)
+}
+
+class ResolutionSettings {
+    + update_resolution()
+    
+}
+
+class DifficultySettings {
+    + update_difficulty()
+}
+
+class Game {
+    
+}
+
+abstract class Scene {
+    + events(event_list) {abstract}
+    + draw(display_surface) {abstract}
+}
+
+class Level {
+    + update(delta_time)
+    + go_to_next_level()
+}
+
+class GameOver {
+   
+}
+
+class Camera {
+    
+}
+
+class Background {
+    + apply_parallax(camera_x)
+}
+
+abstract class Menu {
+    
+}
+
+class MainMenu {
+    
+}
+
+class PauseMenu {
+    
+}
+
+class SettingsMenu {
+    
+}
+
+class VictoryMenu {
+
+}
+
+class HUD {
+    
+}
+
+SingletonMeta <|.. Director
+SingletonMeta <|.. ResolutionSettings
+SingletonMeta <|.. DifficultySettings
+SingletonMeta <|.. Game
+
+Director <--> Scene
+
+Game <--> Level
+
+Scene <|-down- Level
+Scene <|-- GameOver
+Scene <|-- Menu
+
+Level --> Camera
+Level --> Background
+Level --> HUD
+Level --> PauseMenu
+
+Menu <|-- MainMenu
+Menu <|-- PauseMenu
+Menu <|-- SettingsMenu
+Menu <|-- VictoryMenu
+
+@enduml

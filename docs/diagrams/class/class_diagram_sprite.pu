@@ -1,0 +1,171 @@
+@startuml Class Diagram Sprite
+
+title general class diagram (II)
+
+class Level {
+    + update(delta_time)
+    + go_to_next_level()
+}
+
+class Sprite {
+    
+}
+
+abstract class Berry {
+    + update(player) {abstract}
+}
+
+class CoinBerry {
+    
+}
+
+class EnergyBerry {
+    
+}
+
+class HealthBerry {
+    
+}
+
+class RageBerry {
+    
+}
+
+abstract class Projectile {
+    - _move(delta_time) {abstract}
+    - _deactive_projectile() {abstract}
+}
+
+class Spore {
+    
+}
+
+class Acorn{
+    
+}
+
+abstract class ProjectilesPool {
+    - _create_pool() {abstract}
+    + shoot(pos_x, pos_y, direction) {abstract}
+}
+
+class AcornPool {
+    
+}
+
+class SporePool {
+    
+}
+
+abstract class Character {
+    + update(delta_time) {abstract}
+}
+
+class Player {
+    
+}
+
+abstract class Enemy {
+    - _defeat()
+    - _deal_damage_to_player()
+}
+
+abstract class MovingEnemy {
+    - _move(delta_time)
+}
+
+class Hedgehog {
+    
+}
+
+class Fox {
+    
+}
+
+class Bat {
+    
+}
+
+class Bear {
+    
+}
+
+abstract class Shooter {
+    - _shoot() {abstract}
+}
+
+class Squirrel {
+    
+}
+
+class Mushroom {
+    
+}
+
+enum MushroomDirection {
+    
+}
+
+enum MushroomState {
+    
+}
+
+abstract class EnviromentElement {
+    + update(delta_time) {abstract}
+
+}
+
+class Flag {
+
+}
+
+class Rock {
+
+}
+
+Level --> Sprite
+
+Sprite <|-d- Berry
+Sprite <|-d- Character
+Sprite <|-d- Projectile
+Sprite <|-d- EnviromentElement
+
+Berry <|-d- CoinBerry
+Berry <|-d- EnergyBerry
+Berry <|-d- HealthBerry
+Berry <|-d- RageBerry
+
+
+ProjectilesPool <|-d- SporePool
+ProjectilesPool <|-d- AcornPool
+
+
+Projectile <|-d- Spore
+Projectile <|-d- Acorn
+
+SporePool o-- Spore
+AcornPool o-- Acorn
+
+Character <|-d- Player
+Character <|-d- Enemy
+
+Enemy <|-d- MovingEnemy
+Enemy <|-d- Shooter
+
+MovingEnemy <|-d- Hedgehog
+MovingEnemy <|-d- Fox
+MovingEnemy <|-d- Bat
+MovingEnemy <|-d- Bear
+
+Shooter <|-d- Squirrel
+Shooter <|-d- Mushroom
+Shooter --> ProjectilesPool
+Squirrel --> AcornPool
+Mushroom --> MushroomDirection
+Mushroom --> MushroomState
+Mushroom --> SporePool
+
+EnviromentElement <|-d- Flag
+EnviromentElement <|-d- Rock
+
+@enduml
