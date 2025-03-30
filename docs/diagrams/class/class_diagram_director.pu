@@ -80,7 +80,7 @@ Director <--> Scene
 
 Game <--> Level
 
-Scene <|-- Level
+Scene <|-down- Level
 Scene <|-- GameOver
 Scene <|-- Menu
 

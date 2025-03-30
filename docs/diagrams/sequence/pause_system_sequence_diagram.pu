@@ -34,6 +34,7 @@ else [Press restart]
     deactivate PauseMenu
     Director -> Level : new()
     activate Level
+    Director -> Level : loop()
 end
 
 deactivate Level

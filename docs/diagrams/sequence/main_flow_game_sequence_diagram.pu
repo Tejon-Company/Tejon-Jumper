@@ -64,7 +64,6 @@ alt Player completes level
 end
 
 alt Player restarts level
-    Game -> Director : pop_scene()
     Game -> Director : change_scene(new_scene)
     deactivate Game
     deactivate Level

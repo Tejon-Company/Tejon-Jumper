@@ -110,45 +110,62 @@ enum MushroomState {
     
 }
 
+abstract class EnviromentElement {
+    + update(delta_time) {abstract}
+
+}
+
+class Flag {
+
+}
+
+class Rock {
+
+}
+
 Level --> Sprite
 
-Sprite <|-- Berry
-Sprite <|-- Character
-Sprite <|-- Projectile
+Sprite <|-d- Berry
+Sprite <|-d- Character
+Sprite <|-d- Projectile
+Sprite <|-d- EnviromentElement
 
-Berry <|-- CoinBerry
-Berry <|-- EnergyBerry
-Berry <|-- HealthBerry
-Berry <|-- RageBerry
-
-
-ProjectilesPool <|-- SporePool
-ProjectilesPool <|-- AcornPool
+Berry <|-d- CoinBerry
+Berry <|-d- EnergyBerry
+Berry <|-d- HealthBerry
+Berry <|-d- RageBerry
 
 
-Projectile <|-- Spore
-Projectile <|-- Acorn
+ProjectilesPool <|-d- SporePool
+ProjectilesPool <|-d- AcornPool
+
+
+Projectile <|-d- Spore
+Projectile <|-d- Acorn
 
 SporePool o-- Spore
 AcornPool o-- Acorn
 
-Character <|-- Player
-Character <|-- Enemy
+Character <|-d- Player
+Character <|-d- Enemy
 
-Enemy <|-- MovingEnemy
-Enemy <|-- Shooter
+Enemy <|-d- MovingEnemy
+Enemy <|-d- Shooter
 
-MovingEnemy <|-- Hedgehog
-MovingEnemy <|-- Fox
-MovingEnemy <|-- Bat
-MovingEnemy <|-- Bear
+MovingEnemy <|-d- Hedgehog
+MovingEnemy <|-d- Fox
+MovingEnemy <|-d- Bat
+MovingEnemy <|-d- Bear
 
-Shooter <|-- Squirrel
-Shooter <|-- Mushroom
+Shooter <|-d- Squirrel
+Shooter <|-d- Mushroom
 Shooter --> ProjectilesPool
 Squirrel --> AcornPool
 Mushroom --> MushroomDirection
 Mushroom --> MushroomState
 Mushroom --> SporePool
+
+EnviromentElement <|-d- Flag
+EnviromentElement <|-d- Rock
 
 @enduml

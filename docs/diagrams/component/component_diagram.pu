@@ -58,11 +58,11 @@ System_Boundary(TJ, "Tejon Jumper System") {
 
         Component(characters, "Characters") <<folder>> {
             Component(character, "Character", "Abstract class for all the characters in the game")
-            Component(utils, "Utils", "Contains classes and methods for all characters") <<folder>> {
+            Component(utils, "Utils", "Contains helper functions for all characters") <<folder>> {
 
             }
             Component(player, "Players") <<folder>> {
-                Component(playerCharacter, "Player Character", "Manages the player character")
+                Component(playerCharacter, "Player", "Manages the player character")
             }
             Component(enemies, "Enemies") <<folder>> {
                 Component(enemyFactory, "Enemy Factory", "Factory for the enemies")
@@ -114,9 +114,10 @@ menu <|-- mainMenu
 menu <|-- pauseMenu
 menu <|-- settingsMenu
 menu <|-- victoryMenu
-sprite <|-- berries
-sprite <|-- characters
-sprite <|-- Projectiles
+sprite <|-- berry
+sprite <|-- character
+sprite <|-- projectile
+sprite <|-- environmentElement
 berry <|-- coinBerry
 berry <|-- energyBerry
 berry <|-- healthBerry
@@ -126,9 +127,9 @@ projectilePool <|-- acornPool
 projectile <|-- spore
 projectile <|-- acorn
 character <|-- player
-character <|-- enemies
-enemy <|-- movingEnemies
-enemy <|-- shooters
+character <|-- enemy
+enemy <|-- movingEnemy
+enemy <|-- shooter
 movingEnemy <|-- bat
 movingEnemy <|-- bear
 movingEnemy <|-- fox

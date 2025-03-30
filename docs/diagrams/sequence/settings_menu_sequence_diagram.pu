@@ -22,9 +22,10 @@ User -> MainMenu: Press "Ajustes"
 MainMenu -> Director: push_scene(SettingsMenu)
 Director -> SettingsMenu: new()
 activate SettingsMenu
+Director -> SettingsMenu : loop()
 SettingsMenu --> Director: Wait for event
 User -> SettingsMenu: Press "Volver"
-SettingsMenu -> Director: pop_scene()
+SettingsMenu -> Director: change_scene()
 deactivate SettingsMenu
 Director -> MainMenu: loop()
 
