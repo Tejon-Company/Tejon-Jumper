@@ -1,9 +1,10 @@
 # Tejón Jumper 🎮🚀
 
-Tejón Jumper es un juego de plataformas en 2D desarrollado para la asignatura de **Contornos Inmersivos, Interactivos y de Entrenimiento (CIIE)**, cursada en último curso del grado en Ingeniería Informática, en la mención de Computación.
+Tejón Jumper es un juego de plataformas en 2D desarrollado para la asignatura de **Contornos Inmersivos, Interactivos y de Entrenimiento (CIIE)**, cursada en último curso del grado en Ingeniería Informática, en la mención de Computación, en la Universidade da Coruña.
 
 El personaje principal del videojuego es un pequeño tejón que habita en el bosque, el cual va recorriendo a lo largo de tres niveles, recolectando bayas y enfrentándose a diversos enemigos (zorros, erizos, murciélagos, ardillas y setas), para terminar el juego entrentándose al jefe final, el oso.
 
+En la [memoria](docs/memoria.pdf) se pueden consultar más detalles sobre este proyecto, incluyendo detalles sobre el desarrollo, como las metodologías utilizadas y diferentes diagramas.
 Para más detalles sobre este proyecto, se puede consultar la memoria, disponible en la carpeta _docs_.
 
 ## Autores 💪👥
