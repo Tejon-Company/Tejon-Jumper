@@ -1,12 +1,20 @@
-from scene.scene import Scene
-from singletons.settings import Settings
 import pygame
+
+from scene.scene import Scene
+from singletons.settings.resolution_settings import ResolutionSettings
 
 
 class GameOver(Scene):
+    """
+    Maneja la visualización de una pantalla de fin de juego cuando el
+    jugador pierde, mostrando un mensaje de "Game Over" y una
+    instrucción para reiniciar el juego. Procesa eventos para permitir
+    al jugador salir del juego o reiniciarlo presionando Enter.
+    """
+
     def __init__(self):
         super().__init__()
-        self.settings = Settings()
+        self.resolution_settings = ResolutionSettings()
         self.display_surface = pygame.display.get_surface()
 
     def events(self, events_list):
@@ -26,8 +34,8 @@ class GameOver(Scene):
         display_surface.blit(
             text,
             (
-                self.settings.window_width // 2 - text.get_width() // 2,
-                self.settings.window_height // 2 - text.get_height() // 2,
+                self.resolution_settings.window_width // 2 - text.get_width() // 2,
+                self.resolution_settings.window_height // 2 - text.get_height() // 2,
             ),
         )
         font = pygame.font.Font(None, 36)
@@ -35,7 +43,7 @@ class GameOver(Scene):
         display_surface.blit(
             text,
             (
-                self.settings.window_width // 2 - text.get_width() // 2,
-                self.settings.window_height // 2 + text.get_height(),
+                self.resolution_settings.window_width // 2 - text.get_width() // 2,
+                self.resolution_settings.window_height // 2 + text.get_height(),
             ),
         )

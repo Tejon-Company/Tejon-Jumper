@@ -1,5 +1,5 @@
 from singletons.director import Director
-from scene.menus.main_menu import MainMenu
+from scene.ui.menus.main_menu import MainMenu
 import pygame
 
 

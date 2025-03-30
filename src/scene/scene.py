@@ -1,10 +1,19 @@
 from abc import ABC, abstractmethod
-from singletons.director import Director
-from resource_manager import ResourceManager
+
 from pygame.mixer import music
+
+from resource_manager import ResourceManager
+from singletons.director import Director
 
 
 class Scene(ABC):
+    """
+    Clase abstracta que define la estructura base para todas las escenas
+    del juego. Proporciona un marco para gestionar escenas individuales,
+    incluyendo la configuración de música, actualización de lógica y
+    renderizado.
+    """
+
     def __init__(self):
         self.director = Director()
 
