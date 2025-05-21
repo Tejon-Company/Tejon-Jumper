@@ -62,3 +62,9 @@ Para ejecutar el juego, basta con situarse en la carpeta del proyecto y ejecutar
 - **Rodar**. Shift (solo cuando la barra de energía esté llena).
 
 - **Pausar el juego**. Tecla p o Esc.
+
+### Demostración 👾
+
+Se puede ver una demostración del juego mostrando todas sus características en el siguiente enlace:
+
+https://youtu.be/qsgC4E2D32A?si=xkWWIL9dnXENkvr4
